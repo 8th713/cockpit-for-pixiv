@@ -7,17 +7,17 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/8th713/cockpit/blob/master/LICENSE"
+      "url": "https://github.com/8th713/cockpit-for-pixiv/blob/master/LICENSE"
     }
   ],
   "readmeFilename": "README.md",
-  "homepage": "https://github.com/8th713/cockpit",
+  "homepage": "https://github.com/8th713/cockpit-for-pixiv",
   "repository": {
     "type": "git",
-    "url": "https://github.com/8th713/cockpit.git"
+    "url": "https://github.com/8th713/cockpit-for-pixiv.git"
   },
   "bugs": {
-    "url": "https://github.com/8th713/cockpit/issues"
+    "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
   },
   "devDependencies": {
     "aliasify": "^1.4.0",
