@@ -5,7 +5,7 @@
 // @author       <%= pkg.author %>
 // @homepage     <%= pkg.homepage %>
 // @supportURL   <%= pkg.bugs.url %>
-// @license      <%= pkg.licenses.type> - <%= pkg.licenses.url>
+// @license      <%= pkg.licenses[0].type %> - <%= pkg.licenses[0].url %>
 // @namespace    http://github.com/8th713
 // @match        http://www.pixiv.net/*
 // @exclude      http://www.pixiv.net/novel/*

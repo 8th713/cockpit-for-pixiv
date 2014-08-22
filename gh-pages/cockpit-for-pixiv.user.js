@@ -5,7 +5,7 @@
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit
 // @supportURL   https://github.com/8th713/cockpit/issues
-// @license      <%= pkg.licenses.type> - <%= pkg.licenses.url>
+// @license      MIT - https://github.com/8th713/cockpit/blob/master/LICENSE
 // @namespace    http://github.com/8th713
 // @match        http://www.pixiv.net/*
 // @exclude      http://www.pixiv.net/novel/*
