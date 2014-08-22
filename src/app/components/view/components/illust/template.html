@@ -1,0 +1,19 @@
+<img
+  v-attr="
+    src: src,
+    data-padding: config.padding
+  "
+  v-show="done"
+  v-on="
+    load: load,
+    error: error,
+    click: move,
+    dragstart: grab,
+    drag: drag
+  "
+  v-fit="config.fit"
+>
+<div class="pv-msg"
+  v-show="fail"
+  v-on="click: move"
+  >画像が読み込めません</div>

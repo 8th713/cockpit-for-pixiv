@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pkg.fullname %></title>
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Bad+Script|Cantarell:400,700">
+  <link rel="stylesheet" href="stlyes.css">
+</head>
+<body>
+  <div class="header">
+    <h1 class="logo"><%= pkg.fullname %></h1>
+    <p>pixiv の閲覧がより快適になるユーザースクリプト</p>
+    <a href="#install" class="btn btn-outline-inverse">Install <%= pkg.fullname %></a>
+  </div>
+
+  <div class="content">
+    <h2 class="sub-header"><span>Features</span></h2>
+    <div class="feature first">
+      <img src="img/feature_1.gif" height="291" width="515">
+      <h3>漫画表示・うごイラにも対応</h3>
+      <p>通常のイラスト表示に加え、漫画も1ページずつ表示することができます。さらに、うごイラの再生にも対応。うごイラのフルスクリーン表示もできます。</p>
+      <p>via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=44298467">うごイラはじめました</a></cite>)</p>
+    </div>
+    <div class="feature alt">
+      <img src="img/feature_2.gif" height="291" width="515">
+      <h3>イラストの画面フィット表示・原寸表示もワンアクションで切替可能</h3>
+      <p>オリジナル画像を画面内に収まるようにリサイズして表示できます。その場ですぐに原寸に切り替えることが可能です。</p>
+      <p>via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=45348270">【コミックマーケット86】pixivブースお品書き</a></cite>)</p>
+    </div>
+    <div class="feature">
+      <img src="img/feature_3.gif" height="291" width="515">
+      <h3>漫画のサムネイル一覧表示</h3>
+      <p>漫画表示中、作品のサムネイル一覧を表示して気になるページにすぐジャンプできます。</p>
+      <p>via (<cite><a href="http://www.pixiv.net/member.php?id=13077">瀬尾</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=45337508">風景イラストまとめ</a></cite>)</p>
+    </div>
+    <div class="feature alt">
+      <img src="img/feature_4.gif" height="291" width="515">
+      <h3>その場でブックマーク</h3>
+      <p>ページを移動することなくその場で作品をブックマークしたり作者をフォローすることが可能です。評価やアンケートへの回答にも対応しています。</p>
+      <p>via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=44298467">うごイラはじめました</a></cite>)</p>
+    </div>
+    <div class="feature">
+      <img src="img/feature_5.gif" height="291" width="515">
+      <h3>コメントもその場で表示</h3>
+      <p>作品へのコメントをその場で読むことができます。スタンプや絵文字の表示にも対応しています。</p>
+      <p>via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=44298467">うごイラはじめました</a></cite>)</p>
+    </div>
+
+    <h2 id="install" class="sub-header"><span>Install</span></h2>
+    <p><%= pkg.fullname %> は Google Chrome + Tampermonkey 環境で実行される UserScript です。</p>
+
+    <h3>準備</h3>
+    <ol>
+      <li><a href="https://www.google.co.jp/chrome/browser/">Google Chrome</a> をインストールします。</li>
+      <li><a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a> をインストールします。　</li>
+    </ol>
+
+    <h3>インストール</h3>
+    <a href="<%= pkg.name %>.user.js" class="btn">Install [<%= pkg.fullname %> - v<%= pkg.version %>]</a>
+
+    <h3>注意</h3>
+    <ul class="alert">
+      <li>Mozilla Firefox + Greasemonkey 環境での動作確認は行っていません。</li>
+      <li>pixiv は、ピクシブ株式会社の登録商標です。</li>
+      <li><%= pkg.fullname %> は pixiv が作成、配布しているアプリケーションではありません。</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    <ul class="links">
+      <li><a href="">Source</a></li>
+      <li class="divider"></li>
+      <li><a href="">Issues</a></li>
+      <li class="divider"></li>
+      <li><a href="https://twitter.com/8th_713">Twitter</a></li>
+      <li class="divider"></li>
+      <li><a href="http://8th713.tumblr.com/">Blog</a></li>
+    </ul>
+    <p class="copy">Copyright © 2014 8th713.</p>
+  </div>
+</body>
+</html>

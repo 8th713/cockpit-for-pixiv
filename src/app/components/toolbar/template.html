@@ -1,0 +1,69 @@
+<li v-class="active: fit">
+  <button class="_ui-tooltip" data-tooltip="画像サイズ切替(F)"
+          v-on="click:resize">
+    <span class="fa fa-fw fa-compress"></span>
+  </button>
+</li>
+<li>
+  <button class="_ui-tooltip" data-tooltip="ダウンロード(D)"
+          v-on="click:download">
+    <span class="fa fa-fw fa-download"></span>
+  </button>
+</li>
+<li>
+  <button class="_ui-tooltip" data-tooltip="つぶやく(T)"
+          v-on="click:tweet">
+    <span class="fa fa-fw fa-twitter"></span>
+  </button>
+</li>
+
+<li class="divider"></li>
+
+<li v-class="
+  active: pix.rate.rated,
+  current: panel == 'description'
+">
+  <button class="_ui-tooltip" data-tooltip="情報(H)"
+          v-on="click:change('description')">
+    <span class="fa fa-fw fa-info"></span>
+  </button>
+</li>
+<li v-class="
+  active: pix.illust.bookmark,
+  current: panel == 'bookmark'
+">
+  <button class="_ui-tooltip" data-tooltip="ブックマーク(B)"
+          v-on="click:change('bookmark')">
+    <span class="fa fa-fw fa-bookmark"></span>
+  </button>
+</li>
+<li v-class="
+  active: pix.author.favorite,
+  current: panel == 'follow'
+">
+  <button class="_ui-tooltip" data-tooltip="フォロー"
+          v-on="click:change('follow')">
+    <span class="fa fa-fw fa-user"></span>
+  </button>
+</li>
+<li v-class="current: panel == 'comments'">
+  <button class="_ui-tooltip" data-tooltip="コメント(C)"
+          v-on="click:change('comments')">
+    <span class="fa fa-fw fa-comments"></span>
+  </button>
+</li>
+
+<li class="divider"></li>
+
+<li v-class="current: panel == 'configuration'">
+  <button class="_ui-tooltip" data-tooltip="設定"
+          v-on="click:change('configuration')">
+    <span class="fa fa-fw fa-wrench"></span>
+  </button>
+</li>
+<li v-class="current: panel == 'help'">
+  <button class="_ui-tooltip" data-tooltip="ヘルプ(?)"
+          v-on="click:change('help')">
+    <span class="fa fa-fw fa-question"></span>
+  </button>
+</li>

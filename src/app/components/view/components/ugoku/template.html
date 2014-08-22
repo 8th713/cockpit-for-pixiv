@@ -1,0 +1,38 @@
+<div v-on="click: move" class="_ugoku-illust-player-container">
+  <div class="wrapper">
+    <div class="_spinner"></div>
+    <div class="player toggle"></div>
+  </div>
+</div>
+<div class="_full-screen-container" v-on="click:cancel">
+  <div class="_ugoku-illust-player-container">
+    <div class="wrapper toggle">
+      <div class="_spinner"></div>
+      <div class="player"></div>
+    </div>
+    <div class="exit-full-screen">
+      <img src="http://source.pixiv.net/www/images/ugoku-illust/exit-full-screen.png" width="30" height="30">
+    </div>
+  </div>
+</div>
+<div class="pv-ugoku-ctrl" v-on="click:cancel">
+  <button class="btn _ui-tooltip"
+          data-tooltip="{{paused ? '再生' : '一時停止'}}"
+          v-on="click:toggle">
+    <span class="fa fa-fw" v-class="
+      fa-pause: !paused,
+      fa-play: paused
+    "></span>
+  </button>
+  <button class="btn _ui-tooltip"
+          data-tooltip="停止"
+          v-on="click:stop">
+    <span class="fa fa-fw fa-stop"></span>
+  </button>
+  <button class="btn _ui-tooltip"
+          data-tooltip="フルスクリーン表示"
+          v-if="canFullscreen"
+          v-on="click:fullscreen">
+    <span class="fa fa-fw fa-expand"></span>
+  </button>
+</div>

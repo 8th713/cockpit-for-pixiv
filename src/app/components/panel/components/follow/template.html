@@ -1,0 +1,20 @@
+<content></content>
+<div class="pv-panel-body" v-if="!pix.self">
+  <p class="pv-panel-item">
+    <label class="input-label"><input type="radio" value="0" v-model="restrict"> 公開</label>
+    <label class="input-label"><input type="radio" value="1" v-model="restrict"> 非公開</label>
+  </p>
+  <p class="pv-panel-item" v-if="pix.author.favorite">
+    <button class="btn btn-primary"
+      v-on="click:put" v-attr="disabled:loading">変更</button>
+    <button class="btn btn-danger"
+      v-on="click:del" v-attr="disabled:loading">解除</button>
+  </p>
+  <p class="pv-panel-item" v-if="!pix.author.favorite">
+    <button class="btn btn-primary"
+      v-on="click:add" v-attr="disabled:loading">追加</button>
+  </p>
+</div>
+<div class="pv-panel-body" v-if="pix.self">
+  <p class="pv-panel-item">自分です</p>
+</div>

@@ -1,0 +1,38 @@
+<content></content>
+<div class="pv-panel-body">
+  <div class="pv-panel-item" v-html="pix.desc.meta"></div>
+  <div class="pv-panel-item" v-html="pix.desc.caption"></div>
+  <div class="pv-panel-item" v-html="pix.desc.tags"></div>
+  <div class="pv-panel-item">
+    閲覧数: <span v-text="pix.rate.rtv"></span>
+    評価回数: <span v-text="pix.rate.rtc"></span>
+    総合点:  <span v-text="pix.rate.rtt"></span>
+  </div>
+  <div class="pv-panel-item" v-if="!pix.self">
+    <ul class="star-rating" v-class="rated:pix.rate.rated">
+      <li v-repeat="[10,9,8,7,6,5,4,3,2,1]" v-class="active:pix.rate.score == $value">
+        <button class="_ui-tooltip" data-tooltip="{{$value}}"
+          v-on="click:rate($value)"
+          v-attr="disabled:loading"></button>
+      </li>
+    </ul>
+  </div>
+  <div class="pv-panel-item" v-if="pix.rate.hasQuestionnaire">
+    <p class="pv-question" v-text="pix.rate.question"></p>
+    <ol class="pv-questionnaire" v-if="!pix.self && !pix.rate.answered">
+      <li v-repeat="stat: pix.rate.stats">
+        <button v-on="answer(stat)"
+          v-attr="disabled:loading" v-text="stat.name"></button>
+      </li>
+    </ol>
+    <table class="pv-questionnaire-result" v-if="pix.self || pix.rate.answered">
+      <tbody>
+        <tr v-repeat="stat: pix.rate.stats"
+            v-class="stat.active" >
+          <td v-text="stat.name"></td>
+          <td class="count" v-text="stat.count"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

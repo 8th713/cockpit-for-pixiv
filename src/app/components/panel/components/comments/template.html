@@ -1,0 +1,8 @@
+<content></content>
+<div class="pv-panel-body" v-lazy="pix.comments.body">
+  <div v-html="pix.comments.body | emoji"></div>
+</div>
+<div class="pv-panel-footer" v-if="pix.comments.more">
+  <button class="btn btn-primary btn-block"
+    v-on="click:getComments" v-attr="disabled:loading">もっと見る</button>
+</div>

@@ -1,0 +1,40 @@
+{
+  "name": "cockpit-for-pixiv",
+  "fullname": "cockpit for pixiv",
+  "version": "0.1.0",
+  "description": "Provide comfortable pixiv browsing.",
+  "author": "8th713",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/8th713/cockpit/blob/master/LICENSE"
+    }
+  ],
+  "readmeFilename": "README.md",
+  "homepage": "https://github.com/8th713/cockpit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/8th713/cockpit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/8th713/cockpit/issues"
+  },
+  "devDependencies": {
+    "aliasify": "^1.4.0",
+    "browserify": "^5.10.0",
+    "gulp": "^3.8.7",
+    "gulp-header": "^1.0.5",
+    "gulp-streamify": "0.0.5",
+    "gulp-template": "^1.0.0",
+    "gulp-util": "^3.0.0",
+    "minimize": "^0.7.7",
+    "node-lessify": "0.0.4",
+    "string-to-js": "0.0.1",
+    "through": "^2.3.4",
+    "vinyl-source-stream": "^0.1.1",
+    "watchify": "^1.0.2"
+  },
+  "dependencies": {
+    "vue": "^0.10.6"
+  }
+}

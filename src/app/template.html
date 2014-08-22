@@ -1,0 +1,11 @@
+<div id="pv" v-show="state">
+  <ul v-component="toolbar" v-with="
+    panel: config.panel,
+    fit: config.fit,
+    pix: pix
+  "></ul>
+  <div class="pv-main">
+    <div v-if="canShowPanel" v-component="panel"></div>
+    <div v-component="view"></div>
+  </div>
+</div>

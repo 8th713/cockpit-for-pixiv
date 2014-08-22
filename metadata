@@ -1,0 +1,14 @@
+// ==UserScript==
+// @name         <%= pkg.fullname %>
+// @version      <%= pkg.version %>
+// @description  <%= pkg.description %>
+// @author       <%= pkg.author %>
+// @homepage     <%= pkg.homepage %>
+// @supportURL   <%= pkg.bugs.url %>
+// @license      <%= pkg.licenses.type> - <%= pkg.licenses.url>
+// @namespace    http://github.com/8th713
+// @match        http://www.pixiv.net/*
+// @exclude      http://www.pixiv.net/novel/*
+// @exclude      http://www.pixiv.net/member_illust.php?mode*
+// @grant        none
+// ==/UserScript==

@@ -1,0 +1,14 @@
+{
+  "curly": true,
+  "undef": true,
+  "unused": true,
+
+  "boss": true,
+  "eqnull": true,
+  "regexdash": true,
+  "sub": true,
+  "validthis": true,
+
+  "browser": true,
+  "node": true
+}
