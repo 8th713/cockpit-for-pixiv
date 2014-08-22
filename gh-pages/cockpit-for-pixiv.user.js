@@ -3,9 +3,9 @@
 // @version      0.1.0
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
-// @homepage     https://github.com/8th713/cockpit
-// @supportURL   https://github.com/8th713/cockpit/issues
-// @license      MIT - https://github.com/8th713/cockpit/blob/master/LICENSE
+// @homepage     https://github.com/8th713/cockpit-for-pixiv
+// @supportURL   https://github.com/8th713/cockpit-for-pixiv/issues
+// @license      MIT - https://github.com/8th713/cockpit-for-pixiv/blob/master/LICENSE
 // @namespace    http://github.com/8th713
 // @match        http://www.pixiv.net/*
 // @exclude      http://www.pixiv.net/novel/*
