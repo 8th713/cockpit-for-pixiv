@@ -8,8 +8,22 @@ visit pages.
 * [Vue.js](https://github.com/yyx990803/vue)
 * [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
 
-## Author
-* [@8th713](https://github.com/8th713)
+## Develop
+```sh
+# in case you don’t already it:
+# npm install -g gulp
+npm install
+```
+
+To watch and auto-build `bundle.js` during development:
+```sh
+gulp
+```
+
+To build `gh-pages/cockpit-for-pixiv.user.js`:
+```sh
+gulp build
+```
 
 ## Contributing
 1. Fork it!
@@ -17,6 +31,9 @@ visit pages.
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request
+
+## Author
+* [@8th713](https://github.com/8th713)
 
 ## License
 Copyright 2014 8th713.
