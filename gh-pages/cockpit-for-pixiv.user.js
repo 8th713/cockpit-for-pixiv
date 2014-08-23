@@ -24,7 +24,7 @@ var app = require('./app');
 
 app.$appendTo(document.body);
 
-},{"./app":42}],2:[function(require,module,exports){
+},{"./app":43}],2:[function(require,module,exports){
 /*
  Vue.js v0.10.6
  (c) 2014 Evan You
@@ -107,7 +107,7 @@ function createErrBox(msg) {
   return box;
 }
 
-},{"./../../../../../../services/api.js":45,"vue/dist/vue.min.js":2}],4:[function(require,module,exports){
+},{"./../../../../../../services/api.js":46,"vue/dist/vue.min.js":2}],4:[function(require,module,exports){
 'use strict';
 
 require('./index.less');
@@ -138,7 +138,7 @@ module.exports = {
   }
 };
 
-},{"./../../../../../services/api.js":45,"./directives/include":3,"./index.less":5,"./template.html":6}],5:[function(require,module,exports){
+},{"./../../../../../services/api.js":46,"./directives/include":3,"./index.less":5,"./template.html":6}],5:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-bookmark{width:970px}.pv-bookmark .layout-body{margin:0}.pv-bookmark .bookmark-detail-unit{border-top:0;border-radius:0}.pv-bookmark .bookmark-list-unit{margin-bottom:0;border-bottom:0;border-radius:0}.pv-bookmark a[href*=\"member_illust.php\"] img[src*=\"/img/\"]{cursor:pointer}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
 },{}],6:[function(require,module,exports){
 module.exports = '<content></content><div class="pv-panel-body" v-if="!pix.self"><div v-include="pix.illust.id"></div></div><div class="pv-panel-body" v-if="pix.self"><p class="pv-panel-item">自分の作品です</p></div>';
@@ -193,7 +193,7 @@ module.exports = {
   }
 };
 
-},{"./../../../../../../services/utils.js":50}],8:[function(require,module,exports){
+},{"./../../../../../../services/utils.js":51}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function emoji(value) {
@@ -231,16 +231,14 @@ module.exports = {
   }
 };
 
-},{"./../../../../../services/api.js":45,"./directives/lazy":7,"./filters/emoji":8,"./index.less":10,"./template.html":11}],10:[function(require,module,exports){
+},{"./../../../../../services/api.js":46,"./directives/lazy":7,"./filters/emoji":8,"./index.less":10,"./template.html":11}],10:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-comments{width:420px}.pv-comments ._comment-item:first-child{margin-top:18px}.pv-comments ._comment-item .comment{padding-right:20px}.pv-comments ._comment-item.host-user .comment{padding-left:20px;padding-right:90px}.pv-comments .sticker{width:70px;height:70px}.pv-comments .action-list{display:none}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
 },{}],11:[function(require,module,exports){
 module.exports = '<content></content><div class="pv-panel-body" v-lazy="pix.comments.body"><div v-html="pix.comments.body | emoji"></div></div><div class="pv-panel-footer" v-if="pix.comments.more"><button class="btn btn-primary btn-block" v-on="click:getComments" v-attr="disabled:loading">もっと見る</button></div>';
 },{}],12:[function(require,module,exports){
 'use strict';
 
-require('./index.less');
-
-var validateDirective = {
+module.exports = {
   isEmpty: true,
   sanitize: function sanitize() {
     var validity = this.validity;
@@ -261,11 +259,17 @@ var validateDirective = {
   }
 };
 
+
+},{}],13:[function(require,module,exports){
+'use strict';
+
+require('./index.less');
+
 module.exports = {
   className: 'pv-configuration',
   template: require('./template.html'),
   directives: {
-    validate: validateDirective
+    validate: require('./directives/validate')
   },
   methods: {
     removeConfig: function removeConfig() {
@@ -277,11 +281,11 @@ module.exports = {
   }
 };
 
-},{"./index.less":13,"./template.html":14}],13:[function(require,module,exports){
+},{"./directives/validate":12,"./index.less":14,"./template.html":15}],14:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-configuration{width:400px}.pv-configuration .pv-panel-item{display:flex}.pv-configuration label{flex:1;margin-right:8px;line-height:30px;text-align:right}.pv-configuration label:after{content:\":\"}.pv-configuration input{box-sizing:border-box;flex:2 0 auto;height:30px;padding:4px 6px;border:1px solid #e5e5e5;background:#fff;color:#666;transition:all linear .2s;border-radius:4px}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],14:[function(require,module,exports){
-module.exports = '<h1 class="pv-panel-header">設定</h1><div class="pv-panel-body"><div class="pv-panel-item"><label for="pv-config-padding">Padding</label><input id="pv-config-padding" type="number" min="5" max="400" required="" v-validate="" v-model="config.padding"></div><div class="pv-panel-item"><label for="pv-config-cache">Cache size</label><input id="pv-config-cache" type="number" min="1" max="30" required="" v-validate="" v-model="config.cacheSize"></div><div class="pv-panel-item"><button class="btn btn-danger btn-block" v-on="click:removeConfig">設定を削除する(リロードが発生します)</button></div></div>';
 },{}],15:[function(require,module,exports){
+module.exports = '<h1 class="pv-panel-header">設定</h1><div class="pv-panel-body"><div class="pv-panel-item"><label for="pv-config-padding">Padding</label><input id="pv-config-padding" type="number" min="5" max="400" required="" v-validate="" v-model="config.padding"></div><div class="pv-panel-item"><label for="pv-config-cache">Cache size</label><input id="pv-config-cache" type="number" min="1" max="30" required="" v-validate="" v-model="config.cacheSize"></div><div class="pv-panel-item"><button class="btn btn-danger btn-block" v-on="click:removeConfig">設定を削除する(リロードが発生します)</button></div></div>';
+},{}],16:[function(require,module,exports){
 'use strict';
 
 require('./index.less');
@@ -293,11 +297,6 @@ module.exports = {
   template: require('./template.html'),
   data: {
     loading: false
-  },
-  created: function created() {
-    this.$on('pix:rate:change', function(value) {
-      this.loading = value;
-    });
   },
   methods: {
     rate: function rate(score) {
@@ -311,14 +310,19 @@ module.exports = {
         vm.loading = false;
       });
     }
+  },
+  created: function created() {
+    this.$on('pix:rate:change', function(value) {
+      this.loading = value;
+    });
   }
 };
 
-},{"./../../../../../services/api.js":45,"./index.less":16,"./template.html":17}],16:[function(require,module,exports){
+},{"./../../../../../services/api.js":46,"./index.less":17,"./template.html":18}],17:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-description{width:400px}.pv-description .meta li{display:inline-block;margin-right:4px}.pv-description .star-rating{display:block;width:180px;line-height:1}.pv-description .star-rating:after{content:\'\';clear:both;display:table}.pv-description .star-rating.rated{pointer-events:none}.pv-description .star-rating>li{float:right}.pv-description .star-rating>li>button{cursor:pointer;display:inline-block;width:18px;margin:0;padding:0;border:0;background-color:inherit;color:#999;font-size:17px;font-family:FontAwesome;font-style:normal;font-weight:400;line-height:1;text-align:center;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.pv-description .star-rating>li>button:before{content:\"\\f006\"}.pv-description .star-rating>li:hover>button,.pv-description .star-rating>li:hover~li>button{color:#f1c40f}.pv-description .star-rating>li:hover>button:before,.pv-description .star-rating>li:hover~li>button:before{content:\"\\f005\"}.pv-description .star-rating>li.active>button,.pv-description .star-rating>li.active~li>button{color:#f1c40f}.pv-description .star-rating>li.active>button:before,.pv-description .star-rating>li.active~li>button:before{content:\"\\f005\"}.pv-question{font-weight:700;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #ccc}.pv-question:before{content:\"Q:\"}.pv-questionnaire{list-style-type:decimal;padding-left:40px}.pv-questionnaire li{margin:4px 0}.pv-questionnaire button{display:inline;border:0;background-color:transparent;cursor:pointer;color:#258fb8;font-family:inherit;text-align:left}.pv-questionnaire button:focus,.pv-questionnaire button:hover{outline:0;text-decoration:underline}.pv-questionnaire-result{width:100%}.pv-questionnaire-result td{padding:4px 16px;border-bottom:1px solid #ccc}.pv-questionnaire-result .count{text-align:right}.pv-questionnaire-result .active td{font-weight:700}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],17:[function(require,module,exports){
-module.exports = '<content></content><div class="pv-panel-body"><div class="pv-panel-item" v-html="pix.desc.meta"></div><div class="pv-panel-item" v-html="pix.desc.caption"></div><div class="pv-panel-item" v-html="pix.desc.tags"></div><div class="pv-panel-item">閲覧数: <span v-text="pix.rate.rtv"></span> 評価回数: <span v-text="pix.rate.rtc"></span> 総合点: <span v-text="pix.rate.rtt"></span></div><div class="pv-panel-item" v-if="!pix.self"><ul class="star-rating" v-class="rated:pix.rate.rated"><li v-repeat="[10,9,8,7,6,5,4,3,2,1]" v-class="active:pix.rate.score == $value"><button class="_ui-tooltip" data-tooltip="{{$value}}" v-on="click:rate($value)" v-attr="disabled:loading"></button></li></ul></div><div class="pv-panel-item" v-if="pix.rate.hasQuestionnaire"><p class="pv-question" v-text="pix.rate.question"></p><ol class="pv-questionnaire" v-if="!pix.self && !pix.rate.answered"><li v-repeat="stat: pix.rate.stats"><button v-on="answer(stat)" v-attr="disabled:loading" v-text="stat.name"></button></li></ol><table class="pv-questionnaire-result" v-if="pix.self || pix.rate.answered"><tbody><tr v-repeat="stat: pix.rate.stats" v-class="stat.active"><td v-text="stat.name"></td><td class="count" v-text="stat.count"></td></tr></tbody></table></div></div>';
 },{}],18:[function(require,module,exports){
+module.exports = '<content></content><div class="pv-panel-body"><div class="pv-panel-item" v-html="pix.desc.meta"></div><div class="pv-panel-item" v-html="pix.desc.caption"></div><div class="pv-panel-item" v-html="pix.desc.tags"></div><div class="pv-panel-item">閲覧数: <span v-text="pix.rate.rtv"></span> 評価回数: <span v-text="pix.rate.rtc"></span> 総合点: <span v-text="pix.rate.rtt"></span></div><div class="pv-panel-item" v-if="!pix.self"><ul class="star-rating" v-class="rated:pix.rate.rated"><li v-repeat="[10,9,8,7,6,5,4,3,2,1]" v-class="active:pix.rate.score == $value"><button class="_ui-tooltip" data-tooltip="{{$value}}" v-on="click:rate($value)" v-attr="disabled:loading"></button></li></ul></div><div class="pv-panel-item" v-if="pix.rate.hasQuestionnaire"><p class="pv-question" v-text="pix.rate.question"></p><ol class="pv-questionnaire" v-if="!pix.self && !pix.rate.answered"><li v-repeat="stat: pix.rate.stats"><button v-on="answer(stat)" v-attr="disabled:loading" v-text="stat.name"></button></li></ol><table class="pv-questionnaire-result" v-if="pix.self || pix.rate.answered"><tbody><tr v-repeat="stat: pix.rate.stats" v-class="stat.active"><td v-text="stat.name"></td><td class="count" v-text="stat.count"></td></tr></tbody></table></div></div>';
+},{}],19:[function(require,module,exports){
 'use strict';
 
 require('./index.less');
@@ -360,11 +364,11 @@ module.exports = {
   }
 };
 
-},{"./../../../../../services/api.js":45,"./index.less":19,"./template.html":20}],19:[function(require,module,exports){
+},{"./../../../../../services/api.js":46,"./index.less":20,"./template.html":21}],20:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-follow{width:300px}.pv-follow .input-label{display:inline-block;margin-right:20px;vertical-align:middle}.pv-follow .input-label>input{vertical-align:middle}.pv-follow .btn{margin-right:4px}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],20:[function(require,module,exports){
-module.exports = '<content></content><div class="pv-panel-body" v-if="!pix.self"><p class="pv-panel-item"><label class="input-label"><input type="radio" value="0" v-model="restrict">公開</label><label class="input-label"><input type="radio" value="1" v-model="restrict">非公開</label></p><p class="pv-panel-item" v-if="pix.author.favorite"><button class="btn btn-primary" v-on="click:put" v-attr="disabled:loading">変更</button><button class="btn btn-danger" v-on="click:del" v-attr="disabled:loading">解除</button></p><p class="pv-panel-item" v-if="!pix.author.favorite"><button class="btn btn-primary" v-on="click:add" v-attr="disabled:loading">追加</button></p></div><div class="pv-panel-body" v-if="pix.self"><p class="pv-panel-item">自分です</p></div>';
 },{}],21:[function(require,module,exports){
+module.exports = '<content></content><div class="pv-panel-body" v-if="!pix.self"><p class="pv-panel-item"><label class="input-label"><input type="radio" value="0" v-model="restrict">公開</label><label class="input-label"><input type="radio" value="1" v-model="restrict">非公開</label></p><p class="pv-panel-item" v-if="pix.author.favorite"><button class="btn btn-primary" v-on="click:put" v-attr="disabled:loading">変更</button><button class="btn btn-danger" v-on="click:del" v-attr="disabled:loading">解除</button></p><p class="pv-panel-item" v-if="!pix.author.favorite"><button class="btn btn-primary" v-on="click:add" v-attr="disabled:loading">追加</button></p></div><div class="pv-panel-body" v-if="pix.self"><p class="pv-panel-item">自分です</p></div>';
+},{}],22:[function(require,module,exports){
 'use strict';
 
 /* global GM_info */
@@ -386,11 +390,11 @@ module.exports = {
   }
 };
 
-},{"./../../../../../services/keys.js":47,"./index.less":22,"./template.html":23}],22:[function(require,module,exports){
+},{"./../../../../../services/keys.js":48,"./index.less":23,"./template.html":24}],23:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-help{width:400px}.pv-help kbd{display:inline-block;margin-right:6px;padding:4px 1em;border-radius:4px;background-color:#fff;box-shadow:inset 0 -2px 0 0 #999,inset 0 0 0 1px #999;font-size:12px}.pv-help kbd:last-child{margin-right:0}.pv-help kbd span:after{content:\"+\"}.pv-help kbd span:last-child:after{content:\"\"}.pv-panel-item-header{padding:8px 16px;border-bottom:1px solid #ccc;background-color:#eef;font-size:14px}.pv-panel-table{width:100%;border-bottom:1px solid #ccc}.pv-panel-table td{padding:8px 16px}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],23:[function(require,module,exports){
-module.exports = '<h1 class="pv-panel-header">HELP</h1><div class="pv-panel-body"><h2 class="pv-panel-item-header">About</h2><table class="pv-panel-table"><tr><td>Name:</td><td v-text="name"></td></tr><tr><td>Version:</td><td v-text="version"></td></tr></table><h2 class="pv-panel-item-header">Shortcuts</h2><table class="pv-panel-table"><tr v-repeat="map"><td v-text="name"></td><td><kbd v-repeat="keys"><span v-repeat="modifiers" v-show="$value" v-text="$key"></span><span v-text="key"></span></kbd></td></tr></table></div>';
 },{}],24:[function(require,module,exports){
+module.exports = '<h1 class="pv-panel-header">HELP</h1><div class="pv-panel-body"><h2 class="pv-panel-item-header">About</h2><table class="pv-panel-table"><tr><td>Name:</td><td v-text="name"></td></tr><tr><td>Version:</td><td v-text="version"></td></tr></table><h2 class="pv-panel-item-header">Shortcuts</h2><table class="pv-panel-table"><tr v-repeat="map"><td v-text="name"></td><td><kbd v-repeat="keys"><span v-repeat="modifiers" v-show="$value" v-text="$key"></span><span v-text="key"></span></kbd></td></tr></table></div>';
+},{}],25:[function(require,module,exports){
 'use strict';
 
 require('./index.less');
@@ -428,11 +432,11 @@ module.exports = {
   }
 };
 
-},{"./components/bookmark":4,"./components/comments":9,"./components/configuration":12,"./components/description":15,"./components/follow":18,"./components/help":21,"./index.less":25,"./template.html":26}],25:[function(require,module,exports){
+},{"./components/bookmark":4,"./components/comments":9,"./components/configuration":13,"./components/description":16,"./components/follow":19,"./components/help":22,"./index.less":26,"./template.html":27}],26:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-panel{position:absolute;z-index:1;background-color:#fff;box-shadow:1px 1px 3px rgba(0,0,0,.4)}.pv-panel>section{display:flex;flex-direction:column;max-height:100vh}.pv-panel-header{flex:0 0 auto;background-color:#eee;padding:8px 16px;border-bottom:1px solid #ccc;font-size:16px}.pv-panel-body{flex:auto;overflow:auto}.pv-panel-footer{flex:0 0 auto;background-color:#eee;padding:8px 16px;border-top:1px solid #ccc;font-size:16px}.pv-panel-item{padding:8px 16px;border-bottom:1px solid #ccc}.pv-panel-item:empty{display:none}.pv-panel-item:last-child{border-bottom:0}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],26:[function(require,module,exports){
-module.exports = '<section v-view="config.panel" v-with="pix: pix"><h1 class="pv-panel-header"><a v-attr="href: illustUrl" v-text="pix.desc.title"></a> | <a v-attr="href: authorUrl" v-text="pix.author.name"></a></h1></section>';
 },{}],27:[function(require,module,exports){
+module.exports = '<section v-view="config.panel" v-with="pix: pix"><h1 class="pv-panel-header"><a v-attr="href: illustUrl" v-text="pix.desc.title"></a> | <a v-attr="href: authorUrl" v-text="pix.author.name"></a></h1></section>';
+},{}],28:[function(require,module,exports){
 'use strict';
 
 require('./index.less');
@@ -444,15 +448,6 @@ module.exports = {
   tagName: 'ul',
   className: 'pv-toolbar',
   template: require('./template.html'),
-  created: function created() {
-    this.$on('panel:change', function(type) {
-      this.change(type);
-    });
-
-    this.$on('img:resize', function() {
-      this.fit = !this.fit;
-    });
-  },
   methods: {
     change: function change(type) {
       if (this.panel === type) {
@@ -470,14 +465,23 @@ module.exports = {
     tweet: function tweet() {
       this.$dispatch('pix:tweet');
     }
+  },
+  created: function created() {
+    this.$on('panel:change', function(type) {
+      this.change(type);
+    });
+
+    this.$on('img:resize', function() {
+      this.fit = !this.fit;
+    });
   }
 };
 
-},{"./index.less":28,"./template.html":29}],28:[function(require,module,exports){
+},{"./index.less":29,"./template.html":30}],29:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-toolbar{position:relative;z-index:2;width:40px;background-color:#f5f5f5;box-shadow:1px 0 3px rgba(0,0,0,.4)}.pv-toolbar button{position:relative;z-index:1;display:inline-block;width:40px;height:40px;line-height:0;margin:0;padding:0;border:0;font-size:20px;background-color:#f5f5f5;color:#999;cursor:pointer}.pv-toolbar button:hover{color:#005580;background-color:#eee}.pv-toolbar button:focus{outline:1px dotted;outline-offset:-1px}.pv-toolbar button:disabled{pointer-events:none}.pv-toolbar>li{position:relative;z-index:1}.pv-toolbar>.current>button{text-shadow:0 -1px 0 rgba(0,0,0,.2);background-color:#08C;color:#FFF}.pv-toolbar>.active>button{color:#31cd73}.pv-toolbar>.divider{height:1px;margin:9px 0;overflow:hidden;background-color:#e5e5e5}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],29:[function(require,module,exports){
-module.exports = '<li v-class="active: fit"><button class="_ui-tooltip" data-tooltip="画像サイズ切替(F)" v-on="click:resize"><span class="fa fa-fw fa-compress"></span></button></li><li><button class="_ui-tooltip" data-tooltip="ダウンロード(D)" v-on="click:download"><span class="fa fa-fw fa-download"></span></button></li><li><button class="_ui-tooltip" data-tooltip="つぶやく(T)" v-on="click:tweet"><span class="fa fa-fw fa-twitter"></span></button></li><li class="divider"></li><li v-class="\n  active: pix.rate.rated,\n  current: panel == \'description\'\n"><button class="_ui-tooltip" data-tooltip="情報(H)" v-on="click:change(\'description\')"><span class="fa fa-fw fa-info"></span></button></li><li v-class="\n  active: pix.illust.bookmark,\n  current: panel == \'bookmark\'\n"><button class="_ui-tooltip" data-tooltip="ブックマーク(B)" v-on="click:change(\'bookmark\')"><span class="fa fa-fw fa-bookmark"></span></button></li><li v-class="\n  active: pix.author.favorite,\n  current: panel == \'follow\'\n"><button class="_ui-tooltip" data-tooltip="フォロー" v-on="click:change(\'follow\')"><span class="fa fa-fw fa-user"></span></button></li><li v-class="current: panel == \'comments\'"><button class="_ui-tooltip" data-tooltip="コメント(C)" v-on="click:change(\'comments\')"><span class="fa fa-fw fa-comments"></span></button></li><li class="divider"></li><li v-class="current: panel == \'configuration\'"><button class="_ui-tooltip" data-tooltip="設定" v-on="click:change(\'configuration\')"><span class="fa fa-fw fa-wrench"></span></button></li><li v-class="current: panel == \'help\'"><button class="_ui-tooltip" data-tooltip="ヘルプ(?)" v-on="click:change(\'help\')"><span class="fa fa-fw fa-question"></span></button></li>';
 },{}],30:[function(require,module,exports){
+module.exports = '<li v-class="active: fit"><button class="_ui-tooltip" data-tooltip="画像サイズ切替(F)" v-on="click:resize"><span class="fa fa-fw fa-compress"></span></button></li><li><button class="_ui-tooltip" data-tooltip="ダウンロード(D)" v-on="click:download"><span class="fa fa-fw fa-download"></span></button></li><li><button class="_ui-tooltip" data-tooltip="つぶやく(T)" v-on="click:tweet"><span class="fa fa-fw fa-twitter"></span></button></li><li class="divider"></li><li v-class="\n  active: pix.rate.rated,\n  current: panel == \'description\'\n"><button class="_ui-tooltip" data-tooltip="情報(H)" v-on="click:change(\'description\')"><span class="fa fa-fw fa-info"></span></button></li><li v-class="\n  active: pix.illust.bookmark,\n  current: panel == \'bookmark\'\n"><button class="_ui-tooltip" data-tooltip="ブックマーク(B)" v-on="click:change(\'bookmark\')"><span class="fa fa-fw fa-bookmark"></span></button></li><li v-class="\n  active: pix.author.favorite,\n  current: panel == \'follow\'\n"><button class="_ui-tooltip" data-tooltip="フォロー" v-on="click:change(\'follow\')"><span class="fa fa-fw fa-user"></span></button></li><li v-class="current: panel == \'comments\'"><button class="_ui-tooltip" data-tooltip="コメント(C)" v-on="click:change(\'comments\')"><span class="fa fa-fw fa-comments"></span></button></li><li class="divider"></li><li v-class="current: panel == \'configuration\'"><button class="_ui-tooltip" data-tooltip="設定" v-on="click:change(\'configuration\')"><span class="fa fa-fw fa-wrench"></span></button></li><li v-class="current: panel == \'help\'"><button class="_ui-tooltip" data-tooltip="ヘルプ(?)" v-on="click:change(\'help\')"><span class="fa fa-fw fa-question"></span></button></li>';
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../../../../../services/utils.js');
@@ -492,34 +496,6 @@ module.exports = {
     done: false,
     fail: false,
     thumbsView: false
-  },
-  created: function created() {
-    var scroll = new utils.Scroll({
-      el: this.$el,
-      easing: 'linear',
-      duration: 200
-    });
-
-    this.$on('app:move', function(step) {
-      var next = this.page + step,
-          length = this.pix.illust.length;
-
-      if (0 <= next && next < length) {
-        this.done = false;
-        this.page = next;
-        return;
-      }
-
-      this.$root.$emit('app:skip', step);
-    });
-
-    this.$on('img:download', function() {
-      utils.download(this.src, this.filename);
-    });
-
-    this.$on('img:scroll', function(value) {
-      scroll.by(value);
-    });
   },
   computed: {
     src: function src() {
@@ -595,24 +571,6 @@ module.exports = {
       this.fail = false;
       this.thumbsView = true;
     }
-  }
-};
-
-},{"./../../../../../services/utils.js":50,"./index.less":31,"./template.html":32}],31:[function(require,module,exports){
-(function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-page{position:absolute;bottom:4px;right:50%;padding:2px 20px;border-radius:15px;background-color:rgba(0,0,0,.4);color:#fff;transform:translate(50%)}.pv-page>.btn{margin-left:6px}.pv-page>*{vertical-align:middle}.pv-thumbs>li{display:inline-block;margin:6px;padding:2px;background-color:#fff;box-shadow:0 0 0 5px rgba(0,0,0,.2);cursor:pointer}.pv-thumbs>.current{box-shadow:0 0 0 5px rgba(0,0,0,.6)}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],32:[function(require,module,exports){
-module.exports = '<img v-attr="\n    src: src,\n    data-padding: config.padding\n  " v-show="done && !thumbsView" v-on="\n    load: load,\n    error: error,\n    click: move,\n    dragstart: grab,\n    drag: drag\n  " v-fit="config.fit"><div class="pv-msg" v-show="fail && !thumbsView" v-on="click: move">画像が読み込めません</div><ul class="pv-thumbs" v-if="thumbsView"><li v-repeat="thumbs" v-class="current: page === $index" v-on="click:select($event, $index)" class="_ui-tooltip" data-tooltip="{{$index + 1}}"><img v-attr="src: $value"></li></ul><div class="pv-page" v-if="!thumbsView"><span v-text="page + 1"></span> <span>/</span> <span v-text="pix.illust.length"></span><button class="_ui-tooltip btn" v-on="click:showThumbs" data-tooltip="サムネイル一覧"><span class="fa fa-th-large"></span></button></div>';
-},{}],33:[function(require,module,exports){
-'use strict';
-
-var utils = require('./../../../../../services/utils.js');
-
-module.exports = {
-  className: 'pv-illust',
-  template: require('./template.html'),
-  data: {
-    done: false,
-    fail: false
   },
   created: function created() {
     var scroll = new utils.Scroll({
@@ -622,6 +580,15 @@ module.exports = {
     });
 
     this.$on('app:move', function(step) {
+      var next = this.page + step,
+          length = this.pix.illust.length;
+
+      if (0 <= next && next < length) {
+        this.done = false;
+        this.page = next;
+        return;
+      }
+
       this.$root.$emit('app:skip', step);
     });
 
@@ -632,6 +599,24 @@ module.exports = {
     this.$on('img:scroll', function(value) {
       scroll.by(value);
     });
+  }
+};
+
+},{"./../../../../../services/utils.js":51,"./index.less":32,"./template.html":33}],32:[function(require,module,exports){
+(function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-page{position:absolute;bottom:4px;right:50%;padding:2px 20px;border-radius:15px;background-color:rgba(0,0,0,.4);color:#fff;transform:translate(50%)}.pv-page>.btn{margin-left:6px}.pv-page>*{vertical-align:middle}.pv-thumbs>li{display:inline-block;margin:6px;padding:2px;background-color:#fff;box-shadow:0 0 0 5px rgba(0,0,0,.2);cursor:pointer}.pv-thumbs>.current{box-shadow:0 0 0 5px rgba(0,0,0,.6)}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
+},{}],33:[function(require,module,exports){
+module.exports = '<img v-attr="\n    src: src,\n    data-padding: config.padding\n  " v-show="done && !thumbsView" v-on="\n    load: load,\n    error: error,\n    click: move,\n    dragstart: grab,\n    drag: drag\n  " v-fit="config.fit"><div class="pv-msg" v-show="fail && !thumbsView" v-on="click: move">画像が読み込めません</div><ul class="pv-thumbs" v-if="thumbsView"><li v-repeat="thumbs" v-class="current: page === $index" v-on="click:select($event, $index)" class="_ui-tooltip" data-tooltip="{{$index + 1}}"><img v-attr="src: $value"></li></ul><div class="pv-page" v-if="!thumbsView"><span v-text="page + 1"></span> <span>/</span> <span v-text="pix.illust.length"></span><button class="_ui-tooltip btn" v-on="click:showThumbs" data-tooltip="サムネイル一覧"><span class="fa fa-th-large"></span></button></div>';
+},{}],34:[function(require,module,exports){
+'use strict';
+
+var utils = require('./../../../../../services/utils.js');
+
+module.exports = {
+  className: 'pv-illust',
+  template: require('./template.html'),
+  data: {
+    done: false,
+    fail: false
   },
   computed: {
     src: function src() {
@@ -659,12 +644,31 @@ module.exports = {
       this.done = false;
       this.fail = true;
     }
+  },
+  created: function created() {
+    var scroll = new utils.Scroll({
+      el: this.$el,
+      easing: 'linear',
+      duration: 200
+    });
+
+    this.$on('app:move', function(step) {
+      this.$root.$emit('app:skip', step);
+    });
+
+    this.$on('img:download', function() {
+      utils.download(this.src, this.filename);
+    });
+
+    this.$on('img:scroll', function(value) {
+      scroll.by(value);
+    });
   }
 };
 
-},{"./../../../../../services/utils.js":50,"./template.html":34}],34:[function(require,module,exports){
+},{"./../../../../../services/utils.js":51,"./template.html":35}],35:[function(require,module,exports){
 module.exports = '<img v-attr="\n    src: src,\n    data-padding: config.padding\n  " v-show="done" v-on="\n    load: load,\n    error: error,\n    click: move,\n    dragstart: grab,\n    drag: drag\n  " v-fit="config.fit"><div class="pv-msg" v-show="fail" v-on="click: move">画像が読み込めません</div>';
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../../../../../services/utils.js'),
@@ -676,6 +680,33 @@ require('./index.less');
 module.exports = {
   className: 'pv-ugoku',
   template: require('./template.html'),
+  computed: {
+    src: function src() {
+      return this.pix.illust.ugokuIllustFullscreenData.src;
+    },
+    filename: function filename() {
+      var pix = this.pix;
+
+      return utils.format('%s - %s%s', pix.author.name, pix.desc.title, '.zip');
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$player.toggle();
+      this.paused = this.$player.paused;
+    },
+    stop: function stop() {
+      this.$player.stop();
+      this.paused = this.$player.paused;
+    },
+    fullscreen: function fullscreen() {
+      this.$player.fullscreen();
+    },
+    cancel: function cancel(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+    }
+  },
   created: function created() {
     var scroll = new utils.Scroll({
       el: this.$el,
@@ -721,33 +752,6 @@ module.exports = {
   beforeDestroy: function beforeDestroy() {
     this.$player.dispose();
     delete this.$player;
-  },
-  computed: {
-    src: function src() {
-      return this.pix.illust.ugokuIllustFullscreenData.src;
-    },
-    filename: function filename() {
-      var pix = this.pix;
-
-      return utils.format('%s - %s%s', pix.author.name, pix.desc.title, '.zip');
-    }
-  },
-  methods: {
-    toggle: function toggle() {
-      this.$player.toggle();
-      this.paused = this.$player.paused;
-    },
-    stop: function stop() {
-      this.$player.stop();
-      this.paused = this.$player.paused;
-    },
-    fullscreen: function fullscreen() {
-      this.$player.fullscreen();
-    },
-    cancel: function cancel(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
-    }
   }
 };
 
@@ -757,11 +761,11 @@ function getBlobUrl(path) {
   });
 }
 
-},{"./../../../../../services/http.js":46,"./../../../../../services/utils.js":50,"./index.less":36,"./template.html":37}],36:[function(require,module,exports){
+},{"./../../../../../services/http.js":47,"./../../../../../services/utils.js":51,"./index.less":37,"./template.html":38}],37:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-ugoku-ctrl{position:absolute;bottom:4px;right:50%;padding:2px 20px;border-radius:15px;background-color:rgba(0,0,0,.4);color:#fff;transform:translate(50%)}.pv-ugoku-ctrl>.btn{margin:0 3px}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],37:[function(require,module,exports){
-module.exports = '<div v-on="click: move" class="_ugoku-illust-player-container"><div class="wrapper"><div class="_spinner"></div><div class="player toggle"></div></div></div><div class="_full-screen-container" v-on="click:cancel"><div class="_ugoku-illust-player-container"><div class="wrapper toggle"><div class="_spinner"></div><div class="player"></div></div><div class="exit-full-screen"><img src="http://source.pixiv.net/www/images/ugoku-illust/exit-full-screen.png" width="30" height="30"></div></div></div><div class="pv-ugoku-ctrl" v-on="click:cancel"><button class="btn _ui-tooltip" data-tooltip="{{paused ? \'再生\' : \'一時停止\'}}" v-on="click:toggle"><span class="fa fa-fw" v-class="\n      fa-pause: !paused,\n      fa-play: paused\n    "></span></button><button class="btn _ui-tooltip" data-tooltip="停止" v-on="click:stop"><span class="fa fa-fw fa-stop"></span></button><button class="btn _ui-tooltip" data-tooltip="フルスクリーン表示" v-if="canFullscreen" v-on="click:fullscreen"><span class="fa fa-fw fa-expand"></span></button></div>';
 },{}],38:[function(require,module,exports){
+module.exports = '<div v-on="click: move" class="_ugoku-illust-player-container"><div class="wrapper"><div class="_spinner"></div><div class="player toggle"></div></div></div><div class="_full-screen-container" v-on="click:cancel"><div class="_ugoku-illust-player-container"><div class="wrapper toggle"><div class="_spinner"></div><div class="player"></div></div><div class="exit-full-screen"><img src="http://source.pixiv.net/www/images/ugoku-illust/exit-full-screen.png" width="30" height="30"></div></div></div><div class="pv-ugoku-ctrl" v-on="click:cancel"><button class="btn _ui-tooltip" data-tooltip="{{paused ? \'再生\' : \'一時停止\'}}" v-on="click:toggle"><span class="fa fa-fw" v-class="\n      fa-pause: !paused,\n      fa-play: paused\n    "></span></button><button class="btn _ui-tooltip" data-tooltip="停止" v-on="click:stop"><span class="fa fa-fw fa-stop"></span></button><button class="btn _ui-tooltip" data-tooltip="フルスクリーン表示" v-if="canFullscreen" v-on="click:fullscreen"><span class="fa fa-fw fa-expand"></span></button></div>';
+},{}],39:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../../../../services/utils.js'),
@@ -816,7 +820,7 @@ module.exports = {
   }
 };
 
-},{"./../../../../services/utils.js":50}],39:[function(require,module,exports){
+},{"./../../../../services/utils.js":51}],40:[function(require,module,exports){
 'use strict';
 
 require('./index.less');
@@ -862,11 +866,11 @@ module.exports = {
   }
 };
 
-},{"./components/comic":30,"./components/illust":33,"./components/ugoku":35,"./directives/fit":38,"./index.less":40,"./template.html":41}],40:[function(require,module,exports){
+},{"./components/comic":31,"./components/illust":34,"./components/ugoku":36,"./directives/fit":39,"./index.less":41,"./template.html":42}],41:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-view{position:absolute;top:0;left:0;width:100%;height:100vh;display:flex;align-items:center;justify-content:center}.pv-comic,.pv-illust,.pv-ugoku{overflow:auto;box-sizing:border-box;flex:1;width:0;max-height:100%;padding:20px;text-align:center}.pv-comic>._ugoku-illust-player-container,.pv-comic>img,.pv-illust>._ugoku-illust-player-container,.pv-illust>img,.pv-ugoku>._ugoku-illust-player-container,.pv-ugoku>img{display:inline-block;margin:auto;box-shadow:0 0 0 5px rgba(0,0,0,.2);background:#fff;transition:width .2s,height .2s}.pv-msg{display:inline-block;width:40%;margin:auto;background-color:rgba(255,255,255,.7);box-shadow:0 0 0 5px rgba(0,0,0,.2);font-size:3em;text-align:center}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],41:[function(require,module,exports){
-module.exports = '<div v-on="click:close"><div v-view="pix.illust.type" v-with="pix: pix"></div><div class="pv-msg" v-if="state === ERROR" v-on="click: move">読み込めません</div></div>';
 },{}],42:[function(require,module,exports){
+module.exports = '<div v-on="click:close"><div v-view="pix.illust.type" v-with="pix: pix"></div><div class="pv-msg" v-if="state === ERROR" v-on="click: move">読み込めません</div></div>';
+},{}],43:[function(require,module,exports){
 'use strict';
 
 /* global GM_info */
@@ -953,6 +957,40 @@ var app = module.exports = new Vue({
     ERROR: 3,
     STORAGE_KEY: STORAGE_KEY
   },
+  computed: {
+    canShowPanel: function canShowPanel() {
+      var panel = this.config.panel;
+      return this.state === this.COMPLETE ||
+             /^(help|configuration)$/.test(panel);
+    }
+  },
+  methods: {
+    fetch: function fetch(target) {
+      this.$img = target;
+      this.pix = {};
+      this.state = this.LOADING;
+      keys.disabled = false;
+
+      var vm = this;
+      page.scroll.to(target.y - window.innerHeight / 3, function() {
+        api.get(target.src, vm.$cache).then(function(data) {
+          vm.pix = data;
+          vm.state = vm.COMPLETE;
+          // console.log(vm);
+        }).catch(function(err) {
+          vm.pix = {};
+          vm.state = vm.ERROR;
+          console.error(err.message);
+        });
+      });
+    },
+    close: function close() {
+      keys.disabled = true;
+      this.state = this.STANDBY;
+      this.pix = {};
+      this.$img = null;
+    }
+  },
   created: function created() {
     page.init();
     this.$cache = new Cache(this.config.cacheSize);
@@ -1018,40 +1056,6 @@ var app = module.exports = new Vue({
     this.$watch('config.cacheSize', function(value) {
       this.$cache.limit = value;
     });
-  },
-  computed: {
-    canShowPanel: function canShowPanel() {
-      var panel = this.config.panel;
-      return this.state === this.COMPLETE ||
-             /^(help|configuration)$/.test(panel);
-    }
-  },
-  methods: {
-    fetch: function fetch(target) {
-      this.$img = target;
-      this.pix = {};
-      this.state = this.LOADING;
-      keys.disabled = false;
-
-      var vm = this;
-      page.scroll.to(target.y - window.innerHeight / 3, function() {
-        api.get(target.src, vm.$cache).then(function(data) {
-          vm.pix = data;
-          vm.state = vm.COMPLETE;
-          // console.log(vm);
-        }).catch(function(err) {
-          vm.pix = {};
-          vm.state = vm.ERROR;
-          console.error(err.message);
-        });
-      });
-    },
-    close: function close() {
-      keys.disabled = true;
-      this.state = this.STANDBY;
-      this.pix = {};
-      this.$img = null;
-    }
   }
 });
 
@@ -1146,11 +1150,11 @@ keys
 })
 .init();
 
-},{"./../services/api.js":45,"./../services/keys.js":47,"./../services/utils.js":50,"./components/panel":24,"./components/toolbar":27,"./components/view":39,"./index.less":43,"./template.html":44,"vue/dist/vue.min.js":2}],43:[function(require,module,exports){
+},{"./../services/api.js":46,"./../services/keys.js":48,"./../services/utils.js":51,"./components/panel":25,"./components/toolbar":28,"./components/view":40,"./index.less":44,"./template.html":45,"vue/dist/vue.min.js":2}],44:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = "#pv{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10001;display:flex}#pv .btn{display:inline-block;box-sizing:border-box;min-height:30px;padding:0 12px;border:1px solid rgba(0,0,0,.06);border-radius:4px;background:#f5f5f5;color:#444;text-shadow:0 1px 0 #fff;font-size:14px;font-family:\"Lucida Grande\",\"Hiragino Kaku Gothic ProN\",Meiryo,sans-serif;vertical-align:middle;text-decoration:none;text-align:center}#pv .btn:focus,#pv .btn:hover{background-color:#fafafa;color:#444;outline:0;text-decoration:none;border-color:rgba(0,0,0,.16)}#pv .btn-block{display:block;width:100%}#pv .btn-danger,#pv .btn-primary,#pv .btn-success{box-shadow:inset 0 0 5px rgba(0,0,0,.05);text-shadow:0 -1px 0 rgba(0,0,0,.1)}#pv .btn-danger:focus,#pv .btn-danger:hover,#pv .btn-primary:focus,#pv .btn-primary:hover,#pv .btn-success:focus,#pv .btn-success:hover{border-color:rgba(0,0,0,.21)}#pv .btn-primary{background-color:#00a8e6;color:#fff}#pv .btn-primary:focus,#pv .btn-primary:hover{background-color:#35b3ee;color:#fff}#pv .btn-success{background-color:#8cc14c;color:#fff}#pv .btn-success:focus,#pv .btn-success:hover{background-color:#8ec73b;color:#fff}#pv .btn-danger{background-color:#da314b;color:#fff}#pv .btn-danger:focus,#pv .btn-danger:hover{background-color:#e4354f;color:#fff}.pv-main{position:relative;flex:1;background-color:rgba(255,255,255,.6)}.no-scrollbar{overflow:hidden}.no-scrollbar embed,.no-scrollbar iframe{visibility:hidden}a[href*=\"ranking.php\"] img[src*=\"/img/\"],a[href*=\"member_illust.php\"] img[src*=\"/img/\"],a[href*=\"member_event.php\"] img[src*=\"/img/\"]{cursor:-webkit-zoom-in}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
-},{}],44:[function(require,module,exports){
-module.exports = '<div id="pv" v-show="state"><ul v-component="toolbar" v-with="\n    panel: config.panel,\n    fit: config.fit,\n    pix: pix\n  "></ul><div class="pv-main"><div v-if="canShowPanel" v-component="panel"></div><div v-component="view"></div></div></div>';
 },{}],45:[function(require,module,exports){
+module.exports = '<div id="pv" v-show="state"><ul v-component="toolbar" v-with="\n    panel: config.panel,\n    fit: config.fit,\n    pix: pix\n  "></ul><div class="pv-main"><div v-if="canShowPanel" v-component="panel"></div><div v-component="view"></div></div></div>';
+},{}],46:[function(require,module,exports){
 'use strict';
 
 /* global Promise */
@@ -1367,7 +1371,7 @@ exports.invoke = function invoke(method) {
   });
 };
 
-},{"./http":46,"./scrape":49}],46:[function(require,module,exports){
+},{"./http":47,"./scrape":50}],47:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils.js'),
@@ -1436,7 +1440,7 @@ http.post = function post(url, data, type) {
   });
 };
 
-},{"./utils.js":50}],47:[function(require,module,exports){
+},{"./utils.js":51}],48:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils.js');
@@ -1684,7 +1688,7 @@ exports.init = function init(enabled) {
   this.disabled = !enabled;
 };
 
-},{"./utils.js":50}],48:[function(require,module,exports){
+},{"./utils.js":51}],49:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils.js'),
@@ -1759,7 +1763,7 @@ docProto.outerHTML = function outerHTML(selector) {
   return this.get(selector, 'outerHTML');
 };
 
-},{"./../utils.js":50,"vue/dist/vue.min.js":2}],49:[function(require,module,exports){
+},{"./../utils.js":51,"vue/dist/vue.min.js":2}],50:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils.js'),
@@ -1872,7 +1876,7 @@ function scrape(resp) {
   };
 }
 
-},{"./../utils.js":50,"./dq":48}],50:[function(require,module,exports){
+},{"./../utils.js":51,"./dq":49}],51:[function(require,module,exports){
 'use strict';
 
 var slice = [].slice,
@@ -2050,7 +2054,7 @@ exports.store.set = exports.debounce(exports.store.set);
 exports.Scroll = require('./utils/scroll');
 exports.Cache  = require('./utils/cache');
 
-},{"./utils/cache":51,"./utils/scroll":52,"./utils/store":53}],51:[function(require,module,exports){
+},{"./utils/cache":52,"./utils/scroll":53,"./utils/store":54}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = Cache;
@@ -2124,7 +2128,7 @@ CacheProto._link = function link(newer, older) {
   }
 };
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 var raf = window.requestAnimationFrame,
@@ -2194,7 +2198,7 @@ Scroll.ease = {
   }
 };
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 'use strict';
 
 module.exports = {
