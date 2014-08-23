@@ -1,6 +1,10 @@
 # cockpit for pixiv
 Provide comfortable pixiv browsing.
 
+## Status
+[![Dependency Status](https://david-dm.org/8th713/cockpit-for-pixiv.svg?style=flat)](https://david-dm.org/8th713/cockpit-for-pixiv)
+[![devDependency Status](https://david-dm.org/8th713/cockpit-for-pixiv/dev-status.svg?style=flat)](https://david-dm.org/8th713/cockpit-for-pixiv#info=devDependencies)
+
 ## Features and Usage
 visit pages.
 
