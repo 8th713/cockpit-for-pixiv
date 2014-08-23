@@ -6,7 +6,7 @@ Provide comfortable pixiv browsing.
 [![devDependency Status](https://david-dm.org/8th713/cockpit-for-pixiv/dev-status.svg?style=flat)](https://david-dm.org/8th713/cockpit-for-pixiv#info=devDependencies)
 
 ## Features and Usage
-visit pages.
+visit [pages](http://8th713.github.io/cockpit-for-pixiv/).
 
 ## Open source projects used
 * [Vue.js](https://github.com/yyx990803/vue)
