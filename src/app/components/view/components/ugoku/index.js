@@ -9,6 +9,33 @@ require('./index.less');
 module.exports = {
   className: 'pv-ugoku',
   template: require('./template.html'),
+  computed: {
+    src: function src() {
+      return this.pix.illust.ugokuIllustFullscreenData.src;
+    },
+    filename: function filename() {
+      var pix = this.pix;
+
+      return utils.format('%s - %s%s', pix.author.name, pix.desc.title, '.zip');
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      this.$player.toggle();
+      this.paused = this.$player.paused;
+    },
+    stop: function stop() {
+      this.$player.stop();
+      this.paused = this.$player.paused;
+    },
+    fullscreen: function fullscreen() {
+      this.$player.fullscreen();
+    },
+    cancel: function cancel(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+    }
+  },
   created: function created() {
     var scroll = new utils.Scroll({
       el: this.$el,
@@ -54,33 +81,6 @@ module.exports = {
   beforeDestroy: function beforeDestroy() {
     this.$player.dispose();
     delete this.$player;
-  },
-  computed: {
-    src: function src() {
-      return this.pix.illust.ugokuIllustFullscreenData.src;
-    },
-    filename: function filename() {
-      var pix = this.pix;
-
-      return utils.format('%s - %s%s', pix.author.name, pix.desc.title, '.zip');
-    }
-  },
-  methods: {
-    toggle: function toggle() {
-      this.$player.toggle();
-      this.paused = this.$player.paused;
-    },
-    stop: function stop() {
-      this.$player.stop();
-      this.paused = this.$player.paused;
-    },
-    fullscreen: function fullscreen() {
-      this.$player.fullscreen();
-    },
-    cancel: function cancel(evt) {
-      evt.preventDefault();
-      evt.stopPropagation();
-    }
   }
 };
 

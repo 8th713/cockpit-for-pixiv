@@ -9,15 +9,6 @@ module.exports = {
   tagName: 'ul',
   className: 'pv-toolbar',
   template: require('./template.html'),
-  created: function created() {
-    this.$on('panel:change', function(type) {
-      this.change(type);
-    });
-
-    this.$on('img:resize', function() {
-      this.fit = !this.fit;
-    });
-  },
   methods: {
     change: function change(type) {
       if (this.panel === type) {
@@ -35,5 +26,14 @@ module.exports = {
     tweet: function tweet() {
       this.$dispatch('pix:tweet');
     }
+  },
+  created: function created() {
+    this.$on('panel:change', function(type) {
+      this.change(type);
+    });
+
+    this.$on('img:resize', function() {
+      this.fit = !this.fit;
+    });
   }
 };

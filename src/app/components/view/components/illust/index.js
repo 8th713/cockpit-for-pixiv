@@ -9,25 +9,6 @@ module.exports = {
     done: false,
     fail: false
   },
-  created: function created() {
-    var scroll = new utils.Scroll({
-      el: this.$el,
-      easing: 'linear',
-      duration: 200
-    });
-
-    this.$on('app:move', function(step) {
-      this.$root.$emit('app:skip', step);
-    });
-
-    this.$on('img:download', function() {
-      utils.download(this.src, this.filename);
-    });
-
-    this.$on('img:scroll', function(value) {
-      scroll.by(value);
-    });
-  },
   computed: {
     src: function src() {
       var illust = this.pix.illust;
@@ -54,5 +35,24 @@ module.exports = {
       this.done = false;
       this.fail = true;
     }
+  },
+  created: function created() {
+    var scroll = new utils.Scroll({
+      el: this.$el,
+      easing: 'linear',
+      duration: 200
+    });
+
+    this.$on('app:move', function(step) {
+      this.$root.$emit('app:skip', step);
+    });
+
+    this.$on('img:download', function() {
+      utils.download(this.src, this.filename);
+    });
+
+    this.$on('img:scroll', function(value) {
+      scroll.by(value);
+    });
   }
 };

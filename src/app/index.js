@@ -84,6 +84,40 @@ var app = module.exports = new Vue({
     ERROR: 3,
     STORAGE_KEY: STORAGE_KEY
   },
+  computed: {
+    canShowPanel: function canShowPanel() {
+      var panel = this.config.panel;
+      return this.state === this.COMPLETE ||
+             /^(help|configuration)$/.test(panel);
+    }
+  },
+  methods: {
+    fetch: function fetch(target) {
+      this.$img = target;
+      this.pix = {};
+      this.state = this.LOADING;
+      keys.disabled = false;
+
+      var vm = this;
+      page.scroll.to(target.y - window.innerHeight / 3, function() {
+        api.get(target.src, vm.$cache).then(function(data) {
+          vm.pix = data;
+          vm.state = vm.COMPLETE;
+          // console.log(vm);
+        }).catch(function(err) {
+          vm.pix = {};
+          vm.state = vm.ERROR;
+          console.error(err.message);
+        });
+      });
+    },
+    close: function close() {
+      keys.disabled = true;
+      this.state = this.STANDBY;
+      this.pix = {};
+      this.$img = null;
+    }
+  },
   created: function created() {
     page.init();
     this.$cache = new Cache(this.config.cacheSize);
@@ -149,40 +183,6 @@ var app = module.exports = new Vue({
     this.$watch('config.cacheSize', function(value) {
       this.$cache.limit = value;
     });
-  },
-  computed: {
-    canShowPanel: function canShowPanel() {
-      var panel = this.config.panel;
-      return this.state === this.COMPLETE ||
-             /^(help|configuration)$/.test(panel);
-    }
-  },
-  methods: {
-    fetch: function fetch(target) {
-      this.$img = target;
-      this.pix = {};
-      this.state = this.LOADING;
-      keys.disabled = false;
-
-      var vm = this;
-      page.scroll.to(target.y - window.innerHeight / 3, function() {
-        api.get(target.src, vm.$cache).then(function(data) {
-          vm.pix = data;
-          vm.state = vm.COMPLETE;
-          // console.log(vm);
-        }).catch(function(err) {
-          vm.pix = {};
-          vm.state = vm.ERROR;
-          console.error(err.message);
-        });
-      });
-    },
-    close: function close() {
-      keys.disabled = true;
-      this.state = this.STANDBY;
-      this.pix = {};
-      this.$img = null;
-    }
   }
 });
 

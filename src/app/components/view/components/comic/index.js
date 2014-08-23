@@ -13,34 +13,6 @@ module.exports = {
     fail: false,
     thumbsView: false
   },
-  created: function created() {
-    var scroll = new utils.Scroll({
-      el: this.$el,
-      easing: 'linear',
-      duration: 200
-    });
-
-    this.$on('app:move', function(step) {
-      var next = this.page + step,
-          length = this.pix.illust.length;
-
-      if (0 <= next && next < length) {
-        this.done = false;
-        this.page = next;
-        return;
-      }
-
-      this.$root.$emit('app:skip', step);
-    });
-
-    this.$on('img:download', function() {
-      utils.download(this.src, this.filename);
-    });
-
-    this.$on('img:scroll', function(value) {
-      scroll.by(value);
-    });
-  },
   computed: {
     src: function src() {
       var illust = this.pix.illust;
@@ -115,5 +87,33 @@ module.exports = {
       this.fail = false;
       this.thumbsView = true;
     }
+  },
+  created: function created() {
+    var scroll = new utils.Scroll({
+      el: this.$el,
+      easing: 'linear',
+      duration: 200
+    });
+
+    this.$on('app:move', function(step) {
+      var next = this.page + step,
+          length = this.pix.illust.length;
+
+      if (0 <= next && next < length) {
+        this.done = false;
+        this.page = next;
+        return;
+      }
+
+      this.$root.$emit('app:skip', step);
+    });
+
+    this.$on('img:download', function() {
+      utils.download(this.src, this.filename);
+    });
+
+    this.$on('img:scroll', function(value) {
+      scroll.by(value);
+    });
   }
 };

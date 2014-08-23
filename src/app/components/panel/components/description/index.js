@@ -10,11 +10,6 @@ module.exports = {
   data: {
     loading: false
   },
-  created: function created() {
-    this.$on('pix:rate:change', function(value) {
-      this.loading = value;
-    });
-  },
   methods: {
     rate: function rate(score) {
       this.$dispatch('pix:rate', score);
@@ -27,5 +22,10 @@ module.exports = {
         vm.loading = false;
       });
     }
+  },
+  created: function created() {
+    this.$on('pix:rate:change', function(value) {
+      this.loading = value;
+    });
   }
 };
