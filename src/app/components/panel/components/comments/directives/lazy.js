@@ -23,8 +23,7 @@ module.exports = {
     });
 
     if (l > this.items.length) {
-      this.vm.pix.comments.body = this.el.firstElementChild.innerHTML;
-      this.vm.$set('pix.comments.body', this.el.firstElementChild.innerHTML);
+      this.vm.$set(this.expression, this.el.firstElementChild.innerHTML);
     }
   },
   update: function(value) {
