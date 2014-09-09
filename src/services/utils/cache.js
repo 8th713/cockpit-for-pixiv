@@ -32,7 +32,6 @@ CacheProto.get = function get(key) {
   if (!entry) { return; }
 
   this._refresh(entry);
-  console.log(this);
   return this.data[key];
 };
 
