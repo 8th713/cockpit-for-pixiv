@@ -1,0 +1,29 @@
+/**
+ * cockpit for pixiv 用 拡張 CSS
+ *
+ * Stylish(https://chrome.google.com/webstore/detail/stylish/fjnbnpbmkenffdnngjfgmeleoegfcffe) などを用いて必要な部分だけコピペして使ってください。
+ *
+ * 適用先を [ドメイン上の URL] [pixiv.net]
+ */
+
+/* コントローラー透明化 */
+.pv-page,
+.pv-ugoku-ctrl{
+  opacity: 0;
+  transition: opacity .2s .2s;
+}
+
+.pv-page:hover,
+.pv-ugoku-ctrl:hover{
+  opacity: 1;
+}
+
+
+/* ツールバー & パネル を右へ */
+#pv {
+  flex-direction: row-reverse;
+}
+
+.pv-panel {
+  right: 0;
+}
