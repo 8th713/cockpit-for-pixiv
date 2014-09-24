@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         cockpit for pixiv
-// @version      0.1.1
+// @version      0.1.2
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
@@ -133,6 +133,7 @@ module.exports = {
       this.loading = true;
       api.invoke('bookmark', this.pix, evt.target).then(function() {
         vm.loading = false;
+        vm.$root.$broadcast('panel:change', 'bookmark');
       });
     }
   }
@@ -390,28 +391,20 @@ module.exports = {
   },
   methods: {
     add: function add() {
-      var vm = this;
-
       this.loading = true;
-      api.invoke('follow', this.pix, this.restrict).then(function() {
-        vm.loading = false;
-      });
+      api.invoke('follow', this.pix, this.restrict).then(this._always.bind(this));
     },
     put: function put() {
-      var vm = this;
-
       this.loading = true;
-      api.invoke('refollow', this.pix, this.restrict).then(function() {
-        vm.loading = false;
-      });
+      api.invoke('refollow', this.pix, this.restrict).then(this._always.bind(this));
     },
     del: function del() {
-      var vm = this;
-
       this.loading = true;
-      api.invoke('unfollow', this.pix).then(function() {
-        vm.loading = false;
-      });
+      api.invoke('unfollow', this.pix).then(this._always.bind(this));
+    },
+    _always: function always() {
+      this.loading = false;
+      this.$root.$broadcast('panel:change', 'follow');
     }
   }
 };
@@ -1203,7 +1196,7 @@ keys
 .init();
 
 },{"./../services/api.js":46,"./../services/keys.js":48,"./../services/utils.js":51,"./components/panel":25,"./components/toolbar":28,"./components/view":40,"./index.less":44,"./template.html":45,"vue/dist/vue.min.js":2}],44:[function(require,module,exports){
-(function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = "#pv{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10001;display:flex}#pv .btn{display:inline-block;box-sizing:border-box;min-height:30px;padding:0 12px;border:1px solid rgba(0,0,0,.06);border-radius:4px;background:#f5f5f5;color:#444;text-shadow:0 1px 0 #fff;font-size:14px;font-family:\"Lucida Grande\",\"Hiragino Kaku Gothic ProN\",Meiryo,sans-serif;vertical-align:middle;text-decoration:none;text-align:center}#pv .btn:focus,#pv .btn:hover{background-color:#fafafa;color:#444;outline:0;text-decoration:none;border-color:rgba(0,0,0,.16)}#pv .btn-block{display:block;width:100%}#pv .btn-danger,#pv .btn-primary,#pv .btn-success{box-shadow:inset 0 0 5px rgba(0,0,0,.05);text-shadow:0 -1px 0 rgba(0,0,0,.1)}#pv .btn-danger:focus,#pv .btn-danger:hover,#pv .btn-primary:focus,#pv .btn-primary:hover,#pv .btn-success:focus,#pv .btn-success:hover{border-color:rgba(0,0,0,.21)}#pv .btn-primary{background-color:#00a8e6;color:#fff}#pv .btn-primary:focus,#pv .btn-primary:hover{background-color:#35b3ee;color:#fff}#pv .btn-success{background-color:#8cc14c;color:#fff}#pv .btn-success:focus,#pv .btn-success:hover{background-color:#8ec73b;color:#fff}#pv .btn-danger{background-color:#da314b;color:#fff}#pv .btn-danger:focus,#pv .btn-danger:hover{background-color:#e4354f;color:#fff}.pv-main{position:relative;flex:1;background-color:rgba(255,255,255,.6)}.no-scrollbar{overflow:hidden}.no-scrollbar embed,.no-scrollbar iframe{visibility:hidden}a[href*=\"ranking.php\"] img[src*=\"/img/\"],a[href*=\"member_illust.php\"] img[src*=\"/img/\"],a[href*=\"member_event.php\"] img[src*=\"/img/\"]{cursor:-webkit-zoom-in}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
+(function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = "#pv{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10001;display:flex}#pv .btn{display:inline-block;box-sizing:border-box;min-height:30px;padding:0 12px;border:1px solid rgba(0,0,0,.06);border-radius:4px;background:#f5f5f5;color:#444;text-shadow:0 1px 0 #fff;font-size:14px;font-family:\"Lucida Grande\",\"Hiragino Kaku Gothic ProN\",Meiryo,sans-serif;vertical-align:middle;text-decoration:none;text-align:center}#pv .btn:focus,#pv .btn:hover{background-color:#fafafa;color:#444;outline:0;text-decoration:none;border-color:rgba(0,0,0,.16)}#pv .btn-block{display:block;width:100%}#pv .btn-danger,#pv .btn-primary,#pv .btn-success{box-shadow:inset 0 0 5px rgba(0,0,0,.05);text-shadow:0 -1px 0 rgba(0,0,0,.1)}#pv .btn-danger:focus,#pv .btn-danger:hover,#pv .btn-primary:focus,#pv .btn-primary:hover,#pv .btn-success:focus,#pv .btn-success:hover{border-color:rgba(0,0,0,.21)}#pv .btn-primary{background-color:#00a8e6;color:#fff}#pv .btn-primary:focus,#pv .btn-primary:hover{background-color:#35b3ee;color:#fff}#pv .btn-success{background-color:#8cc14c;color:#fff}#pv .btn-success:focus,#pv .btn-success:hover{background-color:#8ec73b;color:#fff}#pv .btn-danger{background-color:#da314b;color:#fff}#pv .btn-danger:focus,#pv .btn-danger:hover{background-color:#e4354f;color:#fff}.pv-main{position:relative;flex:1;background-color:rgba(255,255,255,.6)}.no-scrollbar{overflow:hidden}.no-scrollbar embed,.no-scrollbar iframe{visibility:hidden}a[href*=\"ranking.php\"] img[src*=\"/img/\"],a[href*=\"member_illust.php\"] img[src*=\"/img/\"],a[href*=\"member_event.php\"] img[src*=\"/img/\"]{cursor:zoom-in}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
 },{}],45:[function(require,module,exports){
 module.exports = '<div id="pv" v-show="state"><ul v-component="toolbar" v-with="\n    panel: config.panel,\n    fit: config.fit,\n    pix: pix\n  "></ul><div class="pv-main"><div v-if="canShowPanel" v-component="panel"></div><div v-component="view"></div></div></div>';
 },{}],46:[function(require,module,exports){
@@ -2141,7 +2134,6 @@ CacheProto.get = function get(key) {
   if (!entry) { return; }
 
   this._refresh(entry);
-  console.log(this);
   return this.data[key];
 };
 
