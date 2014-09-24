@@ -21,18 +21,18 @@
   },
   "devDependencies": {
     "aliasify": "^1.4.0",
-    "browserify": "^5.10.1",
+    "browserify": "^5.12.0",
     "gulp": "^3.8.7",
-    "gulp-header": "^1.0.5",
+    "gulp-header": "^1.1.1",
     "gulp-streamify": "0.0.5",
-    "gulp-template": "^1.0.0",
+    "gulp-template": "^1.1.0",
     "gulp-util": "^3.0.0",
     "minimize": "^0.8.2",
-    "node-lessify": "0.0.4",
+    "node-lessify": "0.0.4-a",
     "string-to-js": "0.0.1",
-    "through": "^2.3.4",
-    "vinyl-source-stream": "^0.1.1",
-    "watchify": "^1.0.2"
+    "through": "^2.3.6",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^1.0.3"
   },
   "dependencies": {
     "vue": "^0.10.6"
