@@ -23,6 +23,7 @@ module.exports = {
       this.loading = true;
       api.invoke('bookmark', this.pix, evt.target).then(function() {
         vm.loading = false;
+        vm.$root.$broadcast('panel:change', 'bookmark');
       });
     }
   }

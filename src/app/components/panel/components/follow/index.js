@@ -13,28 +13,20 @@ module.exports = {
   },
   methods: {
     add: function add() {
-      var vm = this;
-
       this.loading = true;
-      api.invoke('follow', this.pix, this.restrict).then(function() {
-        vm.loading = false;
-      });
+      api.invoke('follow', this.pix, this.restrict).then(this._always.bind(this));
     },
     put: function put() {
-      var vm = this;
-
       this.loading = true;
-      api.invoke('refollow', this.pix, this.restrict).then(function() {
-        vm.loading = false;
-      });
+      api.invoke('refollow', this.pix, this.restrict).then(this._always.bind(this));
     },
     del: function del() {
-      var vm = this;
-
       this.loading = true;
-      api.invoke('unfollow', this.pix).then(function() {
-        vm.loading = false;
-      });
+      api.invoke('unfollow', this.pix).then(this._always.bind(this));
+    },
+    _always: function always() {
+      this.loading = false;
+      this.$root.$broadcast('panel:change', 'follow');
     }
   }
 };
