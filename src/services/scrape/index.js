@@ -6,10 +6,34 @@ var utils = require('utils'),
 
 module.exports = scrape;
 
-var EXT    = /(^.+)_m(\.(?:jpe?g|png|gif))(.*)$/,
-    SCORE  = /^あなたの評価 (\d+)点.*$/,
+var SCORE  = /^あなたの評価 (\d+)点.*$/,
     ANSWER = /^.+「(.+)」.+$/,
-    PAGE   = /漫画 (\d+)P/;
+    PAGE   = /漫画 (\d+)P/,
+    NEW_URL_PATTERN = /^\/c\/600x600\/img-master/;
+
+var a = document.createElement('a');
+
+function parseUrl(src) {
+  a.href = src;
+
+  var path = a.pathname;
+  var prefix = a.origin;
+  var suffix = path.slice(path.lastIndexOf('.'));
+
+  if (NEW_URL_PATTERN.test(path)) {
+    prefix += path.replace(NEW_URL_PATTERN, '/img-original');
+    prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
+    suffix = '_p0' + suffix;
+  } else {
+    prefix += path.slice(0, path.lastIndexOf('/') + 1);
+  }
+
+  return {
+    prefix: prefix,
+    suffix: suffix,
+    cache: a.search
+  };
+}
 
 function createIllust(doc, ctx) {
   var obj = {},
@@ -21,10 +45,10 @@ function createIllust(doc, ctx) {
     obj.ugokuIllustFullscreenData = ctx.ugokuIllustFullscreenData;
   } else {
     url = doc.get('.works_display img', 'src');
-    url = EXT.exec(url);
-    obj.prefix = url[1]; // 画像URLのベース
-    obj.suffix = url[2]; // 画像URLの拡張子
-    obj.cache  = url[3]; // キャッシュ情報
+    url = parseUrl(url);
+    obj.prefix = url.prefix + ctx.illustId;
+    obj.suffix = url.suffix;
+    obj.cache  = url.cache;
   }
 
   obj.bookmark = doc.has('.bookmark-container>.button-on');
