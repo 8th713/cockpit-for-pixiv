@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         cockpit for pixiv
-// @version      0.1.2
+// @version      0.1.3
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
@@ -686,6 +686,16 @@ module.exports = {
       this.fail = false;
     },
     error: function error() {
+      var illust = this.pix.illust;
+      var suffix = illust.suffix;
+
+      if (suffix === '_p0.jpg') {
+        illust.suffix = '_p0.png';
+        return;
+      } else if (suffix === '_p0.png') {
+        illust.suffix = '_p0.gif';
+        return;
+      }
       this.done = false;
       this.fail = true;
     }
@@ -1202,8 +1212,6 @@ module.exports = '<div id="pv" v-show="state"><ul v-component="toolbar" v-with="
 },{}],46:[function(require,module,exports){
 'use strict';
 
-/* global Promise */
-
 var http = require('./http'),
     scrape = require('./scrape');
 
@@ -1425,7 +1433,6 @@ var utils = require('./utils.js'),
 module.exports = http;
 
 function http(opts) {
-  /* global Promise */
   return new Promise(function(resolve, reject) {
     var req = new XMLHttpRequest();
 
@@ -1817,10 +1824,34 @@ var utils = require('./../utils.js'),
 
 module.exports = scrape;
 
-var EXT    = /(^.+)_m(\.(?:jpe?g|png|gif))(.*)$/,
-    SCORE  = /^あなたの評価 (\d+)点.*$/,
+var SCORE  = /^あなたの評価 (\d+)点.*$/,
     ANSWER = /^.+「(.+)」.+$/,
-    PAGE   = /漫画 (\d+)P/;
+    PAGE   = /漫画 (\d+)P/,
+    NEW_URL_PATTERN = /^\/c\/600x600\/img-master/;
+
+var a = document.createElement('a');
+
+function parseUrl(src) {
+  a.href = src;
+
+  var path = a.pathname;
+  var prefix = a.origin;
+  var suffix = path.slice(path.lastIndexOf('.'));
+
+  if (NEW_URL_PATTERN.test(path)) {
+    prefix += path.replace(NEW_URL_PATTERN, '/img-original');
+    prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
+    suffix = '_p0' + suffix;
+  } else {
+    prefix += path.slice(0, path.lastIndexOf('/') + 1);
+  }
+
+  return {
+    prefix: prefix,
+    suffix: suffix,
+    cache: a.search
+  };
+}
 
 function createIllust(doc, ctx) {
   var obj = {},
@@ -1832,10 +1863,10 @@ function createIllust(doc, ctx) {
     obj.ugokuIllustFullscreenData = ctx.ugokuIllustFullscreenData;
   } else {
     url = doc.get('.works_display img', 'src');
-    url = EXT.exec(url);
-    obj.prefix = url[1]; // 画像URLのベース
-    obj.suffix = url[2]; // 画像URLの拡張子
-    obj.cache  = url[3]; // キャッシュ情報
+    url = parseUrl(url);
+    obj.prefix = url.prefix + ctx.illustId;
+    obj.suffix = url.suffix;
+    obj.cache  = url.cache;
   }
 
   obj.bookmark = doc.has('.bookmark-container>.button-on');
