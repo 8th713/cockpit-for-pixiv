@@ -6,7 +6,6 @@ var utils = require('utils'),
 module.exports = http;
 
 function http(opts) {
-  /* global Promise */
   return new Promise(function(resolve, reject) {
     var req = new XMLHttpRequest();
 

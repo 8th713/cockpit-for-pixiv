@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Promise */
-
 var http = require('./http'),
     scrape = require('./scrape');
 
