@@ -32,6 +32,16 @@ module.exports = {
       this.fail = false;
     },
     error: function error() {
+      var illust = this.pix.illust;
+      var suffix = illust.suffix;
+
+      if (suffix === '_p0.jpg') {
+        illust.suffix = '_p0.png';
+        return;
+      } else if (suffix === '_p0.png') {
+        illust.suffix = '_p0.gif';
+        return;
+      }
       this.done = false;
       this.fail = true;
     }
