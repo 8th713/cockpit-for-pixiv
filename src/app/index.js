@@ -9,8 +9,7 @@ var api = require('api'),
     Vue = require('vue');
 
 var page = {
-  SELECTORS: [
-    'a[href*="ranking.php"] img[src*="/img/"]',
+  TARGET: [
     'a[href*="member_illust.php"] img[src*="/img/"]',
     'a[href*="member_event.php"] img[src*="/img/"]'
   ].join(),
@@ -25,15 +24,18 @@ var page = {
       var target = evt.target;
 
       if (page.matches.call(target, '.pv-bookmark img')) { return; }
-      if (!page.matches.call(target, page.SELECTORS)) { return; }
+      if (target.classList.contains('_layout-thumbnail')) {
+        target = target.children[0];
+      }
+      if (!page.matches.call(target, page.TARGET)) { return; }
 
-      app.fetch(target);
       evt.stopPropagation();
       evt.preventDefault();
+      app.fetch(target);
     });
   },
   getNext: function getNext(target, step) {
-    var list = document.querySelectorAll(this.SELECTORS),
+    var list = document.querySelectorAll(this.TARGET),
         last = list.length - 1,
         index　= [].indexOf.call(list, target) + step,
         result;

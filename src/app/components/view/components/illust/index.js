@@ -11,9 +11,7 @@ module.exports = {
   },
   computed: {
     src: function src() {
-      var illust = this.pix.illust;
-
-      return illust.prefix + illust.suffix + illust.cache;
+      return this.pix.illust.path;
     },
     filename: function filename() {
       var pix = this.pix;
@@ -22,7 +20,7 @@ module.exports = {
         '%s - %s%s',
         pix.author.name,
         pix.desc.title,
-        pix.illust.suffix
+        pix.illust.path.slice(pix.illust.path.lastIndexOf('.'))
       );
     }
   },
@@ -33,15 +31,15 @@ module.exports = {
     },
     error: function error() {
       var illust = this.pix.illust;
-      var suffix = illust.suffix;
 
-      if (suffix === '_p0.jpg') {
-        illust.suffix = '_p0.png';
+      if (/_p0\.jpg/.test(illust.path)) {
+        illust.path = illust.path.replace(/jpg$/, 'png');
         return;
-      } else if (suffix === '_p0.png') {
-        illust.suffix = '_p0.gif';
+      } else if (/_p0\.png/.test(illust.path)) {
+        illust.path = illust.path.replace(/png$/, 'gif');
         return;
       }
+
       this.done = false;
       this.fail = true;
     }

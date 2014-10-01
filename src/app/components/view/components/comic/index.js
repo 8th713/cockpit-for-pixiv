@@ -15,17 +15,15 @@ module.exports = {
   },
   computed: {
     src: function src() {
-      var illust = this.pix.illust;
-
-      return illust.prefix + '_big_p' + this.page + illust.suffix + illust.cache;
+      return this.pix.illust.path.replace('{n}', this.page);
     },
     thumbs: function thumbs() {
-      var illust = this.pix.illust, arr = [],
-          sub = '_128x128_p',
-          prefix = illust.prefix.replace(illust.id, 'mobile/' + illust.id);
+      var illust = this.pix.illust;
+      var arr = [];
+      var i = 0, l = illust.length;
 
-      for(var i = 0, l = illust.length; i < l; i++) {
-        arr.push(prefix + sub + i + '.jpg' + illust.cache);
+      for(; i < l; i++) {
+        arr.push(illust.thumbs.replace('{n}', i));
       }
       return arr;
     },
@@ -38,7 +36,7 @@ module.exports = {
         pix.desc.title,
         this.page + 1,
         pix.illust.length,
-        pix.illust.suffix
+        pix.illust.path.slice(pix.illust.path.lastIndexOf('.'))
       );
     }
   },
@@ -49,6 +47,16 @@ module.exports = {
       this.thumbsView = false;
     },
     error: function error() {
+      var illust = this.pix.illust;
+
+      if (/master1200\.jpg/.test(illust.path)) {
+        illust.path = illust.path.replace(/jpg$/, 'png');
+        return;
+      } else if (/master1200\.png/.test(illust.path)) {
+        illust.path = illust.path.replace(/png$/, 'gif');
+        return;
+      }
+
       this.done = false;
       this.fail = true;
       this.thumbsView = false;
