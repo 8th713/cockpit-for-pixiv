@@ -8,48 +8,65 @@ module.exports = scrape;
 
 var SCORE  = /^あなたの評価 (\d+)点.*$/,
     ANSWER = /^.+「(.+)」.+$/,
-    PAGE   = /漫画 (\d+)P/,
-    NEW_URL_PATTERN = /^\/c\/600x600\/img-master/;
+    PAGE   = /複数枚投稿 (\d+)P/,
+    NEW_URL_PATTERN = /\/c\/600x600\/img-master/;
 
-var a = document.createElement('a');
-
-function parseUrl(src) {
-  a.href = src;
-
-  var path = a.pathname;
-  var prefix = a.origin;
-  var suffix = path.slice(path.lastIndexOf('.'));
-
-  if (NEW_URL_PATTERN.test(path)) {
-    prefix += path.replace(NEW_URL_PATTERN, '/img-original');
-    prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
-    suffix = '_p0' + suffix;
-  } else {
-    prefix += path.slice(0, path.lastIndexOf('/') + 1);
+var parser = {
+  illust: function illust(src, id) {
+    if (NEW_URL_PATTERN.test(src)) {
+      // new
+      // in:   http://[server].pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
+      // path: http://[server].pixiv.net/img-original/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0.jpg
+      return {
+        path: src
+          .replace('/c/600x600/img-master', '/img-original')
+          .replace('_master1200.jpg', '.jpg')
+      };
+    } else {
+      // old
+      // in:   http://[server].pixiv.net/{unique}/img/{name}/{id}_m.jpg
+      // path: http://[server].pixiv.net/{unique}/img/{name}/{id}.jpg
+      return {
+        path: src.replace(id + '_m', id)
+      };
+    }
+  },
+  comic: function comic(src, id) {
+    if (NEW_URL_PATTERN.test(src)) {
+      // new
+      // in:     http://[server].pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
+      // path:   http://[server].pixiv.net/c/1200x1200/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_master1200.jpg
+      // thumbs: http://[server].pixiv.net/c/128x128/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_square1200.jpg
+      return {
+        path: src
+          .replace('600x600', '1200x1200')
+          .replace(/_p\d+_/, '_p{n}_'),
+        thumbs: src
+          .replace('600x600', '128x128')
+          .replace(/_p\d+_/, '_p{n}_')
+          .replace('master1200', 'square1200')
+      };
+    } else {
+      // old
+      // in:     http://[server].pixiv.net/{unique}/img/{name}/{id}_m.jpg
+      // path:   http://[server].pixiv.net/{unique}/img/{name}/{id}_big_p{n}.jpg
+      // thumbs: http://[server].pixiv.net/{unique}/img/{name}/mobile/{id}_128x128_p{n}.jpg
+      return {
+        path: src
+          .replace(id + '_m', id + '_big_p{n}'),
+        thumbs: src
+          .replace(id, 'mobile/' + id)
+          .replace(id + '_m', id + '_128x128_p{n}')
+          .replace(/\.(?:png|gif)/, '.jpg')
+      };
+    }
   }
-
-  return {
-    prefix: prefix,
-    suffix: suffix,
-    cache: a.search
-  };
-}
+};
 
 function createIllust(doc, ctx) {
   var obj = {},
       page = PAGE.exec(doc.text('.meta')),
       url;
-
-  if (ctx.ugokuIllustData) {
-    obj.ugokuIllustData = ctx.ugokuIllustData;
-    obj.ugokuIllustFullscreenData = ctx.ugokuIllustFullscreenData;
-  } else {
-    url = doc.get('.works_display img', 'src');
-    url = parseUrl(url);
-    obj.prefix = url.prefix + ctx.illustId;
-    obj.suffix = url.suffix;
-    obj.cache  = url.cache;
-  }
 
   obj.bookmark = doc.has('.bookmark-container>.button-on');
   obj.id = ctx.illustId;
@@ -57,6 +74,20 @@ function createIllust(doc, ctx) {
   obj.length = page ? +page[1] : 0;
   obj.type = ctx.ugokuIllustFullscreenData ? 'ugoku' :
              !!page ? 'comic' : 'illust';
+
+  if (obj.type === 'ugoku') {
+    obj.ugokuIllustData = ctx.ugokuIllustData;
+    obj.ugokuIllustFullscreenData = ctx.ugokuIllustFullscreenData;
+  }
+  if (obj.type === 'comic') {
+    url = parser.comic(doc.get('.works_display img', 'src'), obj.id);
+    obj.path   = url.path;
+    obj.thumbs = url.thumbs;
+  }
+  if (obj.type === 'illust') {
+    url = parser.illust(doc.get('.works_display img', 'src'), obj.id);
+    obj.path = url.path;
+  }
 
   return obj;
 }
