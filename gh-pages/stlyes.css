@@ -124,6 +124,7 @@ body {
 
   text-align: center;
   text-decoration: none;
+  font-size: 1.5em;
 }
 
 .btn:hover,
@@ -143,7 +144,6 @@ body {
   border-radius: 6px;
 
   text-shadow: none;
-  font-size: 1.5em;
 }
 
 .btn-outline-inverse:hover,

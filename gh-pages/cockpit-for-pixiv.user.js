@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         cockpit for pixiv
-// @version      0.1.3
+// @version      0.1.4
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
@@ -429,6 +429,8 @@ module.exports = {
   created: function created() {
     this.name = GM_info.script.name;
     this.version = GM_info.script.version;
+    this.homepage = GM_info.script.homepage;
+    this.support = GM_info.script.supportURL;
   },
   attached: function attached() {
     this.map = keys.getMap();
@@ -438,7 +440,7 @@ module.exports = {
 },{"./../../../../../services/keys.js":48,"./index.less":23,"./template.html":24}],23:[function(require,module,exports){
 (function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = ".pv-help{width:400px}.pv-help kbd{display:inline-block;margin-right:6px;padding:4px 1em;border-radius:4px;background-color:#fff;box-shadow:inset 0 -2px 0 0 #999,inset 0 0 0 1px #999;font-size:12px}.pv-help kbd:last-child{margin-right:0}.pv-help kbd span:after{content:\"+\"}.pv-help kbd span:last-child:after{content:\"\"}.pv-panel-item-header{padding:8px 16px;border-bottom:1px solid #ccc;background-color:#eef;font-size:14px}.pv-panel-table{width:100%;border-bottom:1px solid #ccc}.pv-panel-table td{padding:8px 16px}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
 },{}],24:[function(require,module,exports){
-module.exports = '<h1 class="pv-panel-header">HELP</h1><div class="pv-panel-body"><h2 class="pv-panel-item-header">About</h2><table class="pv-panel-table"><tr><td>Name:</td><td v-text="name"></td></tr><tr><td>Version:</td><td v-text="version"></td></tr></table><h2 class="pv-panel-item-header">Shortcuts</h2><table class="pv-panel-table"><tr v-repeat="map"><td v-text="name"></td><td><kbd v-repeat="keys"><span v-repeat="modifiers" v-show="$value" v-text="$key"></span><span v-text="key"></span></kbd></td></tr></table></div>';
+module.exports = '<h1 class="pv-panel-header">HELP</h1><div class="pv-panel-body"><h2 class="pv-panel-item-header">About</h2><table class="pv-panel-table"><tr><td>Name:</td><td v-text="name"></td></tr><tr><td>Version:</td><td v-text="version"></td></tr><tr><td>Project:</td><td><a href="{{homepage}}" v-text="name"></a></td></tr><tr><td>Support:</td><td><a href="{{support}}">Github Issues</a></td></tr></table><h2 class="pv-panel-item-header">Shortcuts</h2><table class="pv-panel-table"><tr v-repeat="map"><td v-text="name"></td><td><kbd v-repeat="keys"><span v-repeat="modifiers" v-show="$value" v-text="$key"></span><span v-text="key"></span></kbd></td></tr></table></div>';
 },{}],25:[function(require,module,exports){
 'use strict';
 
@@ -544,17 +546,15 @@ module.exports = {
   },
   computed: {
     src: function src() {
-      var illust = this.pix.illust;
-
-      return illust.prefix + '_big_p' + this.page + illust.suffix + illust.cache;
+      return this.pix.illust.path.replace('{n}', this.page);
     },
     thumbs: function thumbs() {
-      var illust = this.pix.illust, arr = [],
-          sub = '_128x128_p',
-          prefix = illust.prefix.replace(illust.id, 'mobile/' + illust.id);
+      var illust = this.pix.illust;
+      var arr = [];
+      var i = 0, l = illust.length;
 
-      for(var i = 0, l = illust.length; i < l; i++) {
-        arr.push(prefix + sub + i + '.jpg' + illust.cache);
+      for(; i < l; i++) {
+        arr.push(illust.thumbs.replace('{n}', i));
       }
       return arr;
     },
@@ -567,7 +567,7 @@ module.exports = {
         pix.desc.title,
         this.page + 1,
         pix.illust.length,
-        pix.illust.suffix
+        pix.illust.path.slice(pix.illust.path.lastIndexOf('.'))
       );
     }
   },
@@ -578,6 +578,16 @@ module.exports = {
       this.thumbsView = false;
     },
     error: function error() {
+      var illust = this.pix.illust;
+
+      if (/master1200\.jpg/.test(illust.path)) {
+        illust.path = illust.path.replace(/jpg$/, 'png');
+        return;
+      } else if (/master1200\.png/.test(illust.path)) {
+        illust.path = illust.path.replace(/png$/, 'gif');
+        return;
+      }
+
       this.done = false;
       this.fail = true;
       this.thumbsView = false;
@@ -665,9 +675,7 @@ module.exports = {
   },
   computed: {
     src: function src() {
-      var illust = this.pix.illust;
-
-      return illust.prefix + illust.suffix + illust.cache;
+      return this.pix.illust.path;
     },
     filename: function filename() {
       var pix = this.pix;
@@ -676,7 +684,7 @@ module.exports = {
         '%s - %s%s',
         pix.author.name,
         pix.desc.title,
-        pix.illust.suffix
+        pix.illust.path.slice(pix.illust.path.lastIndexOf('.'))
       );
     }
   },
@@ -687,15 +695,15 @@ module.exports = {
     },
     error: function error() {
       var illust = this.pix.illust;
-      var suffix = illust.suffix;
 
-      if (suffix === '_p0.jpg') {
-        illust.suffix = '_p0.png';
+      if (/_p0\.jpg/.test(illust.path)) {
+        illust.path = illust.path.replace(/jpg$/, 'png');
         return;
-      } else if (suffix === '_p0.png') {
-        illust.suffix = '_p0.gif';
+      } else if (/_p0\.png/.test(illust.path)) {
+        illust.path = illust.path.replace(/png$/, 'gif');
         return;
       }
+
       this.done = false;
       this.fail = true;
     }
@@ -937,8 +945,7 @@ var api = require('./../services/api.js'),
     Vue = require('vue/dist/vue.min.js');
 
 var page = {
-  SELECTORS: [
-    'a[href*="ranking.php"] img[src*="/img/"]',
+  TARGET: [
     'a[href*="member_illust.php"] img[src*="/img/"]',
     'a[href*="member_event.php"] img[src*="/img/"]'
   ].join(),
@@ -953,15 +960,18 @@ var page = {
       var target = evt.target;
 
       if (page.matches.call(target, '.pv-bookmark img')) { return; }
-      if (!page.matches.call(target, page.SELECTORS)) { return; }
+      if (target.classList.contains('_layout-thumbnail')) {
+        target = target.children[0];
+      }
+      if (!page.matches.call(target, page.TARGET)) { return; }
 
-      app.fetch(target);
       evt.stopPropagation();
       evt.preventDefault();
+      app.fetch(target);
     });
   },
   getNext: function getNext(target, step) {
-    var list = document.querySelectorAll(this.SELECTORS),
+    var list = document.querySelectorAll(this.TARGET),
         last = list.length - 1,
         index　= [].indexOf.call(list, target) + step,
         result;
@@ -1206,7 +1216,7 @@ keys
 .init();
 
 },{"./../services/api.js":46,"./../services/keys.js":48,"./../services/utils.js":51,"./components/panel":25,"./components/toolbar":28,"./components/view":40,"./index.less":44,"./template.html":45,"vue/dist/vue.min.js":2}],44:[function(require,module,exports){
-(function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = "#pv{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10001;display:flex}#pv .btn{display:inline-block;box-sizing:border-box;min-height:30px;padding:0 12px;border:1px solid rgba(0,0,0,.06);border-radius:4px;background:#f5f5f5;color:#444;text-shadow:0 1px 0 #fff;font-size:14px;font-family:\"Lucida Grande\",\"Hiragino Kaku Gothic ProN\",Meiryo,sans-serif;vertical-align:middle;text-decoration:none;text-align:center}#pv .btn:focus,#pv .btn:hover{background-color:#fafafa;color:#444;outline:0;text-decoration:none;border-color:rgba(0,0,0,.16)}#pv .btn-block{display:block;width:100%}#pv .btn-danger,#pv .btn-primary,#pv .btn-success{box-shadow:inset 0 0 5px rgba(0,0,0,.05);text-shadow:0 -1px 0 rgba(0,0,0,.1)}#pv .btn-danger:focus,#pv .btn-danger:hover,#pv .btn-primary:focus,#pv .btn-primary:hover,#pv .btn-success:focus,#pv .btn-success:hover{border-color:rgba(0,0,0,.21)}#pv .btn-primary{background-color:#00a8e6;color:#fff}#pv .btn-primary:focus,#pv .btn-primary:hover{background-color:#35b3ee;color:#fff}#pv .btn-success{background-color:#8cc14c;color:#fff}#pv .btn-success:focus,#pv .btn-success:hover{background-color:#8ec73b;color:#fff}#pv .btn-danger{background-color:#da314b;color:#fff}#pv .btn-danger:focus,#pv .btn-danger:hover{background-color:#e4354f;color:#fff}.pv-main{position:relative;flex:1;background-color:rgba(255,255,255,.6)}.no-scrollbar{overflow:hidden}.no-scrollbar embed,.no-scrollbar iframe{visibility:hidden}a[href*=\"ranking.php\"] img[src*=\"/img/\"],a[href*=\"member_illust.php\"] img[src*=\"/img/\"],a[href*=\"member_event.php\"] img[src*=\"/img/\"]{cursor:zoom-in}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
+(function() { var head = document.getElementsByTagName('head')[0]; style = document.createElement('style'); style.type = 'text/css';var css = "#pv{position:fixed;top:0;left:0;right:0;bottom:0;z-index:10001;display:flex}#pv .btn{display:inline-block;box-sizing:border-box;min-height:30px;padding:0 12px;border:1px solid rgba(0,0,0,.06);border-radius:4px;background:#f5f5f5;color:#444;text-shadow:0 1px 0 #fff;font-size:14px;font-family:\"Lucida Grande\",\"Hiragino Kaku Gothic ProN\",Meiryo,sans-serif;vertical-align:middle;text-decoration:none;text-align:center}#pv .btn:focus,#pv .btn:hover{background-color:#fafafa;color:#444;outline:0;text-decoration:none;border-color:rgba(0,0,0,.16)}#pv .btn-block{display:block;width:100%}#pv .btn-danger,#pv .btn-primary,#pv .btn-success{box-shadow:inset 0 0 5px rgba(0,0,0,.05);text-shadow:0 -1px 0 rgba(0,0,0,.1)}#pv .btn-danger:focus,#pv .btn-danger:hover,#pv .btn-primary:focus,#pv .btn-primary:hover,#pv .btn-success:focus,#pv .btn-success:hover{border-color:rgba(0,0,0,.21)}#pv .btn-primary{background-color:#00a8e6;color:#fff}#pv .btn-primary:focus,#pv .btn-primary:hover{background-color:#35b3ee;color:#fff}#pv .btn-success{background-color:#8cc14c;color:#fff}#pv .btn-success:focus,#pv .btn-success:hover{background-color:#8ec73b;color:#fff}#pv .btn-danger{background-color:#da314b;color:#fff}#pv .btn-danger:focus,#pv .btn-danger:hover{background-color:#e4354f;color:#fff}.pv-main{position:relative;flex:1;background-color:rgba(255,255,255,.6)}.no-scrollbar{overflow:hidden}.no-scrollbar embed,.no-scrollbar iframe{visibility:hidden}a[href*=\"ranking.php\"] ._layout-thumbnail,a[href*=\"ranking.php\"] img[src*=\"/img/\"],a[href*=\"member_illust.php\"] ._layout-thumbnail,a[href*=\"member_illust.php\"] img[src*=\"/img/\"],a[href*=\"member_event.php\"] ._layout-thumbnail,a[href*=\"member_event.php\"] img[src*=\"/img/\"]{cursor:zoom-in}";if (style.styleSheet){ style.styleSheet.cssText = css; } else { style.appendChild(document.createTextNode(css)); } head.appendChild(style);}())
 },{}],45:[function(require,module,exports){
 module.exports = '<div id="pv" v-show="state"><ul v-component="toolbar" v-with="\n    panel: config.panel,\n    fit: config.fit,\n    pix: pix\n  "></ul><div class="pv-main"><div v-if="canShowPanel" v-component="panel"></div><div v-component="view"></div></div></div>';
 },{}],46:[function(require,module,exports){
@@ -1826,48 +1836,65 @@ module.exports = scrape;
 
 var SCORE  = /^あなたの評価 (\d+)点.*$/,
     ANSWER = /^.+「(.+)」.+$/,
-    PAGE   = /漫画 (\d+)P/,
-    NEW_URL_PATTERN = /^\/c\/600x600\/img-master/;
+    PAGE   = /複数枚投稿 (\d+)P/,
+    NEW_URL_PATTERN = /\/c\/600x600\/img-master/;
 
-var a = document.createElement('a');
-
-function parseUrl(src) {
-  a.href = src;
-
-  var path = a.pathname;
-  var prefix = a.origin;
-  var suffix = path.slice(path.lastIndexOf('.'));
-
-  if (NEW_URL_PATTERN.test(path)) {
-    prefix += path.replace(NEW_URL_PATTERN, '/img-original');
-    prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
-    suffix = '_p0' + suffix;
-  } else {
-    prefix += path.slice(0, path.lastIndexOf('/') + 1);
+var parser = {
+  illust: function illust(src, id) {
+    if (NEW_URL_PATTERN.test(src)) {
+      // new
+      // in:   http://[server].pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
+      // path: http://[server].pixiv.net/img-original/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0.jpg
+      return {
+        path: src
+          .replace('/c/600x600/img-master', '/img-original')
+          .replace('_master1200.jpg', '.jpg')
+      };
+    } else {
+      // old
+      // in:   http://[server].pixiv.net/{unique}/img/{name}/{id}_m.jpg
+      // path: http://[server].pixiv.net/{unique}/img/{name}/{id}.jpg
+      return {
+        path: src.replace(id + '_m', id)
+      };
+    }
+  },
+  comic: function comic(src, id) {
+    if (NEW_URL_PATTERN.test(src)) {
+      // new
+      // in:     http://[server].pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
+      // path:   http://[server].pixiv.net/c/1200x1200/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_master1200.jpg
+      // thumbs: http://[server].pixiv.net/c/128x128/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_square1200.jpg
+      return {
+        path: src
+          .replace('600x600', '1200x1200')
+          .replace(/_p\d+_/, '_p{n}_'),
+        thumbs: src
+          .replace('600x600', '128x128')
+          .replace(/_p\d+_/, '_p{n}_')
+          .replace('master1200', 'square1200')
+      };
+    } else {
+      // old
+      // in:     http://[server].pixiv.net/{unique}/img/{name}/{id}_m.jpg
+      // path:   http://[server].pixiv.net/{unique}/img/{name}/{id}_big_p{n}.jpg
+      // thumbs: http://[server].pixiv.net/{unique}/img/{name}/mobile/{id}_128x128_p{n}.jpg
+      return {
+        path: src
+          .replace(id + '_m', id + '_big_p{n}'),
+        thumbs: src
+          .replace(id, 'mobile/' + id)
+          .replace(id + '_m', id + '_128x128_p{n}')
+          .replace(/\.(?:png|gif)/, '.jpg')
+      };
+    }
   }
-
-  return {
-    prefix: prefix,
-    suffix: suffix,
-    cache: a.search
-  };
-}
+};
 
 function createIllust(doc, ctx) {
   var obj = {},
       page = PAGE.exec(doc.text('.meta')),
       url;
-
-  if (ctx.ugokuIllustData) {
-    obj.ugokuIllustData = ctx.ugokuIllustData;
-    obj.ugokuIllustFullscreenData = ctx.ugokuIllustFullscreenData;
-  } else {
-    url = doc.get('.works_display img', 'src');
-    url = parseUrl(url);
-    obj.prefix = url.prefix + ctx.illustId;
-    obj.suffix = url.suffix;
-    obj.cache  = url.cache;
-  }
 
   obj.bookmark = doc.has('.bookmark-container>.button-on');
   obj.id = ctx.illustId;
@@ -1875,6 +1902,20 @@ function createIllust(doc, ctx) {
   obj.length = page ? +page[1] : 0;
   obj.type = ctx.ugokuIllustFullscreenData ? 'ugoku' :
              !!page ? 'comic' : 'illust';
+
+  if (obj.type === 'ugoku') {
+    obj.ugokuIllustData = ctx.ugokuIllustData;
+    obj.ugokuIllustFullscreenData = ctx.ugokuIllustFullscreenData;
+  }
+  if (obj.type === 'comic') {
+    url = parser.comic(doc.get('.works_display img', 'src'), obj.id);
+    obj.path   = url.path;
+    obj.thumbs = url.thumbs;
+  }
+  if (obj.type === 'illust') {
+    url = parser.illust(doc.get('.works_display img', 'src'), obj.id);
+    obj.path = url.path;
+  }
 
   return obj;
 }
