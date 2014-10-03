@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         cockpit for pixiv
-// @version      0.1.4
+// @version      0.1.5
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
@@ -1843,8 +1843,8 @@ var parser = {
   illust: function illust(src, id) {
     if (NEW_URL_PATTERN.test(src)) {
       // new
-      // in:   http://[server].pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
-      // path: http://[server].pixiv.net/img-original/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0.jpg
+      // in:   http://{server}.pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
+      // path: http://{server}.pixiv.net/img-original/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0.jpg
       return {
         path: src
           .replace('/c/600x600/img-master', '/img-original')
@@ -1852,19 +1852,21 @@ var parser = {
       };
     } else {
       // old
-      // in:   http://[server].pixiv.net/{unique}/img/{name}/{id}_m.jpg
-      // path: http://[server].pixiv.net/{unique}/img/{name}/{id}.jpg
+      // in:   http://{server}.pixiv.net/{unique}/img/{name}/{id}_m.jpg
+      // path: http://{server}.pixiv.net/{unique}/img/{name}/{id}.jpg
       return {
         path: src.replace(id + '_m', id)
       };
     }
   },
   comic: function comic(src, id) {
+    var label;
+
     if (NEW_URL_PATTERN.test(src)) {
       // new
-      // in:     http://[server].pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
-      // path:   http://[server].pixiv.net/c/1200x1200/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_master1200.jpg
-      // thumbs: http://[server].pixiv.net/c/128x128/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_square1200.jpg
+      // in:     http://{server}.pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
+      // path:   http://{server}.pixiv.net/c/1200x1200/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_master1200.jpg
+      // thumbs: http://{server}.pixiv.net/c/128x128/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_square1200.jpg
       return {
         path: src
           .replace('600x600', '1200x1200')
@@ -1876,12 +1878,15 @@ var parser = {
       };
     } else {
       // old
-      // in:     http://[server].pixiv.net/{unique}/img/{name}/{id}_m.jpg
-      // path:   http://[server].pixiv.net/{unique}/img/{name}/{id}_big_p{n}.jpg
-      // thumbs: http://[server].pixiv.net/{unique}/img/{name}/mobile/{id}_128x128_p{n}.jpg
+      // in:     http://{server}.pixiv.net/{unique}/img/{name}/{id}_m.jpg
+      // path:   http://{server}.pixiv.net/{unique}/img/{name}/{id}_p{n}.jpg
+      // path:   http://{server}.pixiv.net/{unique}/img/{name}/{id}_big_p{n}.jpg
+      // thumbs: http://{server}.pixiv.net/{unique}/img/{name}/mobile/{id}_128x128_p{n}.jpg
+      label = (id < 11319936) ? '_p{n}' : '_big_p{n}';
+
       return {
         path: src
-          .replace(id + '_m', id + '_big_p{n}'),
+          .replace(id + '_m', id + label),
         thumbs: src
           .replace(id, 'mobile/' + id)
           .replace(id + '_m', id + '_128x128_p{n}')

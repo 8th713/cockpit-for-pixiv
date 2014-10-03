@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "fullname": "cockpit for pixiv",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Provide comfortable pixiv browsing.",
   "author": "8th713",
   "licenses": [
@@ -18,6 +18,10 @@
   },
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
+  },
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp docs"
   },
   "devDependencies": {
     "aliasify": "^1.4.0",
