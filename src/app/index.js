@@ -209,6 +209,7 @@ keys
   name: 'Skip next',
   handler: function() { app.$emit('app:skip', 1); },
   cmbs: [
+    Keys.N,
     [keys.J,     keys.CTRL],
     [keys.Enter, keys.CTRL]
   ]
@@ -217,6 +218,7 @@ keys
   name: 'Skip prev',
   handler: function() { app.$emit('app:skip', -1); },
   cmbs: [
+    Keys.M,
     [keys.K,     keys.CTRL],
     [keys.Enter, keys.CTRL, keys.SHIFT]
   ]
