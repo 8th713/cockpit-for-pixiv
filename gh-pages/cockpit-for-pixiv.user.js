@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         cockpit for pixiv
-// @version      0.1.5
+// @version      0.1.6
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
@@ -580,10 +580,10 @@ module.exports = {
     error: function error() {
       var illust = this.pix.illust;
 
-      if (/master1200\.jpg/.test(illust.path)) {
+      if (/_p\{n\}\.jpg/.test(illust.path)) {
         illust.path = illust.path.replace(/jpg$/, 'png');
         return;
-      } else if (/master1200\.png/.test(illust.path)) {
+      } else if (/_p\{n\}\.png/.test(illust.path)) {
         illust.path = illust.path.replace(/png$/, 'gif');
         return;
       }
@@ -1145,6 +1145,7 @@ keys
   name: 'Skip next',
   handler: function() { app.$emit('app:skip', 1); },
   cmbs: [
+    Keys.N,
     [keys.J,     keys.CTRL],
     [keys.Enter, keys.CTRL]
   ]
@@ -1153,6 +1154,7 @@ keys
   name: 'Skip prev',
   handler: function() { app.$emit('app:skip', -1); },
   cmbs: [
+    Keys.M,
     [keys.K,     keys.CTRL],
     [keys.Enter, keys.CTRL, keys.SHIFT]
   ]
@@ -1865,12 +1867,13 @@ var parser = {
     if (NEW_URL_PATTERN.test(src)) {
       // new
       // in:     http://{server}.pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
-      // path:   http://{server}.pixiv.net/c/1200x1200/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_master1200.jpg
+      // path:   http://{server}.pixiv.net/img-original/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}.jpg
       // thumbs: http://{server}.pixiv.net/c/128x128/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_square1200.jpg
       return {
         path: src
-          .replace('600x600', '1200x1200')
-          .replace(/_p\d+_/, '_p{n}_'),
+          .replace('c/600x600/img-master', 'img-original')
+          .replace(/_p\d+_/, '_p{n}_')
+          .replace('_master1200', ''),
         thumbs: src
           .replace('600x600', '128x128')
           .replace(/_p\d+_/, '_p{n}_')
@@ -2305,7 +2308,7 @@ Scroll.prototype.by = function by(distance, done) {
 };
 
 Scroll.defaults = {
-  el: document.documentElement,
+  el: document.body,
   duration: 300,
   easing: 'easeOutQuint'
 };

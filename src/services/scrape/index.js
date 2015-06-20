@@ -37,12 +37,13 @@ var parser = {
     if (NEW_URL_PATTERN.test(src)) {
       // new
       // in:     http://{server}.pixiv.net/c/600x600/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p0_master1200.jpg
-      // path:   http://{server}.pixiv.net/c/1200x1200/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_master1200.jpg
+      // path:   http://{server}.pixiv.net/img-original/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}.jpg
       // thumbs: http://{server}.pixiv.net/c/128x128/img-master/img/{YYYY}/{MM}/{DD}/{HH}/{mm}/{SS}/{id}_p{n}_square1200.jpg
       return {
         path: src
-          .replace('600x600', '1200x1200')
-          .replace(/_p\d+_/, '_p{n}_'),
+          .replace('c/600x600/img-master', 'img-original')
+          .replace(/_p\d+_/, '_p{n}_')
+          .replace('_master1200', ''),
         thumbs: src
           .replace('600x600', '128x128')
           .replace(/_p\d+_/, '_p{n}_')
