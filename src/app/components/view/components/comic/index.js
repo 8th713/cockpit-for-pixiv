@@ -49,10 +49,10 @@ module.exports = {
     error: function error() {
       var illust = this.pix.illust;
 
-      if (/master1200\.jpg/.test(illust.path)) {
+      if (/_p\{n\}\.jpg/.test(illust.path)) {
         illust.path = illust.path.replace(/jpg$/, 'png');
         return;
-      } else if (/master1200\.png/.test(illust.path)) {
+      } else if (/_p\{n\}\.png/.test(illust.path)) {
         illust.path = illust.path.replace(/png$/, 'gif');
         return;
       }
