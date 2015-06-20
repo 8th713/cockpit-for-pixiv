@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         cockpit for pixiv
-// @version      0.1.6
+// @version      0.1.7
 // @description  Provide comfortable pixiv browsing.
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
@@ -1145,7 +1145,7 @@ keys
   name: 'Skip next',
   handler: function() { app.$emit('app:skip', 1); },
   cmbs: [
-    Keys.N,
+    keys.N,
     [keys.J,     keys.CTRL],
     [keys.Enter, keys.CTRL]
   ]
@@ -1154,7 +1154,7 @@ keys
   name: 'Skip prev',
   handler: function() { app.$emit('app:skip', -1); },
   cmbs: [
-    Keys.M,
+    keys.M,
     [keys.K,     keys.CTRL],
     [keys.Enter, keys.CTRL, keys.SHIFT]
   ]
