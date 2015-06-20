@@ -53,7 +53,7 @@ Scroll.prototype.by = function by(distance, done) {
 };
 
 Scroll.defaults = {
-  el: document.documentElement,
+  el: document.body,
   duration: 300,
   easing: 'easeOutQuint'
 };
