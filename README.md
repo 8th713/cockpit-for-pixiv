@@ -1,32 +1,22 @@
 # cockpit for pixiv
 Provide comfortable pixiv browsing.
 
-## Status
-[![Dependency Status](https://david-dm.org/8th713/cockpit-for-pixiv.svg?style=flat)](https://david-dm.org/8th713/cockpit-for-pixiv)
-[![devDependency Status](https://david-dm.org/8th713/cockpit-for-pixiv/dev-status.svg?style=flat)](https://david-dm.org/8th713/cockpit-for-pixiv#info=devDependencies)
-
 ## Features and Usage
 visit [pages](http://8th713.github.io/cockpit-for-pixiv/).
 
-## Open source projects used
-* [Vue.js](https://github.com/yyx990803/vue)
-* [Font Awesome](https://github.com/FortAwesome/Font-Awesome)
-
 ## Develop
 ```sh
-# in case you don’t already it:
-# npm install -g gulp
 npm install
 ```
 
-To watch and auto-build `bundle.js` during development:
+To production build `gh-pages/cockpit-for-pixiv.user.js`:
 ```sh
-gulp
+npm run build
 ```
 
-To build `gh-pages/cockpit-for-pixiv.user.js`:
+To watch and development build `gh-pages/cockpit-for-pixiv.user.js`:
 ```sh
-gulp build
+npm start
 ```
 
 ## Contributing
@@ -40,6 +30,6 @@ gulp build
 * [@8th713](https://github.com/8th713)
 
 ## License
-Copyright 2014 8th713.
+Copyright 2014-2016 8th713.
 
 Licensed under the MIT License
