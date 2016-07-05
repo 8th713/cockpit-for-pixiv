@@ -1,0 +1,84 @@
+@import '~style/variables.less';
+@import '~style/mixin.less';
+
+.help {
+  width: -webkit-fit-content;
+  height: -webkit-fit-content;
+  margin: auto;
+  padding: 0;
+  background-color: @color-card;
+  .shadow-2dp;
+}
+
+.title {
+  margin: 0;
+  padding: 24px 16px 0;
+  font: @font-headline;
+}
+
+.list {
+  padding-top: 16px;
+}
+
+.help .item {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  color: @text-color-primary;
+  font: @font-subhead1;
+  transition: .2s @ease-standard;
+}
+
+.help .item:hover {
+  background-color: @color-app;
+}
+
+.help .item:focus {
+  background-color: @color-app;
+  outline: none;
+}
+
+.item span:first-child {
+  color: @icon-color-active;
+}
+
+.text {
+  padding-left: 32px;
+}
+
+.sub {
+  margin: 0;
+  padding: 20px 16px 0;
+  font: @font-title;
+}
+
+.table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.table td {
+  padding: 8px 16px;
+}
+
+.table td:last-child {
+  text-align: right;
+}
+
+.table kbd {
+  display: inline-block;
+  margin: 1px;
+  padding: 0 8px;
+  border: 1px solid @diveider-color;
+  border-radius: 2px;
+  font-family: "Source Code Pro", "Consolas", monospace;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.table kbd + kbd {
+  margin-left: 8px;
+}

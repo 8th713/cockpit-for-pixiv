@@ -1,0 +1,54 @@
+@import '~style/variables.less';
+
+@keyframes clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes levorotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes fillunfill {
+  from {
+    stroke-dashoffset: 58.8
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  to {
+   stroke-dashoffset: -58.4
+  }
+}
+
+.progress {
+  outline: none;
+  display: block;
+  margin: 20px;
+}
+
+.circular {
+  width: 64px;
+  height: 64px;
+  stroke-width: 3px;
+  transform-origin: 50% 50%;
+  animation: clockwise 1568.63ms infinite linear;
+}
+
+.circular > path {
+  transform-origin: 50% 50%;
+  stroke: @color-primary;
+  stroke-dasharray: 58.9;
+  stroke-dashoffset: 58.9;
+  animation: fillunfill 1333ms infinite @ease-standard forwards,
+             levorotation 5332ms infinite steps(4);
+}

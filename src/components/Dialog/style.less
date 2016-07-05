@@ -1,0 +1,35 @@
+@import '~style/variables.less';
+
+.dialog {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  color: @text-color-primary;
+  font: @font-body1;
+}
+
+.dialog:not([open]) {
+  display: none;
+}
+
+.dialog::backdrop {
+  background-color: @text-color-disabled;
+}
+
+.dialog a {
+  color: @color-primary;
+}
+
+.dialog a:hover {
+  text-decoration: none;
+}
+
+.dialog a:focus {
+  outline: auto;
+}

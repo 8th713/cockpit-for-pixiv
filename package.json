@@ -1,0 +1,53 @@
+{
+  "name": "cockpit-for-pixiv",
+  "description": "Provide comfortable pixiv browsing.",
+  "version": "1.0.0",
+  "author": "8th713",
+  "bugs": {
+    "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
+  },
+  "homepage": "https://github.com/8th713/cockpit-for-pixiv",
+  "license": "MIT",
+  "private": true,
+  "readmeFilename": "README.md",
+  "repository": "8th713/cockpit-for-pixiv",
+  "scripts": {
+    "start": "webpack --watch --progress",
+    "build": "cross-env NODE_ENV=production webpack --progress",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-es2015-destructuring": "^6.9.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-react": "^6.11.1",
+    "cross-env": "^1.0.8",
+    "css-loader": "^0.23.1",
+    "eslint": "^3.0.0",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.10.2",
+    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-react": "^5.2.2",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "lodash.template": "^4.2.5",
+    "redux-logger": "^2.6.1",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "bezier-easing": "^2.0.3",
+    "camelize": "^1.0.0",
+    "react": "^15.2.0",
+    "react-dom": "^15.2.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
+    "redux-act": "^0.5.0",
+    "redux-saga": "^0.10.5",
+    "reselect": "^2.5.3",
+    "timm": "^1.0.0"
+  }
+}

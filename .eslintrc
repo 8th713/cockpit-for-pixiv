@@ -1,0 +1,19 @@
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    /**
+     * ECMAScript 6
+     */
+    "arrow-parens": [2, "always"],
+    /**
+     * Stylistic Issues
+     */
+    "comma-dangle": [2, "never"], // http://eslint.org/docs/rules/
+    "semi": [2, "never"] // http://eslint.org/docs/rules/semi
+  }
+}
