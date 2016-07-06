@@ -12,9 +12,13 @@ export const update = createAction('update',
 
 export const bookmark = createAction('bookmark')
 export const rate = createAction('rate')
+export const download = createAction('download')
+export const share = createAction('share')
 
 export const keys = [
-  { description: '評価[10点]', keys: ['l'], action: () => rate() }
+  { description: '評価[10点]', keys: ['l'], action: () => rate() },
+  { description: '画像をローカルに保存', keys: ['d'], action: () => download() },
+  { description: 'Twitterでシェアする', keys: ['s'], action: () => share() }
 ]
 
 export default createReducer({
