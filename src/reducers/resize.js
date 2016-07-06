@@ -6,7 +6,7 @@ const createAction = createCreator('resize')
 export const toggle = createAction('toggle')
 
 export const keys = [
-  { description: '画像のリサイズ', keys: ['r'], action: () => toggle() }
+  { description: '画像のリサイズ', keys: ['v'], action: () => toggle() }
 ]
 
 export default presist('cockpit/resize', createReducer({

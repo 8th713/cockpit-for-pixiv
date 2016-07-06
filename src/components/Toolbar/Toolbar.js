@@ -17,7 +17,7 @@ const Toolbar = ({ hidden, onEnter, onLeave, btnState, actions }) => (
   >
     <div className={less.content}>
       <IconButton
-        title="リサイズ(R)"
+        title="リサイズ(V)"
         onClick={actions.onResizeClick}
       >{getResizeIcon(btnState.resize)}</IconButton>
       <IconButton
