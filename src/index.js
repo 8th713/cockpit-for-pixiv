@@ -22,5 +22,3 @@ render(<Provider store={store}>
     <Help />
   </div>
 </Provider>)
-
-self.postMessage({ type: 'init' }, location.origin)

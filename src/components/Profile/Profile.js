@@ -34,9 +34,11 @@ const Profile = ({ hidden, illust = { tags: [] }, actions }) => {
           >star</IconButton>
           <IconButton
             title="画像をローカルに保存(D)"
+            onClick={actions.onDownloadClick}
           >file_download</IconButton>
           <IconButton
             title="Twitterでシェアする(S)"
+            onClick={actions.onShareClick}
           >share</IconButton>
         </div>
         <h1 className={less.title}>
@@ -69,7 +71,9 @@ Profile.propTypes = {
   illust: PropTypes.object,
   actions: PropTypes.shape({
     onBookmarkClick: PropTypes.func.isRequired,
-    onRateClick: PropTypes.func.isRequired
+    onRateClick: PropTypes.func.isRequired,
+    onDownloadClick: PropTypes.func.isRequired,
+    onShareClick: PropTypes.func.isRequired
   }).isRequired
 }
 
