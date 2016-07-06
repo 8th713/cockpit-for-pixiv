@@ -1,5 +1,5 @@
 import cubicBezier from 'bezier-easing'
-import engine from './engine'
+import Engine from './engine'
 
 export const easings = {
   linear: cubicBezier(0, 0, 1, 1),
@@ -7,12 +7,12 @@ export const easings = {
   easeOutQuart: cubicBezier(0.165, 0.84, 0.44, 1)
 }
 
-function createAnimation(param = {}) {
+const engine = new Engine()
+export default function animate(param = {}) {
+  const duration = param.duration || 375
   const source = param.from || {}
   const target = param.to || {}
   const easing = param.easing || easings.easeOutQuart
-  const durationInMs = param.duration || 300
-  const durationInFrames = Math.max(1, durationInMs * 0.06)
   const keys = Object.keys(target)
   const start = {}
   const diff = {}
@@ -21,60 +21,46 @@ function createAnimation(param = {}) {
     diff[key] = target[key] - source[key]
   }
 
-  return (frame) => {
-    const t = easing(frame / durationInFrames)
-    if (frame <= durationInFrames) {
-      for (const key of keys) {
-        // eslint-disable-next-line no-param-reassign
-        param.from[key] = diff[key] * t + start[key]
-      }
-      return true
-    }
+  function update(t) {
     for (const key of keys) {
       // eslint-disable-next-line no-param-reassign
-      param.from[key] = target[key]
+      param.from[key] = diff[key] * t + start[key]
     }
-    return false
   }
-}
 
-const id = (T) => T
-export default function animate(param = {}) {
-  const tick = createAnimation(param)
-  const { begin = id, update = id, complete = id } = param
-  let frame = 0
-
-  const step = (now) => {
-    frame += 1
-    if (tick(frame)) {
-      update(now)
+  let unsubscribe
+  let elapsed = 0
+  function step(diffTime) {
+    elapsed += diffTime
+    if (elapsed < duration) {
+      update(easing(elapsed / duration))
     } else {
-      complete(now)
-      pause() // eslint-disable-line no-use-before-define
+      update(1)
+      unsubscribe()
     }
   }
 
-  const play = () => {
-    if (frame === 0) { begin() }
-    engine.pause()
-    engine.add(step)
-    engine.play()
+  return {
+    play() {
+      engine.pause()
+      unsubscribe = engine.subscribe(step)
+      engine.play()
+    },
+    pause() {
+      if (unsubscribe) {
+        engine.pause()
+        unsubscribe()
+        engine.play()
+      }
+    },
+    restart() {
+      elapsed = 0
+      this.play()
+    },
+    seek(ms) {
+      step(ms)
+    }
   }
-  const pause = () => {
-    engine.pause()
-    engine.remove(step)
-    engine.play()
-  }
-  const restart = () => {
-    frame = 0
-    play()
-  }
-  const seek = (time) => {
-    frame = time * 0.06
-    step()
-  }
-
-  return { play, pause, restart, seek }
 }
 
 animate.easings = easings
