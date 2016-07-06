@@ -9,6 +9,7 @@ import viewSize from './viewSize'
 import resize from './resize'
 import toolbar from './toolbar'
 import sidePanel from './sidePanel'
+import addons from './addons'
 
 export default combineReducers({
   error,
@@ -20,5 +21,6 @@ export default combineReducers({
   viewSize,
   resize,
   toolbar,
-  sidePanel
+  sidePanel,
+  addons
 })
