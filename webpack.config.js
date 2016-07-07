@@ -34,6 +34,7 @@ const cssQueryString = createQueryString(
 
 module.exports = {
   entry: [
+    'regenerator-runtime/runtime',
     './src/index.js',
     './src/index.less'
   ],
