@@ -18,6 +18,9 @@ export default class Canvas extends Component {
   constructor(...args) {
     super(...args)
     this.handleClick = this.handleClick.bind(this)
+    this.handleGrab = this.handleGrab.bind(this)
+    this.handleDrag = this.handleDrag.bind(this)
+    this.handleDragOver = this.handleDragOver.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,12 +38,39 @@ export default class Canvas extends Component {
     this.props.onSlide(event.shiftKey ? -1 : 1)
   }
 
+  handleGrab(event) {
+    this.grabData = {
+      x: event.clientX,
+      y: event.clientY,
+      left: this.canvas.scrollLeft,
+      top: this.canvas.scrollTop
+    }
+  }
+
+  handleDrag(event) {
+    const { clientX, clientY } = event
+    if (!clientX && !clientY) { return }
+
+    const { x, y, left, top } = this.grabData
+    this.canvas.scrollLeft = left - (clientX - x)
+    this.canvas.scrollTop = top - (clientY - y)
+  }
+
+  handleDragOver(event) {
+    // eslint-disable-next-line no-param-reassign
+    event.dataTransfer.dropEffect = 'move'
+    event.preventDefault()
+  }
+
   renderWrapper(child) {
     return (
       <div
         tabIndex={1}
         className={less.canvas}
         onClick={this.props.onClose}
+        onDragStart={this.handleGrab}
+        onDrag={this.handleDrag}
+        onDragOver={this.handleDragOver}
         ref={(el) => { this.canvas = el }}
       >{child}</div>
     )
