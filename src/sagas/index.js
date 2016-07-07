@@ -10,6 +10,7 @@ import tweetSaga from './tweet'
 import viewSizeSaga from './viewSize'
 import keyEventSaga from './keyEvent'
 import addonsSaga from './addons'
+import errorSaga from './error'
 
 export default function* rootSaga() {
   yield fork(currentSaga)
@@ -23,4 +24,5 @@ export default function* rootSaga() {
   yield fork(viewSizeSaga)
   yield fork(keyEventSaga)
   yield fork(addonsSaga)
+  yield fork(errorSaga)
 }

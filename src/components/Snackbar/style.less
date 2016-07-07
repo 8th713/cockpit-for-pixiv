@@ -1,0 +1,23 @@
+@import '~style/variables.less';
+
+.snackbar {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  display: block;
+  min-width: 288px;
+  max-width: 568px;
+  height: 48px;
+  border-radius: 2px;
+  padding: 14px 24px;
+  background-color: @color-dark-bg;
+  color: @text-color-dark-primary;
+  transform: translate(-50%, 0);
+  transition: transform 375ms @ease-deceleration;
+}
+
+.snackbar[hidden] {
+  transform: translate(-50%, 100%);
+  visibility: hidden;
+}

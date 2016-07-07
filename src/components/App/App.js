@@ -3,6 +3,7 @@ import less from './style.less'
 import Dialog from '../Dialog'
 import Canvas from '../Canvas'
 import SidePanel from '../SidePanel'
+import Snackbar from '../Snackbar'
 
 const App = (props) => (
   <Dialog {...props}>
@@ -10,6 +11,7 @@ const App = (props) => (
       <Canvas {...props} />
       <SidePanel />
     </div>
+    <Snackbar />
   </Dialog>
 )
 
