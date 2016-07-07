@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-act'
+import { handleActions } from 'redux-actions'
 import { createCreator } from './helpers'
 import timm from '../utils/timm'
 
@@ -21,7 +21,7 @@ export const keys = [
   { description: 'Twitterでシェアする', keys: ['s'], action: () => share() }
 ]
 
-export default createReducer({
-  [add]: (state, { id, illust }) => timm.set(state, id, illust),
-  [update]: (state, { path, value }) => timm.setIn(state, path, value)
+export default handleActions({
+  [add]: (state, { payload }) => timm.set(state, payload.id, payload.illust),
+  [update]: (state, { payload }) => timm.setIn(state, payload.path, payload.value)
 }, {})

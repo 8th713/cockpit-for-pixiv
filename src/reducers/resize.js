@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-act'
+import { handleActions } from 'redux-actions'
 import { createCreator, presist } from './helpers'
 
 const createAction = createCreator('resize')
@@ -9,6 +9,6 @@ export const keys = [
   { description: '画像のリサイズ', keys: ['v'], action: () => toggle() }
 ]
 
-export default presist('cockpit/resize', createReducer({
+export default presist('cockpit/resize', handleActions({
   [toggle]: (state) => !state
 }), true)

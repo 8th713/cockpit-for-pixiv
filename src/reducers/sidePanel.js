@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-act'
+import { handleActions } from 'redux-actions'
 import { createCreator, presist } from './helpers'
 
 const createAction = createCreator('sidePanel')
@@ -9,6 +9,6 @@ export const keys = [
   { description: 'サイドパネルの表示/非表示', keys: ['t'], action: () => toggle() }
 ]
 
-export default presist('cockpit/sidePanel', createReducer({
+export default presist('cockpit/sidePanel', handleActions({
   [toggle]: (state) => !state
 }), true)

@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-act'
+import { handleActions } from 'redux-actions'
 import { createCreator } from './helpers'
 import timm from '../utils/timm'
 
@@ -6,6 +6,6 @@ const createAction = createCreator('viewSize')
 
 export const set = createAction('set')
 
-export default createReducer({
-  [set]: (state, size) => timm.merge(state, size)
+export default handleActions({
+  [set]: (state, { payload }) => timm.merge(state, payload)
 }, { width: innerWidth, height: innerHeight })

@@ -1,4 +1,4 @@
-import { createReducer } from 'redux-act'
+import { handleActions } from 'redux-actions'
 import { createCreator } from './helpers'
 
 const createAction = createCreator('help')
@@ -10,7 +10,7 @@ export const keys = [
   { description: 'ヘルプの表示/非表示', keys: ['?'], action: () => toggle() }
 ]
 
-export default createReducer({
+export default handleActions({
   [close]: () => false,
   [toggle]: (state) => !state
 }, false)
