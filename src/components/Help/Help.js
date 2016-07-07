@@ -30,9 +30,11 @@ const Help = ({ open, onClose }) => (
         </a>
       </div>
       <h2 className={less.sub}>Key Commands</h2>
-      <table className={less.table}>
-        <tbody>{keyActions.map(Row)}</tbody>
-      </table>
+      <div className={less.table}>
+        <table>
+          <tbody>{keyActions.map(Row)}</tbody>
+        </table>
+      </div>
     </div>
   </Dialog>
 )
