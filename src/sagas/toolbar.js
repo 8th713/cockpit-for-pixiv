@@ -13,6 +13,6 @@ function* handleClose() {
   }
 }
 
-export default function* viewSizeSaga() {
+export default function* toolbarSaga() {
   yield* takeEvery(closeAsnyc.getType(), handleClose)
 }
