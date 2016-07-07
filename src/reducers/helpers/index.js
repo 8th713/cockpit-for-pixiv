@@ -1,4 +1,4 @@
-import { createAction } from 'redux-act'
+import { createAction } from 'redux-actions'
 
 export const presist = (key, reducer, initial) => {
   const initialState =
@@ -17,5 +17,10 @@ export const presist = (key, reducer, initial) => {
   }
 }
 
-export const createCreator = (key) =>
-  (type, ...args) => createAction(`${key}/${type}`, ...args)
+export const createCreator = (prefix) => (key, ...fns) => {
+  const type = `${prefix}/${key}`
+  const ac = createAction(type, ...fns)
+  ac.bindTo = (dispatch, ...rest) => (...args) => dispatch(ac(...rest, ...args))
+  ac.getType = () => type
+  return ac
+}
