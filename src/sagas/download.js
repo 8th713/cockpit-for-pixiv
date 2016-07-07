@@ -10,14 +10,14 @@ function* handleDownload() {
   const illust = illusts[id]
 
   if (!illust) { return }
-  if (!addons.download) {
-    yield put(setError(new Error('ダウンロードアドオンが見つかりません')))
-  } else {
+  if (addons.download) {
     const data = Object.assign({}, illust)
     if (illust.images) {
       data.images = data.images.map((key) => images[key])
     }
     yield call(post, addons.download, data)
+  } else {
+    yield put(setError(new Error('ダウンロードアドオンが見つかりません')))
   }
 }
 
