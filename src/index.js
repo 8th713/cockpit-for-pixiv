@@ -1,10 +1,24 @@
-'use strict';
+import React from 'react'
+import { Provider } from 'react-redux'
+import App from './components/App'
+import Bookmark from './components/Bookmark'
+import Help from './components/Help'
+import configureStore from './store/configureStore'
+import render from './utils/render'
 
-var link = document.createElement('link');
-link.rel = 'stylesheet';
-link.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css';
-document.head.appendChild(link);
+const link = document.createElement('link')
+link.rel = 'stylesheet'
+link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons'
+document.head.appendChild(link)
 
-var app = require('./app');
+const store = configureStore()
 
-app.$appendTo(document.body);
+window.dispatchEvent(new Event('resize'))
+
+render(<Provider store={store}>
+  <div>
+    <App />
+    <Bookmark />
+    <Help />
+  </div>
+</Provider>)

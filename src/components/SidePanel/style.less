@@ -1,0 +1,44 @@
+@import '~style/variables.less';
+@import '~style/mixin.less';
+
+.panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 400px;
+  transition: transform 375ms @ease-deceleration;
+}
+
+.panel[hidden] {
+  box-shadow: none;
+  transform: translateX(-100%);
+}
+
+.switch {
+  composes: btn from "../IconButton/style.less";
+  position: absolute;
+  left: 100%;
+  top: 8px;
+  z-index: 1;
+  width: 24px;
+  border-radius: 0 2px 2px 0;
+  background-color: @color-card;
+  .shadow-2dp;
+  color: @text-color-secondary;
+  opacity: 0.8;
+}
+
+.switch:hover,
+.switch:focus {
+  opacity: 1;
+}
+
+.switch span {
+  transform: rotate(90deg);
+}
+
+.active span {
+  transform: rotate(-90deg);
+}

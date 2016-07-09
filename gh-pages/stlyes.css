@@ -35,13 +35,11 @@ body {
   clear: both;
 }
 
-
 .logo {
   font-size: 4em;
   font-family: 'Bad Script', cursive;
   font-weight: 400;
 }
-
 
 .sub-header {
   position: relative;
@@ -71,42 +69,6 @@ body {
   margin: 0;
   padding: 0 1em;
   background-color: #ecf0f1;
-}
-
-
-.feature {
-  padding: 3em 0;
-  border-top: 1px solid #95a5a6;
-}
-
-.feature.first {
-  padding-top: 1em;
-  border-top: 0;
-}
-
-.feature:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.feature img {
-  float: left;
-  margin-right: 32px;
-}
-
-.feature.alt img {
-  float: right;
-  margin-right: 0;
-  margin-left: 32px;
-}
-
-.feature h3 {
-  margin-top: 0;
-}
-
-.feature p {
-  line-height: 1.7;
 }
 
 .btn {
@@ -158,7 +120,6 @@ body {
   box-shadow: inset 0 2px 3px rgba(0,0,0,.3);
 }
 
-
 .alert {
   list-style-type: none;
   padding: .5em;
@@ -172,7 +133,6 @@ body {
   content: "※";
   padding-right: .5em;
 }
-
 
 .links {
   list-style-type: none;

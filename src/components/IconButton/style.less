@@ -1,0 +1,27 @@
+@import '~style/variables.less';
+
+.btn {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  outline: 1px dotted rgba(0,0,0,0);
+  outline-offset: -1px;
+  transition: .2s @ease-standard;
+  transition-property: background-color, color, opacity;
+}
+
+.btn:focus {
+  outline-color: currentColor;
+}
+
+.btn:disabled {
+  pointer-events: none;
+  cursor: auto;
+}

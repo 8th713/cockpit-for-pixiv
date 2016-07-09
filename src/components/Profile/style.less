@@ -1,0 +1,89 @@
+@import '~style/variables.less';
+@import '~style/mixin.less';
+
+.divider::before {
+  content: '/';
+  margin: 0 4px;
+}
+
+.profile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+  background-color: @color-card;
+  .shadow-2dp;
+  transition: visibility 375ms @ease-deceleration;
+}
+
+.profile[hidden] {
+  visibility: hidden;
+}
+
+.header {
+  position: relative;
+  z-index: 1;
+  background-color: @color-primary;
+  color: @text-color-dark-primary;
+}
+
+.header[hidden] > * {
+  visibility: hidden;
+}
+
+.action {
+  display: flex;
+  padding: 8px;
+}
+
+.action :global(.active) {
+  color: @color-accent;
+}
+
+.title {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 16px 8px;
+  font: @font-subhead1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.title a {
+  color: @text-color-dark-primary;
+}
+
+.title img {
+  margin-right: 4px;
+}
+
+.title * {
+  vertical-align: middle;
+}
+
+.body {
+  flex: 1 0;
+  margin-top: -1px;
+  overflow: auto;
+}
+
+.body[hidden] {
+  visibility: hidden;
+}
+
+.item {
+  box-sizing: border-box;
+  padding: 8px 16px;
+  border-top: 1px solid @diveider-color;
+}
+
+.item:empty {
+  display: none;
+}
+
+.tag {
+  display: inline-block;
+  margin-right: 8px;
+}
