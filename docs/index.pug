@@ -22,21 +22,13 @@ html(lang="ja")
 
     .content
       h2.sub-header: span Features
-      .feature.first
-        img(src="img/feature_1.gif", height=291, width=515)
-        h3 漫画表示・うごイラにも対応
-        p 通常のイラスト表示に加え、うごイラの再生にも対応。
-        p via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=44298467">うごイラはじめました</a></cite>)
-      .feature.alt
-        img(src="img/feature_2.gif", height=291, width=515)
-        h3 イラストの画面フィット表示・原寸表示もワンアクションで切替可能
-        p オリジナル画像を画面内に収まるようにリサイズして表示できます。その場ですぐに原寸に切り替えることが可能です。
-        p via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=45348270">【コミックマーケット86】pixivブースお品書き</a></cite>)
-      .feature
-        img(src="img/feature_4.gif", height=291, width=515)
-        h3 その場でブックマーク
-        p ページを移動することなくその場で作品をブックマークしたり評価できます。
-        p via (<cite><a href="http://www.pixiv.net/member.php?id=11">pixiv事務局</a> | <a href="http://www.pixiv.net/member_illust.php?mode=medium&illust_id=44298467">うごイラはじめました</a></cite>)
+      ul
+        li 画面遷移なしでイラスト表示、複数枚投稿・うごイラ対応
+        li イラストの画面フィット表示・原寸表示、Grab and Drop によるスクロール対応
+        li その場でブックマーク、10点評価
+        li サイドパネルでキャプションやタグを表示
+        li ショートカットキー操作可能
+        li アドオン連携で画像のローカル保存に対応(cockpit download addon)
 
     .content
       h2#install.sub-header: span Install
@@ -46,13 +38,16 @@ html(lang="ja")
       ol
         li
           a(href="https://www.google.co.jp/chrome/browser/") Google Chrome
-          | をインストールします。
+          |  をインストールします。
         li
           a(href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo") Tampermonkey
-          | をインストールします。
+          |  をインストールします。
+        li このページのインストールボタンから<b>「#{fullname}」</b>をインストールします。
+        li ローカル保存機能を使用する場合<b>「cockpit download addon」</b>をインストールします。
 
       h3 インストール
-      a.btn(href=name + ".user.js") Install [#{fullname} - v#{version}]
+      p: a.btn(href=name + ".user.js") Install [#{fullname} - v#{version}]
+      p: a.btn(href="https://github.com/8th713/cockpit-download-addon/raw/master/cockpit-download-addon.user.js") Install [cockpit download addon]
 
       h3 注意
       ul.alert
