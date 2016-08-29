@@ -2,9 +2,15 @@ import { takeEvery, eventChannel } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
 import { listeners } from '../keyActions'
 
+const ignored = ['INPUT', 'TEXTAREA', 'SELECT']
+
 function keyEvent(target, keys) {
   return eventChannel((emit) => {
-    const listener = () => {
+    const listener = (event) => {
+      if (ignored.includes(event.target.nodeName)) {
+        return
+      }
+
       for (const key of keys) {
         if (key.test(event)) {
           emit(key)
