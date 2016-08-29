@@ -1,6 +1,6 @@
 import { takeEvery, eventChannel } from 'redux-saga'
 import { call, put, select } from 'redux-saga/effects'
-import scroll from '../utils/scroll'
+import * as scroll from '../utils/scroll'
 import { set, slide, reset } from '../reducers/current'
 
 const TARGET = 'a[href*="member_illust.php"] img[src*="/img/"]'
@@ -34,11 +34,11 @@ const toId = (url) => {
   return result && result[1]
 }
 
-const getPos = (element) => ~~(element.y - innerHeight / 3)
+const getPos = (element) => ~~(element.y - (innerHeight / 3))
 
 function pageClick() {
   return eventChannel((emit) => {
-    document.body.addEventListener('click', (event) => {
+    const listener = (event) => {
       if (event.button === 0) {
         const element = ensureElement(event.target)
 
@@ -47,7 +47,12 @@ function pageClick() {
           emit(element)
         }
       }
-    })
+    }
+
+    document.body.addEventListener('click', listener)
+    return () => {
+      document.body.removeEventListener('click', listener)
+    }
   })
 }
 

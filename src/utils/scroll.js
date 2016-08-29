@@ -21,5 +21,3 @@ export function show(target) {
 export function hide(target) {
   target.classList.add(less.noScrollbar)
 }
-
-export default { by, to, show, hide }

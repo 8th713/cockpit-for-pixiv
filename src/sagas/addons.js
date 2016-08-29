@@ -3,13 +3,18 @@ import { call, put } from 'redux-saga/effects'
 
 function onMessage() {
   return eventChannel((emit) => {
-    window.addEventListener('message', (event) => {
+    const listener = (event) => {
       if (event.origin !== location.origin) { return }
       const action = event.data
       if (action.type) {
         emit(action)
       }
-    })
+    }
+
+    window.addEventListener('message', listener)
+    return () => {
+      window.removeEventListener('message', listener)
+    }
   })
 }
 
