@@ -38,7 +38,7 @@ module.exports = {
     './src/index.less'
   ],
   output: {
-    path: path.join(__dirname, 'gh-pages'),
+    path: path.join(__dirname, 'docs'),
     filename: 'cockpit-for-pixiv.user.js',
     publicPath: '/'
   },

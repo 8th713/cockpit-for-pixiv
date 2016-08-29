@@ -5,6 +5,9 @@
       "experimentalObjectRestSpread": true
     }
   },
+  "env": {
+    "browser": true
+  },
   "rules": {
     /**
      * ECMAScript 6
@@ -14,6 +17,8 @@
      * Stylistic Issues
      */
     "comma-dangle": [2, "never"], // http://eslint.org/docs/rules/
-    "semi": [2, "never"] // http://eslint.org/docs/rules/semi
+    "semi": [2, "never"], // http://eslint.org/docs/rules/semi
+
+    "react/require-extension": 0
   }
 }
