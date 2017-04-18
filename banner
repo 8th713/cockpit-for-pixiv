@@ -8,7 +8,10 @@
 // @license      <%= license %>
 // @namespace    http://github.com/8th713
 // @match        http://www.pixiv.net/*
+// @match        https://www.pixiv.net/*
 // @exclude      http://www.pixiv.net/novel/*
+// @exclude      https://www.pixiv.net/novel/*
 // @exclude      http://www.pixiv.net/member_illust.php?mode*
+// @exclude      https://www.pixiv.net/member_illust.php?mode*
 // @grant        none
 // ==/UserScript==
