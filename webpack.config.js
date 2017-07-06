@@ -1,38 +1,13 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
+const BabiliPlugin = require('babili-webpack-plugin')
 const template = require('lodash/template')
 const pkg = require('./package.json')
 
-const ENV = process.env.NODE_ENV || 'development'
-const banner = template(fs.readFileSync('banner', 'utf-8'))(pkg)
+const NODE_ENV = process.env.NODE_ENV || 'development'
 
-function createQueryString(every, prod, dev) {
-  const arr = [...every]
-  if (ENV === 'production') {
-    if (Array.isArray(prod)) {
-      arr.push(...prod)
-    }
-  } else {
-    if (Array.isArray(dev)) {
-      arr.push(...dev)
-    }
-  }
-  return arr.join('&')
-}
-
-const cssQueryString = createQueryString(
-  [
-    'localIdentName=[local]-[hash:base64:6]',
-    'importLoaders=1',
-    'modules',
-    'camelCase'
-  ],
-  ['minimize'], // use production
-  ['sourceMap'] // use development
-)
-
-module.exports = {
+const config = {
   entry: [
     './src/index.js',
     './src/index.less'
@@ -47,34 +22,65 @@ module.exports = {
       style: `${__dirname}/src/style`
     }
   },
-  plugins: ([
-    new webpack.NoErrorsPlugin(),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(ENV) })
-  ]).concat(ENV === 'production' ? [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { screw_ie8: true, warnings: false }
+  plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
     }),
-    new webpack.BannerPlugin(banner, { raw: true })
-  ] : []),
+  ],
   module: {
-    loaders: [
+    strictExportPresence: true,
+    rules: [
+      { parser: { requireEnsure: false } },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel?cacheDirectory'
+        include: /src/,
+        loader: 'babel-loader',
+        options: { cacheDirectory: true }
       },
       {
         test: /\.less$/,
-        loader: [
-          `style-loader?${ENV === 'production' ? '' : '-'}singleton`,
-          `css-loader?${cssQueryString}`,
-          'less-loader?sourceMap'
-        ].join('!')
-      }
-    ]
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              singleton: true,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true,
+              importLoaders: 1,
+              minimize: true,
+            },
+          },
+          {
+            loader: 'less-loader',
+          },
+        ],
+      },
+    ],
   },
-  stats: { colors: true },
-  devtool: ENV !== 'production' && 'inline-source-map'
+  stats: {colors: true},
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty',
+  },
+  devtool: 'inline-source-map',
 }
+
+if (NODE_ENV === 'production') {
+  const banner = template(fs.readFileSync('banner', 'utf-8'))(pkg)
+
+  config.plugins = [
+    ...config.plugins,
+    new BabiliPlugin(),
+    new webpack.BannerPlugin({banner, raw: true}),
+  ]
+  config.devtool = false
+}
+
+module.exports = config
