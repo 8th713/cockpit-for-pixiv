@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 import less from './style.less'
 import Dialog from '../Dialog'
 import Icon from '../Icon'
