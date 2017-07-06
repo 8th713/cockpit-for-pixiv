@@ -1,5 +1,5 @@
-import { takeEvery, eventChannel } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { call, put, select, all, takeEvery } from 'redux-saga/effects'
 import * as scroll from '../utils/scroll'
 import { set, slide, reset } from '../reducers/current'
 
@@ -83,10 +83,10 @@ function* handleSlide({ payload }) {
 export default function* currentSaga() {
   const channel = yield call(pageClick)
 
-  yield [
+  yield all([
     takeEvery(channel, handleThumbnailClick),
     takeEvery(set.getType(), handleSet),
     takeEvery(reset.getType(), handleReset),
     takeEvery(slide.getType(), handleSlide)
-  ]
+  ])
 }

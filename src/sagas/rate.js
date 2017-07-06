@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 import * as api from '../utils/api'
 import { set as setError } from '../reducers/error'
 import { rate, update } from '../reducers/illusts'

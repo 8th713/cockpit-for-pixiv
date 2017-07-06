@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga'
-import { select, fork, call, put } from 'redux-saga/effects'
+import { select, fork, call, put, takeEvery } from 'redux-saga/effects'
 import fetchIllust from './sub/illust'
 import fetchAdditionalData from './sub/additionalData'
 import { add } from '../reducers/illusts'

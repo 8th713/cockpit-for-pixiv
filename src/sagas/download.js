@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { set as setError } from '../reducers/error'
 import { download } from '../reducers/illusts'
 import { post } from '../reducers/addons'

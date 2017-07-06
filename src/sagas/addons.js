@@ -1,5 +1,5 @@
-import { takeEvery, eventChannel } from 'redux-saga'
-import { call, put } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { call, put, takeEvery } from 'redux-saga/effects'
 
 function onMessage() {
   return eventChannel((emit) => {

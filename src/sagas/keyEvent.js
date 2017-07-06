@@ -1,5 +1,5 @@
-import { takeEvery, eventChannel } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { call, put, select, takeEvery } from 'redux-saga/effects'
 import { listeners } from '../keyActions'
 
 const ignored = ['INPUT', 'TEXTAREA', 'SELECT']
