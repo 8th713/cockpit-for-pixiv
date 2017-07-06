@@ -10,7 +10,7 @@ export default function configureStore(initialState) {
   middlewares.push(sagaMiddleware)
   if (process.env.NODE_ENV === 'development') {
     // eslint-disable-next-line global-require
-    const createLogger = require('redux-logger')
+    const {createLogger} = require('redux-logger')
     const logger = createLogger({ collapsed: true })
     middlewares.push(logger)
   }

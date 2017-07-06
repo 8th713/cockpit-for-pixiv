@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga'
-import { call, select } from 'redux-saga/effects'
+import { call, select, takeEvery } from 'redux-saga/effects'
 import { share } from '../reducers/illusts'
 
 function popup(url, width = 700, height = 472) {

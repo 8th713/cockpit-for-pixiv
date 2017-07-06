@@ -11,4 +11,4 @@ export const keys = [
 
 export default presist('cockpit/sidePanel', handleActions({
   [toggle]: (state) => !state
-}), true)
+}, true), true)

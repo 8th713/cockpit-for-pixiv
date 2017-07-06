@@ -1,5 +1,5 @@
-import { takeEvery, delay } from 'redux-saga'
-import { race, call, take, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { race, call, take, put, takeEvery } from 'redux-saga/effects'
 import { set, reset } from '../reducers/error'
 
 function* handleSet() {

@@ -1,22 +1,28 @@
-import { takeEvery, eventChannel } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { call, put, select, all, takeEvery } from 'redux-saga/effects'
 import * as scroll from '../utils/scroll'
 import { set, slide, reset } from '../reducers/current'
 
-const TARGET = 'a[href*="member_illust.php"] img[src*="/img/"]'
+const WORK = '._work'
+const BADGE = '.latest-illust-series-content-badge'
+const THUMBNAIL = 'a[href*="member_illust.php?mode=medium"] img[src*="/img/"]'
 
 const ensureElement = (element) => {
-  let target = element
+  let $target = jQuery(element)
 
-  if (target.matches('._layout-thumbnail')) {
-    target = target.firstChild
+  if ($target.is(BADGE)) {
+    $target = $target.parents('a')
   }
-
-  return target.matches(TARGET) && target
+  if ($target.is(WORK)) {
+    $target = $target.find('img')
+  }
+  if ($target.is(THUMBNAIL)) {
+    return $target[0]
+  }
 }
 
 const ensureNextElement = (element, direction) => {
-  const list = Array.from(document.querySelectorAll(TARGET))
+  const list = Array.from(document.querySelectorAll(THUMBNAIL))
   const index = list.indexOf(element)
 
   if (index === -1) {
@@ -83,10 +89,10 @@ function* handleSlide({ payload }) {
 export default function* currentSaga() {
   const channel = yield call(pageClick)
 
-  yield [
+  yield all([
     takeEvery(channel, handleThumbnailClick),
     takeEvery(set.getType(), handleSet),
     takeEvery(reset.getType(), handleReset),
     takeEvery(slide.getType(), handleSlide)
-  ]
+  ])
 }

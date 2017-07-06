@@ -1,5 +1,5 @@
-import { takeEvery, delay } from 'redux-saga'
-import { race, call, take, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { race, call, take, put, takeEvery } from 'redux-saga/effects'
 import { open, close, closeAsnyc } from '../reducers/toolbar'
 
 function* handleClose() {
@@ -14,5 +14,5 @@ function* handleClose() {
 }
 
 export default function* toolbarSaga() {
-  yield* takeEvery(closeAsnyc.getType(), handleClose)
+  yield takeEvery(closeAsnyc.getType(), handleClose)
 }

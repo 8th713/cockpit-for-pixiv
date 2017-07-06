@@ -1,5 +1,4 @@
-import { takeEvery } from 'redux-saga'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, all, takeEvery } from 'redux-saga/effects'
 import * as api from '../utils/api'
 import { set as setError } from '../reducers/error'
 import { fetch, set } from '../reducers/bookmark'
@@ -42,8 +41,8 @@ function* handlePost({ payload }) {
 }
 
 export default function* bookmarkSaga() {
-  yield [
+  yield all([
     takeEvery(fetch.getType(), handleGet),
     takeEvery(bookmark.getType(), handlePost)
-  ]
+  ])
 }

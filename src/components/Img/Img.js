@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types';
 import getSize from '../../utils/getSize'
 import Progress from '../Progress'
 
