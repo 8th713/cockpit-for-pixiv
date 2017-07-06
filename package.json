@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -12,7 +12,7 @@
   "readmeFilename": "README.md",
   "repository": "8th713/cockpit-for-pixiv",
   "scripts": {
-    "start": "webpack --watch --progress",
+    "start": "cross-env NODE_ENV=development webpack --progress -w",
     "build": "cross-env NODE_ENV=production webpack --progress",
     "docs": "pug index.pug --out docs --obj package.json --watch",
     "lint": "eslint src/**/*.js",
