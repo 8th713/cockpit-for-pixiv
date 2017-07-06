@@ -41,5 +41,5 @@ function* handleKeyAction(key) {
 export default function* keyEventSaga() {
   const channel = yield call(keyEvent, window, listeners)
 
-  yield* takeEvery(channel, handleKeyAction)
+  yield takeEvery(channel, handleKeyAction)
 }

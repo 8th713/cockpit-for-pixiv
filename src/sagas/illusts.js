@@ -1,4 +1,4 @@
-import { select, fork, call, put, takeEvery } from 'redux-saga/effects'
+import { select, fork, call, put, all, takeEvery } from 'redux-saga/effects'
 import fetchIllust from './sub/illust'
 import fetchAdditionalData from './sub/additionalData'
 import { add } from '../reducers/illusts'
@@ -7,10 +7,10 @@ import { set as setCurrent } from '../reducers/current'
 
 function* fetchAll(id) {
   try {
-    const [[illust, images], additionalData] = yield [
+    const [[illust, images], additionalData] = yield all([
       call(fetchIllust, id),
       call(fetchAdditionalData, id)
-    ]
+    ])
 
     Object.assign(illust, additionalData)
     yield put(add(id, illust, images))
@@ -27,5 +27,5 @@ function* loadIllust({ payload }) {
 }
 
 export default function* illustsSaga() {
-  yield* takeEvery(setCurrent.getType(), loadIllust)
+  yield takeEvery(setCurrent.getType(), loadIllust)
 }

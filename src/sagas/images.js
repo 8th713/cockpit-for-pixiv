@@ -28,5 +28,5 @@ function* loadImage({ payload }) {
 }
 
 export default function* imagesSaga() {
-  yield* takeBuffer(fetch.getType(), loadImage)
+  yield takeBuffer(fetch.getType(), loadImage)
 }

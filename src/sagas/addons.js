@@ -25,5 +25,5 @@ function* handleMessage(action) {
 export default function* addonsSaga() {
   const channel = yield call(onMessage)
 
-  yield* takeEvery(channel, handleMessage)
+  yield takeEvery(channel, handleMessage)
 }

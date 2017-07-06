@@ -14,5 +14,5 @@ function* handleClose() {
 }
 
 export default function* toolbarSaga() {
-  yield* takeEvery(closeAsnyc.getType(), handleClose)
+  yield takeEvery(closeAsnyc.getType(), handleClose)
 }

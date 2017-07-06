@@ -26,5 +26,5 @@ function* handleRisize() {
 export default function* viewSizeSaga() {
   const channel = yield call(viewResize, window)
 
-  yield* takeEvery(channel, handleRisize)
+  yield takeEvery(channel, handleRisize)
 }
