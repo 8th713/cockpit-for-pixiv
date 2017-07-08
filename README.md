@@ -2,7 +2,7 @@
 Provide comfortable pixiv browsing.
 
 ## Features and Usage
-visit [pages](http://8th713.github.io/cockpit-for-pixiv/).
+visit [pages](https://8th713.github.io/cockpit-for-pixiv/).
 
 ## Develop
 ```sh
