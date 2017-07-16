@@ -1,0 +1,15 @@
+@import './util/variables.css';
+
+a._work[href*="member_illust.php"],
+a[href*="member_illust.php"] img[src*="/img/"] {
+  cursor: zoom-in;
+}
+
+.no-scrollbar {
+  overflow: hidden;
+}
+
+.no-scrollbar iframe,
+.no-scrollbar embed {
+  visibility: hidden;
+}
