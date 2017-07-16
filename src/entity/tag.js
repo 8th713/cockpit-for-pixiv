@@ -5,9 +5,6 @@ import {type Editor} from '../store/editor'
 export const defaults = {lev: 6, total: 0}
 
 export default class Tag {
-  static defaults = {
-  }
-
   editor: Editor;
 
   name: string;
@@ -35,6 +32,7 @@ export default class Tag {
 
   @computed.struct get classes(): Object {
     const {active} = this
+
     switch (this.lev) {
       case 1:
         return {lev1: true, active}
