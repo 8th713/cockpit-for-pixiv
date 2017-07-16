@@ -1,0 +1,31 @@
+.Canvas-wrapper {
+  overflow: auto;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.Canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+
+.Image {
+  outline: none;
+  display: block;
+  margin: 10px;
+  background-color: var(--color-card);
+  box-shadow: var(--shadow);
+  transition: 375ms var(--ease-standard);
+  cursor: pointer;
+  user-select: none;
+}
+
+.Image-dummy {
+  overflow: hidden;
+  width: 512px;
+  height: 512px;
+  margin: 10px;
+}
