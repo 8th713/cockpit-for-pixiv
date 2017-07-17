@@ -20,8 +20,11 @@ export default class Illust {
   userHref: string;
   avatar: string;
 
+  type: 'ugoira' | 'comic' | 'image';
+
   detail: Detail;
   bookmark: Bookmark;
+  // $FlowFixMe
   images: Image[] | Ugoira[];
 
   constructor(
@@ -40,6 +43,13 @@ export default class Illust {
     this.userHref = `${USER}${this.userId}`
     this.avatar = src.profileImg
 
+    if (src.illustType === '2') {
+      this.type = 'ugoira'
+    } else if (src.isMultiple) {
+      this.type = 'comic'
+    } else {
+      this.type = 'image'
+    }
     this.detail = detail
     this.bookmark = bookmark
     this.images = images
