@@ -5,6 +5,7 @@ import detailFactory, {type DetailFactory} from '../factory/detailFactory'
 import route, {type Route} from '../store/route'
 import editor, {type Editor} from '../store/editor'
 import popUp, {type PopUp} from '../service/popup'
+import addon, {type Addon} from '../service/addon'
 
 export class IllustUseCase {
   bookmarkFactory: BookmarkFactory;
@@ -14,6 +15,7 @@ export class IllustUseCase {
   editor: Editor;
 
   popUp: PopUp;
+  addon: Addon;
 
   constructor(
     bookmarkFactory: BookmarkFactory,
@@ -21,12 +23,14 @@ export class IllustUseCase {
     route: Route,
     editor: Editor,
     popUp: PopUp,
+    addon: Addon,
   ) {
     this.bookmarkFactory = bookmarkFactory
     this.detailFactory = detailFactory
-    this.popUp = popUp
     this.route = route
     this.editor = editor
+    this.popUp = popUp
+    this.addon = addon
   }
 
   @action.bound bookmark() {
@@ -67,6 +71,15 @@ export class IllustUseCase {
   }
 
   @action.bound download() {
+    const {illust} = this.route
+
+    if (illust) {
+      const {type, title, userName: author} = illust
+      const images = illust.images.map(image => image.attrs)
+      const src = {images, title, author, type}
+
+      this.addon.post('cockpit-download-addon', src)
+    }
   }
 }
 
@@ -76,4 +89,5 @@ export default new IllustUseCase(
   route,
   editor,
   popUp,
+  addon,
 )
