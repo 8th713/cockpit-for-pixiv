@@ -16,6 +16,12 @@ export default class Image {
     this.isFetched = false
   }
 
+  @computed get attrs(): ImageSource {
+    const {src, alt} = this
+
+    return {src, alt}
+  }
+
   @computed get canLoad(): boolean {
     return !this.isFetched && !this.isLoading
   }

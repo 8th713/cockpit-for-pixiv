@@ -76,6 +76,7 @@ type UgoiraFrame = {
 
 type UgoiraSource = {
   src: string,
+  alt: string,
   mime_type: string,
   frames: UgoiraFrame[],
   width: number,

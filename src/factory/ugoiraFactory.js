@@ -15,6 +15,7 @@ export class UgoiraFactory {
     const ugoira: UgoiraSource = JSON.parse(src.ugoiraMetaFullscreen)
 
     ugoira.src = src.url.ugoira600x600.replace('600x600', '1920x1080')
+    ugoira.alt = src.illustTitle
     return [new Ugoira(
       this.size.create({width, height}),
       ugoira,
