@@ -38,6 +38,16 @@ export default class ImageView extends PureComponent<void, Props, void> {
       )
     }
 
+    if (image.isError) {
+      return (
+        <div
+          className="Image-error"
+          ref={this.setRef}
+          onClick={onClick}
+        >画像の読み込みに失敗しました</div>
+      )
+    }
+
     if (!image.isFetched) {
       return (
         <div

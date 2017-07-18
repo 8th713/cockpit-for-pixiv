@@ -29,3 +29,18 @@
   height: 512px;
   margin: 10px;
 }
+
+.Image-error {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 512px;
+  height: 512px;
+  margin: 10px;
+  border: 1px solid #ccc;
+
+  color: var(--text-color-dark-primary);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 512px;
+  text-align: center;
+}
