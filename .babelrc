@@ -1,11 +1,29 @@
 {
-  "presets": ["es2015", "react"],
+  "presets": [
+    ["env", {
+      "targets": {
+        "chrome": 58
+      },
+      "loose": true
+    }],
+    "react"
+  ],
   "plugins": [
-    "transform-object-rest-spread",
-    ["transform-runtime", {
-      "helpers": false,
-      "polyfill": false,
-      "regenerator": true
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    ["transform-object-rest-spread", {
+      "useBuiltIns": true
+    }],
+    ["transform-react-jsx", {
+      "useBuiltIns": true
     }]
-  ]
+  ],
+  "env": {
+    "development": {
+      "plugins": [
+        "transform-react-jsx-source",
+        "transform-react-jsx-self"
+      ]
+    }
+  }
 }

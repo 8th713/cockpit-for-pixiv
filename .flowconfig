@@ -1,0 +1,12 @@
+[libs]
+node_modules/mobx/lib/mobx.js.flow
+
+[ignore]
+.*/old/.*
+.*/new/.*
+.*/docs/.*
+.*/docsrc/.*
+
+[options]
+esproposal.decorators=ignore
+unsafe.enable_getters_and_setters=true

@@ -1,0 +1,27 @@
+// @flow
+export class Storage {
+  prefix: string;
+
+  constructor(prefix: string) {
+    this.prefix = prefix
+  }
+
+  load<T>(key: string, defaultValue: T): T {
+    const value = localStorage.getItem(`${this.prefix}/${key}`)
+
+    if (value) {
+      try {
+        return JSON.parse(value)
+      } catch(err) {}
+    }
+    return defaultValue
+  }
+
+  store<T>(key: string, value: T): void {
+    const valueString = JSON.stringify(value)
+
+    localStorage.setItem(`${this.prefix}/${key}`, valueString)
+  }
+}
+
+export default new Storage('cockpit')

@@ -1,0 +1,113 @@
+:root {
+  --truncate: {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  };
+
+  --display-4: {
+    color: var(--text-color-secondary);
+    font-weight: 300;
+    font-size: 112px;
+    letter-spacing: -0.04em;
+    /*line-height: 112px;*/
+  };
+
+  --display-3: {
+    color: var(--text-color-secondary);
+    font-weight: 400;
+    font-size: 56px;
+    letter-spacing: -0.02em;
+    /*line-height: 64px;*/
+  };
+
+  --display-2: {
+    color: var(--text-color-secondary);
+    font-weight: 400;
+    font-size: 45px;
+    /*line-height: 48px;*/
+  };
+
+  --display-1: {
+    color: var(--text-color-secondary);
+    font-weight: 400;
+    font-size: 34px;
+    /*line-height: 40px;*/
+  };
+
+  --display: {
+    @apply --display-1;
+  };
+
+  --headline: {
+    color: var(--text-color-primary);
+    font-weight: 400;
+    font-size: 24px;
+    /*line-height: 32px;*/
+  };
+
+  --title: {
+    color: var(--text-color-primary);
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    /*line-height: 28px;*/
+  };
+
+  --subhead-2 {
+    color: var(--text-color-primary);
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    /*line-height: 28px;*/
+  }
+
+  --subhead-1 {
+    color: var(--text-color-primary);
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    /*line-height: 24px;*/
+  }
+
+  --subhead {
+    @apply --subhead-1;
+  }
+
+  --body-2 {
+    color: var(--text-color-primary);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    /*line-height: 24px;*/
+  }
+
+  --body-1 {
+    color: var(--text-color-primary);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0em;
+    /*line-height: 20px;*/
+  }
+
+  --body {
+    @apply --body-1;
+  }
+
+  --caption {
+    color: var(--text-color-secondary);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    /*line-height: 16px;*/
+  }
+
+  --button {
+    color: var(--text-color-primary);
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    /*line-height: 20px;*/
+  }
+}

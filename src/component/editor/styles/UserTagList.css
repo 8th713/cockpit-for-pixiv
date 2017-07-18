@@ -1,0 +1,18 @@
+.UserTagList {
+  margin-top: 10px;
+}
+
+.UserTagList-header {
+  display: flex;
+}
+
+.UserTagList-header button {
+  cursor: pointer;
+  box-sizing: border-box;
+  margin: 4px;
+  border: none;
+  border-radius: 2px;
+  background-color: transparent;
+  color: var(--color-primary);
+  line-height: 1;
+}
