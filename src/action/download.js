@@ -23,10 +23,7 @@ export class Download extends Action {
   icon = 'file_download'
 
   @computed get disabled(): boolean {
-    if (this.route.illust) {
-      return this.route.illust.detail.isSelf
-    }
-    return true
+    return !this.route.illust
   }
 
   execute = () => {
