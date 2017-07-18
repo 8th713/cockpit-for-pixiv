@@ -54,9 +54,9 @@ export default class Bookmark {
     const {isBookmarked, restrict, comment, tags} = this
 
     this.isBookmarked = true
-    this.restrict = this.restrict
-    this.comment = this.comment
-    this.tags = this.tags
+    this.restrict = src.restrict
+    this.comment = src.comment
+    this.tags = src.tags
 
     return () => {
       this.isBookmarked = isBookmarked

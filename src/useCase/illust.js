@@ -40,6 +40,7 @@ export class IllustUseCase {
       const src = this.editor.source
       const rollback = illust.bookmark.bookmark(src)
 
+      this.editor.toggle(false)
       this.bookmarkFactory.bookmark(illust.id, src).catch(rollback)
     }
   }
