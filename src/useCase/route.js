@@ -20,7 +20,7 @@ export class RouteUseCase {
     this.scrollBar = scrollBar
     this.repository = repository
 
-    $(document).on(EVENT_TYPE, (event: JQueryEventObject) => {
+    $(document.body).on(EVENT_TYPE, (event: JQueryEventObject) => {
       let $target = $(event.target)
 
       if ($target.is(BADGE)) {
