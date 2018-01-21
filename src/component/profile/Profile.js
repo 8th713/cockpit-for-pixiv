@@ -1,6 +1,6 @@
 // @flow
 import './styles/Profile.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import Spinner from '../shared/Spinner'
 import Header from '../shared/Header'
@@ -16,7 +16,7 @@ type Props = {
 }
 
 @observer
-export default class Profile extends PureComponent<void, Props, void> {
+export default class Profile extends Component<void, Props, void> {
   renderContents(illust: Illust) {
     const {detail} = illust
 

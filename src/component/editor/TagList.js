@@ -1,6 +1,6 @@
 // @flow
 import './styles/TagList.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import TagView from './Tag'
 import type {UseCase} from '../../useCase'
@@ -12,7 +12,7 @@ type Props = {
 }
 
 @observer
-export default class TagList extends PureComponent<void, Props, void> {
+export default class TagList extends Component<void, Props, void> {
   renderItem = (tag: Tag) => {
     const {useCase} = this.props
 

@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import Spinner from '../shared/Spinner'
 import TagList from './TagList'
@@ -12,7 +12,7 @@ type Props = {
 }
 
 @observer
-export default class RecommendTagList extends PureComponent<void, Props, void> {
+export default class RecommendTagList extends Component<void, Props, void> {
   renderWrapper(children: any) {
     return (
       <div>

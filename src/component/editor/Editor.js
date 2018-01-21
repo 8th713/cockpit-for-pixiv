@@ -1,6 +1,6 @@
 // @flow
 import './styles/Editor.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import Dialog from '../shared/Dialog'
 import Header from '../shared/Header'
@@ -26,7 +26,7 @@ type Props = {
 
 
 @observer
-export default class EditorView extends PureComponent<void, Props, void> {
+export default class EditorView extends Component<void, Props, void> {
   handleClose = () => {
     this.props.useCase.editor.close()
   };

@@ -1,6 +1,6 @@
 // @flow
 /*global ZipImagePlayer */
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import type Ugoira from '../../entity/ugoira'
 
@@ -10,7 +10,7 @@ type Props = {
 }
 
 @observer
-export default class UgoiraView extends PureComponent<void, Props, void> {
+export default class UgoiraView extends Component<void, Props, void> {
   static options = {
     chunkSize: 300000,
     loop: true,

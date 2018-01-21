@@ -1,6 +1,6 @@
 // @flow
 import './styles/ToolBar.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import IconButton from './IconButton'
 import type Action from '../../action/interface'
@@ -11,7 +11,7 @@ type Props = {
 }
 
 @observer
-export default class ToolBarView extends PureComponent<void, Props, void> {
+export default class ToolBarView extends Component<void, Props, void> {
   renderButton = (action: Action, index: number) => {
     return (<IconButton key={action.label} action={action} />)
   };

@@ -1,7 +1,7 @@
 // @flow
 import './styles/View.css'
 import {observer} from 'mobx-react'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import Dialog from '../shared/Dialog'
 import ToolBarView from '../shared/ToolBar'
 import Profile from '../profile/Profile'
@@ -21,7 +21,7 @@ type Props = {
 }
 
 @observer
-export default class View extends PureComponent<void, Props, void> {
+export default class View extends Component<void, Props, void> {
   handleClose = () => {
     this.props.useCase.route.close()
   };

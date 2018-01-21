@@ -1,5 +1,5 @@
 // @flow
-import {PureComponent} from 'react'
+import {Component} from 'react'
 import {observer} from 'mobx-react'
 import type Illust from '../../entity/illust'
 import type {Route} from '../../store/route'
@@ -12,7 +12,7 @@ type Props = {
 }
 
 @observer
-export default class RouteView extends PureComponent<void, Props, void> {
+export default class RouteView extends Component<void, Props, void> {
   render() {
     const {route, editor, children} = this.props
 

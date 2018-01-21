@@ -1,7 +1,7 @@
 // @flow
 import './styles/Canvas.css'
 import {observer} from 'mobx-react'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import ImageView from './Image'
 import UgoiraView from './Ugoira'
 import Image from '../../entity/image'
@@ -22,7 +22,7 @@ type Props = {
 }
 
 @observer
-export default class Canvas extends PureComponent<void, Props, void> {
+export default class Canvas extends Component<void, Props, void> {
   element: HTMLDivElement;
   grabData: GrabData;
 

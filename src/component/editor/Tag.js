@@ -1,6 +1,6 @@
 // @flow
 import './styles/Tag.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import cx from 'classnames'
 import type {UseCase} from '../../useCase'
@@ -12,7 +12,7 @@ type Props = {
 }
 
 @observer
-export default class TagButton extends PureComponent<void, Props, void> {
+export default class TagButton extends Component<void, Props, void> {
   handleClick = () => {
     const {useCase, tag} = this.props
 

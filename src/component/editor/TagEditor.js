@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import type {Editor} from '../../store/editor'
 import type {UseCase} from '../../useCase'
@@ -10,7 +10,7 @@ type Props = {
 }
 
 @observer
-export default class TagEditor extends PureComponent<void, Props, void> {
+export default class TagEditor extends Component<void, Props, void> {
   input: HTMLInputElement;
 
   setRef = (input: HTMLInputElement) => {

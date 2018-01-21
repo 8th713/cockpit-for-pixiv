@@ -1,6 +1,6 @@
 // @flow
 import './styles/Help.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import Dialog from '../shared/Dialog'
 import Links from './Links'
@@ -16,7 +16,7 @@ type Props = {
 }
 
 @observer
-export default class HelpView extends PureComponent<void, Props, void> {
+export default class HelpView extends Component<void, Props, void> {
   handleClose = () => {
     this.props.useCase.help.close()
   };

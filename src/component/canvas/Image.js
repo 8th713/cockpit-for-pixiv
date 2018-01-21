@@ -1,5 +1,5 @@
 // @flow
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import Spinner from '../shared/Spinner'
 import LazyLoader from '../../service/lazyLoader'
@@ -13,7 +13,7 @@ type Props = {
 }
 
 @observer
-export default class ImageView extends PureComponent<void, Props, void> {
+export default class ImageView extends Component<void, Props, void> {
   dummy: HTMLDivElement;
 
   setRef = (dummy?: HTMLDivElement) => {

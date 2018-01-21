@@ -1,6 +1,6 @@
 // @flow
 import './styles/UserTagList.css'
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {observer} from 'mobx-react'
 import Spinner from '../shared/Spinner'
 import TagList from './TagList'
@@ -13,7 +13,7 @@ type Props = {
 }
 
 @observer
-export default class UserTagList extends PureComponent<void, Props, void> {
+export default class UserTagList extends Component<void, Props, void> {
   handleNameClick = () => {
     this.props.useCase.account.sortBy('name')
   };
