@@ -1,5 +1,4 @@
 // @flow
-/*global $ */
 import {action} from 'mobx'
 import route, {type Route} from '../store/route'
 import scrollBar, {type ScrollBar} from '../store/scrollBar'
