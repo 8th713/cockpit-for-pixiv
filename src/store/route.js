@@ -4,7 +4,7 @@ import type Illust from '../entity/illust'
 
 export class Route {
 
-  @observable.ref element: ?HTMLImageElement;
+  @observable.ref element: ?HTMLAnchorElement;
   @observable.ref illust: ?Illust;
 
   constructor() {
@@ -21,7 +21,7 @@ export class Route {
     this.illust = undefined
   }
 
-  setElement(element: HTMLImageElement) {
+  setElement(element: HTMLAnchorElement) {
     this.element = element
     this.illust = undefined
   }

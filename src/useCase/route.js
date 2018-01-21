@@ -5,10 +5,7 @@ import route, {type Route} from '../store/route'
 import scrollBar, {type ScrollBar} from '../store/scrollBar'
 import repository, {type Repository} from '../service/repository'
 
-const EVENT_TYPE = 'click.cockpit'
-const WORK = '._work'
-const BADGE = '.latest-illust-series-content-badge'
-const THUMBNAIL = 'a[href*="member_illust.php?mode=medium"] img[src*="/img/"]'
+const WORK = '.bBzsEVG,.JXPrM4l,._work'
 
 export class RouteUseCase {
   route: Route;
@@ -20,19 +17,11 @@ export class RouteUseCase {
     this.scrollBar = scrollBar
     this.repository = repository
 
-    $(document.body).on(EVENT_TYPE, (event: JQueryEventObject) => {
-      let $target = $(event.target)
+    document.body.addEventListener('click', (event: MouseEvent) => {
+      const target = event.target.closest(WORK)
 
-      if ($target.is(BADGE)) {
-        $target = $target.parents('a')
-      }
-      if ($target.is(WORK)) {
-        $target = $target.find('img')
-      }
-      if ($target.is(THUMBNAIL)) {
+      if (target) {
         event.preventDefault()
-        const target: HTMLImageElement = $target.get()[0]
-
         this.open(target)
       }
     })
@@ -43,7 +32,7 @@ export class RouteUseCase {
 
     if (!element) { return }
 
-    const list: HTMLImageElement[] = $(THUMBNAIL).toArray()
+    const list = Array.from(document.querySelectorAll(WORK))
     const index = list.indexOf(element)
 
     if (index === -1) { return undefined }
@@ -51,7 +40,7 @@ export class RouteUseCase {
     return list[index + dir]
   }
 
-  @action.bound open(element: HTMLImageElement) {
+  @action.bound open(element: HTMLAnchorElement) {
     this.scrollBar.hide(element)
     this.route.setElement(element)
     this.repository.resolveByElement(element)

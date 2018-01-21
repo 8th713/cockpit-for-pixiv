@@ -11,13 +11,10 @@ export class Repository {
     this.factory = factory
   }
 
-  getIllustId(element: HTMLImageElement): string {
-    const {src} = element
-    const decodedUrl = decodeURI(src)
-    const result = /(\d{2,})_[mps]/.exec(decodedUrl)
-    const id = result && result[1]
+  getIllustId(element: HTMLAnchorElement): string {
+    const params = new URLSearchParams(element.search)
 
-    return id
+    return params.get('illust_id')
   }
 
   async fetch(id: string) {
@@ -27,7 +24,7 @@ export class Repository {
     return illust
   };
 
-  resolveByElement(element: HTMLImageElement): Promise<Illust> {
+  resolveByElement(element: HTMLAnchorElement): Promise<Illust> {
     const id = this.getIllustId(element)
     const illust = this.cache.get(id)
 

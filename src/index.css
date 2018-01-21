@@ -1,7 +1,8 @@
 @import './util/variables.css';
 
-a._work[href*="member_illust.php"],
-a[href*="member_illust.php"] img[src*="/img/"] {
+.bBzsEVG,
+.JXPrM4l,
+._work {
   cursor: zoom-in;
 }
 
