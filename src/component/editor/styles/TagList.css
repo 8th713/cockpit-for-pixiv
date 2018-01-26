@@ -1,7 +1,0 @@
-.TagList {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 4px;
-  border-radius: 2px;
-  background-color: var(--color-app);
-}
