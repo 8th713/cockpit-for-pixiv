@@ -35,6 +35,6 @@ npm run docs
 * [@8th713](https://github.com/8th713)
 
 ## License
-Copyright 2014-2017 8th713.
+Copyright 2014-2018 8th713.
 
 Licensed under the MIT License

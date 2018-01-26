@@ -1,101 +1,78 @@
 const path = require('path')
-const fs = require('fs')
 const webpack = require('webpack')
-const BabiliPlugin = require('babili-webpack-plugin')
-const autoprefixer = require('autoprefixer')
-const template = require('lodash/template')
-const pkg = require('./package.json')
+const { CheckerPlugin } = require('awesome-typescript-loader')
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
+const outPath = path.join(__dirname, './docs')
+const sourcePath = path.join(__dirname, './src')
+const env = {
+  'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
+}
 
 const config = {
-  entry: [
-    './src/index.js',
-  ],
+  devtool: 'inline-source-map',
+  entry: './src/index.ts',
   output: {
-    path: path.join(__dirname, 'docs'),
+    path: outPath,
     filename: 'cockpit-for-pixiv.user.js',
-    publicPath: '/',
+    publicPath: '/'
   },
-  plugins: [
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
-    }),
-  ],
+  target: 'web',
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  },
   module: {
-    strictExportPresence: true,
     rules: [
       { parser: { requireEnsure: false } },
       {
-        test: /\.js$/,
-        enforce: 'pre',
-        include: /src/,
-        use: [
-          {
-            options: {
-              baseConfig: { extends: ['react-app'] },
-              ignore: false,
-              useEslintrc: false,
-            },
-            loader: 'eslint-loader',
-          },
-        ],
-      },
-      {
-        test: /\.js$/,
-        include: /src/,
-        loader: 'babel-loader',
-        options: { cacheDirectory: true }
-      },
-      {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-            options: {
-              singleton: true,
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              minimize: true,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              ident: 'postcss',
-              plugins: () => [autoprefixer({
-                browsers: ['last 2 Chrome versions'],
-              })],
-            },
-          },
-        ],
-      },
-    ],
+        test: /\.tsx?$/,
+        include: sourcePath,
+        loader: 'awesome-typescript-loader'
+      }
+    ]
   },
-  stats: {colors: true},
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin(env),
+    new CheckerPlugin()
+  ],
+  stats: 'minimal',
   node: {
     fs: 'empty',
     net: 'empty',
-    tls: 'empty',
+    tls: 'empty'
   },
-  devtool: 'inline-source-map',
+  performance: {
+    hints: false
+  }
 }
 
 if (NODE_ENV === 'production') {
+  const fs = require('fs')
+  const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+  const template = require('lodash/template')
+  const pkg = require('./package.json')
+
   const banner = template(fs.readFileSync('./src/banner', 'utf-8'))(pkg)
 
+  config.devtool = false
   config.plugins = [
     ...config.plugins,
-    new BabiliPlugin(),
-    new webpack.BannerPlugin({banner, raw: true}),
+    new UglifyJsPlugin({
+      uglifyOptions: {
+        ecma: 8,
+        compress: {
+          comparisons: false,
+          warnings: false
+        },
+        output: {
+          comments: false,
+          ascii_only: true
+        }
+      }
+    }),
+    new webpack.BannerPlugin({ banner, raw: true })
   ]
-  // $FlowFixMe
-  config.devtool = false
 }
 
 module.exports = config

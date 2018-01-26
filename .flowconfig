@@ -1,9 +1,0 @@
-[libs]
-node_modules/mobx/lib/mobx.js.flow
-
-[ignore]
-.*/old/.*
-
-[options]
-esproposal.decorators=ignore
-unsafe.enable_getters_and_setters=true
