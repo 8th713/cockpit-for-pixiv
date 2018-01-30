@@ -1,7 +1,8 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>cockpit-for-pixiv</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bad+Script|Cantarell:400,700"><style>body {
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><title>cockpit-for-pixiv</title><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bad+Script"><style>body {
   margin: 0;
   background-color: #ecf0f1;
-  font-family: 'Cantarell', sans-serif;
+  font-family: 'Roboto', 'Helvetica Neue', 'arial', 'Noto Sans CJK JP',
+    'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
 .header {
@@ -31,7 +32,7 @@
 .header:after,
 .content:after,
 .footer:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -54,7 +55,7 @@
 }
 
 .sub-header:after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 0;
@@ -118,12 +119,12 @@
 
 .btn-outline-inverse:active {
   margin-top: 0;
-  box-shadow: inset 0 2px 3px rgba(0,0,0,.3);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.3);
 }
 
 .alert {
   list-style-type: none;
-  padding: .5em;
+  padding: 0.5em;
   border: 1px solid #c0392b;
   border-radius: 3px;
   background-color: #e74c3c;
@@ -131,8 +132,8 @@
 }
 
 .alert li:before {
-  content: "※";
-  padding-right: .5em;
+  content: '※';
+  padding-right: 0.5em;
 }
 
 .links {
@@ -141,7 +142,7 @@
 }
 
 .links:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -151,11 +152,11 @@
 }
 
 .links .divider {
-  margin: 0 .5em;
+  margin: 0 0.5em;
 }
 
 .links .divider:after {
-  content: "-";
+  content: '-';
 }
 
 .links a {
@@ -167,4 +168,4 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-33220357-5', 'auto');
 ga('send', 'pageview');
-</script></head><body><div class="header"><h1 class="logo">cockpit for pixiv</h1><p>pixiv の閲覧がより快適になるユーザースクリプト</p><a class="btn btn-outline-inverse" href="#install">Install cockpit for pixiv</a></div><div class="content"><h2 class="sub-header"><span>Features</span></h2><ul><li>画面遷移なしでイラスト表示、複数枚投稿・うごイラ対応</li><li>イラストの画面フィット表示・原寸表示、Grab and Drop によるスクロール対応</li><li>その場でブックマーク、10点評価</li><li>サイドパネルでキャプションやタグを表示</li><li>ショートカットキー操作可能</li><li>アドオン連携で画像のローカル保存に対応(cockpit download addon)</li></ul></div><div class="content"><h2 class="sub-header" id="install"><span>Install</span></h2><p>cockpit for pixiv は Google Chrome + Tampermonkey 環境で実行される UserScript です。</p><h3>準備</h3><ol><li><a href="https://www.google.co.jp/chrome/browser/">Google Chrome</a> をインストールします。</li><li><a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a> をインストールします。</li><li>このページのインストールボタンから<b>「cockpit for pixiv」</b>をインストールします。</li><li>ローカル保存機能を使用する場合<b>「cockpit download addon」</b>をインストールします。</li></ol><h3>インストール</h3><p><a class="btn" href="cockpit-for-pixiv.user.js">Install [cockpit for pixiv - v2.0.2]</a></p><p><a class="btn" href="https://github.com/8th713/cockpit-download-addon/raw/master/cockpit-download-addon.user.js">Install [cockpit download addon]</a></p><h3>注意</h3><ul class="alert"><li>スマートフォン、Mozilla Firefox + Greasemonkey 環境での動作確認は行っていません。</li><li>pixiv は、ピクシブ株式会社の登録商標です。</li><li>cockpit for pixiv は pixiv が作成、配布しているアプリケーションではありません。</li></ul></div><div class="footer"><ul class="links"><li><a href="https://github.com/8th713/cockpit-for-pixiv">Source</a></li><li class="divider"></li><li><a href="https://github.com/8th713/cockpit-for-pixiv/issues">Issues</a></li><li class="divider"></li><li><a href="https://twitter.com/8th_713">Twitter</a></li><li class="divider"></li><li><a href="http://8th713.tumblr.com/">Blog</a></li></ul><p class="copy">Copyright © 2014-2016 8th713.</p></div></body></html>
+</script></head><body><div class="header"><h1 class="logo">cockpit for pixiv</h1><p>pixiv の閲覧がより快適になるユーザースクリプト</p><a class="btn btn-outline-inverse" href="#install">Install cockpit for pixiv</a></div><div class="content"><h2 class="sub-header"><span>Features</span></h2><ul><li>画面遷移なしでイラスト表示、複数枚投稿・うごイラ対応</li><li>画像を2カラム表示可能(見開き表示)</li><li>イラストの画面フィット表示・原寸表示</li><li>その場でブックマーク、いいね！</li><li>サイドパネルでキャプションやタグを表示</li><li>ショートカットキー操作可能</li><li>アドオン連携で画像のローカル保存に対応(cockpit download addon)</li></ul></div><div class="content"><h2 class="sub-header" id="install"><span>Install</span></h2><p>cockpit for pixiv は Google Chrome + Tampermonkey 環境で実行される UserScript です。</p><h3>準備</h3><ol><li><a href="https://www.google.co.jp/chrome/browser/">Google Chrome</a> をインストールします。</li><li><a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a> をインストールします。</li><li>このページのインストールボタンから<b>「cockpit for pixiv」</b>をインストールします。</li><li>ローカル保存機能を使用する場合<b>「cockpit download addon」</b>をインストールします。</li></ol><h3>インストール</h3><p><a class="btn" href="cockpit-for-pixiv.user.js">Install [cockpit for pixiv - v2.0.2]</a></p><p><a class="btn" href="https://github.com/8th713/cockpit-download-addon/raw/master/cockpit-download-addon.user.js">Install [cockpit download addon]</a></p><h3>注意</h3><ul class="alert"><li>スマートフォン、Mozilla Firefox + Greasemonkey 環境での動作確認は行っていません。</li><li>pixiv は、ピクシブ株式会社の登録商標です。</li><li>cockpit for pixiv は pixiv が作成、配布しているアプリケーションではありません。</li></ul></div><div class="footer"><ul class="links"><li><a href="https://github.com/8th713/cockpit-for-pixiv">Source</a></li><li class="divider"></li><li><a href="https://github.com/8th713/cockpit-for-pixiv/issues">Issues</a></li><li class="divider"></li><li><a href="https://twitter.com/8th_713">Twitter</a></li><li class="divider"></li><li><a href="http://8th713.tumblr.com/">Blog</a></li></ul><p class="copy">Copyright © 2014-2016 8th713.</p></div></body></html>
