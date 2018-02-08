@@ -30,6 +30,9 @@ const Header = styled.div`
 `
 
 const Wrapper = styled.div`
+  box-sizing: border-box;
+  overflow: auto;
+  max-height: 256px;
   padding: 8px;
   border-radius: 2px;
   background-color: ${light.background.appBar};
