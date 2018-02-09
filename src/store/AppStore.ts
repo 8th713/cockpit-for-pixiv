@@ -68,6 +68,23 @@ export class AppStore {
       }
     })
     services.shortcut.register({
+      key: 'q',
+      description: 'クイックブックマーク',
+      handler: () => {
+        if (repository.isControllable) {
+          const { bookmark } = repository.current!
+
+          if (bookmark.isBookmarked === false) {
+            bookmark.bookmarkIfNeeded({
+              restrict: 0,
+              comment: '',
+              tags: ''
+            })
+          }
+        }
+      }
+    })
+    services.shortcut.register({
       key: 'l',
       description: 'いいね！',
       handler: () => {
