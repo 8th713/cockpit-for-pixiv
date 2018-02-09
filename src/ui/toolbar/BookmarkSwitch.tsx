@@ -10,8 +10,20 @@ interface Props {
 
 @observer
 export class BookmarkSwitch extends React.Component<Props> {
-  handleClick = () => {
-    this.props.store.open()
+  handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (event.shiftKey && this.props.store.current) {
+      const { bookmark } = this.props.store.current
+
+      if (bookmark.isBookmarked === false) {
+        bookmark.bookmarkIfNeeded({
+          restrict: 0,
+          comment: '',
+          tags: ''
+        })
+      }
+    } else {
+      this.props.store.open()
+    }
   }
 
   render() {
