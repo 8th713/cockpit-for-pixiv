@@ -21,7 +21,7 @@ const services = {
 
 const appStore = new AppStore(services)
 
-services.page.injectGlobalCSS()
+services.page.injectGlobal()
 services.page.onSelect(element => {
   appStore.setElement(element)
 })

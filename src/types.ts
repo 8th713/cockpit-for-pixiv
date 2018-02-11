@@ -26,7 +26,7 @@ export interface PageService {
   findThumbnail(element: HTMLAnchorElement, step: 1 | -1): HTMLAnchorElement
   getId(element: HTMLAnchorElement): string
   buildResizeObserver(listener: (rect: ClientRect) => void): ResizeObserver
-  injectGlobalCSS(): void
+  injectGlobal(): void
   toggleScrollbar(force: boolean): void
   scrollWindow(target: HTMLAnchorElement): void
   onSelect(listener: (target: HTMLAnchorElement) => void): void
