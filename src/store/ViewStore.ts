@@ -24,6 +24,8 @@ export class ViewStore {
   private repository: Repository
   private observer: ResizeObserver
 
+  private displayedImageId: string | undefined
+
   @observable fit: Fit
   @observable spread: Spread
   @observable forcedSpread: boolean
@@ -104,6 +106,7 @@ export class ViewStore {
     this.observer = services.page.buildResizeObserver(this.setSize)
 
     reaction(() => this.opened, opened => this.focus())
+    reaction(() => this.current, () => (this.displayedImageId = undefined))
   }
 
   @action
@@ -156,6 +159,25 @@ export class ViewStore {
   setSize({ width, height }: Size) {
     this.width = width
     this.height = height
+  }
+
+  scroll(asc: boolean) {
+    if (this.current) {
+      const max = this.current.images.length
+      const currentIndex = this.current.images.findIndex(
+        img => img.id === this.displayedImageId
+      )
+      const step = asc ? 1 : -1
+      const nextIndex = (max + currentIndex + step) % max
+      const { id } = this.current.images[nextIndex]
+
+      document.getElementById(id)!.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'start'
+      })
+      this.displayedImageId = id
+    }
   }
 
   calcScale(imageSize: Size) {

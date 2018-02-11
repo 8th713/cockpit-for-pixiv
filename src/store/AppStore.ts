@@ -39,6 +39,22 @@ export class AppStore {
       }
     })
     services.shortcut.register({
+      key: 'n',
+      description: '次の画像へ',
+      priority: priority--,
+      handler: () => {
+        this.view.scroll(true)
+      }
+    })
+    services.shortcut.register({
+      key: 'm',
+      description: '前の画像へ',
+      priority: priority--,
+      handler: () => {
+        this.view.scroll(false)
+      }
+    })
+    services.shortcut.register({
       key: 'v',
       description: 'スケーリング方式を変更',
       priority: priority--,
