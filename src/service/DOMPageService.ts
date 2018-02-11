@@ -42,7 +42,12 @@ export class DOMPageService implements PageService {
     })
   }
 
-  injectGlobalCSS() {
+  injectGlobal() {
+    const script = document.head.appendChild(document.createElement('script'))
+
+    script.src =
+      'https://cdn.rawgit.com/pixiv/zip_player/e1f21d60/zip_player.js'
+
     injectGlobal`
       html.${NO_SCROLLBAR} {
         overflow: hidden;
