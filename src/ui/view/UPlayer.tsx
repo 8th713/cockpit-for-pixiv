@@ -9,8 +9,8 @@ interface Props {
 
 @observer
 export class UPlayer extends React.Component<Props> {
-  private canvas: HTMLCanvasElement | null
-  private player: ZipImagePlayer | null
+  private canvas!: HTMLCanvasElement | null
+  private player!: ZipImagePlayer | null
   private observer: MutationObserver
 
   constructor(props: Props) {

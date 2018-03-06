@@ -7,7 +7,7 @@ export class Repository {
   private items: ObservableMap<Illust>
 
   @observable status: Status = Status.IDLING
-  @observable element: HTMLAnchorElement | void
+  @observable element!: HTMLAnchorElement | void
 
   @computed
   get id() {

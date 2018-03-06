@@ -8,7 +8,7 @@ interface ModalProps {
 }
 
 export class Modal extends React.Component<ModalProps> {
-  dialog: HTMLDialogElement
+  dialog!: HTMLDialogElement
 
   componentDidMount() {
     this.dialog.addEventListener('cancel', () => {
