@@ -15,7 +15,7 @@ interface Props {
 
 @observer
 export class Help extends React.Component<Props> {
-  @observable isFetching: boolean
+  @observable isFetching!: boolean
 
   handleClose = () => {
     this.props.store.help.close()

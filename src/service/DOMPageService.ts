@@ -1,24 +1,7 @@
 import { injectGlobal } from 'styled-components'
 import { PageService } from '../types'
 
-const workList = [
-  // old style
-  '._work',
-  // new style
-  '.bBzsEVG',
-  // /howto
-  '.JXPrM4l',
-  // /showcase
-  '._2FLw4Mz',
-  // /discovery/users
-  '._2xIM_r7',
-  // /contest
-  '._work-modal-target:not(.title)',
-  // /history.php
-  '._history-item.show-detail'
-]
-
-const WORK = workList.join()
+const WORK = supportedSelectors.join()
 const NO_SCROLLBAR = 'no-scrollbar'
 
 export class DOMPageService implements PageService {
