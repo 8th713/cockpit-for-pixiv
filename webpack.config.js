@@ -1,4 +1,5 @@
 const path = require('path')
+const fs = require('fs')
 const webpack = require('webpack')
 const { CheckerPlugin } = require('awesome-typescript-loader')
 
@@ -8,6 +9,10 @@ const sourcePath = path.join(__dirname, './src')
 const env = {
   'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
 }
+const supportedSelectors = fs.readFileSync(
+  './src/supportedSelectors.js',
+  'utf-8'
+)
 
 const config = {
   devtool: 'inline-source-map',
@@ -34,7 +39,8 @@ const config = {
   plugins: [
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin(env),
-    new CheckerPlugin()
+    new CheckerPlugin(),
+    new webpack.BannerPlugin({ banner: supportedSelectors, raw: true })
   ],
   stats: 'minimal',
   node: {
@@ -48,14 +54,15 @@ const config = {
 }
 
 if (NODE_ENV === 'production') {
-  const fs = require('fs')
   const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
   const template = require('lodash/template')
   const pkg = require('./package.json')
 
-  const banner = template(fs.readFileSync('./src/banner', 'utf-8'))(pkg)
+  const banner =
+    template(fs.readFileSync('./src/banner', 'utf-8'))(pkg) + supportedSelectors
 
   config.devtool = false
+  config.plugins.pop()
   config.plugins = [
     ...config.plugins,
     new UglifyJsPlugin({
