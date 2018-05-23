@@ -64,16 +64,157 @@ export interface IllustAttrs {
 }
 
 export interface Tag {
-  name: string
-  url: string
+  // タグ
+  tag: string
+  // ロック
+  locked: boolean
+  // 削除可能か
+  deletable: boolean
+  // よみがな(ローマ字)
+  romaji: string | null
+  // 多言語
+  translation?: {
+    [locale: string]: string
+  }
+  // タグを付けた人のID
+  userId?: string
+  // タグを付けた人の名前
+  userName?: string
 }
 
 export interface DetailsAttrs {
-  date: string
+  // ブックマーク数
+  bookmarkCount: number
+  bookmarkData: null | {
+    // ブックマーク識別子
+    id: string
+    // ブックマークの公開状態
+    private: boolean
+  }
+  // pixiv comic 連動
+  comicPromotion: null
+  // コメント数
+  commentCount: number
+  // コンテスト関連
+  contestBanners: any[]
+  // ISOString 投稿日
+  createDate: string
+  // Booth 関連
+  descriptionBoothId: null
+  // ファクトリー関連
+  factoryGoods: {
+    integratable: false
+    integrated: false
+  }
+  // 高さ[一枚目のみ]
+  height: number
+  // キャプション
+  illustComment: string
+  // 投稿識別子
+  illustId: string
+  illustSeries?: {
+    // シリーズタイトル
+    title: string
+    // シリーズ URL
+    url: string
+  }
+  // 投稿タイトル
+  illustTitle: string
+  // イラストの種類[画像,漫画,動画]
+  illustType: 0 | 1 | 2
+  // イメージレスポンス数
+  imageResponseCount: number
+  imageResponseData: any[]
+  imageResponseOutData: any[]
+  // ブックマーク可能か
+  isBookmarkable: boolean
+  // ハウツーか?
+  isHowto: boolean
+  // オリジナルか?
+  isOriginal: boolean
+  // いいね数
+  likeCount: number
+  // いいね状態
+  likeData: boolean
+  // 枚数
+  pageCount: number
+  // ?
+  pollData: null
+  // レスポンス数
+  responseCount: number
+  // 公開範囲[公開,マイピク,非公開]
+  restrict: 0 | 1 | 2
+  // シリーズナビゲーション
+  seriesNavData: null | {
+    next: {
+      // イラスト識別子
+      illustId: string
+      // 話数
+      order: number
+      // 作品名
+      title: string
+    }
+    // 話数
+    order: number
+    prev: {
+      // イラスト識別子
+      illustId: string
+      // 話数
+      order: number
+      // 作品名
+      title: string
+    }
+    // シリーズ識別子
+    seriesId: string
+    // シリーズタイトル
+    title: string
+  }
+  // タグに関連? 謎ハッシュ
+  storableTags: string[]
+  tags: {
+    // 投稿者識別子
+    authorId: string
+    // タグロック状態
+    isLocked: boolean
+    // タグリスト
+    tags: Tag[]
+    writable: boolean // タグを追加できるか
+  }
+  // ISOString 更新日
+  uploadDate: string
+  urls: {
+    mini: string // 48x48
+    thumb: string // 240x240
+    small: string // 540x540
+    regular: string // 1200x1200
+    original: string // オリジナル
+  }
+  // 投稿者識別子
+  userId: string
+  // 18禁[規制内,R-18,R-18G]
+  xRestrict: 0 | 1 | 2
+  userIllusts: {
+    [illustId: string]: null | {
+      bookmarkData: null // ?
+      height: number // 高さ[一枚目のみ]
+      illustId: string // 投稿識別子
+      illustTitle: string // タイトル
+      illustType: 0 | 1 | 2 // イラストの種類[画像,漫画,動画]
+      isBookmarkable: boolean // ブックマーク可能か
+      pageCount: number // 枚数
+      tags: string[] // タグリスト
+      url: string // 240x240
+      userId: string // 投稿者識別子
+      width: number // 幅[一枚目のみ]
+      xRestrict: 0 | 1 | 2 // 18禁[規制内,R-18,R-18G]
+    }
+  }
+  // 閲覧数
   viewCount: number
-  rateCount: number
-  caption: string
-  tags: Tag[]
+  // 幅[一枚目のみ]
+  width: number
+  // 不明
+  zoneConfig: {}
 }
 
 export const enum IllustType {
@@ -108,8 +249,8 @@ export class Illust {
   @observable isRated: boolean
   @observable date: string = ''
   @observable viewCount: number = 0
-  @observable rateCount: number = 0
-  @observable caption: string = ''
+  @observable likeCount: number = 0
+  @observable illustComment: string = ''
   @observable.ref tags: Tag[] = []
 
   @observable isUpdating: boolean = false
@@ -201,11 +342,11 @@ export class Illust {
       const attrs = await this.services.client.getIllustPage(this.id)
 
       runInAction(() => {
-        this.date = attrs.date
+        this.date = new Date(attrs.createDate).toLocaleString()
         this.viewCount = attrs.viewCount
-        this.rateCount = attrs.rateCount
-        this.caption = attrs.caption
-        this.tags = attrs.tags
+        this.likeCount = attrs.likeCount
+        this.illustComment = attrs.illustComment
+        this.tags = attrs.tags.tags
         this.status = Status.RESOLVED
       })
     } catch {
@@ -219,7 +360,7 @@ export class Illust {
   private async likeIt() {
     const prev = this.toCache()
 
-    this.rateCount += 1
+    this.likeCount += 1
     this.isRated = true
     this.isUpdating = true
 
@@ -238,7 +379,7 @@ export class Illust {
 
   private toCache() {
     return {
-      rateCount: this.rateCount,
+      rateCount: this.likeCount,
       isRated: this.isRated
     }
   }

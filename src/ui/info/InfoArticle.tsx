@@ -59,20 +59,25 @@ export class InfoArticle extends React.Component<Props> {
               </ListItem>
               <ListItem>
                 <RateCount />
-                <Text>{illust.rateCount}</Text>
+                <Text>{illust.likeCount}</Text>
               </ListItem>
               <Divider />
               <ListItem>
                 <Caption />
-                <Text dangerouslySetInnerHTML={{ __html: illust.caption }} />
+                <Text
+                  dangerouslySetInnerHTML={{ __html: illust.illustComment }}
+                />
               </ListItem>
               <Divider />
               <ListItem>
                 <Tag />
                 <Text>
                   {illust.tags.map(tag => (
-                    <TagLink key={tag.name} href={tag.url}>
-                      {tag.name}
+                    <TagLink
+                      key={tag.tag}
+                      href={`/search.php?s_mode=s_tag_full&word=${tag.tag}`}
+                    >
+                      {tag.tag}
                     </TagLink>
                   ))}
                 </Text>
@@ -115,6 +120,9 @@ const Text = styled.div`
 const TagLink = styled.a`
   display: inline-block;
   margin-right: 8px;
+  &::before {
+    content: '#';
+  }
 `
 
 const Divider = styled.hr`

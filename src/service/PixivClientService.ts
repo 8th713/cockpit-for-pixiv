@@ -2,7 +2,12 @@ import { ThreadPool } from './infra/ThreadPool'
 import { HttpCliant } from './infra/HttpCliant'
 import { Scraper } from './infra/Scraper'
 import { ClientService } from '../types'
-import { IllustAttrs, BookmarkAttrs, TagAttrsDictionary } from '../store'
+import {
+  IllustAttrs,
+  DetailsAttrs,
+  BookmarkAttrs,
+  TagAttrsDictionary
+} from '../store'
 
 interface RPCResponse {
   error: boolean
@@ -13,6 +18,10 @@ interface IllustDetailByIdsResponse extends RPCResponse {
   body: {
     [id: string]: IllustAttrs
   }
+}
+
+interface PageDetail extends RPCResponse {
+  body: DetailsAttrs
 }
 
 export class PixivClientService implements ClientService {
@@ -50,12 +59,16 @@ export class PixivClientService implements ClientService {
   }
 
   getIllustPage(id: string) {
-    const url = `/member_illust.php?mode=medium&illust_id=${id}`
+    const url = `/ajax/illust/${id}`
 
     return this.pool.submit(async () => {
-      const doc = await this.cliant.getDoc(url)
+      const response = await this.cliant.getJSON<PageDetail>(url)
 
-      return this.scraper.scrapeIllustPage(doc)
+      if (response.error) {
+        throw new Error(response.message)
+      }
+
+      return response.body
     })
   }
 

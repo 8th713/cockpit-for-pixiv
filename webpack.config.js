@@ -1,21 +1,16 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
-const { CheckerPlugin } = require('awesome-typescript-loader')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const compile = require('lodash/template')
+const pkg = require('./package.json')
 
-const NODE_ENV = process.env.NODE_ENV || 'development'
-const outPath = path.join(__dirname, './docs')
-const sourcePath = path.join(__dirname, './src')
-const env = {
-  'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
-}
-const supportedSelectors = fs.readFileSync(
-  './src/supportedSelectors.js',
-  'utf-8'
-)
+const outPath = path.resolve(__dirname, './docs')
+const sourcePath = path.resolve(__dirname, './src')
+const template = fs.readFileSync('./src/banner.js', 'utf-8')
+const banner = compile(template)(pkg)
 
 const config = {
-  devtool: 'inline-source-map',
   entry: './src/index.ts',
   output: {
     path: outPath,
@@ -32,16 +27,13 @@ const config = {
       {
         test: /\.tsx?$/,
         include: sourcePath,
-        loader: 'awesome-typescript-loader'
+        loader: 'ts-loader',
+        options: {
+          transpileOnly: true
+        }
       }
     ]
   },
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin(env),
-    new CheckerPlugin(),
-    new webpack.BannerPlugin({ banner: supportedSelectors, raw: true })
-  ],
   stats: 'minimal',
   node: {
     fs: 'empty',
@@ -53,18 +45,15 @@ const config = {
   }
 }
 
-if (NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-  const template = require('lodash/template')
-  const pkg = require('./package.json')
-
-  const banner =
-    template(fs.readFileSync('./src/banner', 'utf-8'))(pkg) + supportedSelectors
 
   config.devtool = false
-  config.plugins.pop()
   config.plugins = [
-    ...config.plugins,
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
+    new ForkTsCheckerWebpackPlugin(),
     new UglifyJsPlugin({
       uglifyOptions: {
         ecma: 8,
@@ -78,6 +67,16 @@ if (NODE_ENV === 'production') {
         }
       }
     }),
+    new webpack.BannerPlugin({ banner, raw: true })
+  ]
+} else {
+  config.devtool = 'inline-source-map'
+  config.plugins = [
+    new webpack.NamedModulesPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
+    new ForkTsCheckerWebpackPlugin(),
     new webpack.BannerPlugin({ banner, raw: true })
   ]
 }
