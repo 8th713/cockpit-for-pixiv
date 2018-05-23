@@ -22,10 +22,10 @@ export const RecommendTagList = observer(({ store }: Props) => {
         onResolved={() =>
           illust.tags.map(tag => (
             <TagButton
-              key={tag.name}
+              key={tag.tag}
               store={store.attrs}
               tag={{
-                name: tag.name,
+                name: tag.tag,
                 className: 'lev6'
               }}
             />
