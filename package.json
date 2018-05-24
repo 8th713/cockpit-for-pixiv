@@ -12,8 +12,8 @@
   "readmeFilename": "README.md",
   "repository": "8th713/cockpit-for-pixiv",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack --progress -w",
-    "build": "cross-env NODE_ENV=production webpack --progress",
+    "start": "webpack --mode development --watch",
+    "build": "webpack --mode production",
     "docs": "pug docsrc/index.pug -o docs -O package.json"
   },
   "dependencies": {
@@ -22,8 +22,8 @@
     "classnames": "^2.2.5",
     "mobx": "^3.5.1",
     "mobx-react": "^4.4.1",
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
     "styled-components": "^3.2.6"
   },
   "devDependencies": {
@@ -31,15 +31,15 @@
     "@types/jquery": "^3.3.2",
     "@types/react": "^16.3.14",
     "@types/react-dom": "^16.0.5",
-    "cross-env": "^5.1.6",
     "fork-ts-checker-webpack-plugin": "^0.4.1",
     "lodash.template": "^4.4.0",
     "pug": "^2.0.3",
     "pug-cli": "^1.0.0-alpha6",
-    "ts-loader": "3.5.0",
+    "ts-loader": "^4.3.0",
     "typescript": "^2.8.3",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^3.10.0"
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4"
   },
   "resolutions": {
     "@types/react": "^16.3.14",
