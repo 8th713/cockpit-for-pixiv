@@ -1,84 +1,79 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const compile = require('lodash/template')
+const compile = require('lodash.template')
 const pkg = require('./package.json')
 
-const outPath = path.resolve(__dirname, './docs')
-const sourcePath = path.resolve(__dirname, './src')
-const template = fs.readFileSync('./src/banner.js', 'utf-8')
-const banner = compile(template)(pkg)
-
-const config = {
-  entry: './src/index.ts',
-  output: {
-    path: outPath,
-    filename: 'cockpit-for-pixiv.user.js',
-    publicPath: '/'
-  },
-  target: 'web',
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
-  },
-  module: {
-    rules: [
-      { parser: { requireEnsure: false } },
-      {
-        test: /\.tsx?$/,
-        include: sourcePath,
-        loader: 'ts-loader',
-        options: {
-          transpileOnly: true
+module.exports = (env, argv) => {
+  const outPath = path.resolve(__dirname, 'docs')
+  const sourcePath = path.resolve(__dirname, 'src')
+  const tmplPath = path.resolve(__dirname, 'src/banner.js')
+  const template = fs.readFileSync(tmplPath, 'utf-8')
+  const banner = compile(template)(pkg)
+  const DEV = argv.mode !== 'production'
+  const config = {
+    mode: argv.mode,
+    entry: './src/index.ts',
+    output: {
+      filename: 'cockpit-for-pixiv.user.js',
+      path: outPath
+    },
+    target: 'web',
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js', '.jsx']
+    },
+    module: {
+      rules: [
+        { parser: { requireEnsure: false } },
+        {
+          test: /\.tsx?$/,
+          include: sourcePath,
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true
+          }
         }
-      }
-    ]
-  },
-  stats: 'minimal',
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    tls: 'empty'
-  },
-  performance: {
-    hints: false
+      ]
+    },
+    plugins: [
+      new ForkTsCheckerWebpackPlugin(),
+      new webpack.BannerPlugin({ banner, raw: true })
+    ],
+    node: {
+      dgram: 'empty',
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty',
+      child_process: 'empty'
+    },
+    performance: false,
+    optimization: {
+      minimizer: [
+        new UglifyJSPlugin({
+          uglifyOptions: {
+            compress: {
+              ecma: 7,
+              comparisons: false
+            },
+            output: {
+              ecma: 7,
+              comments: /^ [@=]/,
+              ascii_only: true
+            }
+          },
+          parallel: true,
+          cache: true,
+          sourceMap: true
+        })
+      ]
+    }
   }
+
+  if (DEV) {
+    config.devtool = 'inline-source-map'
+  }
+
+  return config
 }
-
-if (process.env.NODE_ENV === 'production') {
-  const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
-  config.devtool = false
-  config.plugins = [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    new ForkTsCheckerWebpackPlugin(),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        ecma: 8,
-        compress: {
-          comparisons: false,
-          warnings: false
-        },
-        output: {
-          comments: false,
-          ascii_only: true
-        }
-      }
-    }),
-    new webpack.BannerPlugin({ banner, raw: true })
-  ]
-} else {
-  config.devtool = 'inline-source-map'
-  config.plugins = [
-    new webpack.NamedModulesPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    }),
-    new ForkTsCheckerWebpackPlugin(),
-    new webpack.BannerPlugin({ banner, raw: true })
-  ]
-}
-
-module.exports = config
