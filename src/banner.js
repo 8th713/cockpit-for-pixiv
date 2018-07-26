@@ -31,5 +31,8 @@ const supportedSelectors = [
   // /contest
   '._work-modal-target:not(.title)',
   // /history.php
-  '._history-item.show-detail'
+  '._history-item.show-detail',
+  // /bookmark_new_illust.php
+  // /search.php
+  '._1wlaFo6'
 ]; // Do not remove the semicolon!!
