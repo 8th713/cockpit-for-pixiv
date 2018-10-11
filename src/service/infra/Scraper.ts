@@ -1,11 +1,12 @@
 import { BookmarkAttrs } from '../../store'
 
-const FORM = '.bookmark-detail-unit form:not(.remove-bookmark-form)'
+const FORM = '.bookmark-detail-unit form:not(.remove-bookmark-form) input'
 
 export class Scraper {
   scrapeBookmarkPage(doc: Document): BookmarkAttrs {
     const res = {} as any
-    const arr = jQuery(FORM, doc).serializeArray()
+    const elements: NodeListOf<HTMLInputElement> = doc.querySelectorAll(FORM);
+    const arr = Array.from(elements);
 
     for (const { name, value } of arr) {
       if (name === 'comment') {
