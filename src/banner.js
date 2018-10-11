@@ -9,7 +9,6 @@
 // @namespace    http://github.com/8th713
 // @match        https://www.pixiv.net/*
 // @exclude      https://www.pixiv.net/novel/*
-// @exclude      https://www.pixiv.net/member_illust.php?mode*
 // @grant        none
 // ==/UserScript==
 
