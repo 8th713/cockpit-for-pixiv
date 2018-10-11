@@ -34,5 +34,7 @@ const supportedSelectors = [
   '._history-item.show-detail',
   // /bookmark_new_illust.php
   // /search.php
-  '._1wlaFo6'
+  '._1wlaFo6',
+  // /member.php
+  '.kbZjQ32'
 ]; // Do not remove the semicolon!!

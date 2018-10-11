@@ -32,12 +32,12 @@ export class PixivClientService implements ClientService {
   private id: string
   private token: string
 
-  constructor(data: typeof pixiv) {
-    if (!data.user.loggedIn) {
+  constructor(data: PixivGlobalData) {
+    if (!data.loggedIn) {
       throw new Error('ログインしてください')
     }
-    this.id = data.user.id
-    this.token = data.context.token
+    this.id = data.userId
+    this.token = data.token
   }
 
   getIllust(id: string) {
