@@ -14,26 +14,46 @@
 
 // prettier-ignore
 const supportedSelectors = [
-  // old style
-  '._work',
-  // new style
-  '.bBzsEVG',
+  // /member_illust.php
+  'a.kbZjQ32',
+
+  // /bookmark.php?id=xxx ユーザーのお気に入り一覧
+  'a.P1uthkK',
+
+  // /member_illust.php?mode=medium
+  'a.css-utfbus', // 作者の他作品
+  'a.kbZjQ32', // 関連作品
+
+  // /search.php
   // /bookmark_new_illust.php
   // /discovery
-  '.gtm-thumbnail-link',
+  // /idea // 今日のお題新着
+  'a._1wlaFo6',
+
   // /discovery/users
-  '.JY31BOE',
-  // /showcase
-  '._3zE7tZ-',
+  'a.JY31BOE',
+
   // /howto
-  '._3sroO25',
+  'a._3sroO25',
+
   // /contest
-  '._work-modal-target:not(.title)',
+  'a._work-modal-target:not(.title)',
+
+  // /showcase
+  'a._3zE7tZ-',
+
   // /history.php
-  '._history-item.show-detail',
-  // /bookmark_new_illust.php
-  // /search.php
-  '._1wlaFo6',
-  // /member.php
-  '.kbZjQ32'
+  'a._history-item.show-detail',
+
+  // / // フォロー新着作品,おすすめ作品
+  // /ranking.php
+  // /bookmark.php
+  // /new_illust.php
+  // /tags.php // 全期間の人気イラスト,新着イラスト
+  // /stacc
+  // /idea // ユーザー企画,新着の企画目録
+  'a._work',
+
+  // /tags.php // 週間の人気イラスト
+  'a.work',
 ]; // Do not remove the semicolon!!
