@@ -9,7 +9,6 @@
 // @namespace    http://github.com/8th713
 // @match        https://www.pixiv.net/*
 // @exclude      https://www.pixiv.net/novel/*
-// @exclude      https://www.pixiv.net/member_illust.php?mode*
 // @grant        none
 // ==/UserScript==
 
@@ -34,5 +33,7 @@ const supportedSelectors = [
   '._history-item.show-detail',
   // /bookmark_new_illust.php
   // /search.php
-  '._1wlaFo6'
+  '._1wlaFo6',
+  // /member.php
+  '.kbZjQ32'
 ]; // Do not remove the semicolon!!

@@ -48,6 +48,19 @@ declare var pixiv: {
   }
 }
 
+declare var globalInitData: {
+  token: string
+  userData: {
+    id: string
+  }
+}
+
+interface PixivGlobalData {
+  token: string
+  userId: string
+  loggedIn: boolean
+}
+
 interface UgoiraMeta {
   mime_type: string
   frames: Array<{ file: string; delay: number }>

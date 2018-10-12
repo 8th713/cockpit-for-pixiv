@@ -29,7 +29,7 @@ export class DOMPageService implements PageService {
     const script = document.head.appendChild(document.createElement('script'))
 
     script.src =
-      'https://cdn.rawgit.com/pixiv/zip_player/e1f21d60/zip_player.js'
+      'https://cdn.rawgit.com/FlandreDaisuki/zip_player/94b2a56/dist/zip_player.iife.js'
 
     injectGlobal`
       html.${NO_SCROLLBAR} {
