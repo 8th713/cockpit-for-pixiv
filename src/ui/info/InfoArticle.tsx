@@ -75,7 +75,7 @@ export class InfoArticle extends React.Component<Props> {
                   {illust.tags.map(tag => (
                     <TagLink
                       key={tag.tag}
-                      href={`/search.php?s_mode=s_tag_full&word=${tag.tag}`}
+                      href={`/search.php?s_mode=s_tag_full&word=${encodeURIComponent(tag.tag)}`}
                     >
                       {tag.tag}
                     </TagLink>
