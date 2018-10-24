@@ -14,15 +14,11 @@
 
 // prettier-ignore
 const supportedSelectors = [
+  // /member.php
   // /member_illust.php
-  'a.kbZjQ32',
-
-  // /bookmark.php?id=xxx ユーザーのお気に入り一覧
-  'a.P1uthkK',
-
-  // /member_illust.php?mode=medium
-  'a.css-utfbus', // 作者の他作品
-  'a.kbZjQ32', // 関連作品
+  // /bookmark.php?id=xxx
+  // /member_illust.php?mode=medium //
+  'a.css-41rhvt',
 
   // /search.php
   // /bookmark_new_illust.php
