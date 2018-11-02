@@ -18,7 +18,7 @@ const supportedSelectors = [
   // /member_illust.php
   // /bookmark.php?id=xxx
   // /member_illust.php?mode=medium //
-  'a.css-41rhvt',
+  'a.css-rrjzxd',
 
   // /search.php
   // /bookmark_new_illust.php
