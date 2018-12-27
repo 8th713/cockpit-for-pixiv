@@ -19,8 +19,8 @@ const supportedSelectors = [
   // /member.php
   // /member_illust.php
   // /bookmark.php?id=xxx
-  // /member_illust.php?mode=medium //
-  'a.sc-jKJlTe',
+  // /member_illust.php?mode=medium
+  'a.sc-eNQAEJ',
 
   // /search.php
   // /bookmark_new_illust.php
@@ -37,7 +37,7 @@ const supportedSelectors = [
   // /contest
   'a._work-modal-target:not(.title)',
 
-  // /showcase
+  // /showcase(pixivisionに移転した?)
   'a._3zE7tZ-',
 
   // /history.php
