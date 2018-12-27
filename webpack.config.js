@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const compile = require('lodash.template')
 const pkg = require('./package.json')
@@ -51,15 +51,14 @@ module.exports = (env, argv) => {
     performance: false,
     optimization: {
       minimizer: [
-        new UglifyJSPlugin({
-          uglifyOptions: {
+        new TerserPlugin({
+          terserOptions: {
+            ecma: 7,
             compress: {
-              ecma: 7,
               comparisons: false
             },
             output: {
-              ecma: 7,
-              comments: /^ [@=]/,
+              comments: 'some',
               ascii_only: true
             }
           },
