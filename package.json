@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "4.0.0-alpha.1",
+  "version": "4.0.0-alpha.2",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -42,7 +42,7 @@
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "source-map-loader": "^0.2.4",
-    "terser-webpack-plugin": "^1.2.0",
+    "terser-webpack-plugin": "^1.2.1",
     "typescript": "^3.2.2",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2"
