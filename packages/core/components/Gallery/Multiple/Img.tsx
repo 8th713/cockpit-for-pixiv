@@ -31,7 +31,8 @@ export const Img = React.memo(function Img({ page }: Props) {
     height,
     backgroundColor: '#fff',
     transitionProperty: 'width, height',
-    transitionDuration: '200ms'
+    transitionDuration: '150ms',
+    transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
   }
 
   switch (status) {
