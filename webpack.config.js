@@ -42,13 +42,7 @@ module.exports = (env, argv) => {
       banner('packages/core/banner.js', 'cockpit-for-pixiv'),
       banner('packages/addon-download/banner.js', 'cockpit-download-addon')
     ],
-    node: {
-      dgram: 'empty',
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty'
-    },
+    node: false,
     performance: false,
     optimization: {
       minimizer: [
