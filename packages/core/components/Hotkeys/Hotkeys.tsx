@@ -37,11 +37,11 @@ function parseKeyName(keyName: string) {
 
   if (keyName.includes('⇧')) {
     res.shiftKey = true
-    keyName = keyName.replace(/⇧/g, '')
+    keyName = keyName.slice(1)
   }
-  if (keyName.includes('^')) {
+  if (keyName.length > 1 && keyName.includes('^')) {
     res.ctrlKey = true
-    keyName = keyName.replace(/\^/g, '')
+    keyName = keyName.slice(1)
   }
   if (keyName === '?') {
     res.shiftKey = true
