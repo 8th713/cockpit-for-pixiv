@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "4.0.0-alpha.2",
+  "version": "4.0.0-alpha.3",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -34,8 +34,8 @@
     "@types/jszip": "^3.1.4",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
-    "@types/styled-components": "^4.1.4",
-    "babel-loader": "^8.0.4",
+    "@types/styled-components": "^4.1.5",
+    "babel-loader": "^8.0.5",
     "babel-plugin-styled-components": "^1.10.0",
     "html-webpack-plugin": "^3.2.0",
     "lodash.template": "^4.4.0",
