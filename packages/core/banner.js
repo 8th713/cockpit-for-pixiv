@@ -20,19 +20,19 @@ const supportedSelectors = [
   // /member_illust.php
   // /bookmark.php?id=xxx
   // /member_illust.php?mode=medium
-  'a.sc-eNQAEJ',
+  'a.sc-kEYyzF',
 
   // /search.php
   // /bookmark_new_illust.php
   // /discovery
   // /idea // 今日のお題新着
-  'a._1wlaFo6',
+  'a.PKslhVT',
 
   // /discovery/users
-  'a.JY31BOE',
+  'a._3dXyksb',
 
   // /howto
-  'a._3sroO25',
+  'a.o8jYSOX',
 
   // /contest
   'a._work-modal-target:not(.title)',
@@ -42,6 +42,7 @@ const supportedSelectors = [
 
   // /history.php
   'a._history-item.show-detail',
+  'a._history-related-item',
 
   // / // フォロー新着作品,おすすめ作品
   // /ranking.php
