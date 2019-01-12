@@ -58,7 +58,7 @@ module.exports = (env, argv) => {
               comparisons: false
             },
             output: {
-              comments: 'some',
+              comments: /^\**!|@preserve|@license|@cc_on|Licensed/,
               ascii_only: true
             }
           },
