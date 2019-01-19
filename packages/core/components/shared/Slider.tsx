@@ -29,7 +29,7 @@ export const Slider = React.forwardRef<HTMLInputElement, Props>(function Slider(
       setPos(getPos(input.current))
     }
   }, [])
-  React.useImperativeMethods(ref, () => input.current!, [input])
+  React.useImperativeHandle(ref, () => input.current!, [input])
 
   return (
     <Box>
