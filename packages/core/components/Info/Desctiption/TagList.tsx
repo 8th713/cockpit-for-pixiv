@@ -11,7 +11,7 @@ type Props = {
   children?: never
 }
 
-export const TagList: React.FC<Props> = ({ illust }) => {
+export function TagList({ illust }: Props) {
   const { xRestrict, isOriginal, isHowto } = illust
   const rating = xRestrict === 1 ? 'R-18' : xRestrict === 2 ? 'R-18G' : ''
   const { tags } = illust.tags

@@ -9,7 +9,7 @@ type Props = {
   children?: never
 }
 
-export const RestrictField = React.memo(function RestrictField(props: Props) {
+export function RestrictField(props: Props) {
   const { checked } = props
   const handleChange = React.useCallback(() => props.onChange(), [])
 
@@ -19,7 +19,7 @@ export const RestrictField = React.memo(function RestrictField(props: Props) {
       <Text>非公開</Text>
     </Layout>
   )
-})
+}
 
 const Layout = styled.button`
   cursor: pointer;

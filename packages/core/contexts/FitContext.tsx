@@ -19,7 +19,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const FitProvider = React.memo(function FitProvider(props: Props) {
+function FitProvider(props: Props) {
   const { status, cycle } = useFit()
 
   return (
@@ -27,7 +27,7 @@ const FitProvider = React.memo(function FitProvider(props: Props) {
       <Value.Provider value={status}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(FitProvider, { useValue, useAction })
 

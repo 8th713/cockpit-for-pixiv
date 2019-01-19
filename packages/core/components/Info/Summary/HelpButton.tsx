@@ -6,7 +6,7 @@ import { getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('help')
 
-export const HelpButton = React.memo(function HelpButton() {
+export function HelpButton() {
   const toggle = AboutProvider.useAction()
   const fromEvent = React.useCallback(() => toggle(), [toggle])
 
@@ -15,4 +15,4 @@ export const HelpButton = React.memo(function HelpButton() {
       <Help />
     </Button>
   )
-})
+}

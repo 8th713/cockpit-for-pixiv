@@ -19,11 +19,7 @@ type Props = {
   children?: never
 }
 
-export const Player = React.memo(function Player({
-  onClick,
-  style,
-  frames
-}: Props) {
+export function Player({ onClick, style, frames }: Props) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
   function handleClick(event: React.MouseEvent) {
@@ -46,7 +42,7 @@ export const Player = React.memo(function Player({
       </PlayControl>
     </Layout>
   )
-})
+}
 
 const Layout = styled.div`
   position: relative;

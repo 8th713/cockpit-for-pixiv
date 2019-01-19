@@ -1,12 +1,18 @@
 import React from 'react'
 
+type Definition = {
+  key: string
+  shiftKey: boolean
+  ctrlKey: boolean
+}
+
 type Props = {
   keyName: string
   disabled?: boolean
   onKeyDown: (event: KeyboardEvent) => unknown
 }
 
-export const Hotkeys = React.memo(function Hotkeys(props: Props) {
+export function Hotkeys(props: Props) {
   const definition = parseKeyName(props.keyName)
 
   React.useEffect(() => {
@@ -20,12 +26,6 @@ export const Hotkeys = React.memo(function Hotkeys(props: Props) {
     return () => window.removeEventListener('keydown', handleKeyDown, true)
   })
   return null
-})
-
-type Definition = {
-  key: string
-  shiftKey: boolean
-  ctrlKey: boolean
 }
 
 function parseKeyName(keyName: string) {

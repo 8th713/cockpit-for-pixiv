@@ -18,7 +18,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const PaddingProvider = React.memo(function PaddingProvider(props: Props) {
+function PaddingProvider(props: Props) {
   const { value, set } = usePadding()
 
   return (
@@ -26,7 +26,7 @@ const PaddingProvider = React.memo(function PaddingProvider(props: Props) {
       <Value.Provider value={value}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(PaddingProvider, { useValue, useAction })
 

@@ -4,7 +4,7 @@ import { IllustProvider } from '../../contexts'
 import { Author } from '../Author'
 import { Progress } from '../shared/Progress'
 
-export const UserCard = React.memo(function UserCard() {
+export function UserCard() {
   const result = IllustProvider.useValue()
 
   switch (result.status) {
@@ -17,4 +17,4 @@ export const UserCard = React.memo(function UserCard() {
       return <Author userId={value.userId} />
     }
   }
-})
+}

@@ -8,7 +8,7 @@ import { keyMap, getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('fit')
 
-export const FitButton = React.memo(function FitButton() {
+export function FitButton() {
   const value = FitProvider.useValue()
   const cycle = FitProvider.useAction()
 
@@ -20,4 +20,4 @@ export const FitButton = React.memo(function FitButton() {
       <Hotkeys {...keyMap.fit} onKeyDown={cycle} />
     </Button>
   )
-})
+}

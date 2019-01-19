@@ -4,7 +4,7 @@ import { color, ripple } from '../theme'
 import { Bug, Help } from '../shared/Icon'
 import { Section } from './Section'
 
-export const Signature = React.memo(function Signature() {
+export function Signature() {
   return (
     <Section label="About">
       <List>
@@ -19,7 +19,7 @@ export const Signature = React.memo(function Signature() {
       </List>
     </Section>
   )
-})
+}
 
 const List = styled.div`
   margin: 0 -24px;

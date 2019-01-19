@@ -19,7 +19,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const SpreadProvider = React.memo(function SpreadProvider(props: Props) {
+function SpreadProvider(props: Props) {
   const { status, cycle } = useSpread()
 
   return (
@@ -27,7 +27,7 @@ const SpreadProvider = React.memo(function SpreadProvider(props: Props) {
       <Value.Provider value={status}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(SpreadProvider, { useValue, useAction })
 

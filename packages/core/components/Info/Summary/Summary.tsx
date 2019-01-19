@@ -11,7 +11,7 @@ import { FitButton } from './FitButton'
 import { SpreadButton } from './SpreadButton'
 import { HelpButton } from './HelpButton'
 
-export const Summary: React.FC = () => {
+export function Summary() {
   return (
     <Layout>
       <ButtonGroup>

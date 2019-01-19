@@ -8,13 +8,15 @@ type Props = React.ComponentPropsWithoutRef<'div'> & {
   children?: never
 }
 
-export const Progress: React.FC<Props> = ({ size, ...props }) => (
-  <Root {...props} role="progressbar" size={size || 256}>
-    <Svg viewBox="0 0 50 50">
-      <Circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
-    </Svg>
-  </Root>
-)
+export function Progress({ size, ...props }: Props) {
+  return (
+    <Root {...props} role="progressbar" size={size || 256}>
+      <Svg viewBox="0 0 50 50">
+        <Circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
+      </Svg>
+    </Root>
+  )
+}
 
 type WithSize = {
   size: number

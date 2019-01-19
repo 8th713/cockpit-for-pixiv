@@ -13,7 +13,7 @@ type Props = {
   children?: never
 }
 
-export const TagField = React.memo(function TagField(props: Props) {
+export function TagField(props: Props) {
   const count = countTags(props.value)
   const invalid = count > MAX
   const text = `${count}/${MAX}`
@@ -33,7 +33,7 @@ export const TagField = React.memo(function TagField(props: Props) {
       </HelperBox>
     </Layout>
   )
-})
+}
 
 const Layout = styled.div`
   position: sticky;

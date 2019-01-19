@@ -7,7 +7,7 @@ import { Single } from './Single'
 import { Multiple } from './Multiple'
 import { Ugoira } from './Ugoira'
 
-export const Divide = React.memo(function Divide() {
+export function Divide() {
   const result = PagesProvider.useValue()
   const retry = PagesProvider.useAction()
   const { goFromEvent } = PickerProvider.useAction()
@@ -39,7 +39,7 @@ export const Divide = React.memo(function Divide() {
       return <Single page={value[0]} />
     }
   }
-})
+}
 
 const Layout = styled.div`
   box-sizing: border-box;

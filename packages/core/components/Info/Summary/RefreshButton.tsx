@@ -4,7 +4,7 @@ import { IllustProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Refresh } from '../../shared/Icon'
 
-export const RefreshButton = React.memo(function RefreshButton() {
+export function RefreshButton() {
   const result = IllustProvider.useValue()
   const { retry } = IllustProvider.useAction()
 
@@ -16,4 +16,4 @@ export const RefreshButton = React.memo(function RefreshButton() {
     )
   }
   return null
-})
+}

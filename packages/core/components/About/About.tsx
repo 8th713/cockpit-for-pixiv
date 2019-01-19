@@ -3,13 +3,13 @@ import { AboutProvider } from '../../contexts'
 import { PaddingEditor } from './PaddingEditor'
 import { ShortcutsList } from './ShortcutsList'
 import { Signature } from './Signature'
-import Dialog from '../shared/Dialog'
+import { Dialog } from '../shared/Dialog'
 import { Text } from '../shared/Text'
 import { Divider } from '../shared/Divider'
 import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants/keyMap'
 
-export const About = React.memo(function About() {
+export function About() {
   const opened = AboutProvider.useValue()
   const toggle = AboutProvider.useAction()
   const handleRequestClose = React.useCallback(() => toggle(), [])
@@ -30,4 +30,4 @@ export const About = React.memo(function About() {
       <Hotkeys {...keyMap.help} onKeyDown={handleRequestClose} />
     </Dialog>
   )
-})
+}

@@ -14,7 +14,7 @@ type Props = {
   children?: never
 }
 
-export const Img = React.memo(function Img({ page }: Props) {
+export function Img({ page }: Props) {
   const { goFromEvent } = PickerProvider.useAction()
   const board = BoardProvider.useValue()
   const fit = FitProvider.useValue()
@@ -60,4 +60,4 @@ export const Img = React.memo(function Img({ page }: Props) {
         />
       )
   }
-})
+}

@@ -10,7 +10,7 @@ interface Props {
   children?: never
 }
 
-export const Tag = React.memo(function Tag(props: Props) {
+export function Tag(props: Props) {
   function handleClick() {
     props.onClick(props.name)
   }
@@ -25,7 +25,7 @@ export const Tag = React.memo(function Tag(props: Props) {
       {props.name}
     </Button>
   )
-})
+}
 
 export const TagList = styled.div`
   padding: 16px 8px 8px 16px;

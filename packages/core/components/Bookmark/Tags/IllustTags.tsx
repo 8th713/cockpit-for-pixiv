@@ -11,7 +11,7 @@ type Props = {
   children?: never
 }
 
-export const IllustTags = React.memo(function IllustTags(props: Props) {
+export function IllustTags(props: Props) {
   const list = props.illustTags
 
   return (
@@ -34,7 +34,7 @@ export const IllustTags = React.memo(function IllustTags(props: Props) {
       </TagList>
     </section>
   )
-})
+}
 
 const Row = styled.div`
   display: grid;

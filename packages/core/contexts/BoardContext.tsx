@@ -19,12 +19,12 @@ type Props = {
   children?: React.ReactNode
 }
 
-const BoardProvider = React.memo(function BoardProvider(props: Props) {
+function BoardProvider(props: Props) {
   const padding = PaddingProvider.useValue()
   const value = useBoardSize(props.observe, padding)
 
   return <Value.Provider value={value}>{props.children}</Value.Provider>
-})
+}
 
 const Context = Object.assign(BoardProvider, { useValue })
 

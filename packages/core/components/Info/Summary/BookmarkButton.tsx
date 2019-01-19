@@ -14,7 +14,7 @@ const title = [
   getDesc('openBookmark')
 ].join('\n')
 
-export const BookmarkButton = React.memo(function BookmarkButton() {
+export function BookmarkButton() {
   const result = IllustProvider.useValue()
   const { bookmark } = IllustProvider.useAction()
   const [opened, toggle] = useToggle(false)
@@ -73,4 +73,4 @@ export const BookmarkButton = React.memo(function BookmarkButton() {
       )}
     </>
   )
-})
+}

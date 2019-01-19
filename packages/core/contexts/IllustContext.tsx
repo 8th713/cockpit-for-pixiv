@@ -19,7 +19,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const IllustProvider = React.memo(function IllustProvider(props: Props) {
+function IllustProvider(props: Props) {
   const id = PickerProvider.useValue()
   const { result, actions } = useIllust(id!)
 
@@ -28,7 +28,7 @@ const IllustProvider = React.memo(function IllustProvider(props: Props) {
       <Value.Provider value={result}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(IllustProvider, { useValue, useAction })
 

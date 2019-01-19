@@ -7,7 +7,7 @@ type Props = {
   children?: never
 }
 
-export const Comment: React.FC<Props> = ({ illust }) => {
+export function Comment({ illust }: Props) {
   const comment = illust.illustComment.trim()
 
   if (!comment) return null

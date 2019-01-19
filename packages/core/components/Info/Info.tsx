@@ -7,7 +7,7 @@ import { Summary } from './Summary'
 import { Desctiption } from './Desctiption'
 import { UserCard } from './UserCard'
 
-export const Info = React.memo(function Info() {
+export function Info() {
   const opened = ExpansionProvider.useValue()
 
   return (
@@ -26,7 +26,7 @@ export const Info = React.memo(function Info() {
       </Layout>
     </IllustProvider>
   )
-})
+}
 
 const Layout = styled.div`
   all: unset;

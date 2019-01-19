@@ -16,7 +16,7 @@ type Props = {
   children?: never
 }
 
-export const Img = React.memo(function Img({ id, page }: Props) {
+export function Img({ id, page }: Props) {
   const { result, retry } = useUgoira(id)
   const { goFromEvent } = PickerProvider.useAction()
   const board = BoardProvider.useValue()
@@ -46,4 +46,4 @@ export const Img = React.memo(function Img({ id, page }: Props) {
       return <Player frames={value} style={styles} onClick={goFromEvent} />
     }
   }
-})
+}

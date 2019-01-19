@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { PickerProvider, PagesProvider, BoardProvider } from '../../contexts'
 import { Divide } from './Divide'
 
-export const Gallery = React.memo(function Gallery() {
+export function Gallery() {
   const { unsetElement } = PickerProvider.useAction()
   const ref = React.useRef<HTMLDivElement>(null)
 
@@ -16,7 +16,7 @@ export const Gallery = React.memo(function Gallery() {
       </BoardProvider>
     </PagesProvider>
   )
-})
+}
 
 const Layout = styled.div`
   user-select: none;

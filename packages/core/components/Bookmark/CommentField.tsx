@@ -11,7 +11,7 @@ type Props = {
   children?: never
 }
 
-export const CommentField = React.memo(function CommentField(props: Props) {
+export function CommentField(props: Props) {
   const count = props.value.length
   const invalid = count > MAX
   const text = `${count}/${MAX}`
@@ -26,7 +26,7 @@ export const CommentField = React.memo(function CommentField(props: Props) {
       </Helper>
     </div>
   )
-})
+}
 
 const Helper = styled(Text)`
   margin-top: 2px;

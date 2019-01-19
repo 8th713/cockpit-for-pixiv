@@ -7,7 +7,7 @@ import { keyMap, getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('info')
 
-export const ExpansionButton = React.memo(function ExpansionButton() {
+export function ExpansionButton() {
   const opened = ExpansionProvider.useValue()
   const toggle = ExpansionProvider.useAction()
   const handleClick = React.useCallback(() => toggle(), [toggle])
@@ -18,4 +18,4 @@ export const ExpansionButton = React.memo(function ExpansionButton() {
       <Hotkeys {...keyMap.info} onKeyDown={handleClick} />
     </Button>
   )
-})
+}

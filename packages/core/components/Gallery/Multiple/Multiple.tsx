@@ -9,7 +9,7 @@ type Props = {
   children?: never
 }
 
-export const Multiple: React.FC<Props> = ({ pages }) => {
+export function Multiple({ pages }: Props) {
   const padding = PaddingProvider.useValue()
   const spread = SpreadProvider.useValue()
   const children = React.useMemo(

@@ -13,7 +13,7 @@ type Props = {
   children?: never
 }
 
-export const Tags = React.memo(function Tags(props: Props) {
+export function Tags(props: Props) {
   const result = IllustProvider.useValue()
 
   if (result.status !== AsyncStatus.Success) return null
@@ -37,4 +37,4 @@ export const Tags = React.memo(function Tags(props: Props) {
       </SortProvider>
     </>
   )
-})
+}

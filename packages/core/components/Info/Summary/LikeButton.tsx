@@ -10,7 +10,7 @@ import { keyMap, getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('like')
 
-export const LikeButton = React.memo(function LikeButton() {
+export function LikeButton() {
   const result = IllustProvider.useValue()
   const { like } = IllustProvider.useAction()
 
@@ -43,7 +43,7 @@ export const LikeButton = React.memo(function LikeButton() {
       <Hotkeys {...keyMap.like} onKeyDown={like} />
     </Button>
   )
-})
+}
 
 const FakeButton = styled.div`
   box-sizing: border-box;

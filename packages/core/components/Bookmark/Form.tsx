@@ -14,7 +14,7 @@ type Props = {
   children?: never
 }
 
-export const Form = React.memo(function Form(props: Props) {
+export function Form(props: Props) {
   const restrict = useRestrict(!!props.data.restrict)
   const comment = useInput(props.data.comment)
   const tags = useInput(props.data.tags)
@@ -37,7 +37,7 @@ export const Form = React.memo(function Form(props: Props) {
       <Tags {...tags.bind} onTagging={handleTagging} />
     </Layout>
   )
-})
+}
 
 const Layout = styled.form`
   display: grid;

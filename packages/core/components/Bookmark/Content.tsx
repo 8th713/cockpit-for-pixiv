@@ -11,7 +11,7 @@ type Props = {
   children?: never
 }
 
-export const Content = React.memo(function Content(props: Props) {
+export function Content(props: Props) {
   const illustId = PickerProvider.useValue()!
   const { result, retry } = useBookmarkForm(illustId)
 
@@ -32,4 +32,4 @@ export const Content = React.memo(function Content(props: Props) {
       return <div onClick={retry}>取得できませんでした</div>
     }
   }
-})
+}

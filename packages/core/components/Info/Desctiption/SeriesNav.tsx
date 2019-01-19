@@ -9,7 +9,7 @@ type Props = {
   children?: never
 }
 
-export const SeriesNav: React.FC<Props> = ({ illust }) => {
+export function SeriesNav({ illust }: Props) {
   const { seriesNavData } = illust
 
   if (!seriesNavData) return null

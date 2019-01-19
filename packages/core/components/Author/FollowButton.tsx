@@ -8,7 +8,7 @@ import { keyMap, getDesc } from '../../constants/keyMap'
 
 const title = [getDesc('follow'), getDesc('privateFollow')].join('\n')
 
-export const FollowButton = React.memo(function FollowButton() {
+export function FollowButton() {
   const result = UserProvider.useValue()
   const { retry, follow, isSelf } = UserProvider.useAction()
   const handleFollow = React.useCallback(
@@ -52,4 +52,4 @@ export const FollowButton = React.memo(function FollowButton() {
       )
     }
   }
-})
+}

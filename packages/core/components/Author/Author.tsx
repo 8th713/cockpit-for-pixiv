@@ -10,7 +10,7 @@ type Props = {
   children?: never
 }
 
-export const Author = React.memo(function Author({ userId }: Props) {
+export function Author({ userId }: Props) {
   return (
     <UserProvider userId={userId}>
       <Layout>
@@ -19,7 +19,7 @@ export const Author = React.memo(function Author({ userId }: Props) {
       </Layout>
     </UserProvider>
   )
-})
+}
 
 const Layout = styled.div`
   all: unset;

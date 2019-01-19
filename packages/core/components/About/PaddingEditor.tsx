@@ -4,7 +4,7 @@ import { PaddingProvider } from '../../contexts'
 import { Text } from '../shared/Text'
 import { Slider } from '../shared/Slider'
 
-export const PaddingEditor = React.memo(function PaddingEditor() {
+export function PaddingEditor() {
   const value = PaddingProvider.useValue()
   const update = PaddingProvider.useAction()
   const handleChange = React.useCallback(
@@ -25,7 +25,7 @@ export const PaddingEditor = React.memo(function PaddingEditor() {
       </FieldSlider>
     </Field>
   )
-})
+}
 
 const Field = styled.label`
   all: unset;

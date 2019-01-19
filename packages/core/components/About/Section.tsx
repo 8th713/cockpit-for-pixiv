@@ -7,16 +7,18 @@ type Props = {
   children?: React.ReactNode
 }
 
-export const Section: React.FC<Props> = props => (
-  <Layout>
-    <Header>
-      <Text as="h2" v="s1">
-        {props.label}
-      </Text>
-    </Header>
-    {props.children}
-  </Layout>
-)
+export function Section(props: Props) {
+  return (
+    <Layout>
+      <Header>
+        <Text as="h2" v="s1">
+          {props.label}
+        </Text>
+      </Header>
+      {props.children}
+    </Layout>
+  )
+}
 
 const Layout = styled.section`
   all: unset;

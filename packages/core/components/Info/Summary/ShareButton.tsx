@@ -8,7 +8,7 @@ import { keyMap, getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('share')
 
-export const ShareButton = React.memo(function ShareButton() {
+export function ShareButton() {
   const result = IllustProvider.useValue()
   const { share } = IllustProvider.useAction()
   const disabled = result.status !== AsyncStatus.Success
@@ -19,4 +19,4 @@ export const ShareButton = React.memo(function ShareButton() {
       <Hotkeys {...keyMap.share} disabled={disabled} onKeyDown={share} />
     </Button>
   )
-})
+}

@@ -9,7 +9,7 @@ import { TagList } from './TagList'
 import { SeriesNav } from './SeriesNav'
 import { Stats } from './Stats'
 
-export const Desctiption: React.FC = () => {
+export function Desctiption() {
   const result = IllustProvider.useValue()
 
   switch (result.status) {

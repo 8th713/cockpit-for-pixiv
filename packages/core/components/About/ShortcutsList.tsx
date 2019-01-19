@@ -5,9 +5,9 @@ import { Section } from './Section'
 import { Text } from '../shared/Text'
 import { keyMap } from '../../constants/keyMap'
 
-export const ShortcutsList = React.memo(function ShortcutsList() {
-  const items = Object.values(keyMap)
+const items = Object.values(keyMap)
 
+export function ShortcutsList() {
   return (
     <Section label="Keyboard Shortcut">
       <List>
@@ -22,7 +22,7 @@ export const ShortcutsList = React.memo(function ShortcutsList() {
       </List>
     </Section>
   )
-})
+}
 
 const List = styled.div`
   display: grid;

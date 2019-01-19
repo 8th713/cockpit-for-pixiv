@@ -19,7 +19,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const PagesProvider = React.memo(function PagesProvider(props: Props) {
+function PagesProvider(props: Props) {
   const id = PickerProvider.useValue()
   const { result, retry } = usePages(id!)
 
@@ -28,7 +28,7 @@ const PagesProvider = React.memo(function PagesProvider(props: Props) {
       <Value.Provider value={result}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(PagesProvider, { useValue, useAction })
 

@@ -18,7 +18,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const PickerProvider = React.memo(function PickerProvider(props: Props) {
+function PickerProvider(props: Props) {
   const { value, actions } = usePicker()
 
   return (
@@ -26,7 +26,7 @@ const PickerProvider = React.memo(function PickerProvider(props: Props) {
       <Value.Provider value={value}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(PickerProvider, { useValue, useAction })
 

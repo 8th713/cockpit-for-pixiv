@@ -18,7 +18,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const AboutProvider = React.memo(function AboutProvider(props: Props) {
+function AboutProvider(props: Props) {
   const { opened, toggle } = useAbout()
 
   return (
@@ -26,7 +26,7 @@ const AboutProvider = React.memo(function AboutProvider(props: Props) {
       <Value.Provider value={opened}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(AboutProvider, { useValue, useAction })
 

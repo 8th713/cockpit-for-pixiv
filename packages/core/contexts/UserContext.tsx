@@ -19,7 +19,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const UserProvider = React.memo(function UserProvider(props: Props) {
+function UserProvider(props: Props) {
   const { result, actions } = useUser(props.userId)
 
   return (
@@ -27,7 +27,7 @@ const UserProvider = React.memo(function UserProvider(props: Props) {
       <Value.Provider value={result}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(UserProvider, { useValue, useAction })
 

@@ -9,7 +9,7 @@ type Props = {
   children?: never
 }
 
-export const Stats: React.FC<Props> = ({ illust }) => {
+export function Stats({ illust }: Props) {
   const { likeCount, bookmarkCount, viewCount, uploadDate } = illust
 
   return (

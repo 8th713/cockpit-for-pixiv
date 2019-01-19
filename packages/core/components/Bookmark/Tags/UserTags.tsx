@@ -16,7 +16,7 @@ type Props = {
   children?: never
 }
 
-export const UserTags = React.memo(function UserTags(props: Props) {
+export function UserTags(props: Props) {
   const { result, actions } = useUserTags()
   const { column, direction } = SortProvider.useValue()
 
@@ -94,7 +94,7 @@ export const UserTags = React.memo(function UserTags(props: Props) {
       )
     }
   }
-})
+}
 
 const Row = styled.div`
   display: grid;

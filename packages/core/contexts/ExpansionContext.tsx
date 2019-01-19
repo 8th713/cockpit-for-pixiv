@@ -18,7 +18,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const ExpansionProvider = React.memo(function ExpansionProvider(props: Props) {
+function ExpansionProvider(props: Props) {
   const { value, toggle } = useExpansion()
 
   return (
@@ -26,7 +26,7 @@ const ExpansionProvider = React.memo(function ExpansionProvider(props: Props) {
       <Value.Provider value={value}>{props.children}</Value.Provider>
     </Action.Provider>
   )
-})
+}
 
 const Context = Object.assign(ExpansionProvider, { useValue, useAction })
 

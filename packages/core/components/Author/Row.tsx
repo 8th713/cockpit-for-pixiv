@@ -6,7 +6,7 @@ import { UserProvider } from '../../contexts'
 import { Progress } from '../shared/Progress'
 import { AccountError } from '../shared/Icon'
 
-export const Row = React.memo(function Row() {
+export function Row() {
   const result = UserProvider.useValue()
 
   switch (result.status) {
@@ -37,7 +37,7 @@ export const Row = React.memo(function Row() {
       )
     }
   }
-})
+}
 
 const Layout = styled.a`
   all: unset;

@@ -8,7 +8,7 @@ import { keyMap, getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('spread')
 
-export const SpreadButton = React.memo(function SpreadButton() {
+export function SpreadButton() {
   const value = SpreadProvider.useValue()
   const cycle = SpreadProvider.useAction()
 
@@ -20,4 +20,4 @@ export const SpreadButton = React.memo(function SpreadButton() {
       <Hotkeys {...keyMap.spread} onKeyDown={cycle} />
     </Button>
   )
-})
+}

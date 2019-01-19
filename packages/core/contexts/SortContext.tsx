@@ -19,11 +19,11 @@ type Props = {
   children?: React.ReactNode
 }
 
-const SortProvider = React.memo(function SortProvider(props: Props) {
+function SortProvider(props: Props) {
   const value = useSort()
 
   return <Value.Provider value={value}>{props.children}</Value.Provider>
-})
+}
 
 const Context = Object.assign(SortProvider, { useValue })
 

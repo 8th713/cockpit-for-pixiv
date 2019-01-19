@@ -8,7 +8,7 @@ import { keyMap, getDesc } from '../../../constants/keyMap'
 
 const title = getDesc('download')
 
-export const DownloadButton = React.memo(function DownloadButton() {
+export function DownloadButton() {
   const result = IllustProvider.useValue()
   const { download, canDonwload } = IllustProvider.useAction()
   const disabled =
@@ -20,4 +20,4 @@ export const DownloadButton = React.memo(function DownloadButton() {
       <Hotkeys {...keyMap.download} disabled={disabled} onKeyDown={download} />
     </Button>
   )
-})
+}

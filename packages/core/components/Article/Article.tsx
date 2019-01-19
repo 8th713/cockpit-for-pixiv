@@ -6,13 +6,13 @@ import {
   SpreadProvider,
   ExpansionProvider
 } from '../../contexts'
-import Modal from '../shared/Modal'
+import { Modal } from '../shared/Modal'
 import { Gallery } from '../Gallery'
 import { Info } from '../Info'
 import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants/keyMap'
 
-export const Article = React.memo(function Article() {
+export function Article() {
   const id = PickerProvider.useValue()
   const { unsetElement, goNext, goPrev } = PickerProvider.useAction()
 
@@ -36,7 +36,7 @@ export const Article = React.memo(function Article() {
       <Hotkeys {...keyMap.goPrev} onKeyDown={goPrev} />
     </Modal>
   )
-})
+}
 
 const Layout = styled.article`
   all: unset;

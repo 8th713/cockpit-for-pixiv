@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { color } from '../theme'
 import { Illust, BookmarkPost } from '../../interfaces'
 import { Content } from './Content'
-import Dialog from '../shared/Dialog'
+import { Dialog } from '../shared/Dialog'
 import { Button } from '../shared/Button'
 
 type Props = {
@@ -14,10 +14,7 @@ type Props = {
   children?: never
 }
 
-export const Bookmark = React.memo(function Bookmark({
-  illust,
-  ...props
-}: Props) {
+export function Bookmark({ illust, ...props }: Props) {
   const id = 'cockpit-bookmark-form'
 
   return (
@@ -40,7 +37,7 @@ export const Bookmark = React.memo(function Bookmark({
       </Dialog.Footer>
     </Dialog>
   )
-})
+}
 
 const Title = styled.h1`
   all: unset;

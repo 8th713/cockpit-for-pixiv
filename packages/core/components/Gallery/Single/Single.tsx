@@ -9,7 +9,7 @@ type Props = {
   children?: never
 }
 
-export const Single: React.FC<Props> = props => {
+export function Single(props: Props) {
   const padding = PaddingProvider.useValue()
 
   return (

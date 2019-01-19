@@ -4,7 +4,7 @@ import { AsyncStatus } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
 import { Text } from '../../shared/Text'
 
-export const IllustTitle = React.memo(function IllustTitle() {
+export function IllustTitle() {
   const result = IllustProvider.useValue()
 
   switch (result.status) {
@@ -31,7 +31,7 @@ export const IllustTitle = React.memo(function IllustTitle() {
       )
     }
   }
-})
+}
 
 const Link = styled.a`
   color: inherit;

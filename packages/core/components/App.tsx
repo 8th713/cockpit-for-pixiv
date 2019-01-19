@@ -4,7 +4,7 @@ import { Article } from './Article'
 import { About } from './About'
 import { PaddingProvider, AboutProvider, PickerProvider } from '../contexts'
 
-export const App = React.memo(function App() {
+export function App() {
   return (
     <>
       <GlobalStyle />
@@ -18,4 +18,4 @@ export const App = React.memo(function App() {
       </PaddingProvider>
     </>
   )
-})
+}

@@ -10,7 +10,7 @@ type Props = {
   children?: never
 }
 
-export const Ugoira: React.FC<Props> = (props: Props) => {
+export function Ugoira(props: Props) {
   const padding = PaddingProvider.useValue()
 
   return (
