@@ -5,9 +5,10 @@ import { color, opacity } from '../theme'
 type Props = {
   open?: boolean
   onRequestClose: () => unknown
+  children?: React.ReactNode
 }
 
-const Modal: React.FC<Props> = props => {
+export function Modal(props: Props) {
   const dialog = React.useRef<HTMLDialogElement>(null)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (event.target === dialog.current) {
@@ -86,5 +87,3 @@ const Layout = styled.dialog`
     opacity: ${opacity.disabled};
   }
 `
-
-export default Modal

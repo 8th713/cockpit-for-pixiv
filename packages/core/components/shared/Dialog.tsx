@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { color } from '../theme'
-import Modal from './Modal'
+import { Modal } from './Modal'
 
 type Props = {
   open?: boolean
@@ -9,7 +9,7 @@ type Props = {
   children?: React.ReactNode
 }
 
-const Dialog: React.FC<Props> = props => {
+function Dialog(props: Props) {
   return (
     <Modal {...props}>
       <Layout>{props.children}</Layout>
@@ -66,4 +66,6 @@ const Footer = styled.footer`
   }
 `
 
-export default Object.assign(Dialog, { Header, Content, Footer })
+const Component = Object.assign(Dialog, { Header, Content, Footer })
+
+export { Component as Dialog }
