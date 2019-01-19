@@ -175,7 +175,6 @@ const Svg = styled.svg<SvgProps>`
   flex-shrink: 0;
   transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1);
 `
-// @ts-ignore
 Svg.defaultProps = {
   width: '24',
   height: '24',
