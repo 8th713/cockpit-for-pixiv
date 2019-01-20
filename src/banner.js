@@ -30,17 +30,17 @@ const supportedSelectors = [
  * /discovery
  * /idea  (今日のお題新着)
  */
-'a._1wlaFo6',
+'a.PKslhVT',
 
 /**!
  * /discovery/users
  */
-'a.JY31BOE',
+'a._3dXyksb',
 
 /**!
  * /howto
  */
-'a._3sroO25',
+'a.o8jYSOX',
 
 /**!
  * /contest
