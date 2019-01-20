@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         cockpit download addon
 // @description  cockpit download helper addon.
-// @version      4.0.0-alpha.5
+// @version      4.0.0-alpha.6
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
 // @supportURL   https://github.com/8th713/cockpit-for-pixiv/issues

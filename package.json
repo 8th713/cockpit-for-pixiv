@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "4.0.0-alpha.5",
+  "version": "4.0.0-alpha.6",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
