@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { color, opacity } from '../../theme'
+import { PickerProvider } from '../../../contexts'
 import { usePlayer } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { Text } from '../../shared/Text'
@@ -13,13 +14,13 @@ type Frames = {
 }[]
 
 type Props = {
-  onClick: (event: React.MouseEvent<Element>) => void
   style: React.CSSProperties
   frames: Frames
   children?: never
 }
 
-export function Player({ onClick, style, frames }: Props) {
+export function Player({ style, frames }: Props) {
+  const { goFromEvent } = PickerProvider.useAction()
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
   function handleClick(event: React.MouseEvent) {
@@ -27,8 +28,8 @@ export function Player({ onClick, style, frames }: Props) {
   }
 
   return (
-    <Layout style={style} onClick={onClick}>
-      <Canvas ref={canvasRef} />
+    <Layout style={style} onClick={goFromEvent}>
+      <Canvas key={frames[0].image.src} ref={canvasRef} />
       <PlayControl onClick={handleClick}>
         <Button v="icon" onClick={palyer.toggle}>
           {palyer.paused ? <Play /> : <Pause />}
@@ -50,7 +51,6 @@ const Layout = styled.div`
 const Canvas = styled.canvas`
   width: 100%;
   height: 100%;
-  background-color: #fff;
 `
 const PlayControl = styled.div`
   box-sizing: border-box;

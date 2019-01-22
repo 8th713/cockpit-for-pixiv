@@ -1,11 +1,6 @@
 import React from 'react'
-import { AsyncStatus, Page } from '../../../interfaces'
-import {
-  PickerProvider,
-  BoardProvider,
-  FitProvider,
-  SpreadProvider
-} from '../../../contexts'
+import { Page } from '../../../interfaces'
+import { BoardProvider, FitProvider, SpreadProvider } from '../../../contexts'
 import { useUgoira } from '../../../hooks'
 import { calcSize } from '../calcSize'
 import { Player } from './Player'
@@ -17,8 +12,14 @@ type Props = {
 }
 
 export function Img({ id, page }: Props) {
-  const { result, retry } = useUgoira(id)
-  const { goFromEvent } = PickerProvider.useAction()
+  const { read, retry } = useUgoira(id)
+  const handleRetry = React.useCallback(
+    (event: React.MouseEvent) => {
+      event.stopPropagation()
+      retry()
+    },
+    [retry]
+  )
   const board = BoardProvider.useValue()
   const fit = FitProvider.useValue()
   const spread = SpreadProvider.useValue()
@@ -35,15 +36,13 @@ export function Img({ id, page }: Props) {
     )})`
   }
 
-  switch (result.status) {
-    case AsyncStatus.Loading:
-      return <canvas style={styles} onClick={goFromEvent} />
-    case AsyncStatus.Failure:
-      return <canvas style={styles} onClick={retry} />
-    case AsyncStatus.Success: {
-      const { value } = result
-
-      return <Player frames={value} style={styles} onClick={goFromEvent} />
+  try {
+    const frames = read()
+    return <Player frames={frames} style={styles} />
+  } catch (error) {
+    if (error && error.then) {
+      throw error
     }
+    return <canvas style={styles} onClick={handleRetry} />
   }
 }

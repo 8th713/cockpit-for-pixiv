@@ -1,63 +1,29 @@
-import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
-import { useClient } from '.'
-import { success, failure } from './utils'
-import { Result, Frame, AsyncStatus } from '../interfaces'
+import wretch from 'wretch'
+import { LRUMap } from 'lru_map'
+import { createCacheHook } from './useCache'
 import { loadZip } from '../externals/loadZip'
+import { Ugoira } from '../interfaces'
 
-const defaultState: Result<Frame[]> = {
-  status: AsyncStatus.Loading,
-  value: null
-}
+const useCache = createCacheHook(fetchUgoira, new LRUMap(3))
 
 export function useUgoira(illustId: string) {
-  const { client, ac } = useClient()
-  const idRef = useRef(illustId)
-  const [result, update] = useState<Result<Frame[]>>(defaultState)
-  const internal = useMemo(() => {
-    function read(id: string) {
-      client.ugoira
-        .read({ id, ac })
-        .then(value => loadZip(value, ac))
-        .then(
-          images => {
-            if (id === idRef.current) {
-              update(success(images))
-            }
-          },
-          error => {
-            client.ugoira.remove({ id, ac })
-            if (error.name === 'AbortError') return
-            if (id === idRef.current) {
-              update(failure(error))
-            }
-          }
-        )
-    }
+  const { read, remove: retry } = useCache(illustId)
 
-    function reload(id: string) {
-      client.ugoira.remove({ id, ac })
-      read(id)
-    }
+  return { read, retry }
+}
 
-    return { read, reload }
-  }, [])
-  const retry = useCallback(() => {
-    if (idRef.current) {
-      update(defaultState)
-      internal.reload(idRef.current)
-    }
-  }, [])
-
-  idRef.current = illustId
-  useEffect(
-    () => {
-      if (illustId) {
-        update(defaultState)
-        internal.read(illustId)
-      }
-    },
-    [illustId]
-  )
-
-  return { result, retry }
+/**
+ * うごイラ情報
+ *
+ * GET /ajax/illust/:illustId/ugoira_meta
+ * @param {string} illustId イラスト識別子
+ */
+async function fetchUgoira(illustId: string) {
+  const ugoira = await wretch(`/ajax/illust/${illustId}/ugoira_meta`)
+    .options({ credentials: 'same-origin', cache: 'no-cache' })
+    .content('application/json')
+    .errorType('json')
+    .get()
+    .json<Ugoira>(data => data.body)
+  return loadZip(ugoira)
 }
