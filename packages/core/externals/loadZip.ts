@@ -11,14 +11,8 @@ interface Entry {
 
 const pool = createPool(3)
 
-export async function loadZip(
-  ugoira: Ugoira,
-  ac: AbortController
-): Promise<Frame[]> {
-  const client = wretch(ugoira.originalSrc, {
-    credentials: 'same-origin'
-  }).signal(ac)
-
+export async function loadZip(ugoira: Ugoira): Promise<Frame[]> {
+  const client = wretch(ugoira.originalSrc, { credentials: 'same-origin' })
   const response = await client.get().res()
   const length = Number(response.headers.get('content-length'))
   const buffer = await response.arrayBuffer()
