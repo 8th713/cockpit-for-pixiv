@@ -14,10 +14,3 @@ export type DownloadRequestAction = {
 }
 
 export type DownloadAaction = ConnectionSuccessAction | DownloadRequestAction
-
-export interface DownloadAddonPayload {
-  title: string
-  author: string
-  type: 'image' | 'comic' | 'ugoira'
-  images: Array<{ src: string; alt: string }>
-}

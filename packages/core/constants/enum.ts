@@ -1,9 +1,3 @@
-export enum AsyncStatus {
-  Loading,
-  Success,
-  Failure
-}
-
 export enum FitStatus {
   NONE,
   COVER,

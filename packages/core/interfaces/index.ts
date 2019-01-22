@@ -1,9 +1,4 @@
-import { Resource } from '../externals/cache'
-import * as Types from './resources'
-
 export * from './addons'
-export * from './enum'
-export * from './async'
 export * from './resources'
 
 export type Dimension = {
@@ -46,17 +41,4 @@ export type Frame = {
   image: HTMLImageElement
   delay: number
   file: string
-}
-
-export interface Client {
-  user: Resource<ResourceInputs, Types.User>
-  illust: Resource<ResourceInputs, Types.Illust>
-  pages: Resource<ResourceInputs, Types.Pages>
-  ugoira: Resource<ResourceInputs, Types.Ugoira>
-  bookmarkForm: Resource<ResourceInputs, Types.BookmarkForm>
-  accountTags: Resource<AbortController, Tag[]>
-  follow(userId: string, restrict: boolean): Promise<never[]>
-  like(illustId: string): Promise<Types.LikeData>
-  bookmark(illustId: string, data: BookmarkPost): Promise<Types.BookmarkData>
-  isSelf(userId: string): boolean
 }
