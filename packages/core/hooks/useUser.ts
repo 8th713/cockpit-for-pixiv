@@ -1,84 +1,68 @@
-import { useMemo, useEffect, useRef } from 'react'
-import { useClient, useStateRef } from '.'
-import { success, failure } from './utils'
-import { Result, User, AsyncStatus } from '../interfaces'
+import wretch from 'wretch'
+import { useCallback } from 'react'
+import { createCacheHook } from './useCache'
+import { useAbort } from './useAbort'
+import { User } from '../interfaces'
+import { pixivGlobalData } from '../externals/pixivGlobalData'
 
-const defaultState: Result<User> = {
-  status: AsyncStatus.Loading,
-  value: null
-}
+const useCache = createCacheHook(fetchUser)
 
 export function useUser(userId: string) {
-  const { client, ac } = useClient()
-  const [result, update, getResult] = useStateRef<Result<User>>(defaultState)
-  const idRef = useRef(userId)
-  const internal = useMemo(() => {
-    function read(id: string) {
-      client.user.read({ id, ac }).then(
-        value => {
-          if (id === idRef.current) {
-            update(success(value))
-          }
-        },
-        error => {
-          client.user.remove({ id, ac })
-          if (error.name === 'AbortError') return
-          if (id === idRef.current) {
-            update(failure(error))
-          }
-        }
-      )
-    }
+  const { abortable } = useAbort()
+  const { read, remove: retry, replace } = useCache(userId)
+  const isSelf = pixivGlobalData.userId === userId
+  const follow = useCallback(
+    (restrict: boolean = false) => {
+      if (isSelf) return
+      const user = read()
 
-    function reload(id: string) {
-      client.user.remove({ id, ac })
-      read(id)
-    }
-
-    return { read, reload }
-  }, [])
-  const actions = useMemo(() => {
-    function retry() {
-      update(defaultState)
-      internal.reload(idRef.current)
-    }
-
-    function follow(restrict: boolean = false) {
-      const result = getResult()
-      if (result.status !== AsyncStatus.Success) return
-
-      const { value } = result
-      if (client.isSelf(value.userId)) return
-
-      update(followUser(value))
-      client
-        .follow(value.userId, restrict)
-        .then(
-          () => internal.reload(value.userId),
-          () => internal.read(value.userId)
-        )
-    }
-
-    return { retry, follow, isSelf: client.isSelf }
-  }, [])
-
-  idRef.current = userId
-  useEffect(
-    () => {
-      if (userId) {
-        update(defaultState)
-        internal.read(userId)
-      }
+      replace({ ...user, isFollowed: true })
+      abortable(followUser(userId, restrict)).then(retry, retry)
     },
     [userId]
   )
 
-  return { result, actions }
+  return { read, retry, follow, isSelf }
 }
 
-function followUser(user: User): Result<User> {
-  return success({
-    ...user,
-    isFollowed: true
-  })
+/**
+ * ユーザー情報
+ *
+ * GET /ajax/user/:userId
+ * @param {string} userId ユーザー識別子
+ */
+function fetchUser(userId: string) {
+  return wretch(`/ajax/user/${userId}`)
+    .options({ credentials: 'same-origin', cache: 'no-cache' })
+    .content('application/json')
+    .errorType('json')
+    .get()
+    .json<User>(data => data.body)
+}
+
+/**
+ * フォロー
+ * POST /bookmark_add.php
+ *
+ * Content-Type: application/x-www-form-urlencoded; charset=utf-8
+ * @param {'add'} mode リクエストモード
+ * @param {'user'} type リクエストタイプ
+ * @param {string} user_id ユーザー識別子
+ * @param {0|1} restrict 0=公開/1=非公開
+ * @param {'json'} format フォーマットタイプ
+ * @param {string} tt トークン
+ */
+function followUser(userId: string, restrict: boolean) {
+  return wretch('/bookmark_add.php')
+    .headers({ 'x-csrf-token': pixivGlobalData.token })
+    .formUrl({
+      mode: 'add',
+      type: 'user',
+      user_id: userId,
+      tag: '',
+      restrict: restrict ? 1 : 0,
+      format: 'json'
+    })
+    .post()
+    .json<never[]>()
 }
