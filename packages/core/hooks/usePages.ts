@@ -1,84 +1,33 @@
-import { useState, useRef, useMemo, useCallback, useEffect } from 'react'
-import { useClient } from '.'
-import { Result as IResult, Pages, AsyncStatus } from '../interfaces'
+import wretch from 'wretch'
+import { createCacheHook } from './useCache'
+import { Pages } from '../interfaces'
 
-type Result<T> = IResult<T> & {
-  count: number
-  ugoira: boolean
-  id: string | null
-}
-
-const defaultState: Result<Pages> = {
-  status: AsyncStatus.Loading,
-  value: null,
-  count: 0,
-  ugoira: false,
-  id: null
-}
+const useCache = createCacheHook(fetchPages)
 
 export function usePages(illustId: string) {
-  const { client, ac } = useClient()
-  const idRef = useRef(illustId)
-  const [result, update] = useState<Result<Pages>>(defaultState)
-  const internal = useMemo(() => {
-    function read(id: string) {
-      client.pages.read({ id, ac }).then(
-        value => {
-          if (id === idRef.current) {
-            update(success(id, value))
-          }
-        },
-        error => {
-          client.pages.remove({ id, ac })
-          if (error.name === 'AbortError') return
-          if (id === idRef.current) {
-            update(failure(id, error))
-          }
-        }
-      )
-    }
+  const { read, remove: retry } = useCache(illustId)
 
-    function reload(id: string) {
-      client.pages.remove({ id, ac })
-      read(id)
-    }
-
-    return { read, reload }
-  }, [])
-  const retry = useCallback(() => {
-    if (idRef.current) {
-      update(defaultState)
-      internal.reload(idRef.current)
-    }
-  }, [])
-
-  idRef.current = illustId
-  useEffect(
-    () => {
-      if (illustId) {
-        update(defaultState)
-        internal.read(illustId)
-      }
-    },
-    [illustId]
-  )
-
-  return { result, retry }
+  return { read, retry }
 }
 
-function success(id: string, value: Pages): Result<Pages> {
-  const count = value.length
-  const ugoira = value[0].urls.original.includes('ugoira0')
+/**
+ * 画像情報
+ *
+ * GET /ajax/illust/:illustId/pages
+ *
+ * @param {string} illustId イラスト識別子
+ */
+function fetchPages(illustId: string) {
+  return wretch(`/ajax/illust/${illustId}/pages`)
+    .options({ credentials: 'same-origin', cache: 'no-cache' })
+    .content('application/json')
+    .errorType('json')
+    .get()
+    .json(data => {
+      const pages: Pages = data.body
+      const count = pages.length
+      const isUgoira = pages[0].urls.original.includes('ugoira0')
 
-  return { id, status: AsyncStatus.Success, value, count, ugoira }
-}
-
-function failure(id: string, error: any): Result<Pages> {
-  let value: string
-  if (error.json) {
-    value = error.json.message
-  } else {
-    value = error.message
-  }
-  return { id, status: AsyncStatus.Failure, value, count: 0, ugoira: false }
+      return { pages, count, isUgoira }
+    })
 }

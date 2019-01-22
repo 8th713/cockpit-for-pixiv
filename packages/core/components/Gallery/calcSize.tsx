@@ -1,4 +1,5 @@
-import { Dimension, FitStatus, SpreadStatus } from '../../interfaces'
+import { Dimension } from '../../interfaces'
+import { FitStatus, SpreadStatus } from '../../constants'
 
 export function calcSize(
   board: Dimension,

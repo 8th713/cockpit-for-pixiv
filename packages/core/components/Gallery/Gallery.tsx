@@ -1,24 +1,32 @@
 import React from 'react'
 import styled from 'styled-components'
-import { PickerProvider, PagesProvider, BoardProvider } from '../../contexts'
-import { Divide } from './Divide'
+import { PickerProvider, BoardProvider } from '../../contexts'
+import { Progress } from '../shared/Progress'
+import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const { unsetElement } = PickerProvider.useAction()
+  const illustId = PickerProvider.useValue()!
+  const { unsetElement, goFromEvent } = PickerProvider.useAction()
   const ref = React.useRef<HTMLDivElement>(null)
 
   return (
-    <PagesProvider>
-      <BoardProvider observe={ref}>
-        <Layout tabIndex={0} ref={ref} onClick={unsetElement}>
-          <Divide />
-        </Layout>
-      </BoardProvider>
-    </PagesProvider>
+    <BoardProvider observe={ref}>
+      <ScrollView tabIndex={0} ref={ref} onClick={unsetElement}>
+        <React.Suspense
+          fallback={
+            <SimpleLayout>
+              <Progress onClick={goFromEvent} />
+            </SimpleLayout>
+          }
+        >
+          <Divide illustId={illustId} />
+        </React.Suspense>
+      </ScrollView>
+    </BoardProvider>
   )
 }
 
-const Layout = styled.div`
+const ScrollView = styled.div`
   user-select: none;
   position: relative;
   overflow: auto;

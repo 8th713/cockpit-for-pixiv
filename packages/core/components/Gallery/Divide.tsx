@@ -1,47 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AsyncStatus } from '../../interfaces'
-import { PickerProvider, PagesProvider } from '../../contexts'
-import { Progress } from '../shared/Progress'
+import { usePages } from '../../hooks'
 import { Single } from './Single'
 import { Multiple } from './Multiple'
 import { Ugoira } from './Ugoira'
 
-export function Divide() {
-  const result = PagesProvider.useValue()
-  const retry = PagesProvider.useAction()
-  const { goFromEvent } = PickerProvider.useAction()
+type Props = {
+  illustId: string
+  children?: never
+}
 
-  switch (result.status) {
-    case AsyncStatus.Loading: {
-      return (
-        <Layout>
-          <Progress onClick={goFromEvent} />
-        </Layout>
-      )
-    }
-    case AsyncStatus.Failure: {
-      return (
-        <Layout>
-          <div onClick={retry}>Retry</div>
-        </Layout>
-      )
-    }
-    case AsyncStatus.Success: {
-      const { id, value, count, ugoira } = result
+export function Divide({ illustId }: Props) {
+  const { read, retry } = usePages(illustId)
 
-      if (ugoira) {
-        return <Ugoira id={id!} page={value[0]} />
-      }
-      if (count > 1) {
-        return <Multiple pages={value} />
-      }
-      return <Single page={value[0]} />
+  try {
+    const { pages, count, isUgoira } = read()
+    if (isUgoira) {
+      return <Ugoira id={illustId} page={pages[0]} />
     }
+    if (count > 1) {
+      return <Multiple pages={pages} />
+    }
+    return <Single page={pages[0]} />
+  } catch (error) {
+    if (error && error.then) {
+      throw error
+    }
+    return (
+      <SimpleLayout>
+        <div onClick={retry}>Retry</div>
+      </SimpleLayout>
+    )
   }
 }
 
-const Layout = styled.div`
+export const SimpleLayout = styled.div`
   box-sizing: border-box;
   display: grid;
   width: fit-content;
