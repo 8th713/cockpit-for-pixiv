@@ -5,6 +5,7 @@ import { Illust, BookmarkPost } from '../../interfaces'
 import { Content } from './Content'
 import { Dialog } from '../shared/Dialog'
 import { Button } from '../shared/Button'
+import { Progress } from '../shared/Progress'
 
 type Props = {
   illust: Illust
@@ -26,7 +27,15 @@ export function Bookmark({ illust, ...props }: Props) {
       <Dialog.Content>
         <Layout>
           <Thumbnail src={illust.urls.thumb} />
-          <Content id={id} onSubmit={props.onSubmit} />
+          <React.Suspense
+            fallback={
+              <div>
+                <Progress />
+              </div>
+            }
+          >
+            <Content id={id} illust={illust} onSubmit={props.onSubmit} />
+          </React.Suspense>
         </Layout>
       </Dialog.Content>
       <Divider />

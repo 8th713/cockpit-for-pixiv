@@ -1,59 +1,51 @@
-import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
-import { useClient } from '.'
-import { success, failure } from './utils'
-import { Result, BookmarkForm, AsyncStatus } from '../interfaces'
+import wretch from 'wretch'
+import { createCacheHook } from './useCache'
+import { BookmarkForm } from '../interfaces'
 
-const defaultState: Result<BookmarkForm> = {
-  status: AsyncStatus.Loading,
-  value: null
-}
+const useCache = createCacheHook(fetchBookmarkForm)
 
 export function useBookmarkForm(illustId: string) {
-  const { client, ac } = useClient()
-  const [result, update] = useState<Result<BookmarkForm>>(defaultState)
-  const idRef = useRef(illustId)
-  const internal = useMemo(() => {
-    function read(id: string) {
-      client.bookmarkForm.read({ id, ac }).then(
-        value => {
-          if (id === idRef.current) {
-            update(success(value))
-          }
-        },
-        error => {
-          client.bookmarkForm.remove({ id, ac })
-          if (error.name === 'AbortError') return
-          if (id === idRef.current) {
-            update(failure(error))
-          }
-        }
-      )
+  const { read, remove: retry } = useCache(illustId)
+
+  return { read, retry }
+}
+
+/**
+ * ブックマークフォーム
+ *
+ * GET /bookmark_add.php
+ * @param {'illust'} type リクエストタイプ
+ * @param {string} illust_id イラスト識別子
+ */
+function fetchBookmarkForm(illustId: string) {
+  return wretch('/bookmark_add.php')
+    .options({ credentials: 'same-origin', cache: 'no-cache' })
+    .content('application/json')
+    .errorType('json')
+    .query({ type: 'illust', illust_id: illustId })
+    .get()
+    .text(parseFormHTML)
+}
+function parseFormHTML(html: string) {
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  const form = doc.querySelector<HTMLFormElement>(
+    'form[action^="bookmark_add.php"]'
+  )!
+  const data = new FormData(form)
+  const res: BookmarkForm = {
+    comment: '',
+    tags: '',
+    restrict: 0
+  }
+
+  for (const [name, value] of data.entries()) {
+    if (name === 'comment') {
+      res.comment = value as string
+    } else if (name === 'tag') {
+      res.tags = value as string
+    } else if (name === 'restrict') {
+      res.restrict = Number(value) as 0 | 1
     }
-
-    function reload(id: string) {
-      client.bookmarkForm.remove({ id, ac })
-      read(id)
-    }
-
-    return { read, reload }
-  }, [])
-  const retry = useCallback(() => {
-    if (idRef.current) {
-      update(defaultState)
-      internal.reload(idRef.current)
-    }
-  }, [])
-
-  idRef.current = illustId
-  useEffect(
-    () => {
-      if (illustId) {
-        update(defaultState)
-        internal.read(illustId)
-      }
-    },
-    [illustId]
-  )
-
-  return { result, retry }
+  }
+  return res
 }

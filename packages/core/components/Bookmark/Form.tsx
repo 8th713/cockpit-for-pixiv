@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { BookmarkForm, BookmarkPost } from '../../interfaces'
+import { BookmarkForm, BookmarkPost, Illust } from '../../interfaces'
 import { useInput, useRestrict } from '../../hooks'
 import { RestrictField } from './RestrictField'
 import { CommentField } from './CommentField'
@@ -9,6 +9,7 @@ import { splitTag, toggleTag } from './utils'
 
 type Props = {
   id: string
+  illust: Illust
   data: BookmarkForm
   onSubmit: (post: BookmarkPost) => void
   children?: never
@@ -34,7 +35,7 @@ export function Form(props: Props) {
     <Layout id={props.id} onSubmit={handleSubmit}>
       <RestrictField {...restrict.bind} />
       <CommentField {...comment.bind} />
-      <Tags {...tags.bind} onTagging={handleTagging} />
+      <Tags illust={props.illust} {...tags.bind} onTagging={handleTagging} />
     </Layout>
   )
 }
