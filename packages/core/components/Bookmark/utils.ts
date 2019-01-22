@@ -1,4 +1,5 @@
-import { Tag, Column, Direction } from '../../interfaces'
+import { Tag } from '../../interfaces'
+import { Column, Direction } from '../../constants'
 
 export function splitTag(tags: string) {
   return tags.trim().split(/[\s\xA0　]+/)

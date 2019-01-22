@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
-import { NO_SCROLLBAR, WORK } from '../constants/selectors'
+import { NO_SCROLLBAR, WORK } from '../constants'
 
 export const GlobalStyle = createGlobalStyle`
   html.${NO_SCROLLBAR} {

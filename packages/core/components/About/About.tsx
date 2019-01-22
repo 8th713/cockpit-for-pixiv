@@ -7,7 +7,7 @@ import { Dialog } from '../shared/Dialog'
 import { Text } from '../shared/Text'
 import { Divider } from '../shared/Divider'
 import { Hotkeys } from '../Hotkeys'
-import { keyMap } from '../../constants/keyMap'
+import { keyMap } from '../../constants'
 
 export function About() {
   const opened = AboutProvider.useValue()

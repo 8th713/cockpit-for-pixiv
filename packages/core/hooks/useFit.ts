@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useStorage } from '.'
-import { FitStatus } from '../interfaces'
+import { useStorage } from './useStorage'
+import { FitStatus } from '../constants'
 
 export function useFit() {
   const [status, set] = useStorage('fit', FitStatus.COVER)

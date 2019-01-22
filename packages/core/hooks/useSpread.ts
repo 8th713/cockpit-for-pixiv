@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useStorage } from '../hooks'
-import { SpreadStatus } from '../interfaces'
+import { SpreadStatus } from '../constants'
 
 export function useSpread() {
   const [status, set] = useStorage('spread', SpreadStatus.SPREAD)

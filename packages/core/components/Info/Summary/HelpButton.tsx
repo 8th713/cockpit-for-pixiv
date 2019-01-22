@@ -2,7 +2,7 @@ import React from 'react'
 import { AboutProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Help } from '../../shared/Icon'
-import { getDesc } from '../../../constants/keyMap'
+import { getDesc } from '../../../constants'
 
 const title = getDesc('help')
 

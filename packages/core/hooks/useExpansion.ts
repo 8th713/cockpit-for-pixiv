@@ -1,5 +1,5 @@
 import { useRef, useCallback } from 'react'
-import { useStorage } from '.'
+import { useStorage } from './useStorage'
 
 export function useExpansion() {
   const [value, set] = useStorage('info', true)

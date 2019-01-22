@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFit } from '../hooks'
-import { FitStatus } from '../interfaces'
+import { FitStatus } from '../constants'
 
 type Fit = ReturnType<typeof useFit>
 

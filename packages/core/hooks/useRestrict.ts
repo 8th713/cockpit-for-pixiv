@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react'
-import { useToggle } from '.'
+import { useToggle } from './useToggle'
 
 export function useRestrict(initialValue: boolean) {
   const [checked, toggle] = useToggle(initialValue)

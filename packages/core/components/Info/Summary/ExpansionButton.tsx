@@ -3,7 +3,7 @@ import { ExpansionProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { ExpandLess, ExpandMore } from '../../shared/Icon'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants/keyMap'
+import { keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('info')
 

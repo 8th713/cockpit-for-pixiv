@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSort } from '../hooks'
-import { Column, Direction } from '../interfaces'
+import { Column, Direction } from '../constants'
 
 type Sort = ReturnType<typeof useSort>
 

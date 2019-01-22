@@ -1,6 +1,6 @@
 import React from 'react'
 import { useBoardSize } from '../hooks'
-import { PaddingProvider } from '.'
+import { PaddingProvider } from './PaddingContext'
 
 type Board = ReturnType<typeof useBoardSize>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSpread } from '../hooks'
-import { SpreadStatus } from '../interfaces'
+import { SpreadStatus } from '../constants'
 
 type Spread = ReturnType<typeof useSpread>
 

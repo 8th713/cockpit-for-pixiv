@@ -10,7 +10,7 @@ import { Modal } from '../shared/Modal'
 import { Gallery } from '../Gallery'
 import { Info } from '../Info'
 import { Hotkeys } from '../Hotkeys'
-import { keyMap } from '../../constants/keyMap'
+import { keyMap } from '../../constants'
 
 export function Article() {
   const id = PickerProvider.useValue()

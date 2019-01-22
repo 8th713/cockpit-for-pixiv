@@ -1,10 +1,9 @@
 import React from 'react'
-import { FitStatus } from '../../../interfaces'
 import { FitProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { FitContain, FitCover, FitNone } from '../../shared/Icon'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants/keyMap'
+import { FitStatus, keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('fit')
 

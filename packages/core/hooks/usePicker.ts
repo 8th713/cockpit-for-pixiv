@@ -1,6 +1,6 @@
 import { useMemo, useEffect, MouseEvent as RMouseEvent } from 'react'
-import { useStateRef } from '.'
-import { NO_SCROLLBAR, WORK } from '../constants/selectors'
+import { useStateRef } from './useStateRef'
+import { NO_SCROLLBAR, WORK } from '../constants'
 
 export function usePicker() {
   const [element, set, get] = useStateRef<HTMLAnchorElement | null>(null)

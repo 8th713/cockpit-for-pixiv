@@ -1,10 +1,9 @@
 import React from 'react'
-import { SpreadStatus } from '../../../interfaces'
 import { SpreadProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Spread, SpreadNone, SpreadShift } from '../../shared/Icon'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants/keyMap'
+import { SpreadStatus, keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('spread')
 

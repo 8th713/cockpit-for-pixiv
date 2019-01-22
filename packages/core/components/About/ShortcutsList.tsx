@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { color } from '../theme'
 import { Section } from './Section'
 import { Text } from '../shared/Text'
-import { keyMap } from '../../constants/keyMap'
+import { keyMap } from '../../constants'
 
 const items = Object.values(keyMap)
 
