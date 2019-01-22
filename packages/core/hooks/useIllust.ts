@@ -1,140 +1,133 @@
-import { useMemo, useEffect, useRef } from 'react'
-import { useClient, useAddon, useStateRef } from '.'
-import { success, failure } from './utils'
+import wretch from 'wretch'
+import { useCallback } from 'react'
+import { createCacheHook } from './useCache'
+import { useAddon } from './useAddon'
+import { useAbort } from './useAbort'
 import {
-  Result,
   Illust,
-  AsyncStatus,
+  LikeData,
   BookmarkPost,
+  BookmarkData,
   DownloadRequestAction
 } from '../interfaces'
+import { pixivGlobalData } from '../externals/pixivGlobalData'
 import { openTwitter } from '../externals/share'
 
-const defaultState: Result<Illust> = {
-  status: AsyncStatus.Loading,
-  value: null
-}
+const useCache = createCacheHook(fetchIllust)
 
 export function useIllust(illustId: string) {
   const addonStore = useAddon()
-  const { client, ac } = useClient()
-  const idRef = useRef(illustId)
-  const [result, update, getResult] = useStateRef<Result<Illust>>(defaultState)
-  const internal = useMemo(() => {
-    function read(id: string) {
-      client.illust.read({ id, ac }).then(
-        value => {
-          if (id === idRef.current) {
-            update(success(value))
-          }
-        },
-        error => {
-          client.illust.remove({ id, ac })
-          if (error.name === 'AbortError') return
-          if (id === idRef.current) {
-            update(failure(error))
-          }
-        }
-      )
-    }
-
-    function reload(id: string) {
-      client.illust.remove({ id, ac })
-      read(id)
-    }
-
-    return { read, reload }
-  }, [])
-  const actions = useMemo(() => {
-    function retry() {
-      if (idRef.current) {
-        update(defaultState)
-        internal.reload(idRef.current)
-      }
-    }
-
-    function like() {
-      const result = getResult()
-      if (result.status !== AsyncStatus.Success) return
-
-      const { value } = result
-      if (value.likeData || !value.isBookmarkable) return
-
-      update(likeIllust(value))
-      client
-        .like(value.illustId)
-        .then(
-          () => internal.reload(value.illustId),
-          () => internal.read(value.illustId)
-        )
-    }
-
-    function bookmark(data: BookmarkPost) {
-      const result = getResult()
-      if (result.status !== AsyncStatus.Success) return
-
-      const { value } = result
-      if (!value.isBookmarkable) return
-
-      update(bookmarkIllust(value))
-      client
-        .bookmark(value.illustId, data)
-        .then(
-          () => internal.reload(value.illustId),
-          () => internal.read(value.illustId)
-        )
-    }
-
-    function share() {
-      const result = getResult()
-      if (result.status !== AsyncStatus.Success) return
-
-      openTwitter(result.value)
-    }
-
-    function download() {
-      const result = getResult()
-      if (result.status !== AsyncStatus.Success) return
-      if (canDonwload() === false) return
-      const action: DownloadRequestAction = {
-        type: 'DOWNLOAD_REQUEST',
-        payload: result.value
-      }
-      addonStore.dispatch('download', action)
-    }
-
-    function canDonwload() {
-      return addonStore.isConnected('download')
-    }
-
-    return { retry, like, bookmark, share, download, canDonwload }
-  }, [])
-
-  idRef.current = illustId
-  useEffect(
+  const { abortable } = useAbort()
+  const { read, remove: retry, replace } = useCache(illustId)
+  const like = useCallback(
     () => {
-      if (illustId) {
-        update(defaultState)
-        internal.read(illustId)
-      }
+      const illust = read()
+
+      if (!illust.isBookmarkable) return
+      if (illust.likeData) return
+      replace(likeIllust(illust))
+      abortable(likeBy(illustId, pixivGlobalData.token)).then(retry, retry)
     },
     [illustId]
   )
+  const bookmark = useCallback(
+    (data: BookmarkPost) => {
+      const illust = read()
 
-  return { result, actions }
+      if (!illust.isBookmarkable) return
+      if (illust.likeData) return
+      replace(bookmarkIllust(illust))
+      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(
+        retry,
+        retry
+      )
+    },
+    [illustId]
+  )
+  const share = useCallback(
+    () => {
+      const illust = read()
+
+      openTwitter(illust)
+    },
+    [illustId]
+  )
+  const download = useCallback(
+    () => {
+      if (canDonwload === false) return
+
+      const illust = read()
+      const action: DownloadRequestAction = {
+        type: 'DOWNLOAD_REQUEST',
+        payload: illust
+      }
+      addonStore.dispatch('download', action)
+    },
+    [illustId]
+  )
+  const canDonwload = addonStore.isConnected('download')
+
+  return { read, retry, like, bookmark, share, download, canDonwload }
 }
 
-function likeIllust(illust: Illust): Result<Illust> {
+/**
+ * 作品情報
+ *
+ * GET /ajax/illust/:illustId
+ * @param {string} illustId イラスト識別子
+ */
+function fetchIllust(illustId: string) {
+  return wretch(`/ajax/illust/${illustId}`)
+    .options({ credentials: 'same-origin', cache: 'no-cache' })
+    .content('application/json')
+    .errorType('json')
+    .get()
+    .json<Illust>(data => data.body)
+}
+
+/**
+ * いいね！
+ *
+ * POST /ajax/illusts/like
+ * @param {string} illsut_id イラスト識別子
+ */
+function likeBy(illustId: string, token: string) {
+  return wretch('/ajax/illusts/like')
+    .headers({ 'x-csrf-token': token })
+    .post({ illust_id: illustId })
+    .json<LikeData>()
+}
+function likeIllust(illust: Illust): Illust {
   const likeCount = illust.likeCount + 1
 
-  return success({
-    ...illust,
-    likeCount,
-    likeData: true
-  })
+  return { ...illust, likeCount, likeData: true }
 }
 
-function bookmarkIllust(illust: Illust): Result<Illust> {
+/**
+ * ブックマーク
+ *
+ * POST /ajax/illusts/bookmarks/add
+ * @param {string} illust_id イラスト識別子
+ * @param {number} restrict 0=公開/1=非公開
+ * @param {stirng} comment コメント
+ * @param {string[]} tags タグリスト
+ */
+function bookmarkBy(
+  illustId: string,
+  { restrict = false, comment = '', tags = [] }: BookmarkPost,
+  token: string
+) {
+  return wretch('/ajax/illusts/bookmarks/add')
+    .headers({ 'x-csrf-token': token })
+    .post({
+      illust_id: illustId,
+      restrict: restrict ? 1 : 0,
+      comment,
+      tags
+    })
+    .json<BookmarkData>()
+}
+function bookmarkIllust(illust: Illust): Illust {
   const bookmarkCount = illust.bookmarkData
     ? illust.bookmarkCount
     : illust.bookmarkCount + 1
@@ -142,9 +135,5 @@ function bookmarkIllust(illust: Illust): Result<Illust> {
     ? illust.bookmarkData
     : { id: '', private: false }
 
-  return success({
-    ...illust,
-    bookmarkCount,
-    bookmarkData
-  })
+  return { ...illust, bookmarkCount, bookmarkData }
 }

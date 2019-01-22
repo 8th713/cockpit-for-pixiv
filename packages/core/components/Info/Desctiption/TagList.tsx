@@ -22,7 +22,7 @@ export function TagList({ illust }: Props) {
           {tag.tag}
         </Tag>
       )),
-    tags
+    [tags]
   )
 
   return (

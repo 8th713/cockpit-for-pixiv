@@ -1,46 +1,51 @@
 import React from 'react'
 import styled from 'styled-components'
 import { color } from '../../theme'
-import { AsyncStatus } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Like } from '../../shared/Icon'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants/keyMap'
+import { keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('like')
 
 export function LikeButton() {
-  const result = IllustProvider.useValue()
-  const { like } = IllustProvider.useAction()
+  const { read, like } = IllustProvider.useValue()
 
-  if (result.status !== AsyncStatus.Success) {
+  try {
+    const illust = read()
+    if (illust.isBookmarkable === false) {
+      return (
+        <Button v="icon" disabled title="いいね！(L)">
+          <Like />
+        </Button>
+      )
+    }
+    if (illust.likeData) {
+      return (
+        <FakeButton>
+          <Like />
+        </FakeButton>
+      )
+    }
     return (
-      <Button v="icon" disabled title={title}>
+      <Button v="icon" onClick={like} title="いいね！(L)">
         <Like />
+        <Hotkeys {...keyMap.like} onKeyDown={like} />
       </Button>
     )
+  } catch (error) {
+    if (error && error.then) {
+      throw error
+    }
+    return <LikeButtonFallBack />
   }
-  const { value } = result
+}
 
-  if (value.isBookmarkable === false) {
-    return (
-      <Button v="icon" disabled title="いいね！(L)">
-        <Like />
-      </Button>
-    )
-  }
-  if (value.likeData) {
-    return (
-      <FakeButton>
-        <Like />
-      </FakeButton>
-    )
-  }
+export function LikeButtonFallBack() {
   return (
-    <Button v="icon" onClick={like} title="いいね！(L)">
+    <Button v="icon" disabled title={title}>
       <Like />
-      <Hotkeys {...keyMap.like} onKeyDown={like} />
     </Button>
   )
 }

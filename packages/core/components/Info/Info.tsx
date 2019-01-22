@@ -6,6 +6,7 @@ import { Divider } from '../shared/Divider'
 import { Summary } from './Summary'
 import { Desctiption } from './Desctiption'
 import { UserCard } from './UserCard'
+import { Progress } from '../shared/Progress'
 
 export function Info() {
   const opened = ExpansionProvider.useValue()
@@ -18,8 +19,12 @@ export function Info() {
           <>
             <Divider m={16} />
             <Details>
-              <Desctiption />
-              <UserCard />
+              <React.Suspense fallback={<Progress size={64} />}>
+                <Desctiption />
+              </React.Suspense>
+              <React.Suspense fallback={<Progress size={64} />}>
+                <UserCard />
+              </React.Suspense>
             </Details>
           </>
         )}

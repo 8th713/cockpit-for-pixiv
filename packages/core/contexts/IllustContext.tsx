@@ -1,18 +1,13 @@
 import React from 'react'
 import { useIllust } from '../hooks'
-import { PickerProvider } from '.'
+import { PickerProvider } from './PickerContext'
 
 type Illust = ReturnType<typeof useIllust>
 
-const Value = React.createContext<Illust['result']>(null as any)
-const Action = React.createContext<Illust['actions']>(null as any)
+const IllustContext = React.createContext<Illust>(null as any)
 
 function useValue() {
-  return React.useContext(Value)
-}
-
-function useAction() {
-  return React.useContext(Action)
+  return React.useContext(IllustContext)
 }
 
 type Props = {
@@ -21,15 +16,15 @@ type Props = {
 
 function IllustProvider(props: Props) {
   const id = PickerProvider.useValue()
-  const { result, actions } = useIllust(id!)
+  const context = useIllust(id!)
 
   return (
-    <Action.Provider value={actions}>
-      <Value.Provider value={result}>{props.children}</Value.Provider>
-    </Action.Provider>
+    <IllustContext.Provider value={context}>
+      {props.children}
+    </IllustContext.Provider>
   )
 }
 
-const Context = Object.assign(IllustProvider, { useValue, useAction })
+const Context = Object.assign(IllustProvider, { useValue })
 
 export { Context as IllustProvider }

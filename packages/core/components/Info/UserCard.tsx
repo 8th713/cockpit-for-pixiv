@@ -1,20 +1,22 @@
 import React from 'react'
-import { AsyncStatus } from '../../interfaces'
 import { IllustProvider } from '../../contexts'
 import { Author } from '../Author'
 import { Progress } from '../shared/Progress'
 
 export function UserCard() {
-  const result = IllustProvider.useValue()
+  const { read } = IllustProvider.useValue()
 
-  switch (result.status) {
-    case AsyncStatus.Loading:
-    case AsyncStatus.Failure:
-      return <Progress size={64} />
-    case AsyncStatus.Success: {
-      const { value } = result
-
-      return <Author userId={value.userId} />
+  try {
+    const illust = read()
+    return (
+      <React.Suspense fallback={<Progress size={64} />}>
+        <Author userId={illust.userId} />
+      </React.Suspense>
+    )
+  } catch (error) {
+    if (error && error.then) {
+      throw error
     }
+    return <Progress size={64} />
   }
 }

@@ -1,12 +1,12 @@
 import React from 'react'
-import { AsyncStatus, BookmarkPost } from '../../../interfaces'
+import { BookmarkPost } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
 import { useToggle } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
 import { Bookmark } from '../../Bookmark'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants/keyMap'
+import { keyMap, getDesc } from '../../../constants'
 
 const title = [
   getDesc('bookmark'),
@@ -15,11 +15,10 @@ const title = [
 ].join('\n')
 
 export function BookmarkButton() {
-  const result = IllustProvider.useValue()
-  const { bookmark } = IllustProvider.useAction()
+  const { read, bookmark } = IllustProvider.useValue()
   const [opened, toggle] = useToggle(false)
   const handleBookmark = React.useCallback(
-    function(event: { shiftKey: boolean; ctrlKey: boolean }) {
+    (event: { shiftKey: boolean; ctrlKey: boolean }) => {
       if (event.ctrlKey) {
         toggle()
         return
@@ -29,48 +28,53 @@ export function BookmarkButton() {
     [bookmark, toggle]
   )
   const handleSubmit = React.useCallback(
-    function(post: BookmarkPost) {
+    (post: BookmarkPost) => {
       bookmark(post)
       toggle(false)
     },
     [bookmark, toggle]
   )
 
-  if (result.status !== AsyncStatus.Success) {
+  try {
+    const illust = read()
+    if (illust.isBookmarkable === false) {
+      return (
+        <Button v="icon" disabled title={title}>
+          <BookmarkOff />
+        </Button>
+      )
+    }
+    const bookmarked = !!illust.bookmarkData
     return (
-      <Button v="icon" disabled title={title}>
-        <BookmarkOff />
-      </Button>
+      <>
+        <Button v="icon" onClick={handleBookmark} title={title}>
+          {bookmarked ? <BookmarkOn c="error" /> : <BookmarkOff />}
+          <Hotkeys {...keyMap.bookmark} onKeyDown={handleBookmark} />
+          <Hotkeys {...keyMap.privateBookmark} onKeyDown={handleBookmark} />
+          <Hotkeys {...keyMap.openBookmark} onKeyDown={handleBookmark} />
+        </Button>
+        {opened && (
+          <Bookmark
+            illust={illust}
+            open={opened}
+            onRequestClose={toggle}
+            onSubmit={handleSubmit}
+          />
+        )}
+      </>
     )
+  } catch (error) {
+    if (error && error.then) {
+      throw error
+    }
+    return <BookmarkButtonFallback />
   }
+}
 
-  const { value } = result
-
-  if (value.isBookmarkable === false) {
-    return (
-      <Button v="icon" disabled title={title}>
-        <BookmarkOff />
-      </Button>
-    )
-  }
-
-  const bookmarked = !!value.bookmarkData
+export function BookmarkButtonFallback() {
   return (
-    <>
-      <Button v="icon" onClick={handleBookmark} title={title}>
-        {bookmarked ? <BookmarkOn c="error" /> : <BookmarkOff />}
-        <Hotkeys {...keyMap.bookmark} onKeyDown={handleBookmark} />
-        <Hotkeys {...keyMap.privateBookmark} onKeyDown={handleBookmark} />
-        <Hotkeys {...keyMap.openBookmark} onKeyDown={handleBookmark} />
-      </Button>
-      {opened && (
-        <Bookmark
-          illust={value}
-          open={opened}
-          onRequestClose={toggle}
-          onSubmit={handleSubmit}
-        />
-      )}
-    </>
+    <Button v="icon" disabled title={title}>
+      <BookmarkOff />
+    </Button>
   )
 }

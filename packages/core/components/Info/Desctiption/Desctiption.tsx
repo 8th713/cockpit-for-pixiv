@@ -1,38 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 import { color } from '../../theme'
-import { AsyncStatus } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
-import { Progress } from '../../shared/Progress'
 import { Comment } from './Comment'
 import { TagList } from './TagList'
 import { SeriesNav } from './SeriesNav'
 import { Stats } from './Stats'
 
 export function Desctiption() {
-  const result = IllustProvider.useValue()
+  const { read } = IllustProvider.useValue()
 
-  switch (result.status) {
-    case AsyncStatus.Loading:
-      return (
-        <Layout>
-          <Progress size={64} />
-        </Layout>
-      )
-    case AsyncStatus.Failure:
-      return <Layout />
-    case AsyncStatus.Success: {
-      const { value } = result
-
-      return (
-        <Layout>
-          <Comment illust={value} />
-          <TagList illust={value} />
-          <SeriesNav illust={value} />
-          <Stats illust={value} />
-        </Layout>
-      )
+  try {
+    const illust = read()
+    return (
+      <Layout>
+        <Comment illust={illust} />
+        <TagList illust={illust} />
+        <SeriesNav illust={illust} />
+        <Stats illust={illust} />
+      </Layout>
+    )
+  } catch (error) {
+    if (error && error.then) {
+      throw error
     }
+    return <Layout />
   }
 }
 

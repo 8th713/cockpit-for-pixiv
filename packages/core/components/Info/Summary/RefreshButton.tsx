@@ -1,19 +1,22 @@
 import React from 'react'
-import { AsyncStatus } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Refresh } from '../../shared/Icon'
 
 export function RefreshButton() {
-  const result = IllustProvider.useValue()
-  const { retry } = IllustProvider.useAction()
+  const { read, retry } = IllustProvider.useValue()
 
-  if (result.status === AsyncStatus.Failure) {
+  try {
+    read()
+    return null
+  } catch (error) {
+    if (error && error.then) {
+      throw error
+    }
     return (
       <Button v="icon" onClick={retry} title="再読込">
         <Refresh />
       </Button>
     )
   }
-  return null
 }

@@ -1,35 +1,31 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AsyncStatus } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
 import { Text } from '../../shared/Text'
 
 export function IllustTitle() {
-  const result = IllustProvider.useValue()
+  const { read } = IllustProvider.useValue()
 
-  switch (result.status) {
-    case AsyncStatus.Loading:
-      return <Text as="h1" v="h6" />
-    case AsyncStatus.Success: {
-      const { value } = result
-
-      return (
-        <Text as="h1" v="h6">
-          <Link
-            href={`/member_illust.php?mode=medium&illust_id=${value.illustId}`}
-          >
-            {value.illustTitle}
-          </Link>
-        </Text>
-      )
+  try {
+    const illust = read()
+    return (
+      <Text as="h1" v="h6">
+        <Link
+          href={`/member_illust.php?mode=medium&illust_id=${illust.illustId}`}
+        >
+          {illust.illustTitle}
+        </Link>
+      </Text>
+    )
+  } catch (error) {
+    if (error && error.then) {
+      throw error
     }
-    case AsyncStatus.Failure: {
-      return (
-        <Text as="h1" v="h6" c="error">
-          取得できませんでした
-        </Text>
-      )
-    }
+    return (
+      <Text as="h1" v="h6" c="error">
+        取得できませんでした
+      </Text>
+    )
   }
 }
 
