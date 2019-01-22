@@ -1,10 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AsyncStatus, Column } from '../../../interfaces'
+import { Column } from '../../../constants'
 import { useUserTags } from '../../../hooks'
 import { SortProvider } from '../../../contexts'
 import { Text } from '../../shared/Text'
-import { Progress } from '../../shared/Progress'
 import { Button } from '../../shared/Button'
 import { Refresh } from '../../shared/Icon'
 import { Tag, TagList } from './Tag'
@@ -17,82 +16,61 @@ type Props = {
 }
 
 export function UserTags(props: Props) {
-  const { result, actions } = useUserTags()
+  const { read, retry } = useUserTags()
   const { column, direction } = SortProvider.useValue()
 
-  switch (result.status) {
-    case AsyncStatus.Loading: {
-      return (
-        <section>
-          <Row>
-            <Text as="h2" v="s2">
-              あなたのブックマークタグ
-            </Text>
-            <ButtonArea>
-              <NameButton />
-              <TotalButton />
-            </ButtonArea>
-            <Button v="icon" type="button" disabled>
-              <Refresh />
-            </Button>
-          </Row>
-          <TagList>
-            <Progress size={48} />
-          </TagList>
-        </section>
-      )
-    }
-    case AsyncStatus.Failure: {
-      return (
-        <section>
-          <Row>
-            <Text as="h2" v="s2">
-              あなたのブックマークタグ
-            </Text>
-            <ButtonArea>
-              <NameButton />
-              <TotalButton />
-            </ButtonArea>
-            <Button v="icon" type="button" onClick={actions.retry}>
-              <Refresh />
-            </Button>
-          </Row>
-          <TagList>取得できませんでした</TagList>
-        </section>
-      )
-    }
-    case AsyncStatus.Success: {
-      const { value } = result
-      const list = sortBy(value, column, direction)
+  try {
+    const tags = read()
+    const list = sortBy(tags, column, direction)
 
-      return (
-        <section>
-          <Row>
-            <Text as="h2" v="s2">
-              あなたのブックマークタグ
-            </Text>
-            <ButtonArea>
-              <NameButton />
-              <TotalButton />
-            </ButtonArea>
-            <Button v="icon" type="button" onClick={actions.reload}>
-              <Refresh />
-            </Button>
-          </Row>
-          <TagList>
-            {list.map(({ name, lev }) => (
-              <Tag
-                key={name}
-                lev={lev}
-                name={name}
-                selected={props.isSelected(name)}
-                onClick={props.onTagging}
-              />
-            ))}
-          </TagList>
-        </section>
-      )
+    return (
+      <section>
+        <Row>
+          <Text as="h2" v="s2">
+            あなたのブックマークタグ
+          </Text>
+          <ButtonArea>
+            <NameButton />
+            <TotalButton />
+          </ButtonArea>
+          <Button v="icon" type="button" onClick={retry}>
+            <Refresh />
+          </Button>
+        </Row>
+        <TagList>
+          {list.map(({ name, lev }) => (
+            <Tag
+              key={name}
+              lev={lev}
+              name={name}
+              selected={props.isSelected(name)}
+              onClick={props.onTagging}
+            />
+          ))}
+        </TagList>
+      </section>
+    )
+  } catch (error) {
+    if (error && error.then) {
+      throw error
     }
+    return (
+      <section>
+        <Row>
+          <Text as="h2" v="s2">
+            あなたのブックマークタグ
+          </Text>
+          <ButtonArea>
+            <NameButton />
+            <TotalButton />
+          </ButtonArea>
+          <Button v="icon" type="button" onClick={retry}>
+            <Refresh />
+          </Button>
+        </Row>
+        <TagList>取得できませんでした</TagList>
+      </section>
+    )
   }
 }
 
@@ -109,7 +87,7 @@ const ButtonArea = styled.div`
   gap: 8px;
   align-items: center;
 `
-const NameButton = React.memo(function NameButton() {
+function NameButton() {
   const { column, direction, sortByName } = SortProvider.useValue()
   const color = column === Column.NAME ? 'default' : 'primary'
   const arrow = column === Column.NAME ? direction : ''
@@ -119,8 +97,8 @@ const NameButton = React.memo(function NameButton() {
       名前順{arrow}
     </Button>
   )
-})
-const TotalButton = React.memo(function TotalButton() {
+}
+function TotalButton() {
   const { column, direction, sortByTotal } = SortProvider.useValue()
   const color = column === Column.TOTAL ? 'default' : 'primary'
   const arrow = column === Column.TOTAL ? direction : ''
@@ -130,4 +108,4 @@ const TotalButton = React.memo(function TotalButton() {
       件数順{arrow}
     </Button>
   )
-})
+}

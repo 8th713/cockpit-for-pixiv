@@ -1,45 +1,35 @@
-import React from 'react'
-import { useClient } from '.'
-import { success, failure } from './utils'
-import { Result, Tag, AsyncStatus } from '../interfaces'
+import wretch from 'wretch'
+import { createCacheHook } from './useCache'
+import { AccountTagList } from '../interfaces'
+import { pixivGlobalData } from '../externals/pixivGlobalData'
 
-const defaultState: Result<Tag[]> = {
-  status: AsyncStatus.Loading,
-  value: null
-}
+const useCache = createCacheHook(fetchUserTags)
 
 export function useUserTags() {
-  const { client, ac } = useClient()
-  const [result, set] = React.useState<Result<Tag[]>>(defaultState)
-  const actions = React.useMemo(() => {
-    function read() {
-      client.accountTags.read(ac).then(
-        value => set(success(value)),
-        error => {
-          client.accountTags.remove(ac)
-          if (error.name === 'AbortError') return
+  const { read, remove: retry } = useCache(pixivGlobalData.token)
 
-          set(failure(error))
-        }
-      )
-    }
+  return { read, retry }
+}
 
-    function reload() {
-      client.accountTags.remove(ac)
-      read()
-    }
-
-    function retry() {
-      set(defaultState)
-      reload()
-    }
-
-    return { read, reload, retry }
-  }, [])
-
-  React.useEffect(() => {
-    actions.read()
-  }, [])
-
-  return { result, actions }
+/**
+ * アカウントタグリスト
+ *
+ * GET /rpc/illust_bookmark_tags.php
+ * @param {'lev,total'} attributes 要求属性名リスト
+ * @param {string} tt トークン
+ */
+function fetchUserTags(token: string) {
+  return wretch('/rpc/illust_bookmark_tags.php')
+    .options({ credentials: 'same-origin', cache: 'no-cache' })
+    .content('application/json')
+    .errorType('json')
+    .query({ attributes: 'lev,total', tt: token })
+    .get()
+    .json(parseAccountTagList)
+}
+function parseAccountTagList(json: AccountTagList) {
+  return Object.entries(json).map(([name, value]) => ({
+    ...value,
+    name
+  }))
 }
