@@ -1,53 +1,47 @@
-import { useState, useEffect } from 'react'
-import { AsyncStatus } from '../interfaces'
-import { useAbort, useStateRef } from '.'
+import { useState, useLayoutEffect } from 'react'
+import { Page } from '../interfaces'
+import { useAbort } from './useAbort'
 
-export function useImg(src: string) {
-  const [status, setStatus] = useState(AsyncStatus.Loading)
-  const ac = useAbort()
+export function useImg(page: Page) {
+  const { abortable } = useAbort()
+  const [url, setUrl] = useState(() =>
+    page.urls.small.replace('540x540_70', '150x150')
+  )
 
-  useEffect(() => {
-    loadImg(src, ac.signal)
-      .then(() => setStatus(AsyncStatus.Success))
-      .catch(error => {
-        if (error.message === 'abort') return
-        setStatus(AsyncStatus.Failure)
-      })
+  useLayoutEffect(() => {
+    if (url === page.urls.original) return
+    abortable(fetchImage(page.urls.original)).then(setUrl)
   }, [])
 
-  return status
+  return url
 }
 
 export function useLazyImg(
-  src: string,
+  page: Page,
   entry: IntersectionObserverEntry | null
 ) {
-  const [status, setStatus, getStatus] = useStateRef(AsyncStatus.Loading)
-  const ac = useAbort()
+  const { abortable } = useAbort()
+  const [url, setUrl] = useState(() =>
+    page.urls.small.replace('540x540_70', '150x150')
+  )
 
-  useEffect(
+  useLayoutEffect(
     () => {
       if (!entry || !entry.isIntersecting) return
-      if (getStatus() === AsyncStatus.Success) return
-      loadImg(src, ac.signal)
-        .then(() => setStatus(AsyncStatus.Success))
-        .catch(error => {
-          if (error.message === 'abort') return
-          setStatus(AsyncStatus.Failure)
-        })
+      if (url === page.urls.original) return
+      abortable(fetchImage(page.urls.original)).then(setUrl)
     },
     [entry]
   )
 
-  return status
+  return url
 }
 
-function loadImg(src: string, signal: AbortSignal) {
-  return new Promise((resolve, reject) => {
+function fetchImage(src: string) {
+  return new Promise<string>((resolve, reject) => {
     const i = new Image()
     i.onload = () => resolve(src)
     i.onerror = () => reject(new Error('error'))
     i.src = src
-    signal.onabort = () => reject(new Error('abort'))
   })
 }

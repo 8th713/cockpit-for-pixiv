@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, AsyncStatus } from '../../../interfaces'
+import { Page } from '../../../interfaces'
 import {
   PickerProvider,
   BoardProvider,
@@ -25,7 +25,7 @@ export function Img({ page }: Props) {
     root: board.ref.current,
     rootMargin: '32px'
   })
-  const status = useLazyImg(page.urls.original, entry)
+  const src = useLazyImg(page, entry)
   const styles = {
     width,
     height,
@@ -35,29 +35,14 @@ export function Img({ page }: Props) {
     transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
   }
 
-  switch (status) {
-    case AsyncStatus.Loading:
-    case AsyncStatus.Failure:
-      return (
-        <img
-          ref={imgRef}
-          src={page.urls.small.replace('540x540_70', '150x150')}
-          style={styles}
-          width={width}
-          height={height}
-          onClick={goFromEvent}
-        />
-      )
-    case AsyncStatus.Success:
-      return (
-        <img
-          ref={imgRef}
-          src={page.urls.original}
-          style={styles}
-          width={width}
-          height={height}
-          onClick={goFromEvent}
-        />
-      )
-  }
+  return (
+    <img
+      ref={imgRef}
+      src={src}
+      style={styles}
+      width={width}
+      height={height}
+      onClick={goFromEvent}
+    />
+  )
 }

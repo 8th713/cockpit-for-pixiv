@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Pages, SpreadStatus } from '../../../interfaces'
+import { Pages } from '../../../interfaces'
+import { SpreadStatus } from '../../../constants'
 import { PaddingProvider, SpreadProvider } from '../../../contexts'
 import { Img } from './Img'
 
@@ -14,7 +15,7 @@ export function Multiple({ pages }: Props) {
   const spread = SpreadProvider.useValue()
   const children = React.useMemo(
     () => pages.map(page => <Img key={page.urls.original} page={page} />),
-    pages
+    [pages]
   )
   const styles = { padding, rowGap: padding }
 

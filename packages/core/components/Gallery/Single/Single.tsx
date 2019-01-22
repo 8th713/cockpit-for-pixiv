@@ -9,12 +9,12 @@ type Props = {
   children?: never
 }
 
-export function Single(props: Props) {
+export function Single({ page }: Props) {
   const padding = PaddingProvider.useValue()
 
   return (
     <Layout style={{ padding }}>
-      <Img page={props.page} />
+      <Img key={page.urls.original} page={page} />
     </Layout>
   )
 }
