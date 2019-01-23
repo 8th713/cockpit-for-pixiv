@@ -1,15 +1,13 @@
 import wretch from 'wretch'
 import { useCallback } from 'react'
 import { createCacheHook } from './useCache'
-import { useAbort } from './useAbort'
 import { User } from '../interfaces'
 import { pixivGlobalData } from '../externals/pixivGlobalData'
 
 const useCache = createCacheHook(fetchUser)
 
 export function useUser(userId: string) {
-  const { abortable } = useAbort()
-  const { read, remove: retry, replace } = useCache(userId)
+  const { read, remove: retry, replace, reload, abortable } = useCache(userId)
   const isSelf = pixivGlobalData.userId === userId
   const follow = useCallback(
     (restrict: boolean = false) => {
@@ -17,7 +15,7 @@ export function useUser(userId: string) {
       const user = read()
 
       replace({ ...user, isFollowed: true })
-      abortable(followUser(userId, restrict)).then(retry)
+      abortable(followUser(userId, restrict)).then(reload)
     },
     [userId]
   )

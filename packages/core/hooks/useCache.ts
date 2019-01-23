@@ -1,6 +1,6 @@
-import { useMemo } from 'react'
 import { LRUMap } from 'lru_map'
 import { useForceUpdate } from './useForceUpdate'
+import { useAbort } from './useAbort'
 
 enum Status {
   Pending,
@@ -24,13 +24,6 @@ type RejectedResult = {
 }
 
 type Result<V> = PendingResult | ResolvedResult<V> | RejectedResult
-
-type Resource<V> = {
-  read(): V
-  preload(): void
-  remove(): void
-  replace(value: V): void
-}
 
 function accessResult<I, V>(
   cache: LRUMap<I, Result<V>>,
@@ -71,47 +64,47 @@ export function createCacheHook<I extends string | number, V>(
   fetch: (input: I) => Promise<V>,
   cache: LRUMap<I, Result<V>> = new LRUMap(10)
 ) {
-  return function useCache(input: I): Resource<V> {
+  return function useCache(input: I) {
     const forceUpdate = useForceUpdate()
+    const { abortable } = useAbort()
 
-    return useMemo(
-      () => {
-        function read(): V {
-          const result = accessResult(cache, fetch, input)
+    function read(): V {
+      const result = accessResult(cache, fetch, input)
 
-          switch (result.status) {
-            case Status.Pending: {
-              const suspender = result.value
-              throw suspender
-            }
-            case Status.Resolved: {
-              const value = result.value
-              return value
-            }
-            case Status.Rejected: {
-              const error = result.value
-              throw error
-            }
-          }
+      switch (result.status) {
+        case Status.Pending: {
+          const suspender = result.value
+          throw suspender
         }
-        function preload() {
-          accessResult(cache, fetch, input)
+        case Status.Resolved: {
+          const value = result.value
+          return value
         }
-        function remove() {
-          cache.delete(input)
-          forceUpdate()
+        case Status.Rejected: {
+          const error = result.value
+          throw error
         }
-        function replace(value: V) {
-          const result: ResolvedResult<V> = {
-            status: Status.Resolved,
-            value
-          }
-          cache.set(input, result)
-          forceUpdate()
-        }
-        return { read, preload, remove, replace }
-      },
-      [input]
-    )
+      }
+    }
+    function preload() {
+      accessResult(cache, fetch, input)
+    }
+    function remove() {
+      cache.delete(input)
+      forceUpdate()
+    }
+    function replace(value: V) {
+      const result: ResolvedResult<V> = {
+        status: Status.Resolved,
+        value
+      }
+      cache.set(input, result)
+      forceUpdate()
+    }
+    function reload() {
+      abortable(fetch(input)).then(replace)
+    }
+
+    return { read, preload, remove, replace, reload, abortable }
   }
 }

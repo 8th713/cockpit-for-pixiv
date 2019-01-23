@@ -2,7 +2,6 @@ import wretch from 'wretch'
 import { useCallback } from 'react'
 import { createCacheHook } from './useCache'
 import { useAddon } from './useAddon'
-import { useAbort } from './useAbort'
 import {
   Illust,
   LikeData,
@@ -17,8 +16,7 @@ const useCache = createCacheHook(fetchIllust)
 
 export function useIllust(illustId: string) {
   const addonStore = useAddon()
-  const { abortable } = useAbort()
-  const { read, remove: retry, replace } = useCache(illustId)
+  const { read, remove: retry, replace, reload, abortable } = useCache(illustId)
   const like = useCallback(
     () => {
       const illust = read()
@@ -26,7 +24,7 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(likeIllust(illust))
-      abortable(likeBy(illustId, pixivGlobalData.token)).then(retry)
+      abortable(likeBy(illustId, pixivGlobalData.token)).then(reload)
     },
     [illustId]
   )
@@ -37,7 +35,7 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(bookmarkIllust(illust))
-      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(retry)
+      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(reload)
     },
     [illustId]
   )
