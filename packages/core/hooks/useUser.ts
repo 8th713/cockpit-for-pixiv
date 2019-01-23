@@ -17,7 +17,7 @@ export function useUser(userId: string) {
       const user = read()
 
       replace({ ...user, isFollowed: true })
-      abortable(followUser(userId, restrict)).then(retry, retry)
+      abortable(followUser(userId, restrict)).then(retry)
     },
     [userId]
   )

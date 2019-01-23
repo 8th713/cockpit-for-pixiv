@@ -26,7 +26,7 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(likeIllust(illust))
-      abortable(likeBy(illustId, pixivGlobalData.token)).then(retry, retry)
+      abortable(likeBy(illustId, pixivGlobalData.token)).then(retry)
     },
     [illustId]
   )
@@ -37,10 +37,7 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(bookmarkIllust(illust))
-      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(
-        retry,
-        retry
-      )
+      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(retry)
     },
     [illustId]
   )
