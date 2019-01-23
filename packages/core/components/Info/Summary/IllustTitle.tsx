@@ -9,9 +9,10 @@ export function IllustTitle() {
   try {
     const illust = read()
     return (
-      <Text as="h1" v="h6">
+      <Text as="h1" v="h6" noWrap>
         <Link
           href={`/member_illust.php?mode=medium&illust_id=${illust.illustId}`}
+          title={illust.illustTitle}
         >
           {illust.illustTitle}
         </Link>
@@ -22,7 +23,7 @@ export function IllustTitle() {
       throw error
     }
     return (
-      <Text as="h1" v="h6" c="error">
+      <Text as="h1" v="h6" c="error" noWrap>
         取得できませんでした
       </Text>
     )

@@ -15,7 +15,7 @@ export function Ugoira(props: Props) {
 
   return (
     <Layout style={{ padding }}>
-      <Img {...props} />
+      <Img key={props.page.urls.original} {...props} />
     </Layout>
   )
 }
