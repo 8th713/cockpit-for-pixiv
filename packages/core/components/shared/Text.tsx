@@ -115,7 +115,7 @@ export const Text = styled.div<Props>`
   color: ${switchProp(prop('c', 'default'), colors)};
   ${switchProp(prop('v', 'b1'), variants)}
   ${ifProp(
-    ['noWrap', true],
+    'noWrap',
     css`
       overflow: hidden;
       text-overflow: ellipsis;

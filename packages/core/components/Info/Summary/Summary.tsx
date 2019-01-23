@@ -55,6 +55,7 @@ const Layout = styled.div`
   align-items: center;
 `
 const TitleBox = styled.div`
+  overflow: hidden;
   flex: 1;
   margin: 0 16px;
 `
