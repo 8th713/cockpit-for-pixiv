@@ -24,19 +24,20 @@ export function Summary() {
         </React.Suspense>
       </TitleBox>
       <ButtonGroup>
-        <React.Suspense fallback={null}>
+        <React.Suspense
+          fallback={
+            <>
+              <LikeButtonFallBack />
+              <BookmarkButtonFallback />
+              <ShareButtonFallback />
+              <DownloadButtonFallback />
+            </>
+          }
+        >
           <RefreshButton />
-        </React.Suspense>
-        <React.Suspense fallback={<LikeButtonFallBack />}>
           <LikeButton />
-        </React.Suspense>
-        <React.Suspense fallback={<BookmarkButtonFallback />}>
           <BookmarkButton />
-        </React.Suspense>
-        <React.Suspense fallback={<ShareButtonFallback />}>
           <ShareButton />
-        </React.Suspense>
-        <React.Suspense fallback={<DownloadButtonFallback />}>
           <DownloadButton />
         </React.Suspense>
         <FitButton />
