@@ -29,4 +29,5 @@ if (typeof pixiv !== 'undefined') {
   pixivGlobalData.userId = globalInitData.userData.id
 }
 
+console.log(pixivGlobalData)
 export { pixivGlobalData }
