@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "3.1.13",
+  "version": "3.1.14",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -37,7 +37,7 @@
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
     "terser-webpack-plugin": "^1.2.1",
-    "webpack": "^4.28.4",
+    "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },
   "resolutions": {

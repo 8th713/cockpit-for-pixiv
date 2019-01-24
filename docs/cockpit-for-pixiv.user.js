@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         cockpit for pixiv
 // @description  Provide comfortable pixiv browsing.
-// @version      3.1.13
+// @version      3.1.14
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
 // @supportURL   https://github.com/8th713/cockpit-for-pixiv/issues
@@ -20,7 +20,7 @@ const supportedSelectors=[
  * /bookmark.php?id=xxx
  * /member_illust.php?mode=medium
  */
-"a.sc-kkGfuU",
+"a.sc-kgoBCf",
 /**!
  * /search.php
  * /bookmark_new_illust.php
