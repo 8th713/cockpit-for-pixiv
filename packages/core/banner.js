@@ -61,6 +61,7 @@ const supportedSelectors = [
  * /tags.php  (全期間の人気イラスト,新着イラスト)
  * /stacc
  * /idea  (ユーザー企画,新着の企画目録)
+ * /user/xxx/series/yyy
  */
 'a._work',
 
