@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from 'react'
-import { Page } from '../interfaces'
 import { useAbort } from './useAbort'
+import { Page } from '../interfaces'
 
 export function useImg(page: Page) {
   const { abortable } = useAbort()
