@@ -25,6 +25,10 @@ function fetchBookmarkForm(illustId: string) {
     .query({ type: 'illust', illust_id: illustId })
     .get()
     .text(parseFormHTML)
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }
 function parseFormHTML(html: string) {
   const doc = new DOMParser().parseFromString(html, 'text/html')

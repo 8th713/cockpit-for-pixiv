@@ -5,18 +5,13 @@ import { Refresh } from '../../shared/Icon'
 
 export function RefreshButton() {
   const { read, retry } = IllustProvider.useValue()
+  const illust = read()
 
-  try {
-    read()
-    return null
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
-    return (
-      <Button v="icon" onClick={retry} title="再読込">
-        <Refresh />
-      </Button>
-    )
-  }
+  if (illust) return null
+
+  return (
+    <Button v="icon" onClick={retry} title="再読込">
+      <Refresh />
+    </Button>
+  )
 }

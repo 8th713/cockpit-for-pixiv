@@ -21,6 +21,7 @@ export function useIllust(illustId: string) {
     () => {
       const illust = read()
 
+      if (!illust) return
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(likeIllust(illust))
@@ -32,6 +33,7 @@ export function useIllust(illustId: string) {
     (data: BookmarkPost) => {
       const illust = read()
 
+      if (!illust) return
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(bookmarkIllust(illust))
@@ -42,6 +44,7 @@ export function useIllust(illustId: string) {
   const share = useCallback(
     () => {
       const illust = read()
+      if (!illust) return
 
       openTwitter(illust)
     },
@@ -52,6 +55,9 @@ export function useIllust(illustId: string) {
       if (canDonwload === false) return
 
       const illust = read()
+
+      if (!illust) return
+
       const action: DownloadRequestAction = {
         type: 'DOWNLOAD_REQUEST',
         payload: illust
@@ -78,6 +84,10 @@ function fetchIllust(illustId: string) {
     .errorType('json')
     .get()
     .json<Illust>(data => data.body)
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }
 
 /**

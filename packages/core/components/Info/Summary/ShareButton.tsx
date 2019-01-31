@@ -9,21 +9,18 @@ const title = getDesc('share')
 
 export function ShareButton() {
   const { read, share } = IllustProvider.useValue()
+  const illust = read()
 
-  try {
-    read()
-    return (
-      <Button v="icon" onClick={share} title={title}>
-        <Tweet />
-        <Hotkeys {...keyMap.share} onKeyDown={share} />
-      </Button>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!illust) {
     return <ShareButtonFallback />
   }
+
+  return (
+    <Button v="icon" onClick={share} title={title}>
+      <Tweet />
+      <Hotkeys {...keyMap.share} onKeyDown={share} />
+    </Button>
+  )
 }
 
 export function ShareButtonFallback() {

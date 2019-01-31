@@ -9,23 +9,19 @@ import { Stats } from './Stats'
 
 export function Desctiption() {
   const { read } = IllustProvider.useValue()
+  const illust = read()
 
-  try {
-    const illust = read()
-    return (
-      <Layout>
-        <Comment illust={illust} />
-        <TagList illust={illust} />
-        <SeriesNav illust={illust} />
-        <Stats illust={illust} />
-      </Layout>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (illust === null) {
     return <Layout />
   }
+  return (
+    <Layout>
+      <Comment illust={illust} />
+      <TagList illust={illust} />
+      <SeriesNav illust={illust} />
+      <Stats illust={illust} />
+    </Layout>
+  )
 }
 
 const Layout = styled.div`

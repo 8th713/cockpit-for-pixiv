@@ -30,4 +30,8 @@ function fetchPages(illustId: string) {
 
       return { pages, count, isUgoira }
     })
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }

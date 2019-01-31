@@ -26,6 +26,10 @@ function fetchUserTags(token: string) {
     .query({ attributes: 'lev,total', tt: token })
     .get()
     .json(parseAccountTagList)
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }
 function parseAccountTagList(json: AccountTagList) {
   return Object.entries(json).map(([name, value]) => ({

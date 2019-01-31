@@ -16,44 +16,13 @@ const title = [getDesc('follow'), getDesc('privateFollow')].join('\n')
 
 export function Author({ userId }: Props) {
   const { read, follow, retry, isSelf } = useUser(userId)
+  const user = read()
+
   function handleFollow(event: { shiftKey: boolean }) {
     follow(event.shiftKey)
   }
-  try {
-    const user = read()
 
-    return (
-      <Layout>
-        <Link href={`https://www.pixiv.net/member.php?id=${userId}`}>
-          <Avatar src={user.image} />
-          {user.name}
-        </Link>
-        {!isSelf && !user.isFollowed && (
-          <Button
-            v="contained"
-            c="primary"
-            title={title}
-            onClick={handleFollow}
-          >
-            <Add width="18" height="18" />
-            フォローする
-            <Hotkeys {...keyMap.follow} onKeyDown={handleFollow} />
-            <Hotkeys {...keyMap.privateFollow} onKeyDown={handleFollow} />
-          </Button>
-        )}
-        {!isSelf && user.isFollowed && (
-          <Button v="outlined" c="primary" title={title} onClick={handleFollow}>
-            フォロー中
-            <Hotkeys {...keyMap.follow} onKeyDown={handleFollow} />
-            <Hotkeys {...keyMap.privateFollow} onKeyDown={handleFollow} />
-          </Button>
-        )}
-      </Layout>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!user) {
     return (
       <Layout>
         <Link>
@@ -67,6 +36,30 @@ export function Author({ userId }: Props) {
       </Layout>
     )
   }
+
+  return (
+    <Layout>
+      <Link href={`https://www.pixiv.net/member.php?id=${userId}`}>
+        <Avatar src={user.image} />
+        {user.name}
+      </Link>
+      {!isSelf && !user.isFollowed && (
+        <Button v="contained" c="primary" title={title} onClick={handleFollow}>
+          <Add width="18" height="18" />
+          フォローする
+          <Hotkeys {...keyMap.follow} onKeyDown={handleFollow} />
+          <Hotkeys {...keyMap.privateFollow} onKeyDown={handleFollow} />
+        </Button>
+      )}
+      {!isSelf && user.isFollowed && (
+        <Button v="outlined" c="primary" title={title} onClick={handleFollow}>
+          フォロー中
+          <Hotkeys {...keyMap.follow} onKeyDown={handleFollow} />
+          <Hotkeys {...keyMap.privateFollow} onKeyDown={handleFollow} />
+        </Button>
+      )}
+    </Layout>
+  )
 }
 
 const Layout = styled.div`

@@ -18,12 +18,16 @@ export function useUgoira(illustId: string) {
  * GET /ajax/illust/:illustId/ugoira_meta
  * @param {string} illustId イラスト識別子
  */
-async function fetchUgoira(illustId: string) {
-  const ugoira = await wretch(`/ajax/illust/${illustId}/ugoira_meta`)
+function fetchUgoira(illustId: string) {
+  return wretch(`/ajax/illust/${illustId}/ugoira_meta`)
     .options({ credentials: 'same-origin', cache: 'no-cache' })
     .content('application/json')
     .errorType('json')
     .get()
     .json<Ugoira>(data => data.body)
-  return loadZip(ugoira)
+    .then(loadZip)
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }

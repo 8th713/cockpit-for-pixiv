@@ -4,6 +4,7 @@ import { usePages } from '../../hooks'
 import { Single } from './Single'
 import { Multiple } from './Multiple'
 import { Ugoira } from './Ugoira'
+import { Button } from '../shared/Button'
 
 type Props = {
   illustId: string
@@ -12,26 +13,34 @@ type Props = {
 
 export function Divide({ illustId }: Props) {
   const { read, retry } = usePages(illustId)
+  const response = read()
 
-  try {
-    const { pages, count, isUgoira } = read()
-    if (isUgoira) {
-      return <Ugoira id={illustId} page={pages[0]} />
-    }
-    if (count > 1) {
-      return <Multiple pages={pages} />
-    }
-    return <Single page={pages[0]} />
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!response) {
     return (
       <SimpleLayout>
-        <div onClick={retry}>Retry</div>
+        <Button
+          v="contained"
+          c="primary"
+          onClick={e => {
+            e.stopPropagation()
+            retry()
+          }}
+        >
+          Retry
+        </Button>
       </SimpleLayout>
     )
   }
+
+  const { pages, count, isUgoira } = response
+
+  if (isUgoira) {
+    return <Ugoira id={illustId} page={pages[0]} />
+  }
+  if (count > 1) {
+    return <Multiple pages={pages} />
+  }
+  return <Single page={pages[0]} />
 }
 
 export const SimpleLayout = styled.div`

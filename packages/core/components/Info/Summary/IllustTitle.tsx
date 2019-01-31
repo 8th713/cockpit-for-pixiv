@@ -5,29 +5,26 @@ import { Text } from '../../shared/Text'
 
 export function IllustTitle() {
   const { read } = IllustProvider.useValue()
+  const illust = read()
 
-  try {
-    const illust = read()
-    return (
-      <Text as="h1" v="h6" noWrap>
-        <Link
-          href={`/member_illust.php?mode=medium&illust_id=${illust.illustId}`}
-          title={illust.illustTitle}
-        >
-          {illust.illustTitle}
-        </Link>
-      </Text>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!illust) {
     return (
       <Text as="h1" v="h6" c="error" noWrap>
         取得できませんでした
       </Text>
     )
   }
+
+  return (
+    <Text as="h1" v="h6" noWrap>
+      <Link
+        href={`/member_illust.php?mode=medium&illust_id=${illust.illustId}`}
+        title={illust.illustTitle}
+      >
+        {illust.illustTitle}
+      </Link>
+    </Text>
+  )
 }
 
 const Link = styled.a`

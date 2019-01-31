@@ -14,6 +14,8 @@ export function useUser(userId: string) {
       if (isSelf) return
       const user = read()
 
+      if (!user) return
+
       replace({ ...user, isFollowed: true })
       abortable(followUser(userId, restrict)).then(reload)
     },
@@ -36,6 +38,10 @@ function fetchUser(userId: string) {
     .errorType('json')
     .get()
     .json<User>(data => data.body)
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }
 
 /**

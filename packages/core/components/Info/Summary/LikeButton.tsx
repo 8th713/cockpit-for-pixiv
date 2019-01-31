@@ -11,35 +11,31 @@ const title = getDesc('like')
 
 export function LikeButton() {
   const { read, like } = IllustProvider.useValue()
+  const illust = read()
 
-  try {
-    const illust = read()
-    if (illust.isBookmarkable === false) {
-      return (
-        <Button v="icon" disabled title="いいね！(L)">
-          <Like />
-        </Button>
-      )
-    }
-    if (illust.likeData) {
-      return (
-        <FakeButton>
-          <Like />
-        </FakeButton>
-      )
-    }
-    return (
-      <Button v="icon" onClick={like} title="いいね！(L)">
-        <Like />
-        <Hotkeys {...keyMap.like} onKeyDown={like} />
-      </Button>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!illust) {
     return <LikeButtonFallBack />
   }
+  if (illust.isBookmarkable === false) {
+    return (
+      <Button v="icon" disabled title="いいね！(L)">
+        <Like />
+      </Button>
+    )
+  }
+  if (illust.likeData) {
+    return (
+      <FakeButton>
+        <Like />
+      </FakeButton>
+    )
+  }
+  return (
+    <Button v="icon" onClick={like} title="いいね！(L)">
+      <Like />
+      <Hotkeys {...keyMap.like} onKeyDown={like} />
+    </Button>
+  )
 }
 
 export function LikeButtonFallBack() {

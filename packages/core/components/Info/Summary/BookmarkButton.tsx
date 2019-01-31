@@ -34,41 +34,38 @@ export function BookmarkButton() {
     },
     [bookmark, toggle]
   )
+  const illust = read()
 
-  try {
-    const illust = read()
-    if (illust.isBookmarkable === false) {
-      return (
-        <Button v="icon" disabled title={title}>
-          <BookmarkOff />
-        </Button>
-      )
-    }
-    const bookmarked = !!illust.bookmarkData
-    return (
-      <>
-        <Button v="icon" onClick={handleBookmark} title={title}>
-          {bookmarked ? <BookmarkOn c="error" /> : <BookmarkOff />}
-          <Hotkeys {...keyMap.bookmark} onKeyDown={handleBookmark} />
-          <Hotkeys {...keyMap.privateBookmark} onKeyDown={handleBookmark} />
-          <Hotkeys {...keyMap.openBookmark} onKeyDown={handleBookmark} />
-        </Button>
-        {opened && (
-          <Bookmark
-            illust={illust}
-            open={opened}
-            onRequestClose={toggle}
-            onSubmit={handleSubmit}
-          />
-        )}
-      </>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!illust) {
     return <BookmarkButtonFallback />
   }
+
+  if (illust.isBookmarkable === false) {
+    return (
+      <Button v="icon" disabled title={title}>
+        <BookmarkOff />
+      </Button>
+    )
+  }
+  const bookmarked = !!illust.bookmarkData
+  return (
+    <>
+      <Button v="icon" onClick={handleBookmark} title={title}>
+        {bookmarked ? <BookmarkOn c="error" /> : <BookmarkOff />}
+        <Hotkeys {...keyMap.bookmark} onKeyDown={handleBookmark} />
+        <Hotkeys {...keyMap.privateBookmark} onKeyDown={handleBookmark} />
+        <Hotkeys {...keyMap.openBookmark} onKeyDown={handleBookmark} />
+      </Button>
+      {opened && (
+        <Bookmark
+          illust={illust}
+          open={opened}
+          onRequestClose={toggle}
+          onSubmit={handleSubmit}
+        />
+      )}
+    </>
+  )
 }
 
 export function BookmarkButtonFallback() {

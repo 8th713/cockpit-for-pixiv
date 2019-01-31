@@ -10,25 +10,16 @@ const title = getDesc('download')
 export function DownloadButton() {
   const { read, download, canDonwload } = IllustProvider.useValue()
   const disabled = !canDonwload
+  const illust = read()
 
-  try {
-    read()
-    return (
-      <Button v="icon" disabled={disabled} onClick={download} title={title}>
-        <Download />
-        <Hotkeys
-          {...keyMap.download}
-          disabled={disabled}
-          onKeyDown={download}
-        />
-      </Button>
-    )
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
-    return <DownloadButtonFallback />
-  }
+  if (!illust) return <DownloadButtonFallback />
+
+  return (
+    <Button v="icon" disabled={disabled} onClick={download} title={title}>
+      <Download />
+      <Hotkeys {...keyMap.download} disabled={disabled} onKeyDown={download} />
+    </Button>
+  )
 }
 
 export function DownloadButtonFallback() {

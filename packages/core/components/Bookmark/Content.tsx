@@ -13,15 +13,11 @@ type Props = {
 export function Content(props: Props) {
   const illustId = props.illust.illustId
   const { read, retry } = useBookmarkForm(illustId)
+  const formData = read()
 
-  try {
-    const formData = read()
-
-    return <Form {...props} data={formData} />
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!formData) {
     return <div onClick={retry}>取得できませんでした</div>
   }
+
+  return <Form {...props} data={formData} />
 }

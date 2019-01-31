@@ -35,14 +35,10 @@ export function Img({ id, page }: Props) {
       '150x150'
     )})`
   }
+  const frames = read()
 
-  try {
-    const frames = read()
-    return <Player frames={frames} style={styles} />
-  } catch (error) {
-    if (error && error.then) {
-      throw error
-    }
+  if (!frames) {
     return <canvas style={styles} onClick={handleRetry} />
   }
+  return <Player frames={frames} style={styles} />
 }
