@@ -21,7 +21,6 @@
     "react": "16.8.0-alpha.1",
     "react-dom": "16.8.0-alpha.1",
     "styled-components": "^4.1.3",
-    "styled-tools": "^1.7.1",
     "wretch": "^1.4.2"
   },
   "devDependencies": {
