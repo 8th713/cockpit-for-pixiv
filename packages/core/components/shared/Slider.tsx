@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { prop, withProp } from 'styled-tools'
 import { opacity, color } from '../theme'
 
 type Props = React.ComponentPropsWithoutRef<'input'> & {
@@ -9,6 +8,10 @@ type Props = React.ComponentPropsWithoutRef<'input'> & {
     value: number
   ) => unknown
   children?: never
+}
+
+type PosProps = {
+  position: number
 }
 
 export const Slider = React.forwardRef<HTMLInputElement, Props>(function Slider(
@@ -79,10 +82,7 @@ const Input = styled.input`
   }
 `
 
-type WithPos = {
-  position: number
-}
-const Track = styled.div<WithPos>`
+const Track = styled.div`
   pointer-events: none;
   user-select: none;
   position: relative;
@@ -103,7 +103,7 @@ const Track = styled.div<WithPos>`
     height: 100%;
     background-color: ${color.primary};
     transform-origin: top left;
-    transform: scaleX(${prop('position')});
+    transform: scaleX(${({ position }: PosProps) => position});
   }
 
   input:disabled ~ & {
@@ -117,13 +117,13 @@ const Track = styled.div<WithPos>`
     }
   }
 `
-const Thumb = styled.div<WithPos>`
+const Thumb = styled.div`
   pointer-events: none;
   user-select: none;
   position: absolute;
   z-index: 1;
   top: 50%;
-  left: ${withProp('position', v => v * 100)}%;
+  left: ${({ position }: PosProps) => position * 100}%;
   width: 16px;
   height: 16px;
   border-radius: 50%;

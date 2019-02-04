@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components'
-import { prop, switchProp } from 'styled-tools'
 import { color, ripple } from '../theme'
+
+type Props = {
+  c?: keyof typeof textColors
+  v?: keyof typeof variants
+  children?: React.ReactNode
+}
 
 const textColors = {
   inherit: 'inherit',
@@ -40,7 +45,7 @@ const variants = {
     border: 2px solid currentColor;
   `,
   contained: css`
-    ${switchProp(prop('c', 'default'), containedColors)};
+    ${({ c = 'default' }: Props) => containedColors[c]};
     &:hover::before {
       opacity: 0.08;
     }
@@ -64,13 +69,7 @@ const variants = {
   `
 }
 
-type Props = {
-  c?: keyof typeof textColors
-  v?: keyof typeof variants
-  children?: React.ReactNode
-}
-
-export const Button = styled.button<Props>`
+export const Button = styled.button`
   all: unset;
   cursor: pointer;
   user-select: none;
@@ -96,7 +95,7 @@ export const Button = styled.button<Props>`
   letter-spacing: 0.08929em;
   text-decoration: none;
   text-transform: uppercase;
-  color: ${switchProp(prop('c', 'default'), textColors)};
-  ${switchProp(prop('v', 'text'), variants)};
+  color: ${({ c = 'default' }: Props) => textColors[c]};
+  ${({ v = 'text' }: Props) => variants[v]};
   ${ripple};
 `

@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { withProp } from 'styled-tools'
 import { color } from '../theme'
 
 type Props = {
@@ -7,10 +6,10 @@ type Props = {
   children?: never
 }
 
-export const Divider = styled.hr<Props>`
+export const Divider = styled.hr`
   all: unset;
   display: block;
   min-height: 1px;
-  margin: 0 ${withProp('m', (m = 0) => `${m}px`)};
+  margin: 0 ${({ m = 0 }: Props) => `${m}px`};
   background-color: ${color.divider};
 `

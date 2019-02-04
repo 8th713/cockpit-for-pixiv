@@ -1,6 +1,13 @@
 import styled, { css } from 'styled-components'
-import { switchProp, prop, ifProp } from 'styled-tools'
 import { color } from '../theme'
+
+type Props = {
+  a?: 'inherit' | 'left' | 'right' | 'center' | 'justify'
+  c?: keyof typeof colors
+  v?: keyof typeof variants
+  noWrap?: boolean
+  children?: React.ReactNode
+}
 
 const colors = {
   inherit: 'inherit',
@@ -96,30 +103,21 @@ const variants = {
   `
 }
 
-type Props = {
-  a?: 'inherit' | 'left' | 'right' | 'center' | 'justify'
-  c?: keyof typeof colors
-  v?: keyof typeof variants
-  noWrap?: boolean
-  children?: React.ReactNode
-}
-
-export const Text = styled.div<Props>`
+export const Text = styled.div`
   all: unset;
   display: block;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   font-family: 'Roboto', 'Helvetica Neue', 'arial', 'Noto Sans CJK JP',
     'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-  text-align: ${prop('a', 'inherit')};
-  color: ${switchProp(prop('c', 'default'), colors)};
-  ${switchProp(prop('v', 'b1'), variants)}
-  ${ifProp(
-    'noWrap',
+  text-align: ${({ a = 'inherit' }: Props) => a};
+  color: ${({ c = 'default' }: Props) => colors[c]};
+  ${({ v = 'b1' }: Props) => variants[v]};
+  ${({ noWrap }: Props) =>
+    noWrap &&
     css`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    `
-  )};
+    `};
 `

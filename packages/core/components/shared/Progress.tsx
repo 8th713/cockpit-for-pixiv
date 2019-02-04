@@ -1,6 +1,5 @@
 import React from 'react'
-import styled, { keyframes, css } from 'styled-components'
-import { withProp } from 'styled-tools'
+import styled, { keyframes } from 'styled-components'
 import { color } from '../theme'
 
 type Props = React.ComponentPropsWithoutRef<'div'> & {
@@ -8,9 +7,14 @@ type Props = React.ComponentPropsWithoutRef<'div'> & {
   children?: never
 }
 
-export function Progress({ size, ...props }: Props) {
+type RootProps = {
+  size: number
+  children?: React.ReactNode
+}
+
+export function Progress({ size = 256, ...props }: Props) {
   return (
-    <Root {...props} role="progressbar" size={size || 256}>
+    <Root {...props} role="progressbar" size={size}>
       <Svg viewBox="0 0 50 50">
         <Circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
       </Svg>
@@ -18,21 +22,11 @@ export function Progress({ size, ...props }: Props) {
   )
 }
 
-type WithSize = {
-  size: number
-  children?: React.ReactNode
-}
-const Root = styled.div<WithSize>`
+const Root = styled.div`
   display: block;
   justify-self: center;
   align-self: center;
-  ${withProp(
-    'size',
-    size => css`
-      width: ${size}px;
-      height: ${size}px;
-    `
-  )}
+  ${({ size }: RootProps) => ({ width: size, height: size })};
   margin: auto;
   color: ${color.primary};
 `
