@@ -29,6 +29,7 @@ export interface PageService {
   injectGlobal(): void
   toggleScrollbar(force: boolean): void
   scrollWindow(target: HTMLAnchorElement): void
+  onMouseover(): void
   onSelect(listener: (target: HTMLAnchorElement) => void): void
 }
 
