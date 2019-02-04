@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { PickerProvider, BoardProvider } from '../../contexts'
 import { Progress } from '../shared/Progress'
@@ -8,6 +8,12 @@ export function Gallery() {
   const illustId = PickerProvider.useValue()!
   const { unsetElement, goFromEvent } = PickerProvider.useAction()
   const ref = React.useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = 0
+    }
+  }, [illustId])
 
   return (
     <BoardProvider observe={ref}>
