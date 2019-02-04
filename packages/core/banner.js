@@ -22,7 +22,7 @@ const supportedSelectors = [
  * /bookmark.php?id=xxx
  * /member_illust.php?mode=medium
  */
-'a.sc-kgoBCf',
+'a.sc-iRbamj',
 
 /**!
  * /search.php
