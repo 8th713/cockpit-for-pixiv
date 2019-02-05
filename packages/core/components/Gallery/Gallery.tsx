@@ -10,8 +10,11 @@ export function Gallery() {
   const ref = React.useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.scrollTop = 0
+    const { current } = ref
+
+    if (current) {
+      current.scrollTop = 0
+      current.focus()
     }
   }, [illustId])
 
