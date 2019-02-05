@@ -22,7 +22,7 @@ const supportedSelectors = [
  * /bookmark.php?id=xxx
  * /member_illust.php?mode=medium
  */
-'a.sc-kgoBCf',
+'a.sc-iRbamj',
 
 /**!
  * /search.php
@@ -61,6 +61,7 @@ const supportedSelectors = [
  * /tags.php  (全期間の人気イラスト,新着イラスト)
  * /stacc
  * /idea  (ユーザー企画,新着の企画目録)
+ * /user/xxx/series/yyy
  */
 'a._work',
 
