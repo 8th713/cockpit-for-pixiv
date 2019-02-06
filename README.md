@@ -4,24 +4,24 @@ Provide comfortable pixiv browsing.
 ## Features and Usage
 visit [pages](https://8th713.github.io/cockpit-for-pixiv/).
 
-## Develop
+## Development
 ```sh
 npm install
 ```
 
-To watch and development build `docs/cockpit-for-pixiv.user.js`:
+To watch and development build:
 ```sh
 npm start
 ```
 
-To production build `docs/cockpit-for-pixiv.user.js`:
+To production build:
 ```sh
 npm run build
 ```
 
-To build `docs/index.html`:
+To type check:
 ```sh
-npm run docs
+npm run type-check
 ```
 
 ## Contributing
@@ -35,6 +35,6 @@ npm run docs
 * [@8th713](https://github.com/8th713)
 
 ## License
-Copyright 2014-2018 8th713.
+Copyright 2014-2019 8th713.
 
 Licensed under the MIT License

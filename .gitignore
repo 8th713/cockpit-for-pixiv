@@ -2,9 +2,9 @@
 
 # dependencies
 node_modules
-_src
 
 # misc
+.back
 .cache
 .DS_Store
 .env.local

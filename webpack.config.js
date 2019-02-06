@@ -2,22 +2,21 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const compile = require('lodash.template')
 const pkg = require('./package.json')
 
 module.exports = (env, argv) => {
   const outPath = path.resolve(__dirname, 'docs')
-  const sourcePath = path.resolve(__dirname, 'src')
-  const tmplPath = path.resolve(__dirname, 'src/banner.js')
-  const template = fs.readFileSync(tmplPath, 'utf-8')
-  const banner = compile(template)(pkg)
+
   const DEV = argv.mode !== 'production'
   const config = {
     mode: argv.mode,
-    entry: './src/index.ts',
+    entry: {
+      'cockpit-for-pixiv': './packages/core',
+      'cockpit-download-addon': './packages/addon-download'
+    },
     output: {
-      filename: 'cockpit-for-pixiv.user.js',
+      filename: '[name].user.js',
       path: outPath
     },
     target: 'web',
@@ -26,28 +25,24 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
-        { parser: { requireEnsure: false } },
         {
-          test: /\.tsx?$/,
-          include: sourcePath,
-          loader: 'ts-loader',
-          options: {
-            transpileOnly: true
-          }
+          test: /\.(ts|js)x?$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader'
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: ['source-map-loader'],
+          enforce: 'pre'
         }
       ]
     },
     plugins: [
-      new ForkTsCheckerWebpackPlugin(),
-      new webpack.BannerPlugin({ banner, raw: true })
+      banner('packages/core/banner.js', 'cockpit-for-pixiv'),
+      banner('packages/addon-download/banner.js', 'cockpit-download-addon')
     ],
-    node: {
-      dgram: 'empty',
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty'
-    },
+    node: false,
     performance: false,
     optimization: {
       minimizer: [
@@ -72,7 +67,36 @@ module.exports = (env, argv) => {
 
   if (DEV) {
     config.devtool = 'inline-source-map'
+  } else {
   }
+  injectDocument(config)
 
   return config
+}
+
+function banner(bannerPath, include) {
+  const tmplPath = path.resolve(__dirname, bannerPath)
+  const template = fs.readFileSync(tmplPath, 'utf-8')
+
+  return new webpack.BannerPlugin({
+    include,
+    banner: compile(template)(pkg),
+    raw: true
+  })
+}
+function injectDocument(config) {
+  const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+  config.module.rules.push({
+    test: /\.pug?$/,
+    loader: 'pug-loader'
+  })
+  config.plugins.unshift(
+    new HtmlWebpackPlugin({
+      inject: false,
+      filename: 'index.html',
+      template: 'packages/site/index.pug',
+      pkg
+    })
+  )
 }

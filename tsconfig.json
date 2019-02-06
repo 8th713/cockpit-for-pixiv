@@ -1,37 +1,37 @@
 {
   "compilerOptions": {
-    // Basic
-    "target": "es2016",
+    // Basic Options
+    "target": "es2017",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    // dafault es2017.full.d.ts
+    // "lib": ["es2017", "dom"],
     "allowJs": true,
     "jsx": "react",
     "sourceMap": true,
     "outDir": "build/dist",
-    "rootDir": "src",
+    "rootDir": "packages",
+    "noEmit": true,
 
-    // Strict Type Checks
+    // Strict Type-Checking Options
     "strict": true,
 
     // Additional Checks
     "noUnusedLocals": true,
     "noImplicitReturns": true,
 
-    // Module Resolution
+    // Module Resolution Options
     "moduleResolution": "node",
-
-    // Experimental
-    "experimentalDecorators": true,
+    "typeRoots": [
+      "typings",
+      "node_modules/@types"
+    ],
+    "esModuleInterop": true,
 
     // Advanced
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": [
-    "node_modules",
-    "_src",
-    "docs",
-    "docsrc",
-    "webpack.config.js"
+  "include": [
+    "packages/**/*"
   ]
 }

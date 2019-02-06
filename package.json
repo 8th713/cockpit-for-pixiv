@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "3.1.15",
+  "version": "4.0.0",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -12,36 +12,46 @@
   "readmeFilename": "README.md",
   "repository": "8th713/cockpit-for-pixiv",
   "scripts": {
-    "start": "webpack --mode development --watch",
+    "type-check": "tsc",
     "build": "webpack --mode production",
-    "docs": "pug docsrc/index.pug -o docs -O package.json"
+    "start": "webpack --mode development --watch"
   },
   "dependencies": {
-    "@researchgate/react-intersection-observer": "^0.7.4",
-    "camelize": "^1.0.0",
-    "classnames": "^2.2.6",
-    "mobx": "^3.6.2",
-    "mobx-react": "^4.4.3",
-    "react": "~16.4.2",
-    "react-dom": "~16.4.2",
-    "styled-components": "3.4.0"
+    "lru_map": "^0.3.3",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "styled-components": "^4.1.3",
+    "wretch": "^1.4.2"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.7",
-    "@types/react": "~16.4.18",
-    "@types/react-dom": "~16.0.11",
-    "fork-ts-checker-webpack-plugin": "^0.5.2",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "@types/jszip": "^3.1.4",
+    "@types/react": "^16.8.1",
+    "@types/react-dom": "^16.0.11",
+    "@types/styled-components": "^4.1.8",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-styled-components": "^1.10.0",
+    "html-webpack-plugin": "^3.2.0",
     "lodash.template": "^4.4.0",
     "pug": "^2.0.3",
-    "pug-cli": "^1.0.0-alpha6",
-    "ts-loader": "^5.3.3",
-    "typescript": "^3.3.1",
+    "pug-loader": "^2.4.0",
+    "source-map-loader": "^0.2.4",
     "terser-webpack-plugin": "^1.2.2",
+    "typescript": "^3.3.1",
     "webpack": "^4.29.1",
     "webpack-cli": "^3.2.3"
   },
   "resolutions": {
-    "@types/react": "~16.3.0",
-    "@types/react-dom": "~16.0.0"
-  }
+    "@types/react": "^16.0.0",
+    "@types/react-dom": "^16.0.0",
+    "@types/styled-components": "^4.0.0"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ]
 }
