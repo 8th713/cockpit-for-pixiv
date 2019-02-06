@@ -4,7 +4,7 @@ doctype html
 html(lang="ja")
   head
     meta(charset="UTF-8")
-    title= name
+    title= pkg.name
     link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Bad+Script")
     style
       include styles.css
@@ -13,7 +13,7 @@ html(lang="ja")
   body
     header
       h1 #{fullname}
-      p pixiv の閲覧がより快適になるユーザースクリプト
+      p pixiv の閲覧が快適になるユーザースクリプト
       a.btn.outlined(href="#install") Install #{fullname}
 
     .content

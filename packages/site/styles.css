@@ -11,13 +11,14 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #fff;
+  text-decoration: none;
 }
 a:hover {
-  color: #fff;
+  text-decoration: underline;
 }
 
-ul {
+ul, ol {
   padding: 0;
 }
 
