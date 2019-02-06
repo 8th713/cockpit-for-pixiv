@@ -16,7 +16,7 @@ const useCache = createCacheHook(fetchIllust)
 
 export function useIllust(illustId: string) {
   const addonStore = useAddon()
-  const { read, remove: retry, replace, reload, abortable } = useCache(illustId)
+  const { read, remove: retry, replace, reload, abortable, signal } = useCache(illustId)
   const like = useCallback(
     () => {
       const illust = read()
@@ -25,7 +25,12 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(likeIllust(illust))
-      abortable(likeBy(illustId, pixivGlobalData.token)).then(reload)
+      abortable(likeBy(illustId, pixivGlobalData.token))
+        .then(reload)
+        .catch(error => {
+          if (signal.aborted) return
+          throw error
+        })
     },
     [illustId]
   )
@@ -37,7 +42,12 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
       replace(bookmarkIllust(illust))
-      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(reload)
+      abortable(bookmarkBy(illustId, data, pixivGlobalData.token))
+        .then(reload)
+        .catch(error => {
+          if (signal.aborted) return
+          throw error
+        })
     },
     [illustId]
   )

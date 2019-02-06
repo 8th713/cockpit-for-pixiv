@@ -7,7 +7,7 @@ import { pixivGlobalData } from '../externals/pixivGlobalData'
 const useCache = createCacheHook(fetchUser)
 
 export function useUser(userId: string) {
-  const { read, remove: retry, replace, reload, abortable } = useCache(userId)
+  const { read, remove: retry, replace, reload, abortable, signal } = useCache(userId)
   const isSelf = pixivGlobalData.userId === userId
   const follow = useCallback(
     (restrict: boolean = false) => {
@@ -17,7 +17,12 @@ export function useUser(userId: string) {
       if (!user) return
 
       replace({ ...user, isFollowed: true })
-      abortable(followUser(userId, restrict)).then(reload)
+      abortable(followUser(userId, restrict))
+        .then(reload)
+        .catch(error => {
+          if (signal.aborted) return
+          throw error
+        })
     },
     [userId]
   )

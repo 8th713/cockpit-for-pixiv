@@ -66,7 +66,7 @@ export function createCacheHook<I extends string | number, V>(
 ) {
   return function useCache(input: I) {
     const forceUpdate = useForceUpdate()
-    const { abortable } = useAbort()
+    const { abortable, signal } = useAbort()
 
     function read(): V {
       const result = accessResult(cache, fetch, input)
@@ -102,9 +102,9 @@ export function createCacheHook<I extends string | number, V>(
       forceUpdate()
     }
     function reload() {
-      abortable(fetch(input)).then(replace)
+      return abortable(fetch(input)).then(replace)
     }
 
-    return { read, preload, remove, replace, reload, abortable }
+    return { read, preload, remove, replace, reload, abortable, signal }
   }
 }
