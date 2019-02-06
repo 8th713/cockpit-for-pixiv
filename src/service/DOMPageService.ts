@@ -38,6 +38,8 @@ export class DOMPageService implements PageService {
     script.src =
       'https://cdn.rawgit.com/FlandreDaisuki/zip_player/94b2a56/dist/zip_player.iife.js'
 
+    this.addIllustThumbnailCursorChangeEvent()
+
     injectGlobal`
       html.${NO_SCROLLBAR} {
         overflow: hidden;
@@ -61,7 +63,17 @@ export class DOMPageService implements PageService {
     document.documentElement.scrollTop = ~~(top - window.innerHeight / 3)
   }
 
-  onMouseover() {
+  onSelect(listener: (target: HTMLAnchorElement) => void) {
+    document.body.addEventListener('click', (event: MouseEvent) => {
+      const target = (event.target as HTMLElement).closest('a')
+      if (target && this.isIllustThumbnailAnchorElement(target)) {
+        event.preventDefault()
+        listener(target)
+      }
+    })
+  }
+
+  private addIllustThumbnailCursorChangeEvent() {
     document.body.addEventListener('mouseover', (event: MouseEvent) => {
       const target = (event.target as HTMLElement).closest('a')
       if (!target || target.style.cursor === 'zoom-in') {
@@ -74,22 +86,15 @@ export class DOMPageService implements PageService {
     })
   }
 
-  onSelect(listener: (target: HTMLAnchorElement) => void) {
-    document.body.addEventListener('click', (event: MouseEvent) => {
-      const target = (event.target as HTMLElement).closest('a')
-      if (target && this.isIllustThumbnailAnchorElement(target)) {
-        event.preventDefault()
-        listener(target)
-      }
-    })
-  }
-
   private isIllustThumbnailAnchorElement(element: HTMLAnchorElement) {
+    if (!this.getId(element)) {
+      return false
+    }
+
     return (
-      this.getId(element) &&
-      (element.innerHTML.includes(THUMBNAIL_IMAGE_DOMAIN) ||
-        (element.style.backgroundImage &&
-          element.style.backgroundImage.includes(THUMBNAIL_IMAGE_DOMAIN)))
+      element.innerHTML.includes(THUMBNAIL_IMAGE_DOMAIN) ||
+      (element.style.backgroundImage &&
+        element.style.backgroundImage.includes(THUMBNAIL_IMAGE_DOMAIN))
     )
   }
 }

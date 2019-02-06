@@ -38,7 +38,6 @@ const services = {
 const appStore = new AppStore(services)
 
 services.page.injectGlobal()
-services.page.onMouseover()
 services.page.onSelect(element => {
   appStore.setElement(element)
 })
