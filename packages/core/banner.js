@@ -15,62 +15,21 @@
 */
 
 // prettier-ignore
-const supportedSelectors = [
+const CP_SELECTORS = {
+  /**! ビューで開く対象となる要素のセレクタ */
+  INCLUDES: [
+    'a[href*="member_illust.php"][href*="mode=medium"][href*="illust_id="]'
+  ],
+  /**! 誤動作する要素のセレクタ */
+  EXCLUDES: [
+    '._one-click-bookmark',
+    '.thumbnail-menu',
+    '.thumbnail-menu *'
+  ]
+  /**! セミコロンを削除しないでください！！ */
+};
 /**!
- * /member.php
- * /member_illust.php
- * /bookmark.php?id=xxx
- * /member_illust.php?mode=medium
+ * =============================
+ * ここから下は編集禁止
+ * =============================
  */
-'a.sc-iRbamj',
-
-/**!
- * /search.php
- * /bookmark_new_illust.php
- * /discovery
- * /idea  (今日のお題新着)
- */
-'a.PKslhVT',
-
-/**!
- * /discovery/users
- */
-'a._3dXyksb',
-
-/**!
- * /howto
- */
-'a.o8jYSOX',
-
-/**!
- * /contest
- */
-'a._work-modal-target:not(.title)',
-
-/**!
- * /history.php
- */
-'a._history-item.show-detail',
-'a._history-related-item',
-
-/**!
- * /  (フォロー新着作品,おすすめ作品)
- * /ranking.php
- * /bookmark.php
- * /new_illust.php
- * /tags.php  (全期間の人気イラスト,新着イラスト)
- * /stacc
- * /idea  (ユーザー企画,新着の企画目録)
- * /user/xxx/series/yyy
- */
-'a._work',
-
-/**!
- * /tags.php  (週間の人気イラスト)
- */
-'a.work'
-
-/**!
- * Do not remove the semicolon!!
- */
-];
