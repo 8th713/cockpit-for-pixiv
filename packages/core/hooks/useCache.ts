@@ -2,24 +2,22 @@ import { LRUMap } from 'lru_map'
 import { useForceUpdate } from './useForceUpdate'
 import { useUnmountAbort } from './useUnmountAbort'
 
-enum Status {
-  Pending,
-  Resolved,
-  Rejected
-}
+const PENDING = 0
+const RESOLVED = 1
+const REJECTED = 2
 
 type PendingResult = {
-  status: Status.Pending
+  status: typeof PENDING
   value: Promise<unknown>
 }
 
 type ResolvedResult<V> = {
-  status: Status.Resolved
+  status: typeof RESOLVED
   value: V
 }
 
 type RejectedResult = {
-  status: Status.Rejected
+  status: typeof REJECTED
   value: unknown
 }
 
@@ -35,22 +33,22 @@ function accessResult<I, V>(
     const thenable = fetch(input)
     thenable.then(
       value => {
-        if (newResult.status === Status.Pending) {
+        if (newResult.status === PENDING) {
           const resolvedResult: ResolvedResult<V> = newResult as any
-          resolvedResult.status = Status.Resolved
+          resolvedResult.status = RESOLVED
           resolvedResult.value = value
         }
       },
       error => {
-        if (newResult.status === Status.Pending) {
+        if (newResult.status === PENDING) {
           const rejectedResult: RejectedResult = newResult as any
-          rejectedResult.status = Status.Rejected
+          rejectedResult.status = REJECTED
           rejectedResult.value = error
         }
       }
     )
     const newResult: PendingResult = {
-      status: Status.Pending,
+      status: PENDING,
       value: thenable
     }
     cache.set(input, newResult)
@@ -72,15 +70,15 @@ export function createCacheHook<I extends string | number, V>(
       const result = accessResult(cache, fetch, input)
 
       switch (result.status) {
-        case Status.Pending: {
+        case PENDING: {
           const suspender = result.value
           throw suspender
         }
-        case Status.Resolved: {
+        case RESOLVED: {
           const value = result.value
           return value
         }
-        case Status.Rejected: {
+        case REJECTED: {
           const error = result.value
           throw error
         }
@@ -95,7 +93,7 @@ export function createCacheHook<I extends string | number, V>(
     }
     function replace(value: V) {
       const result: ResolvedResult<V> = {
-        status: Status.Resolved,
+        status: RESOLVED,
         value
       }
       cache.set(input, result)
