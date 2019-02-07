@@ -35,11 +35,14 @@ export function useLazyImg(
   return url
 }
 
-function fetchImage(src: string) {
+function fetchImage(src: string, fallback: string) {
   return new Promise<string>((resolve, reject) => {
     const i = new Image()
     i.onload = () => resolve(src)
-    i.onerror = () => reject(new Error('error'))
+    i.onerror = () => reject(new Error('Image could not be loaded'))
     i.src = src
+  }).catch(error => {
+    console.error(error)
+    return fallback
   })
 }

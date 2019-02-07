@@ -69,4 +69,8 @@ function followUser(userId: string, restrict: boolean) {
     })
     .post()
     .json<never[]>()
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }

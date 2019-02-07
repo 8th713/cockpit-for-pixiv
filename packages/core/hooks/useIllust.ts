@@ -94,6 +94,10 @@ function likeBy(illustId: string, token: string) {
     .headers({ 'x-csrf-token': token })
     .post({ illust_id: illustId })
     .json<LikeData>()
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }
 function likeIllust(illust: Illust): Illust {
   const likeCount = illust.likeCount + 1
@@ -124,6 +128,10 @@ function bookmarkBy(
       tags
     })
     .json<BookmarkData>()
+    .catch(error => {
+      console.error(error)
+      return null
+    })
 }
 function bookmarkIllust(illust: Illust): Illust {
   const bookmarkCount = illust.bookmarkData
