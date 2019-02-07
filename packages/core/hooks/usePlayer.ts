@@ -43,20 +43,17 @@ export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
     setIndex(0)
   }
 
-  useLayoutEffect(
-    () => {
-      const { delay, image } = frames[index]
+  useLayoutEffect(() => {
+    const { delay, image } = frames[index]
 
-      draw(image)
-      if (!paused) {
-        timerRef.current = window.setTimeout(next, delay)
-      }
-      return () => {
-        window.clearTimeout(timerRef.current)
-      }
-    },
-    [index]
-  )
+    draw(image)
+    if (!paused) {
+      timerRef.current = window.setTimeout(next, delay)
+    }
+    return () => {
+      window.clearTimeout(timerRef.current)
+    }
+  }, [index])
 
   return { index, paused, toggle, rewind }
 }

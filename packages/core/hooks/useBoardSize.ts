@@ -9,18 +9,21 @@ export function useBoardSize(
   const width = size.width - padding * 2
   const height = size.height - padding * 2
 
-  useLayoutEffect(
-    () => {
-      const { current } = ref
-      if (current === null) return
-      const observer = new ResizeObserver(() => {
-        setSize({ width: current.clientWidth, height: current.clientHeight })
+  useLayoutEffect(() => {
+    const { current } = ref
+
+    if (current === null) return
+
+    const observer = new ResizeObserver(() =>
+      setSize({
+        width: current.clientWidth,
+        height: current.clientHeight
       })
-      observer.observe(current)
-      return () => observer.unobserve(current)
-    },
-    [ref.current]
-  )
+    )
+
+    observer.observe(current)
+    return () => observer.unobserve(current)
+  }, [ref.current])
 
   return { width, height, ref }
 }

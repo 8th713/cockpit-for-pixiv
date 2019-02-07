@@ -6,20 +6,16 @@ export function useIntersection(
 ) {
   const [entry, set] = useState<IntersectionObserverEntry | null>(null)
 
-  useEffect(
-    () => {
-      const element = node.current
+  useEffect(() => {
+    const element = node.current
 
-      if (!element) return
-      const observer = new IntersectionObserver(([entry]) => {
-        set(entry)
-      }, options)
+    if (!element) return
 
-      observer.observe(element)
-      return () => observer.unobserve(element)
-    },
-    [node.current]
-  )
+    const observer = new IntersectionObserver(([entry]) => set(entry), options)
+
+    observer.observe(element)
+    return () => observer.unobserve(element)
+  }, [node.current])
 
   return entry
 }

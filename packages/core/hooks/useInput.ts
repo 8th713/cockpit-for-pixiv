@@ -6,12 +6,7 @@ export function useInput(initialValue: string) {
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     set(event.target.value)
   }, [])
-  useEffect(
-    () => {
-      set(initialValue)
-    },
-    [initialValue]
-  )
+  useEffect(() => set(initialValue), [initialValue])
 
   return { value, set, clear, bind: { value, onChange } }
 }

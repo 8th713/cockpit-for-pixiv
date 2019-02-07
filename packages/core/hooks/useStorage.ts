@@ -21,22 +21,19 @@ export function useStorage<T>(
   defaultValue: T
 ): [T, Dispatch<SetStateAction<T>>] {
   const storage = useContext(Context)
-  const load = useCallback(
-    (): T => {
-      const value = storage.getItem(`${PREFIX}/${key}`)
+  const load = useCallback((): T => {
+    const value = storage.getItem(`${PREFIX}/${key}`)
 
-      if (value !== null) {
-        try {
-          return JSON.parse(value)
-        } catch (err) {
-          console.error(err)
-          return defaultValue
-        }
+    if (value !== null) {
+      try {
+        return JSON.parse(value)
+      } catch (err) {
+        console.error(err)
+        return defaultValue
       }
-      return defaultValue
-    },
-    [storage]
-  )
+    }
+    return defaultValue
+  }, [storage])
   const store = useCallback(
     (value: T) => {
       const stringifiedValue = JSON.stringify(value)
@@ -47,12 +44,7 @@ export function useStorage<T>(
   )
   const [value, set] = useState(load)
 
-  useEffect(
-    () => {
-      store(value)
-    },
-    [value]
-  )
+  useEffect(() => store(value), [value])
 
   return [value, set]
 }

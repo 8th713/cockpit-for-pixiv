@@ -25,14 +25,12 @@ export function useLazyImg(
     page.urls.small.replace('540x540_70', '150x150')
   )
 
-  useLayoutEffect(
-    () => {
-      if (!entry || !entry.isIntersecting) return
-      if (url === page.urls.original) return
-      abortable(fetchImage(page.urls.original)).then(setUrl)
-    },
-    [entry]
-  )
+  useLayoutEffect(() => {
+    if (!entry || !entry.isIntersecting) return
+    if (url === page.urls.original) return
+
+    abortable(fetchImage(page.urls.original)).then(setUrl)
+  }, [entry])
 
   return url
 }
