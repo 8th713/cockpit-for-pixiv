@@ -10,7 +10,8 @@ export function useImg(page: Page) {
 
   useLayoutEffect(() => {
     if (url === page.urls.original) return
-    abortable(fetchImage(page.urls.original)).then(setUrl)
+
+    abortable(fetchImage(page.urls.original, url)).then(setUrl)
   }, [])
 
   return url
@@ -29,7 +30,7 @@ export function useLazyImg(
     if (!entry || !entry.isIntersecting) return
     if (url === page.urls.original) return
 
-    abortable(fetchImage(page.urls.original)).then(setUrl)
+    abortable(fetchImage(page.urls.original, url)).then(setUrl)
   }, [entry])
 
   return url
