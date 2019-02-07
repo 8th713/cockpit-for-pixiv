@@ -5,15 +5,26 @@ export function useUnmountAbort() {
   if (ref.current === null) {
     ref.current = new AbortController()
   }
-  function abortable<T>(thenable: Promise<T>) {
+
+  useLayoutEffect(() => () => ref.current.abort(), [])
+
+  return function abortable<T>(thenable: Promise<T>) {
     const promise = new Promise<unknown>((_, reject) => {
       ref.current.signal.addEventListener('abort', () => {
-        reject(new DOMException('Aborted', 'AbortError'))
+        reject(new AbortError('Component unmounted'))
       })
     })
     return Promise.race([promise, thenable]) as Promise<T>
   }
+}
 
-  useLayoutEffect(() => () => ref.current.abort(), [])
-  return { abortable, signal: ref.current.signal }
+export class AbortError extends Error {
+  constructor(message = 'Aborted') {
+    super(message)
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, AbortError)
+    }
+    this.name = 'AbortError'
+  }
 }
