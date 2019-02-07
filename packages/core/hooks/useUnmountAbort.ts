@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect } from 'react'
 
-export function useAbort() {
+export function useUnmountAbort() {
   const ref = useRef<AbortController>(null as any)
   if (ref.current === null) {
     ref.current = new AbortController()

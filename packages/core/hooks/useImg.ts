@@ -1,9 +1,9 @@
 import { useState, useLayoutEffect } from 'react'
-import { useAbort } from './useAbort'
+import { useUnmountAbort } from './useUnmountAbort'
 import { Page } from '../interfaces'
 
 export function useImg(page: Page) {
-  const { abortable } = useAbort()
+  const { abortable } = useUnmountAbort()
   const [url, setUrl] = useState(() =>
     page.urls.small.replace('540x540_70', '150x150')
   )
@@ -20,7 +20,7 @@ export function useLazyImg(
   page: Page,
   entry: IntersectionObserverEntry | null
 ) {
-  const { abortable } = useAbort()
+  const { abortable } = useUnmountAbort()
   const [url, setUrl] = useState(() =>
     page.urls.small.replace('540x540_70', '150x150')
   )

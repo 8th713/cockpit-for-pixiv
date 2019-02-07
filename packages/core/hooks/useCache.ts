@@ -1,6 +1,6 @@
 import { LRUMap } from 'lru_map'
 import { useForceUpdate } from './useForceUpdate'
-import { useAbort } from './useAbort'
+import { useUnmountAbort } from './useUnmountAbort'
 
 enum Status {
   Pending,
@@ -66,7 +66,7 @@ export function createCacheHook<I extends string | number, V>(
 ) {
   return function useCache(input: I) {
     const forceUpdate = useForceUpdate()
-    const { abortable } = useAbort()
+    const { abortable } = useUnmountAbort()
 
     function read(): V {
       const result = accessResult(cache, fetch, input)
