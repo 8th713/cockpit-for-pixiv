@@ -17,18 +17,16 @@ const useCache = createCacheHook(fetchIllust)
 export function useIllust(illustId: string) {
   const addonStore = useAddon()
   const { read, remove: retry, replace, reload, abortable } = useCache(illustId)
-  const like = useCallback(
-    () => {
+  const like = useCallback(() => {
       const illust = read()
 
       if (!illust) return
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
+
       replace(likeIllust(illust))
       abortable(likeBy(illustId, pixivGlobalData.token)).then(reload)
-    },
-    [illustId]
-  )
+  }, [illustId])
   const bookmark = useCallback(
     (data: BookmarkPost) => {
       const illust = read()
@@ -36,22 +34,19 @@ export function useIllust(illustId: string) {
       if (!illust) return
       if (!illust.isBookmarkable) return
       if (illust.likeData) return
+
       replace(bookmarkIllust(illust))
       abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(reload)
     },
     [illustId]
   )
-  const share = useCallback(
-    () => {
+  const share = useCallback(() => {
       const illust = read()
       if (!illust) return
 
       openTwitter(illust)
-    },
-    [illustId]
-  )
-  const download = useCallback(
-    () => {
+  }, [illustId])
+  const download = useCallback(() => {
       if (canDonwload === false) return
 
       const illust = read()
@@ -63,9 +58,7 @@ export function useIllust(illustId: string) {
         payload: illust
       }
       addonStore.dispatch('download', action)
-    },
-    [illustId]
-  )
+  }, [illustId])
   const canDonwload = addonStore.isConnected('download')
 
   return { read, retry, like, bookmark, share, download, canDonwload }
