@@ -43,7 +43,7 @@ export function Author({ userId }: Props) {
         <Avatar src={user.image} />
         {user.name}
       </Link>
-      {!isSelf && !user.isFollowed && (
+      {!isSelf(userId) && !user.isFollowed && (
         <Button v="contained" c="primary" title={title} onClick={handleFollow}>
           <Add width="18" height="18" />
           フォローする
@@ -51,7 +51,7 @@ export function Author({ userId }: Props) {
           <Hotkeys {...keyMap.privateFollow} onKeyDown={handleFollow} />
         </Button>
       )}
-      {!isSelf && user.isFollowed && (
+      {!isSelf(userId) && user.isFollowed && (
         <Button v="outlined" c="primary" title={title} onClick={handleFollow}>
           フォロー中
           <Hotkeys {...keyMap.follow} onKeyDown={handleFollow} />
