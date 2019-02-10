@@ -3,13 +3,14 @@ import { useStateRef } from './useStateRef'
 import { NO_SCROLLBAR, INCLUDES, EXCLUDES } from '../constants'
 
 export function usePicker() {
-  const [element, set, get] = useStateRef<HTMLAnchorElement | null>(null)
-  const value = element ? getId(element) : null
+  const node = useStateRef<HTMLAnchorElement | null>(null)
+  const value = node.value ? getId(node.value) : null
   const actions = useMemo(() => {
     function go(n: number) {
-      const element = get()
+      const element = node.value
+
       if (!element) return
-      set(getSibling(element, n))
+      node.update(getSibling(element, n))
     }
     function goNext() {
       go(1)
@@ -22,7 +23,7 @@ export function usePicker() {
       event.shiftKey ? goPrev() : goNext()
     }
     function unsetElement() {
-      set(null)
+      node.update(null)
     }
 
     return { goNext, goPrev, goFromEvent, unsetElement }
@@ -34,7 +35,7 @@ export function usePicker() {
 
       if (target && isIllustThumbnailAnchorElement(target)) {
         event.preventDefault()
-        set(target)
+        node.update(target)
       }
     }
     function handleMouseOver(event: MouseEvent) {
@@ -57,13 +58,13 @@ export function usePicker() {
   useEffect(() => {
     const html = document.documentElement!
 
-    if (element) {
+    if (node.value) {
       html.classList.add(NO_SCROLLBAR)
-      html.scrollTop = getScrollPosition(element)
+      html.scrollTop = getScrollPosition(node.value)
     } else {
       html.classList.remove(NO_SCROLLBAR)
     }
-  }, [element])
+  }, [node.value])
 
   return { value, actions }
 }

@@ -2,7 +2,7 @@ import { useState, useLayoutEffect } from 'react'
 import { Dimension } from '../interfaces'
 
 export function useBoardSize(
-  ref: React.RefObject<HTMLElement>,
+  node: React.RefObject<HTMLElement>,
   padding: number
 ) {
   const [size, setSize] = useState<Dimension>({ width: 0, height: 0 })
@@ -10,7 +10,7 @@ export function useBoardSize(
   const height = size.height - padding * 2
 
   useLayoutEffect(() => {
-    const { current } = ref
+    const { current } = node
 
     if (current === null) return
 
@@ -23,7 +23,7 @@ export function useBoardSize(
 
     observer.observe(current)
     return () => observer.unobserve(current)
-  }, [ref.current])
+  }, [node])
 
-  return { width, height, ref }
+  return { width, height, node }
 }

@@ -1,16 +1,10 @@
-import { useState, useRef, useCallback, Dispatch, SetStateAction } from 'react'
+import { useState, useRef } from 'react'
 
-/**
- * Returns a stateful value, and a function to update it.
- * and RefObject with latest value.
- */
-export function useStateRef<S>(
-  initialState: S | (() => S)
-): [S, Dispatch<SetStateAction<S>>, () => S] {
-  const [state, setState] = useState(initialState)
-  const ref = useRef(state)
-  const get = useCallback(() => ref.current, [])
+export function useStateRef<S>(initialState: S | (() => S)) {
+  const [value, update] = useState(initialState)
+  const ref = useRef({ value, update })
 
-  ref.current = state
-  return [state, setState, get]
+  ref.current.value = value
+  ref.current.update = update
+  return ref.current
 }

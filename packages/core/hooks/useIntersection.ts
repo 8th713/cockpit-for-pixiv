@@ -15,7 +15,7 @@ export function useIntersection(
 
     observer.observe(element)
     return () => observer.unobserve(element)
-  }, [node.current])
+  }, [node])
 
   return entry
 }
