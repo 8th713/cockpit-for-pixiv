@@ -277,10 +277,10 @@ export function createAPIClient(
     }))
   }
 
-  const usePageCache = createCacheHook(fetchPages, new LRUMap(10))
-  const useUgoiraCache = createCacheHook(fetchUgoira, new LRUMap(3))
-  const useIllustCache = createCacheHook(fetchIllust, new LRUMap(10))
-  const useUserCache = createCacheHook(fetchUser, new LRUMap(10))
+  const usePageCache = createCacheHook(fetchPages, new LRUMap(20))
+  const useUgoiraCache = createCacheHook(fetchUgoira, new LRUMap(1))
+  const useIllustCache = createCacheHook(fetchIllust, new LRUMap(20))
+  const useUserCache = createCacheHook(fetchUser, new LRUMap(20))
   const useBookmarkCache = createCacheHook(
     fetchBookmarkForm,
     new LRUMap(1),
