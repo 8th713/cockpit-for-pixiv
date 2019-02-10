@@ -1,29 +1,67 @@
 import { LRUMap } from 'lru_map'
 import { useForceUpdate } from './useForceUpdate'
-import { useAbort } from './useAbort'
-
-enum Status {
-  Pending,
-  Resolved,
-  Rejected
-}
+import { useRef, useLayoutEffect } from 'react'
 
 type PendingResult = {
-  status: Status.Pending
+  status: typeof PENDING
   value: Promise<unknown>
 }
 
 type ResolvedResult<V> = {
-  status: Status.Resolved
+  status: typeof RESOLVED
   value: V
 }
 
 type RejectedResult = {
-  status: Status.Rejected
+  status: typeof REJECTED
   value: unknown
 }
 
-type Result<V> = PendingResult | ResolvedResult<V> | RejectedResult
+export type Result<V> = PendingResult | ResolvedResult<V> | RejectedResult
+
+const PENDING = 0
+const RESOLVED = 1
+const REJECTED = 2
+
+function setResolved<I, V>(cache: LRUMap<I, Result<V>>, input: I, value: V) {
+  const result = cache.get(input)
+
+  if (result) {
+    const newResult: ResolvedResult<V> = result as any
+
+    newResult.status = RESOLVED
+    newResult.value = value
+    return newResult
+  } else {
+    const newResult: ResolvedResult<V> = {
+      status: RESOLVED,
+      value
+    }
+
+    cache.set(input, newResult)
+    return newResult
+  }
+}
+
+function setRejected<I, V>(cache: LRUMap<I, Result<V>>, input: I, error: any) {
+  const result = cache.get(input)
+
+  if (result) {
+    const newResult: RejectedResult = result as any
+
+    newResult.status = REJECTED
+    newResult.value = error
+    return newResult
+  } else {
+    const newResult: RejectedResult = {
+      status: REJECTED,
+      value: error
+    }
+
+    cache.set(input, newResult)
+    return newResult
+  }
+}
 
 function accessResult<I, V>(
   cache: LRUMap<I, Result<V>>,
@@ -31,28 +69,32 @@ function accessResult<I, V>(
   input: I
 ): Result<V> {
   let entry = cache.get(input)
+
   if (entry === undefined) {
     const thenable = fetch(input)
+
     thenable.then(
       value => {
-        if (newResult.status === Status.Pending) {
+        if (newResult.status === PENDING) {
           const resolvedResult: ResolvedResult<V> = newResult as any
-          resolvedResult.status = Status.Resolved
+          resolvedResult.status = RESOLVED
           resolvedResult.value = value
         }
       },
       error => {
-        if (newResult.status === Status.Pending) {
+        if (newResult.status === PENDING) {
           const rejectedResult: RejectedResult = newResult as any
-          rejectedResult.status = Status.Rejected
+          rejectedResult.status = REJECTED
           rejectedResult.value = error
         }
       }
     )
+
     const newResult: PendingResult = {
-      status: Status.Pending,
+      status: PENDING,
       value: thenable
     }
+
     cache.set(input, newResult)
     return newResult
   } else {
@@ -62,49 +104,64 @@ function accessResult<I, V>(
 
 export function createCacheHook<I extends string | number, V>(
   fetch: (input: I) => Promise<V>,
-  cache: LRUMap<I, Result<V>> = new LRUMap(10)
+  cache: LRUMap<I, Result<V>>,
+  forceFetch = false
 ) {
   return function useCache(input: I) {
+    const unmounted = useRef(true)
     const forceUpdate = useForceUpdate()
-    const { abortable } = useAbort()
 
-    function read(): V {
+    function read() {
       const result = accessResult(cache, fetch, input)
 
       switch (result.status) {
-        case Status.Pending: {
-          const suspender = result.value
-          throw suspender
+        case PENDING: {
+          throw result.value
         }
-        case Status.Resolved: {
-          const value = result.value
-          return value
+        case RESOLVED: {
+          if (forceFetch) {
+            cache.delete(input)
+          }
+          return result.value
         }
-        case Status.Rejected: {
-          const error = result.value
-          throw error
+        case REJECTED: {
+          if (forceFetch) {
+            cache.delete(input)
+          }
+
+          throw result.value
         }
       }
-    }
-    function preload() {
-      accessResult(cache, fetch, input)
     }
     function remove() {
       cache.delete(input)
+      if (unmounted.current) return
       forceUpdate()
     }
     function replace(value: V) {
-      const result: ResolvedResult<V> = {
-        status: Status.Resolved,
-        value
-      }
-      cache.set(input, result)
+      setResolved(cache, input, value)
+      if (unmounted.current) return
       forceUpdate()
     }
-    function reload() {
-      abortable(fetch(input)).then(replace)
+    function reload(rollback?: V) {
+      fetch(input).then(replace, error => {
+        if (rollback) {
+          replace(rollback)
+        } else {
+          setRejected(cache, input, error)
+          if (unmounted.current) return
+          forceUpdate()
+        }
+      })
     }
 
-    return { read, preload, remove, replace, reload, abortable }
+    useLayoutEffect(() => {
+      unmounted.current = false
+      return () => {
+        unmounted.current = true
+      }
+    }, [])
+
+    return { read, remove, replace, reload }
   }
 }
