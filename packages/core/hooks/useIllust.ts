@@ -1,130 +1,67 @@
-import wretch from 'wretch'
-import { useCallback } from 'react'
-import { createCacheHook } from './useCache'
+import { useCallback, useContext } from 'react'
+import { ClientContext } from '../contexts'
 import { useAddon } from './useAddon'
-import {
-  Illust,
-  LikeData,
-  BookmarkPost,
-  BookmarkData,
-  DownloadRequestAction
-} from '../interfaces'
-import { pixivGlobalData } from '../externals/pixivGlobalData'
+import { Illust, BookmarkPost, DownloadRequestAction } from '../interfaces'
 import { openTwitter } from '../externals/share'
-
-const useCache = createCacheHook(fetchIllust)
 
 export function useIllust(illustId: string) {
   const addonStore = useAddon()
-  const { read, remove: retry, replace, reload, abortable } = useCache(illustId)
+  const { useIllustCache, likeBy, bookmarkBy } = useContext(ClientContext)
+  const { read, remove: retry, replace, reload } = useIllustCache(illustId)
   const like = useCallback(() => {
-      const illust = read()
+    const illust = read()
 
-      if (!illust) return
-      if (!illust.isBookmarkable) return
-      if (illust.likeData) return
+    if (!illust) return
+    if (!illust.isBookmarkable) return
+    if (illust.likeData) return
 
-      replace(likeIllust(illust))
-      abortable(likeBy(illustId, pixivGlobalData.token)).then(reload)
+    replace(likeIllust(illust))
+    likeBy(illustId).then(() => reload(), () => replace(illust))
   }, [illustId])
   const bookmark = useCallback(
-    (data: BookmarkPost) => {
+    (body: BookmarkPost) => {
       const illust = read()
 
       if (!illust) return
       if (!illust.isBookmarkable) return
-      if (illust.likeData) return
 
       replace(bookmarkIllust(illust))
-      abortable(bookmarkBy(illustId, data, pixivGlobalData.token)).then(reload)
+      bookmarkBy(illustId, body).then(() => reload(), () => replace(illust))
     },
     [illustId]
   )
   const share = useCallback(() => {
-      const illust = read()
-      if (!illust) return
+    const illust = read()
 
-      openTwitter(illust)
+    if (!illust) return
+
+    openTwitter(illust)
   }, [illustId])
   const download = useCallback(() => {
-      if (canDonwload === false) return
+    if (canDonwload === false) return
 
-      const illust = read()
+    const illust = read()
 
-      if (!illust) return
+    if (!illust) return
 
-      const action: DownloadRequestAction = {
-        type: 'DOWNLOAD_REQUEST',
-        payload: illust
-      }
-      addonStore.dispatch('download', action)
+    const action: DownloadRequestAction = {
+      type: 'DOWNLOAD_REQUEST',
+      payload: illust
+    }
+
+    addonStore.dispatch('download', action)
   }, [illustId])
   const canDonwload = addonStore.isConnected('download')
 
   return { read, retry, like, bookmark, share, download, canDonwload }
 }
 
-/**
- * 作品情報
- *
- * GET /ajax/illust/:illustId
- * @param {string} illustId イラスト識別子
- */
-function fetchIllust(illustId: string) {
-  return wretch(`/ajax/illust/${illustId}`)
-    .options({ credentials: 'same-origin', cache: 'no-cache' })
-    .content('application/json')
-    .errorType('json')
-    .get()
-    .json<Illust>(data => data.body)
-    .catch(error => {
-      console.error(error)
-      return null
-    })
-}
-
-/**
- * いいね！
- *
- * POST /ajax/illusts/like
- * @param {string} illsut_id イラスト識別子
- */
-function likeBy(illustId: string, token: string) {
-  return wretch('/ajax/illusts/like')
-    .headers({ 'x-csrf-token': token })
-    .post({ illust_id: illustId })
-    .json<LikeData>()
-}
 function likeIllust(illust: Illust): Illust {
   const likeCount = illust.likeCount + 1
 
   return { ...illust, likeCount, likeData: true }
 }
 
-/**
- * ブックマーク
- *
- * POST /ajax/illusts/bookmarks/add
- * @param {string} illust_id イラスト識別子
- * @param {number} restrict 0=公開/1=非公開
- * @param {stirng} comment コメント
- * @param {string[]} tags タグリスト
- */
-function bookmarkBy(
-  illustId: string,
-  { restrict = false, comment = '', tags = [] }: BookmarkPost,
-  token: string
-) {
-  return wretch('/ajax/illusts/bookmarks/add')
-    .headers({ 'x-csrf-token': token })
-    .post({
-      illust_id: illustId,
-      restrict: restrict ? 1 : 0,
-      comment,
-      tags
-    })
-    .json<BookmarkData>()
-}
 function bookmarkIllust(illust: Illust): Illust {
   const bookmarkCount = illust.bookmarkData
     ? illust.bookmarkCount

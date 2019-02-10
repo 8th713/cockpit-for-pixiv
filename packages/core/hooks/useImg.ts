@@ -1,16 +1,28 @@
-import { useState, useLayoutEffect } from 'react'
-import { useAbort } from './useAbort'
+import { useState, useLayoutEffect, useContext, useRef } from 'react'
+import { ClientContext } from '../contexts'
 import { Page } from '../interfaces'
 
 export function useImg(page: Page) {
-  const { abortable } = useAbort()
+  const unmounted = useRef(true)
+  const { fetchImage } = useContext(ClientContext)
   const [url, setUrl] = useState(() =>
     page.urls.small.replace('540x540_70', '150x150')
   )
 
   useLayoutEffect(() => {
+    unmounted.current = false
+    return () => {
+      unmounted.current = true
+    }
+  }, [])
+  useLayoutEffect(() => {
     if (url === page.urls.original) return
-    abortable(fetchImage(page.urls.original)).then(setUrl)
+
+    fetchImage(page.urls.original).then(src => {
+      if (unmounted.current) return
+      if (src === null) return
+      setUrl(src)
+    })
   }, [])
 
   return url
@@ -20,26 +32,28 @@ export function useLazyImg(
   page: Page,
   entry: IntersectionObserverEntry | null
 ) {
-  const { abortable } = useAbort()
+  const unmounted = useRef(true)
+  const { fetchImage } = useContext(ClientContext)
   const [url, setUrl] = useState(() =>
     page.urls.small.replace('540x540_70', '150x150')
   )
 
   useLayoutEffect(() => {
+    unmounted.current = false
+    return () => {
+      unmounted.current = true
+    }
+  }, [])
+  useLayoutEffect(() => {
     if (!entry || !entry.isIntersecting) return
     if (url === page.urls.original) return
 
-    abortable(fetchImage(page.urls.original)).then(setUrl)
+    fetchImage(page.urls.original).then(src => {
+      if (unmounted.current) return
+      if (src === null) return
+      setUrl(src)
+    })
   }, [entry])
 
   return url
-}
-
-function fetchImage(src: string) {
-  return new Promise<string>((resolve, reject) => {
-    const i = new Image()
-    i.onload = () => resolve(src)
-    i.onerror = () => reject(new Error('error'))
-    i.src = src
-  })
 }
