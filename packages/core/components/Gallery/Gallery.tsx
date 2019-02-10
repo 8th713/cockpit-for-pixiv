@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { color } from '../theme'
 import { PickerProvider, BoardProvider } from '../../contexts'
 import { Progress } from '../shared/Progress'
 import { Divide, SimpleLayout } from './Divide'
@@ -41,4 +42,8 @@ const ScrollView = styled.div`
   overflow: auto;
   width: 100%;
   flex: 100%;
+  &:focus {
+    outline: 1px solid ${color.primary};
+    outline-offset: -1px;
+  }
 `
