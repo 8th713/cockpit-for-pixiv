@@ -3,31 +3,23 @@ import { usePicker } from '../hooks'
 
 type Picker = ReturnType<typeof usePicker>
 
-const Value = React.createContext<Picker['value']>(null as any)
-const Action = React.createContext<Picker['actions']>(null as any)
-
-function useValue() {
-  return React.useContext(Value)
-}
-
-function useAction() {
-  return React.useContext(Action)
-}
-
 type Props = {
   children?: React.ReactNode
 }
 
-function PickerProvider(props: Props) {
+const ValueContext = React.createContext<Picker['value']>(null as any)
+const ActionContext = React.createContext<Picker['actions']>(null as any)
+
+export function PickerProvider(props: Props) {
   const { value, actions } = usePicker()
 
   return (
-    <Action.Provider value={actions}>
-      <Value.Provider value={value}>{props.children}</Value.Provider>
-    </Action.Provider>
+    <ActionContext.Provider value={actions}>
+      <ValueContext.Provider value={value}>
+        {props.children}
+      </ValueContext.Provider>
+    </ActionContext.Provider>
   )
 }
-
-const Context = Object.assign(PickerProvider, { useValue, useAction })
-
-export { Context as PickerProvider }
+PickerProvider.ValueContext = ValueContext
+PickerProvider.ActionContext = ActionContext

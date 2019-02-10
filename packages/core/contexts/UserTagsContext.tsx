@@ -1,30 +1,24 @@
 import React from 'react'
 import { useUserTags, useSort } from '../hooks'
 
+export type UserTagsContextValue = UserTags & Sort
+
 type UserTags = ReturnType<typeof useUserTags>
 type Sort = ReturnType<typeof useSort>
-
-const UserTagsContext = React.createContext<UserTags & Sort>(null as any)
-
-function useValue() {
-  return React.useContext(UserTagsContext)
-}
-
 type Props = {
   children?: React.ReactNode
 }
 
-function UserTagsProvider(props: Props) {
+const Context = React.createContext<UserTagsContextValue>(null as any)
+
+export function UserTagsProvider(props: Props) {
   const userTags = useUserTags()
   const sort = useSort()
 
   return (
-    <UserTagsContext.Provider value={{ ...userTags, ...sort }}>
+    <Context.Provider value={{ ...userTags, ...sort }}>
       {props.children}
-    </UserTagsContext.Provider>
+    </Context.Provider>
   )
 }
-
-const Context = Object.assign(UserTagsProvider, { useValue })
-
-export { Context as UserTagsProvider }
+UserTagsProvider.Context = Context

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { color } from '../theme'
 import { PickerProvider, BoardProvider } from '../../contexts'
@@ -6,8 +6,8 @@ import { Progress } from '../shared/Progress'
 import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const illustId = PickerProvider.useValue()!
-  const { unsetElement, goFromEvent } = PickerProvider.useAction()
+  const illustId = useContext(PickerProvider.ValueContext)!
+  const { unsetElement, goFromEvent } = useContext(PickerProvider.ActionContext)
   const ref = React.useRef<HTMLDivElement>(null)
 
   useEffect(() => {

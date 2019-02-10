@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Page } from '../../../interfaces'
 import { PaddingProvider } from '../../../contexts'
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export function Ugoira(props: Props) {
-  const padding = PaddingProvider.useValue()
+  const padding = useContext(PaddingProvider.ValueContext)
 
   return (
     <Layout style={{ padding }}>

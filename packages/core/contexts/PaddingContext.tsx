@@ -1,33 +1,23 @@
 import React from 'react'
 import { usePadding } from '../hooks'
 
-type Padding = ReturnType<typeof usePadding>
-
-const Value = React.createContext<Padding['value']>(32)
-const Action = React.createContext<Padding['set']>(() => {})
-
-function useValue() {
-  return React.useContext(Value)
-}
-
-function useAction() {
-  return React.useContext(Action)
-}
-
 type Props = {
   children?: React.ReactNode
 }
 
-function PaddingProvider(props: Props) {
+const ValueContext = React.createContext(32)
+const ActionContext = React.createContext((value: number) => {})
+
+export function PaddingProvider(props: Props) {
   const { value, set } = usePadding()
 
   return (
-    <Action.Provider value={set}>
-      <Value.Provider value={value}>{props.children}</Value.Provider>
-    </Action.Provider>
+    <ActionContext.Provider value={set}>
+      <ValueContext.Provider value={value}>
+        {props.children}
+      </ValueContext.Provider>
+    </ActionContext.Provider>
   )
 }
-
-const Context = Object.assign(PaddingProvider, { useValue, useAction })
-
-export { Context as PaddingProvider }
+PaddingProvider.ValueContext = ValueContext
+PaddingProvider.ActionContext = ActionContext

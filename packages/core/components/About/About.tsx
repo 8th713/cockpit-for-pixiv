@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AboutProvider } from '../../contexts'
 import { PaddingEditor } from './PaddingEditor'
 import { ShortcutsList } from './ShortcutsList'
@@ -10,8 +10,8 @@ import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
 
 export function About() {
-  const opened = AboutProvider.useValue()
-  const toggle = AboutProvider.useAction()
+  const opened = useContext(AboutProvider.ValueContext)
+  const toggle = useContext(AboutProvider.ActionContext)
   const handleRequestClose = React.useCallback(() => toggle(), [])
 
   return (

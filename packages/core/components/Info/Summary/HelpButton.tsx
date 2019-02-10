@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { AboutProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Help } from '../../shared/Icon'
@@ -7,7 +7,7 @@ import { getDesc } from '../../../constants'
 const title = getDesc('help')
 
 export function HelpButton() {
-  const toggle = AboutProvider.useAction()
+  const toggle = useContext(AboutProvider.ActionContext)
   const fromEvent = React.useCallback(() => toggle(), [toggle])
 
   return (

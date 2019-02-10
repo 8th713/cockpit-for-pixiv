@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { color } from '../theme'
 import { ExpansionProvider, IllustProvider } from '../../contexts'
@@ -9,7 +9,7 @@ import { UserCard } from './UserCard'
 import { Progress } from '../shared/Progress'
 
 export function Info() {
-  const opened = ExpansionProvider.useValue()
+  const opened = useContext(ExpansionProvider.ValueContext)
 
   return (
     <IllustProvider>

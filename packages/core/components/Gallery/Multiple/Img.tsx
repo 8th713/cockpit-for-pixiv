@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Page } from '../../../interfaces'
 import {
   PickerProvider,
@@ -15,14 +15,14 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { goFromEvent } = PickerProvider.useAction()
-  const board = BoardProvider.useValue()
-  const fit = FitProvider.useValue()
-  const spread = SpreadProvider.useValue()
+  const { goFromEvent } = useContext(PickerProvider.ActionContext)
+  const board = useContext(BoardProvider.ValueContext)
+  const fit = useContext(FitProvider.ValueContext)
+  const spread = useContext(SpreadProvider.ValueContext)
   const { width, height } = calcSize(board, fit, spread, page, true)
   const imgRef = React.useRef(null)
   const entry = useIntersection(imgRef, {
-    root: board.ref.current,
+    root: board.node.current,
     rootMargin: '32px'
   })
   const src = useLazyImg(page, entry)

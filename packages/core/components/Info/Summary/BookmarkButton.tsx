@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { BookmarkPost } from '../../../interfaces'
 import { IllustProvider } from '../../../contexts'
 import { useToggle } from '../../../hooks'
@@ -15,7 +15,7 @@ const title = [
 ].join('\n')
 
 export function BookmarkButton() {
-  const { read, bookmark } = IllustProvider.useValue()
+  const { read, bookmark } = useContext(IllustProvider.Context)
   const [opened, toggle] = useToggle(false)
   const handleBookmark = React.useCallback(
     (event: { shiftKey: boolean; ctrlKey: boolean }) => {

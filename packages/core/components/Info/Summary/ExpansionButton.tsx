@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ExpansionProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { ExpandLess, ExpandMore } from '../../shared/Icon'
@@ -8,8 +8,8 @@ import { keyMap, getDesc } from '../../../constants'
 const title = getDesc('info')
 
 export function ExpansionButton() {
-  const opened = ExpansionProvider.useValue()
-  const toggle = ExpansionProvider.useAction()
+  const opened = useContext(ExpansionProvider.ValueContext)
+  const toggle = useContext(ExpansionProvider.ActionContext)
   const handleClick = React.useCallback(() => toggle(), [toggle])
 
   return (

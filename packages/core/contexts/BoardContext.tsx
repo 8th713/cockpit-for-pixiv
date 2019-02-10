@@ -1,31 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useBoardSize } from '../hooks'
 import { PaddingProvider } from './PaddingContext'
 
 type Board = ReturnType<typeof useBoardSize>
-
-const Value = React.createContext<Board>({
-  width: 0,
-  height: 0,
-  ref: React.createRef()
-})
-
-function useValue() {
-  return React.useContext(Value)
-}
-
 type Props = {
   observe: React.RefObject<HTMLElement>
   children?: React.ReactNode
 }
 
-function BoardProvider(props: Props) {
-  const padding = PaddingProvider.useValue()
+const ValueContext = React.createContext<Board>({
+  width: 0,
+  height: 0,
+  node: React.createRef()
+})
+
+export function BoardProvider(props: Props) {
+  const padding = useContext(PaddingProvider.ValueContext)
   const value = useBoardSize(props.observe, padding)
 
-  return <Value.Provider value={value}>{props.children}</Value.Provider>
+  return (
+    <ValueContext.Provider value={value}>
+      {props.children}
+    </ValueContext.Provider>
+  )
 }
-
-const Context = Object.assign(BoardProvider, { useValue })
-
-export { Context as BoardProvider }
+BoardProvider.ValueContext = ValueContext

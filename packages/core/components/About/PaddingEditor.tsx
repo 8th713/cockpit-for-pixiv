@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { PaddingProvider } from '../../contexts'
 import { Text } from '../shared/Text'
 import { Slider } from '../shared/Slider'
 
 export function PaddingEditor() {
-  const value = PaddingProvider.useValue()
-  const update = PaddingProvider.useAction()
+  const value = useContext(PaddingProvider.ValueContext)
+  const update = useContext(PaddingProvider.ActionContext)
   const handleChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       update(event.target.valueAsNumber)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { UserTagsProvider } from '../../../contexts'
 import { Tag, TagList } from './Tag'
 import { sortBy } from '../utils'
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function UserTags(props: Props) {
-  const { column, direction, read } = UserTagsProvider.useValue()
+  const { column, direction, read } = useContext(UserTagsProvider.Context)
   const tags = read()
 
   if (!tags) {

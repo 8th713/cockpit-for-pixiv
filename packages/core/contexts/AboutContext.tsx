@@ -1,33 +1,23 @@
 import React from 'react'
-import { useAbout } from '../hooks'
-
-type About = ReturnType<typeof useAbout>
-
-const Value = React.createContext<About['opened']>(false)
-const Action = React.createContext<About['toggle']>(() => {})
-
-function useValue() {
-  return React.useContext(Value)
-}
-
-function useAction() {
-  return React.useContext(Action)
-}
+import { useToggle } from '../hooks'
 
 type Props = {
   children?: React.ReactNode
 }
 
-function AboutProvider(props: Props) {
-  const { opened, toggle } = useAbout()
+const ValueContext = React.createContext(false)
+const ActionContext = React.createContext((newValue?: boolean) => {})
+
+export function AboutProvider(props: Props) {
+  const [opened, toggle] = useToggle(false)
 
   return (
-    <Action.Provider value={toggle}>
-      <Value.Provider value={opened}>{props.children}</Value.Provider>
-    </Action.Provider>
+    <ActionContext.Provider value={toggle}>
+      <ValueContext.Provider value={opened}>
+        {props.children}
+      </ValueContext.Provider>
+    </ActionContext.Provider>
   )
 }
-
-const Context = Object.assign(AboutProvider, { useValue, useAction })
-
-export { Context as AboutProvider }
+AboutProvider.ValueContext = ValueContext
+AboutProvider.ActionContext = ActionContext

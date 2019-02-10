@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import {
   PickerProvider,
@@ -13,8 +13,10 @@ import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
 
 export function Article() {
-  const id = PickerProvider.useValue()
-  const { unsetElement, goNext, goPrev } = PickerProvider.useAction()
+  const id = useContext(PickerProvider.ValueContext)
+  const { unsetElement, goNext, goPrev } = useContext(
+    PickerProvider.ActionContext
+  )
 
   if (id === null) {
     return null

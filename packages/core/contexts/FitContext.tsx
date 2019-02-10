@@ -2,33 +2,23 @@ import React from 'react'
 import { useFit } from '../hooks'
 import { FitStatus } from '../constants'
 
-type Fit = ReturnType<typeof useFit>
-
-const Value = React.createContext<Fit['status']>(FitStatus.COVER)
-const Action = React.createContext<Fit['cycle']>(() => {})
-
-function useValue() {
-  return React.useContext(Value)
-}
-
-function useAction() {
-  return React.useContext(Action)
-}
-
 type Props = {
   children?: React.ReactNode
 }
 
-function FitProvider(props: Props) {
+const ValueContext = React.createContext(FitStatus.COVER)
+const ActionContext = React.createContext(() => {})
+
+export function FitProvider(props: Props) {
   const { status, cycle } = useFit()
 
   return (
-    <Action.Provider value={cycle}>
-      <Value.Provider value={status}>{props.children}</Value.Provider>
-    </Action.Provider>
+    <ActionContext.Provider value={cycle}>
+      <ValueContext.Provider value={status}>
+        {props.children}
+      </ValueContext.Provider>
+    </ActionContext.Provider>
   )
 }
-
-const Context = Object.assign(FitProvider, { useValue, useAction })
-
-export { Context as FitProvider }
+FitProvider.ValueContext = ValueContext
+FitProvider.ActionContext = ActionContext

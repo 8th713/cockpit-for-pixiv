@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { IllustProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { Tweet } from '../../shared/Icon'
@@ -8,7 +8,7 @@ import { keyMap, getDesc } from '../../../constants'
 const title = getDesc('share')
 
 export function ShareButton() {
-  const { read, share } = IllustProvider.useValue()
+  const { read, share } = useContext(IllustProvider.Context)
   const illust = read()
 
   if (!illust) {

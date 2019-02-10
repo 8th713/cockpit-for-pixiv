@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Page } from '../../../interfaces'
 import { BoardProvider, FitProvider, SpreadProvider } from '../../../contexts'
 import { useUgoira } from '../../../hooks'
@@ -20,9 +20,9 @@ export function Img({ id, page }: Props) {
     },
     [retry]
   )
-  const board = BoardProvider.useValue()
-  const fit = FitProvider.useValue()
-  const spread = SpreadProvider.useValue()
+  const board = useContext(BoardProvider.ValueContext)
+  const fit = useContext(FitProvider.ValueContext)
+  const spread = useContext(SpreadProvider.ValueContext)
   const { width, height } = calcSize(board, fit, spread, page)
   const styles = {
     width,
