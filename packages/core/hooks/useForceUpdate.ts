@@ -1,7 +1,7 @@
 import { useReducer } from 'react'
 
 export function useForceUpdate() {
-  const [, update] = useReducer(n => n + 1, 0)
+  const [, update] = useReducer((bool: boolean) => !bool, false)
 
   return () => update(0)
 }
