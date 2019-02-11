@@ -1,4 +1,5 @@
 export * from './AboutContext'
+export * from './AddonContext'
 export * from './BoardContext'
 export * from './ClientContext'
 export * from './ExpansionContext'
