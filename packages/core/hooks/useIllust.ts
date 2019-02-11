@@ -1,11 +1,10 @@
 import { useCallback, useContext } from 'react'
-import { ClientContext } from '../contexts'
-import { useAddon } from './useAddon'
+import { ClientContext, AddonContext } from '../contexts'
 import { Illust, BookmarkPost, DownloadRequestAction } from '../interfaces'
 import { openTwitter } from '../externals/share'
 
 export function useIllust(illustId: string) {
-  const addonStore = useAddon()
+  const addonStore = useContext(AddonContext)
   const { useIllustCache, likeBy, bookmarkBy } = useContext(ClientContext)
   const { read, remove: retry, replace, reload } = useIllustCache(illustId)
   const like = useCallback(() => {

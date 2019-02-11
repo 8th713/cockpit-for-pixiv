@@ -1,4 +1,3 @@
-export * from './useAddon'
 export * from './useBookmarkForm'
 export * from './useBoardSize'
 export * from './useCache'
