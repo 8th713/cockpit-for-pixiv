@@ -12,7 +12,9 @@ import { keyMap } from '../../constants'
 export function About() {
   const opened = useContext(AboutProvider.ValueContext)
   const toggle = useContext(AboutProvider.ActionContext)
-  const handleRequestClose = React.useCallback(() => toggle(), [])
+  function handleRequestClose() {
+    toggle()
+  }
 
   return (
     <Dialog open={opened} onRequestClose={handleRequestClose}>

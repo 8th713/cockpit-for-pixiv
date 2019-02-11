@@ -7,12 +7,9 @@ import { Slider } from '../shared/Slider'
 export function PaddingEditor() {
   const value = useContext(PaddingProvider.ValueContext)
   const update = useContext(PaddingProvider.ActionContext)
-  const handleChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      update(event.target.valueAsNumber)
-    },
-    []
-  )
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    update(event.target.valueAsNumber)
+  }
 
   return (
     <Field>
