@@ -9,11 +9,11 @@ const ValueContext = React.createContext(false)
 const ActionContext = React.createContext((newValue?: boolean) => {})
 
 export function ExpansionProvider(props: Props) {
-  const { value, toggle } = useExpansion()
+  const [opened, toggle] = useExpansion()
 
   return (
     <ActionContext.Provider value={toggle}>
-      <ValueContext.Provider value={value}>
+      <ValueContext.Provider value={opened}>
         {props.children}
       </ValueContext.Provider>
     </ActionContext.Provider>

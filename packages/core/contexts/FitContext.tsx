@@ -10,7 +10,7 @@ const ValueContext = React.createContext(FitStatus.COVER)
 const ActionContext = React.createContext(() => {})
 
 export function FitProvider(props: Props) {
-  const { status, cycle } = useFit()
+  const [status, cycle] = useFit()
 
   return (
     <ActionContext.Provider value={cycle}>

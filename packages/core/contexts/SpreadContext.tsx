@@ -10,7 +10,7 @@ const ValueContext = React.createContext(SpreadStatus.SPREAD)
 const ActionContext = React.createContext(() => {})
 
 export function SpreadProvider(props: Props) {
-  const { status, cycle } = useSpread()
+  const [status, cycle] = useSpread()
 
   return (
     <ActionContext.Provider value={cycle}>

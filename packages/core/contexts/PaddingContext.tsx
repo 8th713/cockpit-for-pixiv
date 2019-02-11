@@ -9,11 +9,11 @@ const ValueContext = React.createContext(32)
 const ActionContext = React.createContext((value: number) => {})
 
 export function PaddingProvider(props: Props) {
-  const { value, set } = usePadding()
+  const [padding, setPadding] = usePadding()
 
   return (
-    <ActionContext.Provider value={set}>
-      <ValueContext.Provider value={value}>
+    <ActionContext.Provider value={setPadding}>
+      <ValueContext.Provider value={padding}>
         {props.children}
       </ValueContext.Provider>
     </ActionContext.Provider>
