@@ -13,7 +13,13 @@ export function useUser(userId: string) {
       if (!user) return
 
       replace({ ...user, isFollowed: true })
-      followUser(userId, restrict).then(() => reload(), () => replace(user))
+      followUser(userId, restrict).then(value => {
+        if (value) {
+          reload()
+        } else {
+          replace(user)
+        }
+      })
     },
     [userId]
   )

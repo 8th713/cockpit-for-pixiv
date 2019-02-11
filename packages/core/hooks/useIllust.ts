@@ -16,7 +16,13 @@ export function useIllust(illustId: string) {
     if (illust.likeData) return
 
     replace(likeIllust(illust))
-    likeBy(illustId).then(() => reload(), () => replace(illust))
+    likeBy(illustId).then(value => {
+      if (value) {
+        reload()
+      } else {
+        replace(illust)
+      }
+    })
   }, [illustId])
   const bookmark = useCallback(
     (body: BookmarkPost) => {
@@ -26,7 +32,13 @@ export function useIllust(illustId: string) {
       if (!illust.isBookmarkable) return
 
       replace(bookmarkIllust(illust))
-      bookmarkBy(illustId, body).then(() => reload(), () => replace(illust))
+      bookmarkBy(illustId, body).then(value => {
+        if (value) {
+          reload()
+        } else {
+          replace(illust)
+        }
+      })
     },
     [illustId]
   )
