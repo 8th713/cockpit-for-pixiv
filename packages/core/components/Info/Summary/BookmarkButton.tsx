@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { BookmarkPost } from '../../../interfaces'
-import { IllustProvider } from '../../../contexts'
+import { IllustContext } from '../../../contexts'
 import { useToggle } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
@@ -15,7 +15,7 @@ const title = [
 ].join('\n')
 
 export function BookmarkButton() {
-  const { read, bookmark } = useContext(IllustProvider.Context)
+  const { read, bookmark } = useContext(IllustContext)
   const [opened, toggle] = useToggle(false)
   function handleBookmark(event: { shiftKey: boolean; ctrlKey: boolean }) {
     if (event.ctrlKey) {

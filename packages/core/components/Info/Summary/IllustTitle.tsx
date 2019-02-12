@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { IllustProvider } from '../../../contexts'
+import { IllustContext } from '../../../contexts'
 import { Text } from '../../shared/Text'
 
 export function IllustTitle() {
-  const { read } = useContext(IllustProvider.Context)
+  const { read } = useContext(IllustContext)
   const illust = read()
 
   if (!illust) {

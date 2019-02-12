@@ -1,7 +1,12 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { color } from '../theme'
-import { ExpansionProvider, IllustProvider } from '../../contexts'
+import { useIllust } from '../../hooks'
+import {
+  ExpansionProvider,
+  PickerProvider,
+  IllustContext
+} from '../../contexts'
 import { Divider } from '../shared/Divider'
 import { Summary } from './Summary'
 import { Desctiption } from './Desctiption'
@@ -10,9 +15,11 @@ import { Progress } from '../shared/Progress'
 
 export function Info() {
   const opened = useContext(ExpansionProvider.ValueContext)
+  const id = useContext(PickerProvider.ValueContext)
+  const context = useIllust(id!)
 
   return (
-    <IllustProvider>
+    <IllustContext.Provider value={context}>
       <Layout>
         <Summary />
         {opened && (
@@ -29,7 +36,7 @@ export function Info() {
           </>
         )}
       </Layout>
-    </IllustProvider>
+    </IllustContext.Provider>
   )
 }
 
