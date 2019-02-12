@@ -15,9 +15,9 @@ import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
 
 export function Article() {
-  const { value: id, actions } = usePicker()
+  const { value: illustId, actions } = usePicker()
 
-  if (id === null) {
+  if (illustId === null) {
     return null
   }
 
@@ -25,7 +25,7 @@ export function Article() {
     <Modal open onRequestClose={actions.unsetElement}>
       <Layout>
         <PickerActionContext.Provider value={actions}>
-          <PickerValueContext.Provider value={id}>
+          <PickerValueContext.Provider value={illustId}>
             <FitProvider>
               <SpreadProvider>
                 <Gallery />
