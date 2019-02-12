@@ -23,10 +23,7 @@ export function useImg(page: Page) {
   return url
 }
 
-export function useLazyImg(
-  page: Page,
-  entry: IntersectionObserverEntry | null
-) {
+export function useLazyImg(page: Page, inView: boolean) {
   const unmounted = useUnmount()
   const { fetchImage } = useContext(ClientContext)
   const [url, setUrl] = useState(() =>
@@ -34,7 +31,7 @@ export function useLazyImg(
   )
 
   useLayoutEffect(() => {
-    if (!entry || !entry.isIntersecting) return
+    if (!inView) return
     if (url === page.urls.original) return
 
     fetchImage(page.urls.original).then(src => {
@@ -42,7 +39,7 @@ export function useLazyImg(
       if (src === null) return
       setUrl(src)
     })
-  }, [entry])
+  }, [inView])
 
   return url
 }

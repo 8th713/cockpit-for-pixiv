@@ -6,7 +6,7 @@ import {
   FitProvider,
   SpreadProvider
 } from '../../../contexts'
-import { useIntersection, useLazyImg } from '../../../hooks'
+import { useVisibility, useLazyImg } from '../../../hooks'
 import { calcSize } from '../calcSize'
 
 type Props = {
@@ -20,12 +20,11 @@ export function Img({ page }: Props) {
   const fit = useContext(FitProvider.ValueContext)
   const spread = useContext(SpreadProvider.ValueContext)
   const { width, height } = calcSize(board, fit, spread, page, true)
-  const imgRef = React.useRef(null)
-  const entry = useIntersection(imgRef, {
-    root: board.node.current,
+  const [imgRef, inView] = useVisibility({
+    root: board.node,
     rootMargin: '32px'
   })
-  const src = useLazyImg(page, entry)
+  const src = useLazyImg(page, inView)
   const styles = {
     width,
     height,
