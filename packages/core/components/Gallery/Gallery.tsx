@@ -1,26 +1,26 @@
 import React, { useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { color } from '../theme'
-import { PickerProvider, BoardProvider } from '../../contexts'
+import { BoardContext, PickerProvider, PaddingProvider } from '../../contexts'
 import { Progress } from '../shared/Progress'
 import { Divide, SimpleLayout } from './Divide'
+import { useElementSize } from '../../hooks'
 
 export function Gallery() {
   const illustId = useContext(PickerProvider.ValueContext)!
   const { unsetElement, goFromEvent } = useContext(PickerProvider.ActionContext)
-  const ref = React.useRef<HTMLDivElement>(null)
+  const padding = useContext(PaddingProvider.ValueContext)
+  const [ref, size, node] = useElementSize<HTMLDivElement>(padding)
 
   useEffect(() => {
-    const { current } = ref
-
-    if (current) {
-      current.scrollTop = 0
-      current.focus()
+    if (node) {
+      node.scrollTop = 0
+      node.focus()
     }
   }, [illustId])
 
   return (
-    <BoardProvider observe={ref}>
+    <BoardContext.Provider value={{ size, node }}>
       <ScrollView tabIndex={0} ref={ref} onClick={unsetElement}>
         <React.Suspense
           fallback={
@@ -32,7 +32,7 @@ export function Gallery() {
           <Divide illustId={illustId} />
         </React.Suspense>
       </ScrollView>
-    </BoardProvider>
+    </BoardContext.Provider>
   )
 }
 

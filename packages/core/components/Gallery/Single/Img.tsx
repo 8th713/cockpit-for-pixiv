@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import { Page } from '../../../interfaces'
 import {
+  BoardContext,
   PickerProvider,
-  BoardProvider,
   FitProvider,
   SpreadProvider
 } from '../../../contexts'
@@ -16,10 +16,10 @@ type Props = {
 
 export function Img({ page }: Props) {
   const { goFromEvent } = useContext(PickerProvider.ActionContext)
-  const board = useContext(BoardProvider.ValueContext)
+  const board = useContext(BoardContext)
   const fit = useContext(FitProvider.ValueContext)
   const spread = useContext(SpreadProvider.ValueContext)
-  const { width, height } = calcSize(board, fit, spread, page)
+  const { width, height } = calcSize(board.size, fit, spread, page)
   const src = useImg(page)
   const styles = {
     width,
