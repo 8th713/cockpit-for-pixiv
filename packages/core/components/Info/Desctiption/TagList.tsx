@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { color } from '../../theme'
 import { Illust } from '../../../interfaces'
@@ -15,7 +15,7 @@ export function TagList({ illust }: Props) {
   const { xRestrict, isOriginal, isHowto } = illust
   const rating = xRestrict === 1 ? 'R-18' : xRestrict === 2 ? 'R-18G' : ''
   const { tags } = illust.tags
-  const tagList = React.useMemo(
+  const tagList = useMemo(
     () =>
       tags.map(tag => (
         <Tag key={tag.tag} href={tagURL + encodeURIComponent(tag.tag)}>
