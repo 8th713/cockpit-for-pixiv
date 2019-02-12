@@ -17,23 +17,17 @@ const title = [
 export function BookmarkButton() {
   const { read, bookmark } = useContext(IllustProvider.Context)
   const [opened, toggle] = useToggle(false)
-  const handleBookmark = React.useCallback(
-    (event: { shiftKey: boolean; ctrlKey: boolean }) => {
-      if (event.ctrlKey) {
-        toggle()
-        return
-      }
-      bookmark({ restrict: event.shiftKey })
-    },
-    [bookmark, toggle]
-  )
-  const handleSubmit = React.useCallback(
-    (post: BookmarkPost) => {
-      bookmark(post)
-      toggle(false)
-    },
-    [bookmark, toggle]
-  )
+  function handleBookmark(event: { shiftKey: boolean; ctrlKey: boolean }) {
+    if (event.ctrlKey) {
+      toggle()
+      return
+    }
+    bookmark({ restrict: event.shiftKey })
+  }
+  function handleSubmit(body: BookmarkPost) {
+    bookmark(body)
+    toggle(false)
+  }
   const illust = read()
 
   if (!illust) {

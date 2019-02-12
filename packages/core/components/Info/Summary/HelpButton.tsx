@@ -8,10 +8,10 @@ const title = getDesc('help')
 
 export function HelpButton() {
   const toggle = useContext(AboutProvider.ActionContext)
-  const fromEvent = React.useCallback(() => toggle(), [toggle])
+  const handleClick = toggle.bind(null, undefined)
 
   return (
-    <Button v="icon" onClick={fromEvent} title={title}>
+    <Button v="icon" onClick={handleClick} title={title}>
       <Help />
     </Button>
   )

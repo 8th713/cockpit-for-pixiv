@@ -10,7 +10,7 @@ const title = getDesc('info')
 export function ExpansionButton() {
   const opened = useContext(ExpansionProvider.ValueContext)
   const toggle = useContext(ExpansionProvider.ActionContext)
-  const handleClick = React.useCallback(() => toggle(), [toggle])
+  const handleClick = toggle.bind(null, undefined)
 
   return (
     <Button v="icon" onClick={handleClick} title={title}>
