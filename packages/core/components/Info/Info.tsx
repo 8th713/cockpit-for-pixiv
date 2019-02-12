@@ -4,7 +4,7 @@ import { color } from '../theme'
 import { useIllust } from '../../hooks'
 import {
   ExpansionProvider,
-  PickerProvider,
+  PickerValueContext,
   IllustContext
 } from '../../contexts'
 import { Divider } from '../shared/Divider'
@@ -15,8 +15,8 @@ import { Progress } from '../shared/Progress'
 
 export function Info() {
   const opened = useContext(ExpansionProvider.ValueContext)
-  const id = useContext(PickerProvider.ValueContext)
-  const context = useIllust(id!)
+  const illustId = useContext(PickerValueContext)
+  const context = useIllust(illustId)
 
   return (
     <IllustContext.Provider value={context}>

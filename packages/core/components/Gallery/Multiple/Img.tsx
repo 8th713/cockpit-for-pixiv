@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Page } from '../../../interfaces'
 import {
   BoardContext,
-  PickerProvider,
+  PickerActionContext,
   FitProvider,
   SpreadProvider
 } from '../../../contexts'
@@ -15,7 +15,7 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { goFromEvent } = useContext(PickerProvider.ActionContext)
+  const { goFromEvent } = useContext(PickerActionContext)
   const board = useContext(BoardContext)
   const fit = useContext(FitProvider.ValueContext)
   const spread = useContext(SpreadProvider.ValueContext)

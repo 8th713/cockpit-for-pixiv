@@ -7,8 +7,7 @@ import {
   AddonContext,
   ClientContext,
   PaddingProvider,
-  AboutProvider,
-  PickerProvider
+  AboutProvider
 } from '../contexts'
 import { LoggingService } from '../externals/logging'
 import { APIClient } from '../externals/apiClient'
@@ -29,9 +28,7 @@ export function App(props: Props) {
           <ClientContext.Provider value={props.apiCllient}>
             <PaddingProvider>
               <AboutProvider>
-                <PickerProvider>
-                  <Article />
-                </PickerProvider>
+                <Article />
                 <About />
               </AboutProvider>
             </PaddingProvider>

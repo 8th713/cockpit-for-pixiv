@@ -1,11 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {
-  PickerProvider,
+  PickerActionContext,
+  PickerValueContext,
   FitProvider,
   SpreadProvider,
   ExpansionProvider
 } from '../../contexts'
+import { usePicker } from '../../hooks'
 import { Modal } from '../shared/Modal'
 import { Gallery } from '../Gallery'
 import { Info } from '../Info'
@@ -13,29 +15,30 @@ import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
 
 export function Article() {
-  const id = useContext(PickerProvider.ValueContext)
-  const { unsetElement, goNext, goPrev } = useContext(
-    PickerProvider.ActionContext
-  )
+  const { value: id, actions } = usePicker()
 
   if (id === null) {
     return null
   }
 
   return (
-    <Modal open onRequestClose={unsetElement}>
+    <Modal open onRequestClose={actions.unsetElement}>
       <Layout>
-        <FitProvider>
-          <SpreadProvider>
-            <Gallery />
-            <ExpansionProvider>
-              <Info />
-            </ExpansionProvider>
-          </SpreadProvider>
-        </FitProvider>
+        <PickerActionContext.Provider value={actions}>
+          <PickerValueContext.Provider value={id}>
+            <FitProvider>
+              <SpreadProvider>
+                <Gallery />
+                <ExpansionProvider>
+                  <Info />
+                </ExpansionProvider>
+              </SpreadProvider>
+            </FitProvider>
+          </PickerValueContext.Provider>
+        </PickerActionContext.Provider>
       </Layout>
-      <Hotkeys {...keyMap.goNext} onKeyDown={goNext} />
-      <Hotkeys {...keyMap.goPrev} onKeyDown={goPrev} />
+      <Hotkeys {...keyMap.goNext} onKeyDown={actions.goNext} />
+      <Hotkeys {...keyMap.goPrev} onKeyDown={actions.goPrev} />
     </Modal>
   )
 }

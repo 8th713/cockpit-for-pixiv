@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { color, opacity } from '../../theme'
-import { PickerProvider } from '../../../contexts'
+import { PickerActionContext } from '../../../contexts'
 import { usePlayer } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { Text } from '../../shared/Text'
@@ -20,7 +20,7 @@ type Props = {
 }
 
 export function Player({ style, frames }: Props) {
-  const { goFromEvent } = useContext(PickerProvider.ActionContext)
+  const { goFromEvent } = useContext(PickerActionContext)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
   function handleClick(event: React.MouseEvent) {
