@@ -1,19 +1,14 @@
-import { useRef, useState, useCallback } from 'react'
+import { useReducer } from 'react'
 
-type Initial = boolean | (() => boolean)
 type Toggle = (newValue?: boolean) => void
 
-export function useToggle(value: Initial): [boolean, Toggle] {
-  const [on, update] = useState(value)
-  const ref = useRef(on)
-  const toggle = useCallback((newValue?: boolean) => {
-    if (typeof newValue === 'undefined') {
-      update(v => !v)
-    } else if (newValue !== ref.current) {
-      update(newValue)
-    }
-  }, [])
+export function useToggle(value: boolean): [boolean, Toggle] {
+  return useReducer(reducer, value)
+}
 
-  ref.current = on
-  return [on, toggle]
+function reducer(on: boolean, payload?: boolean) {
+  if (typeof payload === 'undefined') {
+    return !on
+  }
+  return payload
 }
