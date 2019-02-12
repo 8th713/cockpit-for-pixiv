@@ -24,6 +24,13 @@ export function createAPIClient(
 ) {
   const { userId: yourId, token } = globalData
 
+  function handleError(operation: string) {
+    return (error: any) => {
+      loggingService.log(error, operation)
+      return null
+    }
+  }
+
   function isSelf(userId: string) {
     return userId === yourId
   }
@@ -48,10 +55,7 @@ export function createAPIClient(
 
         return { pages, count, isUgoira }
       })
-      .catch(error => {
-        loggingService.log(error, `fetchPage(${illustId})`)
-        return null
-      })
+      .catch(handleError(`fetchPage(${illustId})`))
   }
 
   /**
@@ -67,10 +71,7 @@ export function createAPIClient(
       i.onload = () => resolve(src)
       i.onerror = () => reject(new Error(`Not found: ${src}`))
       i.src = src
-    }).catch(error => {
-      loggingService.log(error, `fetchImage(${src})`)
-      return null
-    })
+    }).catch(handleError(`fetchImage(${src})`))
   }
 
   /**
@@ -87,10 +88,7 @@ export function createAPIClient(
       .get()
       .json<Ugoira>(data => data.body)
       .then(loadZip)
-      .catch(error => {
-        loggingService.log(error, `fetchUgoira(${illustId})`)
-        return null
-      })
+      .catch(handleError(`fetchUgoira(${illustId})`))
   }
 
   /**
@@ -106,10 +104,7 @@ export function createAPIClient(
       .errorType('json')
       .get()
       .json<Illust>(data => data.body)
-      .catch(error => {
-        loggingService.log(error, `fetchIllust(${illustId})`)
-        return null
-      })
+      .catch(handleError(`fetchIllust(${illustId})`))
   }
 
   /**
@@ -122,11 +117,8 @@ export function createAPIClient(
     return wretch('/ajax/illusts/like')
       .headers({ 'x-csrf-token': token })
       .post({ illust_id: illustId })
-      .json<LikeData>()
-      .catch(error => {
-        loggingService.log(error, `likeBy(${illustId})`)
-        return null
-      })
+      .json<LikeData>(data => data.body)
+      .catch(handleError(`likeBy(${illustId})`))
   }
 
   /**
@@ -149,11 +141,8 @@ export function createAPIClient(
         comment,
         tags
       })
-      .json<BookmarkData>()
-      .catch(error => {
-        loggingService.log(error, `bookmarkBy(${illustId})`)
-        return null
-      })
+      .json<BookmarkData>(data => data.body)
+      .catch(handleError(`bookmarkBy(${illustId})`))
   }
 
   /**
@@ -169,10 +158,7 @@ export function createAPIClient(
       .errorType('json')
       .get()
       .json<User>(data => data.body)
-      .catch(error => {
-        loggingService.log(error, `fetchUser(${userId})`)
-        return null
-      })
+      .catch(handleError(`fetchUser(${userId})`))
   }
 
   /**
@@ -200,10 +186,7 @@ export function createAPIClient(
       })
       .post()
       .json<never[]>()
-      .catch(error => {
-        loggingService.log(error, `followUser(${userId})`)
-        return null
-      })
+      .catch(handleError(`followUser(${userId})`))
   }
 
   /**
@@ -221,10 +204,7 @@ export function createAPIClient(
       .query({ type: 'illust', illust_id: illustId })
       .get()
       .text(parseFormHTML)
-      .catch(error => {
-        loggingService.log(error, `fetchBookmarkForm(${illustId})`)
-        return null
-      })
+      .catch(handleError(`fetchBookmarkForm(${illustId})`))
   }
   function parseFormHTML(html: string) {
     const doc = new DOMParser().parseFromString(html, 'text/html')
@@ -265,10 +245,7 @@ export function createAPIClient(
       .query({ attributes: 'lev,total', tt: token })
       .get()
       .json(parseAccountTagList)
-      .catch(error => {
-        loggingService.log(error, `fetchUserTags()`)
-        return null
-      })
+      .catch(handleError(`fetchUserTags()`))
   }
   function parseAccountTagList(json: AccountTagList) {
     return Object.entries(json).map(([name, value]) => ({
