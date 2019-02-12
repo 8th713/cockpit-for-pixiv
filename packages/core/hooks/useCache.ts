@@ -1,6 +1,6 @@
 import { LRUMap } from 'lru_map'
 import { useForceUpdate } from './useForceUpdate'
-import { useRef, useLayoutEffect } from 'react'
+import { useUnmount } from './useUnmount'
 
 type PendingResult = {
   status: typeof PENDING
@@ -108,7 +108,7 @@ export function createCacheHook<I extends string | number, V>(
   forceFetch = false
 ) {
   return function useCache(input: I) {
-    const unmounted = useRef(true)
+    const unmounted = useUnmount()
     const forceUpdate = useForceUpdate()
 
     function read() {
@@ -154,13 +154,6 @@ export function createCacheHook<I extends string | number, V>(
         }
       })
     }
-
-    useLayoutEffect(() => {
-      unmounted.current = false
-      return () => {
-        unmounted.current = true
-      }
-    }, [])
 
     return { read, remove, replace, reload }
   }

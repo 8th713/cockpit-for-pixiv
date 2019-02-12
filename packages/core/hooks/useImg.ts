@@ -1,20 +1,15 @@
-import { useState, useLayoutEffect, useContext, useRef } from 'react'
+import { useState, useLayoutEffect, useContext } from 'react'
 import { ClientContext } from '../contexts'
+import { useUnmount } from './useUnmount'
 import { Page } from '../interfaces'
 
 export function useImg(page: Page) {
-  const unmounted = useRef(true)
+  const unmounted = useUnmount()
   const { fetchImage } = useContext(ClientContext)
   const [url, setUrl] = useState(() =>
     page.urls.small.replace('540x540_70', '150x150')
   )
 
-  useLayoutEffect(() => {
-    unmounted.current = false
-    return () => {
-      unmounted.current = true
-    }
-  }, [])
   useLayoutEffect(() => {
     if (url === page.urls.original) return
 
@@ -32,18 +27,12 @@ export function useLazyImg(
   page: Page,
   entry: IntersectionObserverEntry | null
 ) {
-  const unmounted = useRef(true)
+  const unmounted = useUnmount()
   const { fetchImage } = useContext(ClientContext)
   const [url, setUrl] = useState(() =>
     page.urls.small.replace('540x540_70', '150x150')
   )
 
-  useLayoutEffect(() => {
-    unmounted.current = false
-    return () => {
-      unmounted.current = true
-    }
-  }, [])
   useLayoutEffect(() => {
     if (!entry || !entry.isIntersecting) return
     if (url === page.urls.original) return
