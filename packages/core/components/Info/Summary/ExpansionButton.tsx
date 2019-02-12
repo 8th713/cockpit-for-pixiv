@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { ExpansionProvider } from '../../../contexts'
+import { InfoActionContext, InfoValueContext } from '../../../contexts'
 import { Button } from '../../shared/Button'
 import { ExpandLess, ExpandMore } from '../../shared/Icon'
 import { Hotkeys } from '../../Hotkeys'
@@ -8,8 +8,8 @@ import { keyMap, getDesc } from '../../../constants'
 const title = getDesc('info')
 
 export function ExpansionButton() {
-  const opened = useContext(ExpansionProvider.ValueContext)
-  const toggle = useContext(ExpansionProvider.ActionContext)
+  const opened = useContext(InfoValueContext)
+  const toggle = useContext(InfoActionContext)
   const handleClick = toggle.bind(null, undefined)
 
   return (

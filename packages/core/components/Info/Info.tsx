@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { color } from '../theme'
-import { useIllust } from '../../hooks'
+import { useIllust, useExpansion } from '../../hooks'
 import {
-  ExpansionProvider,
+  InfoActionContext,
+  InfoValueContext,
   PickerValueContext,
   IllustContext
 } from '../../contexts'
@@ -14,28 +15,32 @@ import { UserCard } from './UserCard'
 import { Progress } from '../shared/Progress'
 
 export function Info() {
-  const opened = useContext(ExpansionProvider.ValueContext)
   const illustId = useContext(PickerValueContext)
   const context = useIllust(illustId)
+  const [opened, toggleInfo] = useExpansion()
 
   return (
     <IllustContext.Provider value={context}>
-      <Layout>
-        <Summary />
-        {opened && (
-          <>
-            <Divider m={16} />
-            <Details>
-              <React.Suspense fallback={<Progress size={64} />}>
-                <Desctiption />
-              </React.Suspense>
-              <React.Suspense fallback={<Progress size={64} />}>
-                <UserCard />
-              </React.Suspense>
-            </Details>
-          </>
-        )}
-      </Layout>
+      <InfoActionContext.Provider value={toggleInfo}>
+        <InfoValueContext.Provider value={opened}>
+          <Layout>
+            <Summary />
+            {opened && (
+              <>
+                <Divider m={16} />
+                <Details>
+                  <React.Suspense fallback={<Progress size={64} />}>
+                    <Desctiption />
+                  </React.Suspense>
+                  <React.Suspense fallback={<Progress size={64} />}>
+                    <UserCard />
+                  </React.Suspense>
+                </Details>
+              </>
+            )}
+          </Layout>
+        </InfoValueContext.Provider>
+      </InfoActionContext.Provider>
     </IllustContext.Provider>
   )
 }

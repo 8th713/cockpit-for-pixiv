@@ -4,8 +4,7 @@ import {
   PickerActionContext,
   PickerValueContext,
   FitProvider,
-  SpreadProvider,
-  ExpansionProvider
+  SpreadProvider
 } from '../../contexts'
 import { usePicker } from '../../hooks'
 import { Modal } from '../shared/Modal'
@@ -29,9 +28,7 @@ export function Article() {
             <FitProvider>
               <SpreadProvider>
                 <Gallery />
-                <ExpansionProvider>
-                  <Info />
-                </ExpansionProvider>
+                <Info />
               </SpreadProvider>
             </FitProvider>
           </PickerValueContext.Provider>
