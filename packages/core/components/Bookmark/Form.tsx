@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BookmarkForm, BookmarkPost, Illust } from '../../interfaces'
-import { useInput, useRestrict } from '../../hooks'
+import { useInput, useCheckbox } from '../../hooks'
 import { RestrictField } from './RestrictField'
 import { CommentField } from './CommentField'
 import { Tags } from './Tags'
@@ -16,7 +16,7 @@ type Props = {
 }
 
 export function Form(props: Props) {
-  const restrict = useRestrict(!!props.data.restrict)
+  const restrict = useCheckbox(!!props.data.restrict)
   const comment = useInput(props.data.comment)
   const tags = useInput(props.data.tags)
   function handleSubmit(event: React.FormEvent) {
@@ -33,9 +33,13 @@ export function Form(props: Props) {
 
   return (
     <Layout id={props.id} onSubmit={handleSubmit}>
-      <RestrictField {...restrict.bind} />
-      <CommentField {...comment.bind} />
-      <Tags illust={props.illust} {...tags.bind} onTagging={handleTagging} />
+      <RestrictField {...restrict.inputProps} />
+      <CommentField {...comment.inputProps} />
+      <Tags
+        illust={props.illust}
+        {...tags.inputProps}
+        onTagging={handleTagging}
+      />
     </Layout>
   )
 }
