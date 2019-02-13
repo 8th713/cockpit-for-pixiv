@@ -1,33 +1,30 @@
-import { useMemo, useEffect, MouseEvent as RMouseEvent } from 'react'
-import { useStateRef } from './useStateRef'
+import React, { useState, useEffect } from 'react'
 import { NO_SCROLLBAR, INCLUDES, EXCLUDES } from '../constants'
 
 export function usePicker() {
-  const node = useStateRef<HTMLAnchorElement | null>(null)
-  const value = node.value ? getId(node.value) : null
-  const actions = useMemo(() => {
-    function go(n: number) {
-      const element = node.value
+  const [element, setElement] = useState<HTMLAnchorElement | null>(null)
+  const illustId = element ? getId(element) : null
 
-      if (!element) return
-      node.update(getSibling(element, n))
-    }
-    function goNext() {
-      go(1)
-    }
-    function goPrev() {
-      go(-1)
-    }
-    function goFromEvent(event: RMouseEvent) {
-      event.stopPropagation()
-      event.shiftKey ? goPrev() : goNext()
-    }
-    function unsetElement() {
-      node.update(null)
-    }
+  function go(n: number) {
+    setElement(element => {
+      if (!element) return element
 
-    return { goNext, goPrev, goFromEvent, unsetElement }
-  }, [])
+      return getSibling(element, n)
+    })
+  }
+  function goNext() {
+    go(1)
+  }
+  function goPrev() {
+    go(-1)
+  }
+  function goFromEvent(event: React.MouseEvent) {
+    event.stopPropagation()
+    event.shiftKey ? goPrev() : goNext()
+  }
+  function unsetElement() {
+    setElement(null)
+  }
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -35,7 +32,7 @@ export function usePicker() {
 
       if (target && isIllustThumbnailAnchorElement(target)) {
         event.preventDefault()
-        node.update(target)
+        setElement(target)
       }
     }
     function handleMouseOver(event: MouseEvent) {
@@ -44,6 +41,7 @@ export function usePicker() {
       if (!target) return
       if (target.style.cursor === 'zoom-in') return
       if (!isIllustThumbnailAnchorElement(target)) return
+
       target.style.cursor = 'zoom-in'
     }
 
@@ -58,15 +56,15 @@ export function usePicker() {
   useEffect(() => {
     const html = document.documentElement!
 
-    if (node.value) {
+    if (element) {
       html.classList.add(NO_SCROLLBAR)
-      html.scrollTop = getScrollPosition(node.value)
+      html.scrollTop = getScrollPosition(element)
     } else {
       html.classList.remove(NO_SCROLLBAR)
     }
-  }, [node.value])
+  }, [element])
 
-  return { value, actions }
+  return { illustId, actions: { goNext, goPrev, goFromEvent, unsetElement } }
 }
 
 function ensureAnchorElement(element: Element) {
