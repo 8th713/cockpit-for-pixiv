@@ -14,7 +14,7 @@ import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
 
 export function Article() {
-  const { value: illustId, actions } = usePicker()
+  const { illustId, actions } = usePicker()
 
   if (illustId === null) {
     return null

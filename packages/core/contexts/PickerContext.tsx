@@ -1,9 +1,9 @@
 import React from 'react'
 import { usePicker } from '../hooks'
 
-type Picker = ReturnType<typeof usePicker>
+type PickerAction = ReturnType<typeof usePicker>['actions']
 
 export const PickerValueContext = React.createContext<string>(null as any)
-export const PickerActionContext = React.createContext<Picker['actions']>(
+export const PickerActionContext = React.createContext<PickerAction>(
   null as any
 )
