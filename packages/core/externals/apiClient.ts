@@ -264,7 +264,7 @@ export function createAPIClient(
     new LRUMap(1),
     true
   )
-  const useUserTagsCache = createCacheHook(fetchUserTags, new LRUMap(1), true)
+  const useUserTagsCache = createCacheHook(fetchUserTags, new LRUMap(1))
 
   return {
     token,
