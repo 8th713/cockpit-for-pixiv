@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useContext } from 'react'
 import { ClientContext, AddonContext } from '../contexts'
 import { Illust, BookmarkPost, DownloadRequestAction } from '../interfaces'
 import { openTwitter } from '../externals/share'
@@ -7,7 +7,9 @@ export function useIllust(illustId: string) {
   const addonStore = useContext(AddonContext)
   const { useIllustCache, likeBy, bookmarkBy } = useContext(ClientContext)
   const { read, remove: retry, replace, reload } = useIllustCache(illustId)
-  const like = useCallback(() => {
+  const canDonwload = addonStore.isConnected('download')
+
+  function like() {
     const illust = read()
 
     if (!illust) return
@@ -22,33 +24,30 @@ export function useIllust(illustId: string) {
         replace(illust)
       }
     })
-  }, [illustId])
-  const bookmark = useCallback(
-    (body: BookmarkPost) => {
-      const illust = read()
+  }
+  function bookmark(body: BookmarkPost) {
+    const illust = read()
 
-      if (!illust) return
-      if (!illust.isBookmarkable) return
+    if (!illust) return
+    if (!illust.isBookmarkable) return
 
-      replace(bookmarkIllust(illust))
-      bookmarkBy(illustId, body).then(value => {
-        if (value) {
-          reload()
-        } else {
-          replace(illust)
-        }
-      })
-    },
-    [illustId]
-  )
-  const share = useCallback(() => {
+    replace(bookmarkIllust(illust))
+    bookmarkBy(illustId, body).then(value => {
+      if (value) {
+        reload()
+      } else {
+        replace(illust)
+      }
+    })
+  }
+  function share() {
     const illust = read()
 
     if (!illust) return
 
     openTwitter(illust)
-  }, [illustId])
-  const download = useCallback(() => {
+  }
+  function download() {
     if (canDonwload === false) return
 
     const illust = read()
@@ -61,8 +60,7 @@ export function useIllust(illustId: string) {
     }
 
     addonStore.dispatch('download', action)
-  }, [illustId])
-  const canDonwload = addonStore.isConnected('download')
+  }
 
   return { read, retry, like, bookmark, share, download, canDonwload }
 }
