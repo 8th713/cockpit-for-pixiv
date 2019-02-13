@@ -1,11 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {
-  PickerActionContext,
-  PickerValueContext,
-  FitProvider,
-  SpreadProvider
-} from '../../contexts'
+import { PickerActionContext, PickerValueContext } from '../../contexts'
 import { usePicker } from '../../hooks'
 import { Modal } from '../shared/Modal'
 import { Gallery } from '../Gallery'
@@ -25,12 +20,8 @@ export function Article() {
       <Layout>
         <PickerActionContext.Provider value={actions}>
           <PickerValueContext.Provider value={illustId}>
-            <FitProvider>
-              <SpreadProvider>
-                <Gallery />
-                <Info />
-              </SpreadProvider>
-            </FitProvider>
+            <Gallery />
+            <Info />
           </PickerValueContext.Provider>
         </PickerActionContext.Provider>
       </Layout>
