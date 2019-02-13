@@ -19,6 +19,7 @@ export function Form(props: Props) {
   const restrict = useCheckbox(!!props.data.restrict)
   const comment = useInput(props.data.comment)
   const tags = useInput(props.data.tags)
+
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
     props.onSubmit({

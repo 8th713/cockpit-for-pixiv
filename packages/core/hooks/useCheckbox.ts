@@ -3,6 +3,7 @@ import { useToggle } from './useToggle'
 
 export function useCheckbox(initialValue: boolean) {
   const [checked, toggle] = useToggle(initialValue)
+
   function onChange() {
     toggle()
   }

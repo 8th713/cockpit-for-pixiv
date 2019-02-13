@@ -12,6 +12,7 @@ import { keyMap } from '../../constants'
 export function About() {
   const opened = useContext(AboutProvider.ValueContext)
   const toggle = useContext(AboutProvider.ActionContext)
+
   function handleRequestClose() {
     toggle()
   }

@@ -7,9 +7,8 @@ export function UserCard() {
   const { read } = useContext(IllustContext)
   const illust = read()
 
-  if (!illust) {
-    return null
-  }
+  if (!illust) return null
+
   return (
     <React.Suspense fallback={<Progress size={64} />}>
       <Author userId={illust.userId} />

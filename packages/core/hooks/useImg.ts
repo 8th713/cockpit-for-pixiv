@@ -16,6 +16,7 @@ export function useImg(page: Page) {
     fetchImage(page.urls.original).then(src => {
       if (unmounted.current) return
       if (src === null) return
+
       setUrl(src)
     })
   }, [])
@@ -37,6 +38,7 @@ export function useLazyImg(page: Page, inView: boolean) {
     fetchImage(page.urls.original).then(src => {
       if (unmounted.current) return
       if (src === null) return
+
       setUrl(src)
     })
   }, [inView])

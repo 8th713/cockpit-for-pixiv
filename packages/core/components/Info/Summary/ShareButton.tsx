@@ -11,9 +11,7 @@ export function ShareButton() {
   const { read, share } = useContext(IllustContext)
   const illust = read()
 
-  if (!illust) {
-    return <ShareButtonFallback />
-  }
+  if (!illust) return <ShareButtonFallback />
 
   return (
     <Button v="icon" onClick={share} title={title}>

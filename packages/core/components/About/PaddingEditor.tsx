@@ -7,6 +7,7 @@ import { Slider } from '../shared/Slider'
 export function PaddingEditor() {
   const value = useContext(PaddingProvider.ValueContext)
   const update = useContext(PaddingProvider.ActionContext)
+
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     update(event.target.valueAsNumber)
   }

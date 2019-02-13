@@ -7,7 +7,9 @@ export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
   const [paused, setPaused] = useState(false)
   function draw(image: HTMLImageElement) {
     if (!image || !ref.current) return
+
     const canvas = ref.current
+
     if (canvas.width !== image.width) {
       canvas.width = image.width
     }
@@ -16,6 +18,7 @@ export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
     }
 
     const ctx = canvas.getContext('2d')!
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(image, 0, 0)
   }
@@ -47,6 +50,7 @@ export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
     const { delay, image } = frames[index]
 
     draw(image)
+
     if (!paused) {
       timerRef.current = window.setTimeout(next, delay)
     }

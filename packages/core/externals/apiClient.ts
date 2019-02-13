@@ -68,6 +68,7 @@ export function createAPIClient(
   function fetchImage(src: string) {
     return new Promise<string>((resolve, reject) => {
       const i = new Image()
+
       i.onload = () => resolve(src)
       i.onerror = () => reject(new Error(`Not found: ${src}`))
       i.src = src

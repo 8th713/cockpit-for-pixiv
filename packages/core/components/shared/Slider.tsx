@@ -1,4 +1,9 @@
-import React from 'react'
+import React, {
+  useLayoutEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from 'react'
 import styled from 'styled-components'
 import { opacity, color } from '../theme'
 
@@ -18,8 +23,9 @@ export const Slider = React.forwardRef<HTMLInputElement, Props>(function Slider(
   props,
   ref
 ) {
-  const input = React.useRef<HTMLInputElement>(null)
-  const [pos, setPos] = React.useState(0)
+  const input = useRef<HTMLInputElement>(null)
+  const [pos, setPos] = useState(0)
+
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPos(getPos(event.target))
     if (props.onChange) {
@@ -27,12 +33,12 @@ export const Slider = React.forwardRef<HTMLInputElement, Props>(function Slider(
     }
   }
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (input.current) {
       setPos(getPos(input.current))
     }
   }, [])
-  React.useImperativeHandle(ref, () => input.current!, [input])
+  useImperativeHandle(ref, () => input.current!, [input])
 
   return (
     <Box>

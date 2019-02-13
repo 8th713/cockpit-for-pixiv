@@ -35,6 +35,7 @@ export function Img({ id, page }: Props) {
       event.stopPropagation()
       retry()
     }
+
     return <canvas style={styles} onClick={handleRetry} />
   }
   return <Player frames={frames} style={styles} />

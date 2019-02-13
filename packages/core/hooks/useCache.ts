@@ -135,12 +135,16 @@ export function createCacheHook<I extends string | number, V>(
     }
     function remove() {
       cache.delete(input)
+
       if (unmounted.current) return
+
       forceUpdate()
     }
     function replace(value: V) {
       setResolved(cache, input, value)
+
       if (unmounted.current) return
+
       forceUpdate()
     }
     function reload(rollback?: V) {
@@ -149,7 +153,9 @@ export function createCacheHook<I extends string | number, V>(
           replace(rollback)
         } else {
           setRejected(cache, input, error)
+
           if (unmounted.current) return
+
           forceUpdate()
         }
       })

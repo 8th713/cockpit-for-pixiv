@@ -11,9 +11,8 @@ export function Desctiption() {
   const { read } = useContext(IllustContext)
   const illust = read()
 
-  if (illust === null) {
-    return <Layout />
-  }
+  if (illust === null) return <Layout />
+
   return (
     <Layout>
       <Comment illust={illust} />

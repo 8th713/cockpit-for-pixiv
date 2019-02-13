@@ -17,6 +17,7 @@ export function SeriesNav({ illust }: Props) {
   const { userId } = illust
   const { seriesId, title, order } = seriesNavData
   const href = `/user/${userId}/series/${seriesId}`
+
   return (
     <Layout v="b2">
       <Collections width="18" height="18" />

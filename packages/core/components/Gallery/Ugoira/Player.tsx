@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import styled from 'styled-components'
 import { color, opacity } from '../../theme'
 import { PickerActionContext } from '../../../contexts'
@@ -21,8 +21,9 @@ type Props = {
 
 export function Player({ style, frames }: Props) {
   const { goFromEvent } = useContext(PickerActionContext)
-  const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
+
   function handleClick(event: React.MouseEvent) {
     event.stopPropagation()
   }

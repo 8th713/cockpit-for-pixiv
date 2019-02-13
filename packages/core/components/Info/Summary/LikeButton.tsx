@@ -30,6 +30,7 @@ export function LikeButton() {
       </FakeButton>
     )
   }
+
   return (
     <Button v="icon" onClick={like} title="いいね！(L)">
       <Like />

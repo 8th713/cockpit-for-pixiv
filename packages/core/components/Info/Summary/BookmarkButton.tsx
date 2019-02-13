@@ -17,23 +17,21 @@ const title = [
 export function BookmarkButton() {
   const { read, bookmark } = useContext(IllustContext)
   const [opened, toggle] = useToggle(false)
+  const illust = read()
+
   function handleBookmark(event: { shiftKey: boolean; ctrlKey: boolean }) {
-    if (event.ctrlKey) {
-      toggle()
-      return
-    }
+    if (event.ctrlKey) return toggle()
+
     bookmark({ restrict: event.shiftKey })
   }
   function handleSubmit(body: BookmarkPost) {
     bookmark(body)
     toggle(false)
   }
-  const illust = read()
 
   if (!illust) {
     return <BookmarkButtonFallback />
   }
-
   if (illust.isBookmarkable === false) {
     return (
       <Button v="icon" disabled title={title}>
@@ -41,7 +39,9 @@ export function BookmarkButton() {
       </Button>
     )
   }
+
   const bookmarked = !!illust.bookmarkData
+
   return (
     <>
       <Button v="icon" onClick={handleBookmark} title={title}>

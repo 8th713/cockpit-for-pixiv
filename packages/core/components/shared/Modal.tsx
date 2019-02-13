@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { color, opacity } from '../theme'
 
@@ -9,45 +9,42 @@ type Props = {
 }
 
 export function Modal(props: Props) {
-  const dialog = React.useRef<HTMLDialogElement>(null)
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const dialog = useRef<HTMLDialogElement>(null)
+
+  function handleClick(event: React.MouseEvent<HTMLElement>) {
     if (event.target === dialog.current) {
       props.onRequestClose()
     }
   }
 
-  React.useEffect(
-    () => {
-      if (dialog.current === null) return
-      const ref = dialog.current
+  useEffect(() => {
+    if (dialog.current === null) return
 
-      if (props.open) {
-        if (ref.open === false) {
-          dialog.current.showModal()
-        }
-      } else {
-        if (ref.open) {
-          dialog.current.close()
-        }
+    const node = dialog.current
+
+    if (props.open) {
+      if (node.open === false) {
+        dialog.current.showModal()
       }
-    },
-    [props.open]
-  )
-  React.useEffect(
-    () => {
-      if (dialog.current === null) return
-
-      function handleCancel(event: Event) {
-        event.preventDefault()
-        props.onRequestClose()
+    } else {
+      if (node.open) {
+        dialog.current.close()
       }
+    }
+  }, [props.open])
+  useEffect(() => {
+    if (dialog.current === null) return
 
-      const ref = dialog.current
-      ref.addEventListener('cancel', handleCancel)
-      return () => ref.removeEventListener('cancel', handleCancel)
-    },
-    [props.onRequestClose]
-  )
+    function handleCancel(event: Event) {
+      event.preventDefault()
+      props.onRequestClose()
+    }
+
+    const node = dialog.current
+
+    node.addEventListener('cancel', handleCancel)
+    return () => node.removeEventListener('cancel', handleCancel)
+  }, [props.onRequestClose])
 
   return (
     <Layout ref={dialog} onClick={handleClick}>

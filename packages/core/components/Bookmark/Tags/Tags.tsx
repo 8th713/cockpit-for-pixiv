@@ -22,6 +22,7 @@ type Props = {
 export function Tags(props: Props) {
   const items = props.illust.tags.tags
   const tagList = splitTag(props.value)
+
   function isSelected(tag: string) {
     return tagList.includes(tag)
   }

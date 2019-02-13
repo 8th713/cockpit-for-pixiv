@@ -15,11 +15,13 @@ export function calcSize(
   const needSpread = multiple && spread !== SpreadStatus.NONE
   const maxWidth = needSpread ? boardSize.width / 2 : boardSize.width
   const scaleX = Math.min(maxWidth / imageSize.width, 1)
+
   if (fit === FitStatus.COVER) {
     return calc(imageSize, scaleX)
   }
 
   const scale = Math.min(scaleX, boardSize.height / imageSize.height, 1)
+
   return calc(imageSize, scale)
 }
 
