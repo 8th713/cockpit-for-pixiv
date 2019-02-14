@@ -1,6 +1,6 @@
-import { DownloadAaction, ConnectionRequestAction } from '../core/interfaces'
-import { isValidAction, injectScript } from './utils'
+import { ConnectionRequestAction, DownloadAaction } from '../core/interfaces'
 import { download } from './download'
+import { injectScript, isValidAction } from './utils'
 
 const JSZIP_CDN = 'https://unpkg.com/jszip@3.1.5/dist/jszip.min.js'
 const request: ConnectionRequestAction = {

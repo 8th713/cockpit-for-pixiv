@@ -1,5 +1,5 @@
-import { useStorage } from '../hooks'
 import { SpreadStatus } from '../constants'
+import { useStorage } from '../hooks'
 
 export function useSpread(): [SpreadStatus, () => void] {
   const [status, set] = useStorage('spread', SpreadStatus.SPREAD)

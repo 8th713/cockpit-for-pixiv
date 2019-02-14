@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { color } from '../../theme'
 import { Illust } from '../../../interfaces'
 import { Text } from '../../shared/Text'
+import { color } from '../../theme'
 
 const tagURL = '/search.php?s_mode=s_tag_full&word='
 

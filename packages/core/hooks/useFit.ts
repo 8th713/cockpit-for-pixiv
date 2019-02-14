@@ -1,5 +1,5 @@
-import { useStorage } from './useStorage'
 import { FitStatus } from '../constants'
+import { useStorage } from './useStorage'
 
 export function useFit(): [FitStatus, () => void] {
   const [status, set] = useStorage('fit', FitStatus.COVER)

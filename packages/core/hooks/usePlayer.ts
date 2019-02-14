@@ -1,7 +1,10 @@
-import { useRef, useState, RefObject, useLayoutEffect } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { Frame } from '../interfaces'
 
-export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
+export function usePlayer(
+  ref: React.RefObject<HTMLCanvasElement>,
+  frames: Frame[]
+) {
   const timerRef = useRef(0)
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)

@@ -1,5 +1,5 @@
 import wretch from 'wretch'
-import { Ugoira, Frame } from '../interfaces'
+import { Frame, Ugoira } from '../interfaces'
 import { createPool } from './threadPool'
 
 type EOCD = [number, number, number]

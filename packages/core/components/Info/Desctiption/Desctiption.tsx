@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { color } from '../../theme'
 import { IllustContext } from '../../../contexts'
+import { color } from '../../theme'
 import { Comment } from './Comment'
-import { TagList } from './TagList'
 import { SeriesNav } from './SeriesNav'
 import { Stats } from './Stats'
+import { TagList } from './TagList'
 
 export function Desctiption() {
   const { read } = useContext(IllustContext)

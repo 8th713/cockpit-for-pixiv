@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import { ClientContext, AddonContext } from '../contexts'
-import { Illust, BookmarkPost, DownloadRequestAction } from '../interfaces'
+import { AddonContext, ClientContext } from '../contexts'
 import { openTwitter } from '../externals/share'
+import { BookmarkPost, DownloadRequestAction, Illust } from '../interfaces'
 
 export function useIllust(illustId: string) {
   const addonStore = useContext(AddonContext)

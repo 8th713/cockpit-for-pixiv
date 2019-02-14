@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useCheckbox, useInput } from '../../hooks'
 import { BookmarkForm, BookmarkPost, Illust } from '../../interfaces'
-import { useInput, useCheckbox } from '../../hooks'
-import { RestrictField } from './RestrictField'
 import { CommentField } from './CommentField'
+import { RestrictField } from './RestrictField'
 import { Tags } from './Tags'
 import { splitTag, toggleTag } from './utils'
 

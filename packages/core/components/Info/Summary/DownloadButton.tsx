@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
+import { getDesc, keyMap } from '../../../constants'
 import { IllustContext } from '../../../contexts'
+import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { Download } from '../../shared/Icon'
-import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('download')
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color } from '../../theme'
-import { TextField } from '../../shared/TextField'
 import { Text } from '../../shared/Text'
+import { TextField } from '../../shared/TextField'
+import { color } from '../../theme'
 import { countTags } from '../utils'
 
 const MAX = 10

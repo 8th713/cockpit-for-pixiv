@@ -1,5 +1,5 @@
-import { useStorage } from './useStorage'
 import { Column, Direction } from '../constants'
+import { useStorage } from './useStorage'
 
 export function useSort() {
   const [column, setColumn] = useStorage('sortColumn', Column.TOTAL)

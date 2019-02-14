@@ -1,5 +1,5 @@
-import { LoggingService } from './logging'
 import { PixivGlobalData } from '../interfaces'
+import { LoggingService } from './logging'
 
 declare var pixiv: {
   context: {

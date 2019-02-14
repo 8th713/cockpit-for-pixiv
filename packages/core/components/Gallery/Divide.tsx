@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { usePages } from '../../hooks'
-import { Single } from './Single'
-import { Multiple } from './Multiple'
-import { Ugoira } from './Ugoira'
 import { Button } from '../shared/Button'
+import { Multiple } from './Multiple'
+import { Single } from './Single'
+import { Ugoira } from './Ugoira'
 
 type Props = {
   illustId: string

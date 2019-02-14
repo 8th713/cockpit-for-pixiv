@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color } from '../theme'
-import { Illust, BookmarkPost } from '../../interfaces'
-import { Content } from './Content'
-import { Dialog } from '../shared/Dialog'
+import { BookmarkPost, Illust } from '../../interfaces'
 import { Button } from '../shared/Button'
+import { Dialog } from '../shared/Dialog'
 import { Progress } from '../shared/Progress'
+import { color } from '../theme'
+import { Content } from './Content'
 
 type Props = {
   illust: Illust

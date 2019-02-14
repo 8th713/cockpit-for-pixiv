@@ -1,7 +1,7 @@
-import { useState, useLayoutEffect, useContext } from 'react'
+import { useContext, useLayoutEffect, useState } from 'react'
 import { ClientContext } from '../contexts'
-import { useUnmount } from './useUnmount'
 import { Page } from '../interfaces'
+import { useUnmount } from './useUnmount'
 
 export function useImg(page: Page) {
   const unmounted = useUnmount()

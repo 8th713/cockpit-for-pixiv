@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { App } from './components/App'
+import { ServiceProvider } from './components/ServiceProvider'
+import { createAddonStore } from './externals/addonStore'
+import { createAPIClient } from './externals/apiClient'
 import { createLoggingService } from './externals/logging'
 import { createGlobalData } from './externals/pixivGlobalData'
-import { createAPIClient } from './externals/apiClient'
-import { createAddonStore } from './externals/addonStore'
-import { ServiceProvider } from './components/ServiceProvider'
-import { App } from './components/App'
 
 const loggingService = createLoggingService()
 const globalData = createGlobalData(loggingService)

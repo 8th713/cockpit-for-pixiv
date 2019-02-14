@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { NO_SCROLLBAR, INCLUDES, EXCLUDES } from '../constants'
+import { useEffect, useState } from 'react'
+import { EXCLUDES, INCLUDES, NO_SCROLLBAR } from '../constants'
 
 export function usePicker() {
   const [element, setElement] = useState<HTMLAnchorElement | null>(null)

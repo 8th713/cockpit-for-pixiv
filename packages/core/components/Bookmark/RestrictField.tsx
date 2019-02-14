@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, ripple } from '../theme'
 import { CheckboxOff, CheckboxOn } from '../shared/Icon'
+import { color, ripple } from '../theme'
 
 type Props = {
   checked: boolean

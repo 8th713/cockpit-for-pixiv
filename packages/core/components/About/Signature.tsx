@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, ripple } from '../theme'
 import { Bug, Help } from '../shared/Icon'
+import { color, ripple } from '../theme'
 import { Section } from './Section'
 
 export function Signature() {

@@ -1,6 +1,6 @@
 import React from 'react'
-import { BookmarkPost, Illust } from '../../interfaces'
 import { useBookmarkForm } from '../../hooks'
+import { BookmarkPost, Illust } from '../../interfaces'
 import { Form } from './Form'
 
 type Props = {

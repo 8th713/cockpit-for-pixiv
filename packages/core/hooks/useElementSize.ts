@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import { Dimension } from '../interfaces'
 
 type RefCallback<E> = (node: E | null) => void

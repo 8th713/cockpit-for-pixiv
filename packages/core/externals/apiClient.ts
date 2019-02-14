@@ -1,20 +1,20 @@
-import wretch from 'wretch'
 import { LRUMap } from 'lru_map'
+import wretch from 'wretch'
 import { createCacheHook } from '../hooks/useCache'
-import { loadZip } from './loadZip'
-import { LoggingService } from './logging'
 import {
-  PixivGlobalData,
-  Pages,
-  Ugoira,
+  AccountTagList,
+  BookmarkData,
+  BookmarkForm,
+  BookmarkPost,
   Illust,
   LikeData,
-  BookmarkPost,
-  BookmarkData,
-  User,
-  BookmarkForm,
-  AccountTagList
+  Pages,
+  PixivGlobalData,
+  Ugoira,
+  User
 } from '../interfaces'
+import { loadZip } from './loadZip'
+import { LoggingService } from './logging'
 
 export type APIClient = ReturnType<typeof createAPIClient>
 

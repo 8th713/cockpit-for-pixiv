@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, ripple } from '../theme'
+import { getDesc, keyMap } from '../../constants'
 import { useUser } from '../../hooks'
-import { AccountError, Add } from '../shared/Icon'
-import { Button } from '../shared/Button'
 import { Hotkeys } from '../Hotkeys'
-import { keyMap, getDesc } from '../../constants'
+import { Button } from '../shared/Button'
+import { AccountError, Add } from '../shared/Icon'
+import { color, ripple } from '../theme'
 
 type Props = {
   userId: string

@@ -1,11 +1,11 @@
 import React, {
-  useLayoutEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useRef,
   useState
 } from 'react'
 import styled from 'styled-components'
-import { opacity, color } from '../theme'
+import { color, opacity } from '../theme'
 
 type Props = React.ComponentPropsWithoutRef<'input'> & {
   onChange?: (

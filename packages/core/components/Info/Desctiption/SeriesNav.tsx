@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Illust } from '../../../interfaces'
-import { Text } from '../../shared/Text'
 import { Collections } from '../../shared/Icon'
+import { Text } from '../../shared/Text'
 
 type Props = {
   illust: Illust

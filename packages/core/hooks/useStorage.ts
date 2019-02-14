@@ -1,10 +1,4 @@
-import {
-  useContext,
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction
-} from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { StorageContext } from '../contexts'
 
 const PREFIX = 'cockpit'
@@ -16,7 +10,7 @@ const PREFIX = 'cockpit'
 export function useStorage<T>(
   key: string,
   defaultValue: T
-): [T, Dispatch<SetStateAction<T>>] {
+): [T, React.Dispatch<React.SetStateAction<T>>] {
   const storage = useContext(StorageContext)
   const [value, set] = useState(() => load(storage, key, defaultValue))
 

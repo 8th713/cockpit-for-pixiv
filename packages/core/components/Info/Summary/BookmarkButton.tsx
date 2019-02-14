@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { BookmarkPost } from '../../../interfaces'
+import { getDesc, keyMap } from '../../../constants'
 import { IllustContext } from '../../../contexts'
 import { useToggle } from '../../../hooks'
-import { Button } from '../../shared/Button'
-import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
+import { BookmarkPost } from '../../../interfaces'
 import { Bookmark } from '../../Bookmark'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants'
+import { Button } from '../../shared/Button'
+import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
 
 const title = [
   getDesc('bookmark'),
