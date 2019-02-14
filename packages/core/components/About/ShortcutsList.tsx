@@ -1,25 +1,29 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
+import { keyMap } from '../../constants'
+import { Text } from '../shared/Text'
 import { color } from '../theme'
 import { Section } from './Section'
-import { Text } from '../shared/Text'
-import { keyMap } from '../../constants'
 
 const items = Object.values(keyMap)
 
 export function ShortcutsList() {
+  const children = useMemo(
+    () =>
+      items.map(item => (
+        <KeyItem key={item.keyName}>
+          <Kbd>{item.keyName}</Kbd>
+          <Text as="span" v="b2" c="textSecondary">
+            {item.children}
+          </Text>
+        </KeyItem>
+      )),
+    items
+  )
+
   return (
     <Section label="Keyboard Shortcut">
-      <List>
-        {items.map(item => (
-          <KeyItem key={item.keyName}>
-            <Kbd>{item.keyName}</Kbd>
-            <Text as="span" v="b2" c="textSecondary">
-              {item.children}
-            </Text>
-          </KeyItem>
-        ))}
-      </List>
+      <List>{children}</List>
     </Section>
   )
 }
