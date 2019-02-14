@@ -19,5 +19,9 @@ export function PaddingProvider(props: Props) {
     </ActionContext.Provider>
   )
 }
-PaddingProvider.ValueContext = ValueContext
-PaddingProvider.ActionContext = ActionContext
+PaddingProvider.usePaddingValue = function usePaddingValue() {
+  return React.useContext(ValueContext)
+}
+PaddingProvider.usePaddingAction = function usePaddingAction() {
+  return React.useContext(ActionContext)
+}

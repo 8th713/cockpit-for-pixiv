@@ -1,5 +1,5 @@
 import React from 'react'
-import { useUserTags, useSort } from '../hooks'
+import { useSort, useUserTags } from '../hooks'
 
 export type UserTagsContextValue = UserTags & Sort
 
@@ -21,4 +21,6 @@ export function UserTagsProvider(props: Props) {
     </Context.Provider>
   )
 }
-UserTagsProvider.Context = Context
+UserTagsProvider.useContextValue = function useContextValue() {
+  return React.useContext(Context)
+}

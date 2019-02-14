@@ -1,8 +1,8 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { Pages } from '../../../interfaces'
 import { SpreadStatus } from '../../../constants'
 import { PaddingProvider, SpreadProvider } from '../../../contexts'
+import { Pages } from '../../../interfaces'
 import { Img } from './Img'
 
 type Props = {
@@ -11,8 +11,8 @@ type Props = {
 }
 
 export function Multiple({ pages }: Props) {
-  const padding = useContext(PaddingProvider.ValueContext)
-  const spread = useContext(SpreadProvider.ValueContext)
+  const padding = PaddingProvider.usePaddingValue()
+  const spread = SpreadProvider.useSpreadValue()
   const children = useMemo(
     () => pages.map(page => <Img key={page.urls.original} page={page} />),
     [pages]

@@ -1,32 +1,28 @@
 import React from 'react'
 import styled from 'styled-components'
-import { PickerActionContext, PickerValueContext } from '../../contexts'
-import { usePicker } from '../../hooks'
-import { Modal } from '../shared/Modal'
-import { Gallery } from '../Gallery'
-import { Info } from '../Info'
-import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
+import { PickerProvider } from '../../contexts'
+import { Gallery } from '../Gallery'
+import { Hotkeys } from '../Hotkeys'
+import { Info } from '../Info'
+import { Modal } from '../shared/Modal'
 
 export function Article() {
-  const { illustId, actions } = usePicker()
+  const illustId = PickerProvider.useIllustId()
+  const { unsetElement, goNext, goPrev } = PickerProvider.usePickerAction()
 
   if (illustId === null) {
     return null
   }
 
   return (
-    <Modal open onRequestClose={actions.unsetElement}>
+    <Modal open onRequestClose={unsetElement}>
       <Layout>
-        <PickerActionContext.Provider value={actions}>
-          <PickerValueContext.Provider value={illustId}>
-            <Gallery />
-            <Info />
-          </PickerValueContext.Provider>
-        </PickerActionContext.Provider>
+        <Gallery />
+        <Info />
       </Layout>
-      <Hotkeys {...keyMap.goNext} onKeyDown={actions.goNext} />
-      <Hotkeys {...keyMap.goPrev} onKeyDown={actions.goPrev} />
+      <Hotkeys {...keyMap.goNext} onKeyDown={goNext} />
+      <Hotkeys {...keyMap.goPrev} onKeyDown={goPrev} />
     </Modal>
   )
 }

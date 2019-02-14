@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Column } from '../../../constants'
-import { UserTagsProvider, UserTagsContextValue } from '../../../contexts'
+import { UserTagsContextValue, UserTagsProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 
 export function SortButtons() {
-  const context = useContext(UserTagsProvider.Context)
+  const context = UserTagsProvider.useContextValue()
   const columnBtnStyle = btnStyle(context, Column.NAME)
   const totalBtnStyle = btnStyle(context, Column.TOTAL)
 

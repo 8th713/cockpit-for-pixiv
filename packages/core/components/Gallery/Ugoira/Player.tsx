@@ -1,11 +1,11 @@
-import React, { useContext, useRef } from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { color, opacity } from '../../theme'
-import { PickerActionContext } from '../../../contexts'
+import { PickerProvider } from '../../../contexts'
 import { usePlayer } from '../../../hooks'
 import { Button } from '../../shared/Button'
+import { Pause, Play, Stop } from '../../shared/Icon'
 import { Text } from '../../shared/Text'
-import { Play, Pause, Stop } from '../../shared/Icon'
+import { color, opacity } from '../../theme'
 
 type Frames = {
   image: HTMLImageElement
@@ -20,7 +20,7 @@ type Props = {
 }
 
 export function Player({ style, frames }: Props) {
-  const { goFromEvent } = useContext(PickerActionContext)
+  const { goFromEvent } = PickerProvider.usePickerAction()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
 

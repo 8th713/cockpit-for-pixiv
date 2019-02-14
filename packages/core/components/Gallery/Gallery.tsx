@@ -1,20 +1,15 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { color } from '../theme'
-import {
-  BoardContext,
-  PickerActionContext,
-  PickerValueContext,
-  PaddingProvider
-} from '../../contexts'
-import { Progress } from '../shared/Progress'
-import { Divide, SimpleLayout } from './Divide'
+import { BoardContext, PaddingProvider, PickerProvider } from '../../contexts'
 import { useElementSize } from '../../hooks'
+import { Progress } from '../shared/Progress'
+import { color } from '../theme'
+import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const illustId = useContext(PickerValueContext)
-  const { unsetElement, goFromEvent } = useContext(PickerActionContext)
-  const padding = useContext(PaddingProvider.ValueContext)
+  const illustId = PickerProvider.useIllustId()!
+  const { unsetElement, goFromEvent } = PickerProvider.usePickerAction()
+  const padding = PaddingProvider.usePaddingValue()
   const [ref, size, node] = useElementSize<HTMLDivElement>(padding)
 
   useEffect(() => {

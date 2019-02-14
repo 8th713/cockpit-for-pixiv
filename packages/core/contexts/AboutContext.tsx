@@ -19,5 +19,9 @@ export function AboutProvider(props: Props) {
     </ActionContext.Provider>
   )
 }
-AboutProvider.ValueContext = ValueContext
-AboutProvider.ActionContext = ActionContext
+AboutProvider.useAboutValue = function useAboutValue() {
+  return React.useContext(ValueContext)
+}
+AboutProvider.useAboutAction = function useAboutAction() {
+  return React.useContext(ActionContext)
+}

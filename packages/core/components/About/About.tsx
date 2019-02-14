@@ -1,17 +1,17 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { keyMap } from '../../constants'
 import { AboutProvider } from '../../contexts'
+import { Hotkeys } from '../Hotkeys'
+import { Dialog } from '../shared/Dialog'
+import { Divider } from '../shared/Divider'
+import { Text } from '../shared/Text'
 import { PaddingEditor } from './PaddingEditor'
 import { ShortcutsList } from './ShortcutsList'
 import { Signature } from './Signature'
-import { Dialog } from '../shared/Dialog'
-import { Text } from '../shared/Text'
-import { Divider } from '../shared/Divider'
-import { Hotkeys } from '../Hotkeys'
-import { keyMap } from '../../constants'
 
 export function About() {
-  const opened = useContext(AboutProvider.ValueContext)
-  const toggle = useContext(AboutProvider.ActionContext)
+  const opened = AboutProvider.useAboutValue()
+  const toggle = AboutProvider.useAboutAction()
 
   function handleRequestClose() {
     toggle()

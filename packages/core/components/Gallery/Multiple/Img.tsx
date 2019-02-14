@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { Page } from '../../../interfaces'
 import {
   BoardContext,
-  PickerActionContext,
   FitProvider,
+  PickerProvider,
   SpreadProvider
 } from '../../../contexts'
-import { useVisibility, useLazyImg } from '../../../hooks'
+import { useLazyImg, useVisibility } from '../../../hooks'
+import { Page } from '../../../interfaces'
 import { calcSize } from '../calcSize'
 
 type Props = {
@@ -15,10 +15,10 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { goFromEvent } = useContext(PickerActionContext)
+  const { goFromEvent } = PickerProvider.usePickerAction()
   const board = useContext(BoardContext)
-  const fit = useContext(FitProvider.ValueContext)
-  const spread = useContext(SpreadProvider.ValueContext)
+  const fit = FitProvider.useFitValue()
+  const spread = SpreadProvider.useSpreadValue()
   const { width, height } = calcSize(board.size, fit, spread, page, true)
   const [imgRef, inView] = useVisibility({
     root: board.node,

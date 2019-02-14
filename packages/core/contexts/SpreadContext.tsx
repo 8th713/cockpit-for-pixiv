@@ -20,5 +20,9 @@ export function SpreadProvider(props: Props) {
     </ActionContext.Provider>
   )
 }
-SpreadProvider.ValueContext = ValueContext
-SpreadProvider.ActionContext = ActionContext
+SpreadProvider.useSpreadValue = function useSpreadValue() {
+  return React.useContext(ValueContext)
+}
+SpreadProvider.useSpreadAction = function useSpreadAction() {
+  return React.useContext(ActionContext)
+}

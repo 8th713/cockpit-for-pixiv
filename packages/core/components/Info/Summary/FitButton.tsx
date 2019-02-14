@@ -1,15 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { FitStatus, getDesc, keyMap } from '../../../constants'
 import { FitProvider } from '../../../contexts'
+import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { FitContain, FitCover, FitNone } from '../../shared/Icon'
-import { Hotkeys } from '../../Hotkeys'
-import { FitStatus, keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('fit')
 
 export function FitButton() {
-  const value = useContext(FitProvider.ValueContext)
-  const cycle = useContext(FitProvider.ActionContext)
+  const value = FitProvider.useFitValue()
+  const cycle = FitProvider.useFitAction()
 
   return (
     <Button v="icon" onClick={cycle} title={title}>

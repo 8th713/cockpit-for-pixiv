@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { UserTagsProvider } from '../../../contexts'
-import { Tag, TagList } from './Tag'
 import { sortBy } from '../utils'
+import { Tag, TagList } from './Tag'
 
 type Props = {
   isSelected: (tag: string) => boolean
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function UserTags(props: Props) {
-  const { column, direction, read } = useContext(UserTagsProvider.Context)
+  const { column, direction, read } = UserTagsProvider.useContextValue()
   const tags = read()
 
   if (!tags) {

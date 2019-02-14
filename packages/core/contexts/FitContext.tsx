@@ -1,6 +1,6 @@
 import React from 'react'
-import { useFit } from '../hooks'
 import { FitStatus } from '../constants'
+import { useFit } from '../hooks'
 
 type Props = {
   children?: React.ReactNode
@@ -20,5 +20,9 @@ export function FitProvider(props: Props) {
     </ActionContext.Provider>
   )
 }
-FitProvider.ValueContext = ValueContext
-FitProvider.ActionContext = ActionContext
+FitProvider.useFitValue = function useFitValue() {
+  return React.useContext(ValueContext)
+}
+FitProvider.useFitAction = function useFitAction() {
+  return React.useContext(ActionContext)
+}

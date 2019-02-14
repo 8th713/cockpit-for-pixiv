@@ -1,46 +1,37 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { color } from '../theme'
-import { useIllust, useExpansion } from '../../hooks'
-import {
-  InfoActionContext,
-  InfoValueContext,
-  PickerValueContext,
-  IllustContext
-} from '../../contexts'
+import { IllustContext, InfoProvider, PickerProvider } from '../../contexts'
+import { useIllust } from '../../hooks'
 import { Divider } from '../shared/Divider'
-import { Summary } from './Summary'
-import { Desctiption } from './Desctiption'
-import { UserCard } from './UserCard'
 import { Progress } from '../shared/Progress'
+import { color } from '../theme'
+import { Desctiption } from './Desctiption'
+import { Summary } from './Summary'
+import { UserCard } from './UserCard'
 
 export function Info() {
-  const illustId = useContext(PickerValueContext)
+  const illustId = PickerProvider.useIllustId()!
   const context = useIllust(illustId)
-  const [opened, toggleInfo] = useExpansion()
+  const opened = InfoProvider.useInfoValue()
 
   return (
     <IllustContext.Provider value={context}>
-      <InfoActionContext.Provider value={toggleInfo}>
-        <InfoValueContext.Provider value={opened}>
-          <Layout>
-            <Summary />
-            {opened && (
-              <>
-                <Divider m={16} />
-                <Details>
-                  <React.Suspense fallback={<Progress size={64} />}>
-                    <Desctiption />
-                  </React.Suspense>
-                  <React.Suspense fallback={<Progress size={64} />}>
-                    <UserCard />
-                  </React.Suspense>
-                </Details>
-              </>
-            )}
-          </Layout>
-        </InfoValueContext.Provider>
-      </InfoActionContext.Provider>
+      <Layout>
+        <Summary />
+        {opened && (
+          <>
+            <Divider m={16} />
+            <Details>
+              <React.Suspense fallback={<Progress size={64} />}>
+                <Desctiption />
+              </React.Suspense>
+              <React.Suspense fallback={<Progress size={64} />}>
+                <UserCard />
+              </React.Suspense>
+            </Details>
+          </>
+        )}
+      </Layout>
     </IllustContext.Provider>
   )
 }

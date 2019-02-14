@@ -1,14 +1,19 @@
 import React from 'react'
-import { LoggingContext, AddonContext, ClientContext } from '../contexts'
 import {
   AboutProvider,
-  PaddingProvider,
+  AddonContext,
+  ClientContext,
   FitProvider,
-  SpreadProvider
+  InfoProvider,
+  LoggingContext,
+  PaddingProvider,
+  PickerProvider,
+  SpreadProvider,
+  UserTagsProvider
 } from '../contexts'
-import { LoggingService } from '../externals/logging'
-import { APIClient } from '../externals/apiClient'
 import { AddonStore } from '../externals/addonStore'
+import { APIClient } from '../externals/apiClient'
+import { LoggingService } from '../externals/logging'
 
 type Props = {
   loggingService: LoggingService
@@ -25,7 +30,13 @@ export function ServiceProvider(props: Props) {
           <AboutProvider>
             <PaddingProvider>
               <FitProvider>
-                <SpreadProvider>{props.children}</SpreadProvider>
+                <SpreadProvider>
+                  <InfoProvider>
+                    <UserTagsProvider>
+                      <PickerProvider>{props.children}</PickerProvider>
+                    </UserTagsProvider>
+                  </InfoProvider>
+                </SpreadProvider>
               </FitProvider>
             </PaddingProvider>
           </AboutProvider>
