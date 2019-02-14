@@ -30,13 +30,14 @@ export function usePicker() {
     function handleClick(event: MouseEvent) {
       const target = ensureAnchorElement(event.target as Element)
 
-      if (target && isIllustThumbnailAnchorElement(target)) {
-        event.preventDefault()
-        setElement(target)
-      }
+      if (!target) return
+      if (!isIllustThumbnailAnchorElement(target)) return
+
+      event.preventDefault()
+      setElement(target)
     }
     function handleMouseOver(event: MouseEvent) {
-      const target = (event.target as HTMLElement).closest('a')
+      const target = ensureAnchorElement(event.target as Element)
 
       if (!target) return
       if (target.style.cursor === 'zoom-in') return
