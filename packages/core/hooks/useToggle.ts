@@ -1,14 +1,12 @@
 import { useReducer } from 'react'
 
-type Toggle = (force?: boolean) => void
-
-export function useToggle(value: boolean): [boolean, Toggle] {
-  return useReducer(reducer, value)
+export function useToggle(
+  initialValue: boolean
+): [boolean, (force?: boolean) => void] {
+  return useReducer(reducer, initialValue)
 }
 
 function reducer(on: boolean, force?: boolean) {
-  if (typeof force === 'undefined') {
-    return !on
-  }
+  if (typeof force === 'undefined') return !on
   return force
 }

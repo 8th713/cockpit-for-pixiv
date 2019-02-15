@@ -8,6 +8,7 @@ export function usePlayer(
   const timerRef = useRef(0)
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+
   function draw(image: HTMLImageElement) {
     if (!image || !ref.current) return
 

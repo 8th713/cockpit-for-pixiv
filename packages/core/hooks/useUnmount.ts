@@ -8,7 +8,7 @@ export function useUnmount() {
     return () => {
       unmounted.current = true
     }
-  }, [unmounted])
+  }, [])
 
   return unmounted
 }

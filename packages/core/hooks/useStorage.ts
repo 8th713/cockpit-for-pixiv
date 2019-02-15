@@ -17,6 +17,7 @@ export function useStorage<T>(
   useEffect(() => {
     store(storage, key, value)
   }, [value])
+
   useEffect(() => {
     set(load(storage, key, defaultValue))
   }, [key, storage])
