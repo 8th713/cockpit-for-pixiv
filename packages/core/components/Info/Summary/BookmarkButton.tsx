@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { getDesc, keyMap } from '../../../constants'
-import { IllustContext } from '../../../contexts'
+import { IllustProvider } from '../../../contexts'
 import { useToggle } from '../../../hooks'
 import { BookmarkPost } from '../../../interfaces'
 import { Bookmark } from '../../Bookmark'
@@ -15,7 +15,7 @@ const title = [
 ].join('\n')
 
 export function BookmarkButton() {
-  const { read, bookmark } = useContext(IllustContext)
+  const { read, bookmark } = IllustProvider.use()
   const [opened, toggle] = useToggle(false)
   const illust = read()
 

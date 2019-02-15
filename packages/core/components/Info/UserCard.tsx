@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
-import { IllustContext } from '../../contexts'
+import React from 'react'
+import { IllustProvider } from '../../contexts'
 import { Author } from '../Author'
 import { Progress } from '../shared/Progress'
 
 export function UserCard() {
-  const { read } = useContext(IllustContext)
+  const { read } = IllustProvider.use()
   const illust = read()
 
   if (!illust) return null

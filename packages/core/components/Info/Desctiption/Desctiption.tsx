@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { IllustContext } from '../../../contexts'
+import { IllustProvider } from '../../../contexts'
 import { color } from '../../theme'
 import { Comment } from './Comment'
 import { SeriesNav } from './SeriesNav'
@@ -8,7 +8,7 @@ import { Stats } from './Stats'
 import { TagList } from './TagList'
 
 export function Desctiption() {
-  const { read } = useContext(IllustContext)
+  const { read } = IllustProvider.use()
   const illust = read()
 
   if (illust === null) return <Layout />

@@ -4,6 +4,7 @@ import {
   AddonContext,
   ClientContext,
   FitProvider,
+  IllustProvider,
   InfoProvider,
   LoggingContext,
   PaddingProvider,
@@ -33,7 +34,10 @@ export function ServiceProvider(props: Props) {
                 <SpreadProvider>
                   <InfoProvider>
                     <UserTagsProvider>
-                      <PickerProvider>{props.children}</PickerProvider>
+                      <PickerProvider>
+                        <IllustProvider>
+                        </IllustProvider>
+                      </PickerProvider>
                     </UserTagsProvider>
                   </InfoProvider>
                 </SpreadProvider>

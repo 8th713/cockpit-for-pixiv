@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { getDesc, keyMap } from '../../../constants'
-import { IllustContext } from '../../../contexts'
+import { IllustProvider } from '../../../contexts'
 import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { Download } from '../../shared/Icon'
@@ -8,7 +8,7 @@ import { Download } from '../../shared/Icon'
 const title = getDesc('download')
 
 export function DownloadButton() {
-  const { read, download, canDonwload } = useContext(IllustContext)
+  const { read, download, canDonwload } = IllustProvider.use()
   const disabled = !canDonwload
   const illust = read()
 
