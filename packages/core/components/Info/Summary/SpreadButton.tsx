@@ -8,8 +8,7 @@ import { Spread, SpreadNone, SpreadShift } from '../../shared/Icon'
 const title = getDesc('spread')
 
 export function SpreadButton() {
-  const value = SpreadProvider.useSpreadValue()
-  const cycle = SpreadProvider.useSpreadAction()
+  const [value, cycle] = SpreadProvider.use()
 
   return (
     <Button v="icon" onClick={cycle} title={title}>
