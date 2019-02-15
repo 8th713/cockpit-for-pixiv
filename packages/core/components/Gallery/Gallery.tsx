@@ -7,10 +7,10 @@ import { color } from '../theme'
 import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const illustId = PickerProvider.useIllustId()!
-  const { unsetElement, goFromEvent } = PickerProvider.usePickerAction()
   const padding = PaddingProvider.usePaddingValue()
   const [ref, size, node] = useElementSize<HTMLDivElement>(padding)
+  const { illustId, actions } = PickerProvider.use()
+  const { unsetElement, goFromEvent } = actions
 
   useEffect(() => {
     if (node) {
@@ -29,7 +29,7 @@ export function Gallery() {
             </SimpleLayout>
           }
         >
-          <Divide illustId={illustId} />
+        <Divide illustId={illustId!} />
         </React.Suspense>
       </ScrollView>
     </BoardContext.Provider>

@@ -8,8 +8,8 @@ import { Info } from '../Info'
 import { Modal } from '../shared/Modal'
 
 export function Article() {
-  const illustId = PickerProvider.useIllustId()
-  const { unsetElement, goNext, goPrev } = PickerProvider.usePickerAction()
+  const { illustId, actions } = PickerProvider.use()
+  const { unsetElement, goNext, goPrev } = actions
 
   if (illustId === null) {
     return null

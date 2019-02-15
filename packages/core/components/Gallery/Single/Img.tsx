@@ -15,9 +15,9 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { goFromEvent } = PickerProvider.usePickerAction()
   const board = useContext(BoardContext)
   const { width, height } = calcSize(board.size, fit, spread, page)
+  const { actions } = PickerProvider.use()
   const [fit] = FitProvider.use()
   const [spread] = SpreadProvider.use()
   const src = useImg(page)
@@ -36,7 +36,7 @@ export function Img({ page }: Props) {
       style={styles}
       width={width}
       height={height}
-      onClick={goFromEvent}
+      onClick={actions.goFromEvent}
     />
   )
 }

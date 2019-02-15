@@ -20,7 +20,7 @@ type Props = {
 }
 
 export function Player({ style, frames }: Props) {
-  const { goFromEvent } = PickerProvider.usePickerAction()
+  const { actions } = PickerProvider.use()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
 
@@ -29,7 +29,7 @@ export function Player({ style, frames }: Props) {
   }
 
   return (
-    <Layout style={style} onClick={goFromEvent}>
+    <Layout style={style} onClick={actions.goFromEvent}>
       <Canvas key={frames[0].image.src} ref={canvasRef} />
       <PlayControl onClick={handleClick}>
         <Button v="icon" onClick={palyer.toggle}>
