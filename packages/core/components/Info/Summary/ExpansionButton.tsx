@@ -8,8 +8,7 @@ import { ExpandLess, ExpandMore } from '../../shared/Icon'
 const title = getDesc('info')
 
 export function ExpansionButton() {
-  const opened = InfoProvider.useInfoValue()
-  const toggle = InfoProvider.useInfoAction()
+  const [opened, toggle] = InfoProvider.use()
 
   function handleClick() {
     toggle()

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { IllustContext, InfoProvider, PickerProvider } from '../../contexts'
 import { useIllust } from '../../hooks'
+import { InfoProvider } from '../../contexts'
 import { Divider } from '../shared/Divider'
 import { Progress } from '../shared/Progress'
 import { color } from '../theme'
@@ -12,7 +13,7 @@ import { UserCard } from './UserCard'
 export function Info() {
   const illustId = PickerProvider.useIllustId()!
   const context = useIllust(illustId)
-  const opened = InfoProvider.useInfoValue()
+  const [opened] = InfoProvider.use()
 
   return (
     <IllustContext.Provider value={context}>
