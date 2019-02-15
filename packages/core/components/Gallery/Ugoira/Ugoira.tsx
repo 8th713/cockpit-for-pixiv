@@ -11,7 +11,7 @@ type Props = {
 }
 
 export function Ugoira(props: Props) {
-  const padding = PaddingProvider.usePaddingValue()
+  const [padding] = PaddingProvider.use()
 
   return (
     <Layout style={{ padding }}>

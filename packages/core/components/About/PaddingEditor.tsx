@@ -5,8 +5,7 @@ import { Slider } from '../shared/Slider'
 import { Text } from '../shared/Text'
 
 export function PaddingEditor() {
-  const padding = PaddingProvider.usePaddingValue()
-  const setPadding = PaddingProvider.usePaddingAction()
+  const [padding, setPadding] = PaddingProvider.use()
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPadding(event.target.valueAsNumber)

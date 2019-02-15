@@ -11,8 +11,8 @@ type Props = {
 }
 
 export function Multiple({ pages }: Props) {
-  const padding = PaddingProvider.usePaddingValue()
   const spread = SpreadProvider.useSpreadValue()
+  const [padding] = PaddingProvider.use()
   const children = useMemo(
     () => pages.map(page => <Img key={page.urls.original} page={page} />),
     [pages]

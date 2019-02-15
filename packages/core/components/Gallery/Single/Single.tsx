@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function Single({ page }: Props) {
-  const padding = PaddingProvider.usePaddingValue()
+  const [padding] = PaddingProvider.use()
 
   return (
     <Layout style={{ padding }}>
