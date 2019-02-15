@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { BoardContext, FitProvider, SpreadProvider } from '../../../contexts'
+import React from 'react'
+import { BoardProvider, FitProvider, SpreadProvider } from '../../../contexts'
 import { useUgoira } from '../../../hooks'
 import { Page } from '../../../interfaces'
 import { calcSize } from '../calcSize'
@@ -13,10 +13,10 @@ type Props = {
 
 export function Img({ id, page }: Props) {
   const { read, retry } = useUgoira(id)
-  const board = useContext(BoardContext)
-  const { width, height } = calcSize(board.size, fit, spread, page)
+  const [, size] = BoardProvider.use()
   const [fit] = FitProvider.use()
   const [spread] = SpreadProvider.use()
+  const { width, height } = calcSize(size, fit, spread, page)
   const styles = {
     width,
     height,

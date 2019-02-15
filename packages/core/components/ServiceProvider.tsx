@@ -2,6 +2,7 @@ import React from 'react'
 import {
   AboutProvider,
   AddonContext,
+  BoardProvider,
   ClientContext,
   FitProvider,
   IllustProvider,
@@ -36,6 +37,7 @@ export function ServiceProvider(props: Props) {
                     <UserTagsProvider>
                       <PickerProvider>
                         <IllustProvider>
+                          <BoardProvider>{props.children}</BoardProvider>
                         </IllustProvider>
                       </PickerProvider>
                     </UserTagsProvider>

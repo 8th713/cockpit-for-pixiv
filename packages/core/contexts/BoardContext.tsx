@@ -1,9 +1,9 @@
-import React from 'react'
-import { Dimension } from '../interfaces'
+import { useElementSize } from '../hooks'
+import { PaddingProvider } from './PaddingContext'
+import { createProvider } from './utlis'
 
-type Board = {
-  size: Dimension
-  node: HTMLDivElement | null
-}
+export const BoardProvider = createProvider(function useBoard() {
+  const [padding] = PaddingProvider.use()
 
-export const BoardContext = React.createContext<Board>(null as any)
+  return useElementSize(padding)
+}, 'BoardProvider')

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {
-  BoardContext,
+  BoardProvider,
   FitProvider,
   PickerProvider,
   SpreadProvider
@@ -15,11 +15,11 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const board = useContext(BoardContext)
-  const { width, height } = calcSize(board.size, fit, spread, page)
   const { actions } = PickerProvider.use()
+  const [, size] = BoardProvider.use()
   const [fit] = FitProvider.use()
   const [spread] = SpreadProvider.use()
+  const { width, height } = calcSize(size, fit, spread, page)
   const src = useImg(page)
   const styles = {
     width,

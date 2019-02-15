@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { BoardContext, PaddingProvider, PickerProvider } from '../../contexts'
-import { useElementSize } from '../../hooks'
+import { BoardProvider, PickerProvider } from '../../contexts'
 import { Progress } from '../shared/Progress'
 import { color } from '../theme'
 import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const padding = PaddingProvider.usePaddingValue()
-  const [ref, size, node] = useElementSize<HTMLDivElement>(padding)
   const { illustId, actions } = PickerProvider.use()
   const { unsetElement, goFromEvent } = actions
+  const [ref, , node] = BoardProvider.use()
 
   useEffect(() => {
     if (node) {
@@ -20,19 +18,17 @@ export function Gallery() {
   }, [illustId])
 
   return (
-    <BoardContext.Provider value={{ size, node }}>
-      <ScrollView tabIndex={0} ref={ref} onClick={unsetElement}>
-        <React.Suspense
-          fallback={
-            <SimpleLayout>
-              <Progress onClick={goFromEvent} />
-            </SimpleLayout>
-          }
-        >
+    <ScrollView tabIndex={0} ref={ref} onClick={unsetElement}>
+      <React.Suspense
+        fallback={
+          <SimpleLayout>
+            <Progress onClick={goFromEvent} />
+          </SimpleLayout>
+        }
+      >
         <Divide illustId={illustId!} />
-        </React.Suspense>
-      </ScrollView>
-    </BoardContext.Provider>
+      </React.Suspense>
+    </ScrollView>
   )
 }
 
