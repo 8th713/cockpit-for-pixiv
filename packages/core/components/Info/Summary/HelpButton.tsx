@@ -7,7 +7,7 @@ import { Help } from '../../shared/Icon'
 const title = getDesc('help')
 
 export function HelpButton() {
-  const toggle = AboutProvider.useAboutAction()
+  const [, toggle] = AboutProvider.use()
 
   function handleClick() {
     toggle()

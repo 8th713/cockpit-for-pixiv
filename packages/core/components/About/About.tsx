@@ -10,8 +10,7 @@ import { ShortcutsList } from './ShortcutsList'
 import { Signature } from './Signature'
 
 export function About() {
-  const opened = AboutProvider.useAboutValue()
-  const toggle = AboutProvider.useAboutAction()
+  const [opened, toggle] = AboutProvider.use()
 
   function handleRequestClose() {
     toggle()
