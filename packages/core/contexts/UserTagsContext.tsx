@@ -1,26 +1,9 @@
-import React from 'react'
-import { useSort, useUserTags } from '../hooks'
+import { useSort, useUserTags as useUserTagsInternal } from '../hooks'
+import { createProvider } from './utlis'
 
-export type UserTagsContextValue = UserTags & Sort
-
-type UserTags = ReturnType<typeof useUserTags>
-type Sort = ReturnType<typeof useSort>
-type Props = {
-  children?: React.ReactNode
-}
-
-const Context = React.createContext<UserTagsContextValue>(null as any)
-
-export function UserTagsProvider(props: Props) {
-  const userTags = useUserTags()
+export const UserTagsProvider = createProvider(function useUserTags() {
+  const userTags = useUserTagsInternal()
   const sort = useSort()
 
-  return (
-    <Context.Provider value={{ ...userTags, ...sort }}>
-      {props.children}
-    </Context.Provider>
-  )
-}
-UserTagsProvider.useContextValue = function useContextValue() {
-  return React.useContext(Context)
-}
+  return { ...userTags, ...sort }
+}, 'UserTagsProvider')

@@ -5,7 +5,7 @@ import { UserTagsContextValue, UserTagsProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 
 export function SortButtons() {
-  const context = UserTagsProvider.useContextValue()
+  const context = UserTagsProvider.use()
   const columnBtnStyle = btnStyle(context, Column.NAME)
   const totalBtnStyle = btnStyle(context, Column.TOTAL)
 

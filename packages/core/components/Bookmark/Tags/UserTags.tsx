@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function UserTags(props: Props) {
-  const { column, direction, read } = UserTagsProvider.useContextValue()
+  const { column, direction, read } = UserTagsProvider.use()
   const tags = read()
 
   if (!tags) {
