@@ -14,9 +14,9 @@ type Props = {
 export function Img({ id, page }: Props) {
   const { read, retry } = useUgoira(id)
   const board = useContext(BoardContext)
-  const fit = FitProvider.useFitValue()
   const spread = SpreadProvider.useSpreadValue()
   const { width, height } = calcSize(board.size, fit, spread, page)
+  const [fit] = FitProvider.use()
   const styles = {
     width,
     height,

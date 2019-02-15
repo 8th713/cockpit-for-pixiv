@@ -8,8 +8,7 @@ import { FitContain, FitCover, FitNone } from '../../shared/Icon'
 const title = getDesc('fit')
 
 export function FitButton() {
-  const value = FitProvider.useFitValue()
-  const cycle = FitProvider.useFitAction()
+  const [value, cycle] = FitProvider.use()
 
   return (
     <Button v="icon" onClick={cycle} title={title}>
