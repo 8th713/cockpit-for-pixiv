@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 type RefCallback<E> = (node: E | null) => void
 
@@ -9,7 +9,7 @@ export function useVisibility<E extends Element>(
   const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null)
   const inView = entry ? entry.isIntersecting : false
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (node === null) return
 
     const observer = new IntersectionObserver(

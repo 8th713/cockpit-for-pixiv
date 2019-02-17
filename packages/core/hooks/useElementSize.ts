@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dimension } from '../interfaces'
 
 type RefCallback<E> = (node: E | null) => void
@@ -9,7 +9,7 @@ export function useElementSize<E extends HTMLElement>(
   const [node, ref] = useState<E | null>(null)
   const [size, setSize] = useState<Dimension>({ width: 0, height: 0 })
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (node === null) return
 
     const observer = new ResizeObserver(() =>

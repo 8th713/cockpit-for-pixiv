@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ClientContext } from '../contexts'
 import { Page } from '../interfaces'
 import { useUnmount } from './useUnmount'
@@ -10,7 +10,7 @@ export function useImg(page: Page) {
     page.urls.small.replace('540x540_70', '150x150')
   )
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (url === page.urls.original) return
 
     fetchImage(page.urls.original).then(src => {
@@ -31,7 +31,7 @@ export function useLazyImg(page: Page, inView: boolean) {
     page.urls.small.replace('540x540_70', '150x150')
   )
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!inView) return
     if (url === page.urls.original) return
 
