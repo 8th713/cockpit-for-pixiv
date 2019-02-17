@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Column } from '../../../constants'
-import { UserTagsContextValue, UserTagsProvider } from '../../../contexts'
+import { UserTagsProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 
 export function SortButtons() {
@@ -35,7 +35,10 @@ const ButtonArea = styled.div`
   align-items: center;
 `
 
-function btnStyle(condition: UserTagsContextValue, type: Column) {
+function btnStyle(
+  condition: ReturnType<typeof UserTagsProvider.use>,
+  type: Column
+) {
   const color: 'default' | 'primary' =
     condition.column === type ? 'default' : 'primary'
   const arrow = condition.column === type ? condition.direction : ''
