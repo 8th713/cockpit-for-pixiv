@@ -24,7 +24,8 @@ const CP_SELECTORS = {
   EXCLUDES: [
     '._one-click-bookmark',
     '.thumbnail-menu',
-    '.thumbnail-menu *'
+    '.thumbnail-menu *',
+    '._history-item.show-detail'
   ]
   /**! セミコロンを削除しないでください！！ */
 };

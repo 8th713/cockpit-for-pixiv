@@ -4,7 +4,7 @@ import { Button } from '../../shared/Button'
 import { Refresh } from '../../shared/Icon'
 
 export function ReloadButton() {
-  const { retry } = UserTagsProvider.useValue()
+  const { retry } = UserTagsProvider.use()
 
   return (
     <Button v="icon" type="button" onClick={retry} title="再読込">

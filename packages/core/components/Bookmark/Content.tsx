@@ -1,6 +1,6 @@
 import React from 'react'
-import { BookmarkPost, Illust } from '../../interfaces'
 import { useBookmarkForm } from '../../hooks'
+import { BookmarkPost, Illust } from '../../interfaces'
 import { Form } from './Form'
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 }
 
 export function Content(props: Props) {
-  const illustId = props.illust.illustId
+  const { illustId } = props.illust
   const { read, retry } = useBookmarkForm(illustId)
   const formData = read()
 

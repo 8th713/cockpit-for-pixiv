@@ -1,27 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 import { PaddingProvider } from '../../contexts'
-import { Text } from '../shared/Text'
 import { Slider } from '../shared/Slider'
+import { Text } from '../shared/Text'
 
 export function PaddingEditor() {
-  const value = PaddingProvider.useValue()
-  const update = PaddingProvider.useAction()
-  const handleChange = React.useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      update(event.target.valueAsNumber)
-    },
-    []
-  )
+  const [padding, setPadding] = PaddingProvider.use()
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setPadding(event.target.valueAsNumber)
+  }
 
   return (
     <Field>
       <Text v="s1">Padding</Text>
       <Text v="overline" c="textSecondary">
-        {value}px
+        {padding}px
       </Text>
       <FieldSlider>
-        <Slider min={16} max={256} value={value} onChange={handleChange} />
+        <Slider min={16} max={256} value={padding} onChange={handleChange} />
       </FieldSlider>
     </Field>
   )

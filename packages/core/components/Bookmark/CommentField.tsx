@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TextField } from '../shared/TextField'
 import { Text } from '../shared/Text'
+import { TextField } from '../shared/TextField'
 
 const MAX = 140
 

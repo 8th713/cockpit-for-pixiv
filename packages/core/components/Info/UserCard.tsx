@@ -4,12 +4,11 @@ import { Author } from '../Author'
 import { Progress } from '../shared/Progress'
 
 export function UserCard() {
-  const { read } = IllustProvider.useValue()
+  const { read } = IllustProvider.use()
   const illust = read()
 
-  if (!illust) {
-    return null
-  }
+  if (!illust) return null
+
   return (
     <React.Suspense fallback={<Progress size={64} />}>
       <Author userId={illust.userId} />

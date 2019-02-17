@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, ripple } from '../theme'
 import { CheckboxOff, CheckboxOn } from '../shared/Icon'
+import { color, ripple } from '../theme'
 
 type Props = {
   checked: boolean
@@ -10,11 +10,10 @@ type Props = {
 }
 
 export function RestrictField(props: Props) {
-  const { checked } = props
-  const handleChange = React.useCallback(() => props.onChange(), [])
+  const { checked, onChange } = props
 
   return (
-    <Layout type="button" onClick={handleChange}>
+    <Layout type="button" onClick={onChange}>
       {checked ? <CheckboxOn c="primary" /> : <CheckboxOff c="textSecondary" />}
       <Text>非公開</Text>
     </Layout>

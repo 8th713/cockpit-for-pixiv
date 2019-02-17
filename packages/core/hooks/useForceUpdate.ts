@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useReducer } from 'react'
 
 export function useForceUpdate() {
-  const t = useState(undefined)
+  const [, update] = useReducer((bool: boolean) => !bool, false)
 
-  return t[1] as () => void
+  return () => update(0)
 }

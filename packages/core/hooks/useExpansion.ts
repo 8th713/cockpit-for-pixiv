@@ -1,17 +1,15 @@
-import { useRef, useCallback } from 'react'
 import { useStorage } from './useStorage'
 
-export function useExpansion() {
-  const [value, set] = useStorage('info', true)
-  const ref = useRef(value)
-  const toggle = useCallback((newValue?: boolean) => {
-    if (typeof newValue === 'undefined') {
-      set(v => !v)
-    } else if (newValue !== ref.current) {
-      set(newValue)
-    }
-  }, [])
+export function useExpansion(): [boolean, (force?: boolean) => void] {
+  const [opened, set] = useStorage('info', true)
 
-  ref.current = value
-  return { value, toggle }
+  function toggle(force?: boolean) {
+    if (typeof force === 'undefined') {
+      set(v => !v)
+    } else {
+      set(force)
+    }
+  }
+
+  return [opened, toggle]
 }

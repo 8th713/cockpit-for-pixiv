@@ -1,16 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color } from '../../theme'
+import { getDesc, keyMap } from '../../../constants'
 import { IllustProvider } from '../../../contexts'
+import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { Like } from '../../shared/Icon'
-import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants'
+import { color } from '../../theme'
 
 const title = getDesc('like')
 
 export function LikeButton() {
-  const { read, like } = IllustProvider.useValue()
+  const { read, like } = IllustProvider.use()
   const illust = read()
 
   if (!illust) {
@@ -30,6 +30,7 @@ export function LikeButton() {
       </FakeButton>
     )
   }
+
   return (
     <Button v="icon" onClick={like} title="いいね！(L)">
       <Like />

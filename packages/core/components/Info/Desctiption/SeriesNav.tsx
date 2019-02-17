@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Illust } from '../../../interfaces'
-import { Text } from '../../shared/Text'
 import { Collections } from '../../shared/Icon'
+import { Text } from '../../shared/Text'
 
 type Props = {
   illust: Illust
@@ -17,6 +17,7 @@ export function SeriesNav({ illust }: Props) {
   const { userId } = illust
   const { seriesId, title, order } = seriesNavData
   const href = `/user/${userId}/series/${seriesId}`
+
   return (
     <Layout v="b2">
       <Collections width="18" height="18" />

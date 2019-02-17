@@ -1,36 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
-import {
-  PickerProvider,
-  FitProvider,
-  SpreadProvider,
-  ExpansionProvider
-} from '../../contexts'
-import { Modal } from '../shared/Modal'
-import { Gallery } from '../Gallery'
-import { Info } from '../Info'
-import { Hotkeys } from '../Hotkeys'
 import { keyMap } from '../../constants'
+import { PickerProvider } from '../../contexts'
+import { Gallery } from '../Gallery'
+import { Hotkeys } from '../Hotkeys'
+import { Info } from '../Info'
+import { Modal } from '../shared/Modal'
 
 export function Article() {
-  const id = PickerProvider.useValue()
-  const { unsetElement, goNext, goPrev } = PickerProvider.useAction()
+  const { illustId, actions } = PickerProvider.use()
+  const { unsetElement, goNext, goPrev } = actions
 
-  if (id === null) {
+  if (illustId === null) {
     return null
   }
 
   return (
     <Modal open onRequestClose={unsetElement}>
       <Layout>
-        <FitProvider>
-          <SpreadProvider>
-            <Gallery />
-            <ExpansionProvider>
-              <Info />
-            </ExpansionProvider>
-          </SpreadProvider>
-        </FitProvider>
+        <Gallery />
+        <Info />
       </Layout>
       <Hotkeys {...keyMap.goNext} onKeyDown={goNext} />
       <Hotkeys {...keyMap.goPrev} onKeyDown={goPrev} />

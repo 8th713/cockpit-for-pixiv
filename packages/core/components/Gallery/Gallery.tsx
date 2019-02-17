@@ -1,37 +1,34 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { PickerProvider, BoardProvider } from '../../contexts'
+import { BoardProvider, PickerProvider } from '../../contexts'
 import { Progress } from '../shared/Progress'
+import { color } from '../theme'
 import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const illustId = PickerProvider.useValue()!
-  const { unsetElement, goFromEvent } = PickerProvider.useAction()
-  const ref = React.useRef<HTMLDivElement>(null)
+  const { illustId, actions } = PickerProvider.use()
+  const { unsetElement, goFromEvent } = actions
+  const [ref, , node] = BoardProvider.use()
 
   useEffect(() => {
-    const { current } = ref
-
-    if (current) {
-      current.scrollTop = 0
-      current.focus()
+    if (node) {
+      node.scrollTop = 0
+      node.focus()
     }
   }, [illustId])
 
   return (
-    <BoardProvider observe={ref}>
-      <ScrollView tabIndex={0} ref={ref} onClick={unsetElement}>
-        <React.Suspense
-          fallback={
-            <SimpleLayout>
-              <Progress onClick={goFromEvent} />
-            </SimpleLayout>
-          }
-        >
-          <Divide illustId={illustId} />
-        </React.Suspense>
-      </ScrollView>
-    </BoardProvider>
+    <ScrollView tabIndex={0} ref={ref} onClick={unsetElement}>
+      <React.Suspense
+        fallback={
+          <SimpleLayout>
+            <Progress onClick={goFromEvent} />
+          </SimpleLayout>
+        }
+      >
+        <Divide illustId={illustId!} />
+      </React.Suspense>
+    </ScrollView>
   )
 }
 
@@ -41,4 +38,8 @@ const ScrollView = styled.div`
   overflow: auto;
   width: 100%;
   flex: 100%;
+  &:focus {
+    outline: 1px solid ${color.primary};
+    outline-offset: -1px;
+  }
 `

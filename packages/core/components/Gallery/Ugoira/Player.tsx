@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { color, opacity } from '../../theme'
 import { PickerProvider } from '../../../contexts'
 import { usePlayer } from '../../../hooks'
 import { Button } from '../../shared/Button'
+import { Pause, Play, Stop } from '../../shared/Icon'
 import { Text } from '../../shared/Text'
-import { Play, Pause, Stop } from '../../shared/Icon'
+import { color, opacity } from '../../theme'
 
 type Frames = {
   image: HTMLImageElement
@@ -20,15 +20,16 @@ type Props = {
 }
 
 export function Player({ style, frames }: Props) {
-  const { goFromEvent } = PickerProvider.useAction()
-  const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  const { actions } = PickerProvider.use()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
+
   function handleClick(event: React.MouseEvent) {
     event.stopPropagation()
   }
 
   return (
-    <Layout style={style} onClick={goFromEvent}>
+    <Layout style={style} onClick={actions.goFromEvent}>
       <Canvas key={frames[0].image.src} ref={canvasRef} />
       <PlayControl onClick={handleClick}>
         <Button v="icon" onClick={palyer.toggle}>

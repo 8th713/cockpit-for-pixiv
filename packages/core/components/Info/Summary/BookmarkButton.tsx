@@ -1,12 +1,12 @@
 import React from 'react'
-import { BookmarkPost } from '../../../interfaces'
+import { getDesc, keyMap } from '../../../constants'
 import { IllustProvider } from '../../../contexts'
 import { useToggle } from '../../../hooks'
-import { Button } from '../../shared/Button'
-import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
+import { BookmarkPost } from '../../../interfaces'
 import { Bookmark } from '../../Bookmark'
 import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants'
+import { Button } from '../../shared/Button'
+import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
 
 const title = [
   getDesc('bookmark'),
@@ -15,31 +15,23 @@ const title = [
 ].join('\n')
 
 export function BookmarkButton() {
-  const { read, bookmark } = IllustProvider.useValue()
+  const { read, bookmark } = IllustProvider.use()
   const [opened, toggle] = useToggle(false)
-  const handleBookmark = React.useCallback(
-    (event: { shiftKey: boolean; ctrlKey: boolean }) => {
-      if (event.ctrlKey) {
-        toggle()
-        return
-      }
-      bookmark({ restrict: event.shiftKey })
-    },
-    [bookmark, toggle]
-  )
-  const handleSubmit = React.useCallback(
-    (post: BookmarkPost) => {
-      bookmark(post)
-      toggle(false)
-    },
-    [bookmark, toggle]
-  )
   const illust = read()
+
+  function handleBookmark(event: { shiftKey: boolean; ctrlKey: boolean }) {
+    if (event.ctrlKey) return toggle()
+
+    bookmark({ restrict: event.shiftKey })
+  }
+  function handleSubmit(body: BookmarkPost) {
+    bookmark(body)
+    toggle(false)
+  }
 
   if (!illust) {
     return <BookmarkButtonFallback />
   }
-
   if (illust.isBookmarkable === false) {
     return (
       <Button v="icon" disabled title={title}>
@@ -47,7 +39,9 @@ export function BookmarkButton() {
       </Button>
     )
   }
+
   const bookmarked = !!illust.bookmarkData
+
   return (
     <>
       <Button v="icon" onClick={handleBookmark} title={title}>

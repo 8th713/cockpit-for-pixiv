@@ -1,6 +1,6 @@
 import { Illust } from '../core/interfaces'
-import { fetchUgoira, fetchPages } from './fetcher'
-import { getExtension, getBlob, saveAs } from './utils'
+import { fetchPages, fetchUgoira } from './fetcher'
+import { getBlob, getExtension, saveAs } from './utils'
 
 export function download(illust: Illust) {
   // うごイラ

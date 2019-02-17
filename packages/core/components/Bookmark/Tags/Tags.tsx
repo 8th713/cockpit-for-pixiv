@@ -1,15 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Illust } from '../../../interfaces'
-import { splitTag } from '../utils'
-import { TagField } from './TagField'
-import { Tag, TagList } from './Tag'
-import { ReloadButton } from './ReloadButton'
-import { UserTags } from './UserTags'
-import { Text } from '../../shared/Text'
 import { Progress } from '../../shared/Progress'
+import { Text } from '../../shared/Text'
+import { splitTag } from '../utils'
+import { ReloadButton } from './ReloadButton'
 import { SortButtons } from './SortButtons'
-import { UserTagsProvider } from '../../../contexts'
+import { Tag, TagList } from './Tag'
+import { TagField } from './TagField'
+import { UserTags } from './UserTags'
 
 type Props = {
   illust: Illust
@@ -22,6 +21,7 @@ type Props = {
 export function Tags(props: Props) {
   const items = props.illust.tags.tags
   const tagList = splitTag(props.value)
+
   function isSelected(tag: string) {
     return tagList.includes(tag)
   }
@@ -47,20 +47,18 @@ export function Tags(props: Props) {
           ))}
         </TagList>
       </section>
-      <UserTagsProvider>
-        <section>
-          <Row>
-            <Text as="h2" v="s2">
-              あなたのブックマークタグ
-            </Text>
-            <SortButtons />
-            <ReloadButton />
-          </Row>
-          <React.Suspense fallback={<Progress size={64} />}>
-            <UserTags isSelected={isSelected} onTagging={props.onTagging} />
-          </React.Suspense>
-        </section>
-      </UserTagsProvider>
+      <section>
+        <Row>
+          <Text as="h2" v="s2">
+            あなたのブックマークタグ
+          </Text>
+          <SortButtons />
+          <ReloadButton />
+        </Row>
+        <React.Suspense fallback={<Progress size={64} />}>
+          <UserTags isSelected={isSelected} onTagging={props.onTagging} />
+        </React.Suspense>
+      </section>
     </>
   )
 }

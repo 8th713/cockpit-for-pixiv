@@ -1,5 +1,5 @@
 import wretch from 'wretch'
-import { Ugoira, Frame } from '../interfaces'
+import { Frame, Ugoira } from '../interfaces'
 import { createPool } from './threadPool'
 
 type EOCD = [number, number, number]
@@ -58,7 +58,6 @@ function getEntries(buffer: ArrayBuffer, [count, offset, size]: EOCD) {
       entries.push({ name, size, begin })
       p += nameLength + extraLength + cmtLength + 46
     } else {
-      console.error(`インデックス ${i} のエントリが取得できませんでした`)
       throw new Error(`インデックス ${i} のエントリが取得できませんでした`)
     }
   }

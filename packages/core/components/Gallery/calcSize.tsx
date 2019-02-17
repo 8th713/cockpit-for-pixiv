@@ -1,26 +1,28 @@
-import { Dimension } from '../../interfaces'
 import { FitStatus, SpreadStatus } from '../../constants'
+import { Dimension } from '../../interfaces'
 
 export function calcSize(
-  board: Dimension,
+  boardSize: Dimension,
   fit: FitStatus,
   spread: SpreadStatus,
-  image: Dimension,
+  imageSize: Dimension,
   multiple: boolean = false
 ) {
   if (fit === FitStatus.NONE) {
-    return image
+    return imageSize
   }
 
   const needSpread = multiple && spread !== SpreadStatus.NONE
-  const maxWidth = needSpread ? board.width / 2 : board.width
-  const scaleX = Math.min(maxWidth / image.width, 1)
+  const maxWidth = needSpread ? boardSize.width / 2 : boardSize.width
+  const scaleX = Math.min(maxWidth / imageSize.width, 1)
+
   if (fit === FitStatus.COVER) {
-    return calc(image, scaleX)
+    return calc(imageSize, scaleX)
   }
 
-  const scale = Math.min(scaleX, board.height / image.height, 1)
-  return calc(image, scale)
+  const scale = Math.min(scaleX, boardSize.height / imageSize.height, 1)
+
+  return calc(imageSize, scale)
 }
 
 function calc({ width, height }: Dimension, scale: number) {

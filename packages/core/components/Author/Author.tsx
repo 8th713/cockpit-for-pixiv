@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color, ripple } from '../theme'
+import { getDesc, keyMap } from '../../constants'
 import { useUser } from '../../hooks'
-import { AccountError, Add } from '../shared/Icon'
-import { Button } from '../shared/Button'
 import { Hotkeys } from '../Hotkeys'
-import { keyMap, getDesc } from '../../constants'
+import { Button } from '../shared/Button'
+import { AccountError, Add } from '../shared/Icon'
+import { color, ripple } from '../theme'
 
 type Props = {
   userId: string
@@ -43,7 +43,7 @@ export function Author({ userId }: Props) {
         <Avatar src={user.image} />
         {user.name}
       </Link>
-      {!isSelf && !user.isFollowed && (
+      {!isSelf(userId) && !user.isFollowed && (
         <Button v="contained" c="primary" title={title} onClick={handleFollow}>
           <Add width="18" height="18" />
           フォローする
@@ -51,7 +51,7 @@ export function Author({ userId }: Props) {
           <Hotkeys {...keyMap.privateFollow} onKeyDown={handleFollow} />
         </Button>
       )}
-      {!isSelf && user.isFollowed && (
+      {!isSelf(userId) && user.isFollowed && (
         <Button v="outlined" c="primary" title={title} onClick={handleFollow}>
           フォロー中
           <Hotkeys {...keyMap.follow} onKeyDown={handleFollow} />

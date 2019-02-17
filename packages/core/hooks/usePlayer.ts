@@ -1,13 +1,19 @@
-import { useRef, useState, RefObject, useLayoutEffect } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { Frame } from '../interfaces'
 
-export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
+export function usePlayer(
+  ref: React.RefObject<HTMLCanvasElement>,
+  frames: Frame[]
+) {
   const timerRef = useRef(0)
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+
   function draw(image: HTMLImageElement) {
     if (!image || !ref.current) return
+
     const canvas = ref.current
+
     if (canvas.width !== image.width) {
       canvas.width = image.width
     }
@@ -16,6 +22,7 @@ export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
     }
 
     const ctx = canvas.getContext('2d')!
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(image, 0, 0)
   }
@@ -47,6 +54,7 @@ export function usePlayer(ref: RefObject<HTMLCanvasElement>, frames: Frame[]) {
     const { delay, image } = frames[index]
 
     draw(image)
+
     if (!paused) {
       timerRef.current = window.setTimeout(next, delay)
     }

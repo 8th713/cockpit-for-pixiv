@@ -1,7 +1,7 @@
 import React from 'react'
-import { Page } from '../../../interfaces'
 import { BoardProvider, FitProvider, SpreadProvider } from '../../../contexts'
 import { useUgoira } from '../../../hooks'
+import { Page } from '../../../interfaces'
 import { calcSize } from '../calcSize'
 import { Player } from './Player'
 
@@ -13,17 +13,10 @@ type Props = {
 
 export function Img({ id, page }: Props) {
   const { read, retry } = useUgoira(id)
-  const handleRetry = React.useCallback(
-    (event: React.MouseEvent) => {
-      event.stopPropagation()
-      retry()
-    },
-    [retry]
-  )
-  const board = BoardProvider.useValue()
-  const fit = FitProvider.useValue()
-  const spread = SpreadProvider.useValue()
-  const { width, height } = calcSize(board, fit, spread, page)
+  const [, size] = BoardProvider.use()
+  const [fit] = FitProvider.use()
+  const [spread] = SpreadProvider.use()
+  const { width, height } = calcSize(size, fit, spread, page)
   const styles = {
     width,
     height,
@@ -38,6 +31,11 @@ export function Img({ id, page }: Props) {
   const frames = read()
 
   if (!frames) {
+    function handleRetry(event: React.MouseEvent) {
+      event.stopPropagation()
+      retry()
+    }
+
     return <canvas style={styles} onClick={handleRetry} />
   }
   return <Player frames={frames} style={styles} />

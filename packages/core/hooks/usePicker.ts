@@ -1,48 +1,48 @@
-import { useMemo, useEffect, MouseEvent as RMouseEvent } from 'react'
-import { useStateRef } from './useStateRef'
-import { NO_SCROLLBAR, INCLUDES, EXCLUDES } from '../constants'
+import { useEffect, useState } from 'react'
+import { EXCLUDES, INCLUDES, NO_SCROLLBAR } from '../constants'
 
 export function usePicker() {
-  const [element, set, get] = useStateRef<HTMLAnchorElement | null>(null)
-  const value = element ? getId(element) : null
-  const actions = useMemo(() => {
-    function go(n: number) {
-      const element = get()
-      if (!element) return
-      set(getSibling(element, n))
-    }
-    function goNext() {
-      go(1)
-    }
-    function goPrev() {
-      go(-1)
-    }
-    function goFromEvent(event: RMouseEvent) {
-      event.stopPropagation()
-      event.shiftKey ? goPrev() : goNext()
-    }
-    function unsetElement() {
-      set(null)
-    }
+  const [element, setElement] = useState<HTMLAnchorElement | null>(null)
+  const illustId = element ? getId(element) : null
 
-    return { goNext, goPrev, goFromEvent, unsetElement }
-  }, [])
+  function go(n: number) {
+    setElement(element => {
+      if (!element) return element
+
+      return getSibling(element, n)
+    })
+  }
+  function goNext() {
+    go(1)
+  }
+  function goPrev() {
+    go(-1)
+  }
+  function goFromEvent(event: React.MouseEvent) {
+    event.stopPropagation()
+    event.shiftKey ? goPrev() : goNext()
+  }
+  function unsetElement() {
+    setElement(null)
+  }
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
       const target = ensureAnchorElement(event.target as Element)
 
-      if (target && isIllustThumbnailAnchorElement(target)) {
-        event.preventDefault()
-        set(target)
-      }
+      if (!target) return
+      if (!isIllustThumbnailAnchorElement(target)) return
+
+      event.preventDefault()
+      setElement(target)
     }
     function handleMouseOver(event: MouseEvent) {
-      const target = (event.target as HTMLElement).closest('a')
+      const target = ensureAnchorElement(event.target as Element)
 
       if (!target) return
       if (target.style.cursor === 'zoom-in') return
       if (!isIllustThumbnailAnchorElement(target)) return
+
       target.style.cursor = 'zoom-in'
     }
 
@@ -65,7 +65,7 @@ export function usePicker() {
     }
   }, [element])
 
-  return { value, actions }
+  return { illustId, actions: { goNext, goPrev, goFromEvent, unsetElement } }
 }
 
 function ensureAnchorElement(element: Element) {

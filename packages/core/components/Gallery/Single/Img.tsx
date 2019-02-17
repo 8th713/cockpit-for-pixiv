@@ -1,12 +1,12 @@
 import React from 'react'
-import { Page } from '../../../interfaces'
 import {
-  PickerProvider,
   BoardProvider,
   FitProvider,
+  PickerProvider,
   SpreadProvider
 } from '../../../contexts'
 import { useImg } from '../../../hooks'
+import { Page } from '../../../interfaces'
 import { calcSize } from '../calcSize'
 
 type Props = {
@@ -15,11 +15,11 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { goFromEvent } = PickerProvider.useAction()
-  const board = BoardProvider.useValue()
-  const fit = FitProvider.useValue()
-  const spread = SpreadProvider.useValue()
-  const { width, height } = calcSize(board, fit, spread, page)
+  const { actions } = PickerProvider.use()
+  const [, size] = BoardProvider.use()
+  const [fit] = FitProvider.use()
+  const [spread] = SpreadProvider.use()
+  const { width, height } = calcSize(size, fit, spread, page)
   const src = useImg(page)
   const styles = {
     width,
@@ -36,7 +36,7 @@ export function Img({ page }: Props) {
       style={styles}
       width={width}
       height={height}
-      onClick={goFromEvent}
+      onClick={actions.goFromEvent}
     />
   )
 }

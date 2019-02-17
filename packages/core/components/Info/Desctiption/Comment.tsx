@@ -11,5 +11,6 @@ export function Comment({ illust }: Props) {
   const comment = illust.illustComment.trim()
 
   if (!comment) return null
+
   return <Text v="b2" dangerouslySetInnerHTML={{ __html: comment }} />
 }

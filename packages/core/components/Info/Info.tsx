@@ -1,35 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { color } from '../theme'
-import { ExpansionProvider, IllustProvider } from '../../contexts'
+import { InfoProvider } from '../../contexts'
 import { Divider } from '../shared/Divider'
-import { Summary } from './Summary'
-import { Desctiption } from './Desctiption'
-import { UserCard } from './UserCard'
 import { Progress } from '../shared/Progress'
+import { color } from '../theme'
+import { Desctiption } from './Desctiption'
+import { Summary } from './Summary'
+import { UserCard } from './UserCard'
 
 export function Info() {
-  const opened = ExpansionProvider.useValue()
+  const [opened] = InfoProvider.use()
 
   return (
-    <IllustProvider>
-      <Layout>
-        <Summary />
-        {opened && (
-          <>
-            <Divider m={16} />
-            <Details>
-              <React.Suspense fallback={<Progress size={64} />}>
-                <Desctiption />
-              </React.Suspense>
-              <React.Suspense fallback={<Progress size={64} />}>
-                <UserCard />
-              </React.Suspense>
-            </Details>
-          </>
-        )}
-      </Layout>
-    </IllustProvider>
+    <Layout>
+      <Summary />
+      {opened && (
+        <>
+          <Divider m={16} />
+          <Details>
+            <React.Suspense fallback={<Progress size={64} />}>
+              <Desctiption />
+            </React.Suspense>
+            <React.Suspense fallback={<Progress size={64} />}>
+              <UserCard />
+            </React.Suspense>
+          </Details>
+        </>
+      )}
+    </Layout>
   )
 }
 

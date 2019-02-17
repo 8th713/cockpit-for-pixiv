@@ -1,5 +1,5 @@
 import wretch from 'wretch'
-import { Ugoira, Pages } from '../core/interfaces'
+import { Pages, Ugoira } from '../core/interfaces'
 
 export function fetchUgoira(id: string) {
   return wretch(`/ajax/illust/${id}/ugoira_meta`)

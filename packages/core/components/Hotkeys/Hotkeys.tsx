@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 
 type Definition = {
   key: string
@@ -13,9 +13,9 @@ type Props = {
 }
 
 export function Hotkeys(props: Props) {
-  const definition = parseKeyName(props.keyName)
+  useEffect(() => {
+    const definition = parseKeyName(props.keyName)
 
-  React.useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (props.disabled) return
       if (testKey(event, definition)) {

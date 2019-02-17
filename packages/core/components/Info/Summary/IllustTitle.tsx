@@ -4,7 +4,7 @@ import { IllustProvider } from '../../../contexts'
 import { Text } from '../../shared/Text'
 
 export function IllustTitle() {
-  const { read } = IllustProvider.useValue()
+  const { read } = IllustProvider.use()
   const illust = read()
 
   if (!illust) {

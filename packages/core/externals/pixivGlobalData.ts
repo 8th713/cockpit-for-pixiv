@@ -1,4 +1,5 @@
 import { PixivGlobalData } from '../interfaces'
+import { LoggingService } from './logging'
 
 declare var pixiv: {
   context: {
@@ -16,18 +17,24 @@ declare var globalInitData: {
   }
 }
 
-const pixivGlobalData: PixivGlobalData = {
-  token: '',
-  userId: ''
-}
+export function createGlobalData(
+  loggingService: LoggingService
+): PixivGlobalData {
+  let token: string = ''
+  let userId: string = ''
 
-if (typeof pixiv !== 'undefined') {
-  pixivGlobalData.token = pixiv.context.token
-  pixivGlobalData.userId = pixiv.user.id
-} else if (typeof globalInitData !== 'undefined') {
-  pixivGlobalData.token = globalInitData.token
-  pixivGlobalData.userId = globalInitData.userData.id
+  if (typeof pixiv !== 'undefined') {
+    token = pixiv.context.token
+    userId = pixiv.user.id
+  } else if (typeof globalInitData !== 'undefined') {
+    token = globalInitData.token
+    userId = globalInitData.userData.id
+  }
+  if (!token || !userId) {
+    loggingService.log(
+      new Error('Unauthorized: can not get a token or user id')
+    )
+  }
+  console.log({ token, userId })
+  return { token, userId }
 }
-
-console.log(pixivGlobalData)
-export { pixivGlobalData }

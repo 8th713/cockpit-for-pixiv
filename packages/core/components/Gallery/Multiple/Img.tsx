@@ -1,12 +1,12 @@
 import React from 'react'
-import { Page } from '../../../interfaces'
 import {
-  PickerProvider,
   BoardProvider,
   FitProvider,
+  PickerProvider,
   SpreadProvider
 } from '../../../contexts'
-import { useIntersection, useLazyImg } from '../../../hooks'
+import { useLazyImg, useVisibility } from '../../../hooks'
+import { Page } from '../../../interfaces'
 import { calcSize } from '../calcSize'
 
 type Props = {
@@ -15,17 +15,16 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { goFromEvent } = PickerProvider.useAction()
-  const board = BoardProvider.useValue()
-  const fit = FitProvider.useValue()
-  const spread = SpreadProvider.useValue()
-  const { width, height } = calcSize(board, fit, spread, page, true)
-  const imgRef = React.useRef(null)
-  const entry = useIntersection(imgRef, {
-    root: board.ref.current,
+  const { actions } = PickerProvider.use()
+  const [, size, node] = BoardProvider.use()
+  const [fit] = FitProvider.use()
+  const [spread] = SpreadProvider.use()
+  const { width, height } = calcSize(size, fit, spread, page, true)
+  const [imgRef, inView] = useVisibility({
+    root: node,
     rootMargin: '32px'
   })
-  const src = useLazyImg(page, entry)
+  const src = useLazyImg(page, inView)
   const styles = {
     width,
     height,
@@ -42,7 +41,7 @@ export function Img({ page }: Props) {
       style={styles}
       width={width}
       height={height}
-      onClick={goFromEvent}
+      onClick={actions.goFromEvent}
     />
   )
 }

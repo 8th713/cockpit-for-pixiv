@@ -5,6 +5,8 @@ type Action = {
   payload?: any
 }
 
+export type AddonStore = ReturnType<typeof createAddonStore>
+
 export function createAddonStore() {
   let ports = new Map<string, MessagePort>()
 

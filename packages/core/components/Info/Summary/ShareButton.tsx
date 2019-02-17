@@ -1,19 +1,17 @@
 import React from 'react'
+import { getDesc, keyMap } from '../../../constants'
 import { IllustProvider } from '../../../contexts'
+import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { Tweet } from '../../shared/Icon'
-import { Hotkeys } from '../../Hotkeys'
-import { keyMap, getDesc } from '../../../constants'
 
 const title = getDesc('share')
 
 export function ShareButton() {
-  const { read, share } = IllustProvider.useValue()
+  const { read, share } = IllustProvider.use()
   const illust = read()
 
-  if (!illust) {
-    return <ShareButtonFallback />
-  }
+  if (!illust) return <ShareButtonFallback />
 
   return (
     <Button v="icon" onClick={share} title={title}>
