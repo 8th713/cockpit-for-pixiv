@@ -1,6 +1,6 @@
 import { LRUMap } from 'lru_map'
+import { useEffect, useRef } from 'react'
 import { useForceUpdate } from './useForceUpdate'
-import { useUnmount } from './useUnmount'
 
 type PendingResult = {
   status: typeof PENDING
@@ -108,7 +108,7 @@ export function createCacheHook<I extends string | number, V>(
   forceFetch = false
 ) {
   return function useCache(input: I) {
-    const unmounted = useUnmount()
+    const inputRef = useRef<I | null>(null)
     const forceUpdate = useForceUpdate()
 
     function read() {
@@ -136,30 +136,37 @@ export function createCacheHook<I extends string | number, V>(
     function remove() {
       cache.delete(input)
 
-      if (unmounted.current) return
+      if (input !== inputRef.current) return
 
       forceUpdate()
     }
     function replace(value: V) {
       setResolved(cache, input, value)
 
-      if (unmounted.current) return
+      if (input !== inputRef.current) return
 
       forceUpdate()
     }
-    function reload(rollback?: V) {
+    function reload(alternative?: V) {
       fetch(input).then(replace, error => {
-        if (rollback) {
-          replace(rollback)
+        if (alternative) {
+          replace(alternative)
         } else {
           setRejected(cache, input, error)
 
-          if (unmounted.current) return
+          if (input !== inputRef.current) return
 
           forceUpdate()
         }
       })
     }
+
+    useEffect(() => {
+      inputRef.current = input
+      return () => {
+        inputRef.current = null
+      }
+    }, [input])
 
     return { read, remove, replace, reload }
   }
