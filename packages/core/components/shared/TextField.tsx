@@ -13,7 +13,13 @@ export const TextField = React.forwardRef<HTMLInputElement, Props>(
 
     return (
       <Box>
-        <Input ref={ref} {...rest} aria-invalid={invalid} />
+        <Input
+          ref={ref}
+          type="text"
+          placeholder=" "
+          {...rest}
+          aria-invalid={invalid}
+        />
         <Label>{children}</Label>
         <Line />
         <Overlay />
@@ -21,10 +27,6 @@ export const TextField = React.forwardRef<HTMLInputElement, Props>(
     )
   }
 )
-TextField.defaultProps = {
-  type: 'text',
-  placeholder: ' '
-}
 
 const Box = styled.label`
   position: relative;
