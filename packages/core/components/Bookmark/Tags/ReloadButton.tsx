@@ -7,7 +7,7 @@ export function ReloadButton() {
   const { retry } = UserTagsProvider.use()
 
   return (
-    <Button v="icon" type="button" onClick={retry} title="再読込">
+    <Button v="icon" type="button" onClick={() => retry()} title="再読込">
       <Refresh />
     </Button>
   )
