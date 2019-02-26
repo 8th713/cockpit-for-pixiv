@@ -1,7 +1,11 @@
 import { useReducer } from 'react'
 
 export function useForceUpdate() {
-  const [, update] = useReducer((bool: boolean) => !bool, false)
+  const [, update] = useReducer(reducer, false)
 
-  return () => update(0)
+  return update as () => void
+}
+
+function reducer(on: boolean) {
+  return !on
 }
