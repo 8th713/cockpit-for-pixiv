@@ -3,7 +3,7 @@ import { ClientContext } from '../contexts'
 
 export function useUser(userId: string) {
   const { useUserCache, followUser, isSelf } = useContext(ClientContext)
-  const { read, remove: retry, replace, reload } = useUserCache(userId)
+  const { read, replace, reload: retry } = useUserCache(userId)
 
   function follow(restrict: boolean = false) {
     if (isSelf(userId)) return
@@ -15,7 +15,7 @@ export function useUser(userId: string) {
     replace({ ...user, isFollowed: true })
     followUser(userId, restrict).then(value => {
       if (value) {
-        reload()
+        retry()
       } else {
         replace(user)
       }

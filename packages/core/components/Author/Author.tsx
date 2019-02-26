@@ -29,7 +29,7 @@ export function Author({ userId }: Props) {
           <AccountError width="40" height="40" />
           取得できませんでした
         </Link>
-        <Button v="outlined" c="primary" onClick={retry}>
+        <Button v="outlined" c="primary" onClick={() => retry()}>
           <Add width="18" height="18" />
           再読込
         </Button>

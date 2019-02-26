@@ -10,7 +10,7 @@ export function RefreshButton() {
   if (illust) return null
 
   return (
-    <Button v="icon" onClick={retry} title="再読込">
+    <Button v="icon" onClick={() => retry()} title="再読込">
       <Refresh />
     </Button>
   )

@@ -6,7 +6,7 @@ import { BookmarkPost, DownloadRequestAction, Illust } from '../interfaces'
 export function useIllust(illustId: string) {
   const addonStore = useContext(AddonContext)
   const { useIllustCache, likeBy, bookmarkBy } = useContext(ClientContext)
-  const { read, remove: retry, replace, reload } = useIllustCache(illustId)
+  const { read, replace, reload: retry } = useIllustCache(illustId)
   const canDonwload = addonStore.isConnected('download')
 
   function like() {
@@ -19,7 +19,7 @@ export function useIllust(illustId: string) {
     replace(likeIllust(illust))
     likeBy(illustId).then(value => {
       if (value) {
-        reload()
+        retry()
       } else {
         replace(illust)
       }
@@ -34,7 +34,7 @@ export function useIllust(illustId: string) {
     replace(bookmarkIllust(illust))
     bookmarkBy(illustId, body).then(value => {
       if (value) {
-        reload()
+        retry()
       } else {
         replace(illust)
       }

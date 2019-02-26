@@ -16,7 +16,7 @@ export function Content(props: Props) {
   const formData = read()
 
   if (!formData) {
-    return <div onClick={retry}>取得できませんでした</div>
+    return <div onClick={() => retry()}>取得できませんでした</div>
   }
 
   return <Form {...props} data={formData} />

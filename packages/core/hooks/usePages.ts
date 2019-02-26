@@ -3,7 +3,7 @@ import { ClientContext } from '../contexts'
 
 export function usePages(illustId: string) {
   const { usePageCache } = useContext(ClientContext)
-  const { read, remove: retry } = usePageCache(illustId)
+  const { read, reload: retry } = usePageCache(illustId)
 
   return { read, retry }
 }
