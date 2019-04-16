@@ -213,10 +213,13 @@ export function createAPIClient(
       'form[action^="bookmark_add.php"]'
     )!
     const data = new FormData(form)
+    const script = doc.querySelector('.tag-cloud-container + script')!
+    const userTags = parseUserTagList(script.innerHTML)
     const res: BookmarkForm = {
       comment: '',
       tags: '',
-      restrict: 0
+      restrict: 0,
+      userTags
     }
 
     for (const [name, value] of data.entries()) {
@@ -228,28 +231,14 @@ export function createAPIClient(
         res.restrict = Number(value) as 0 | 1
       }
     }
+
     return res
   }
+  function parseUserTagList(text: string) {
+    const parsedText = JSON.parse(text.slice(21, -1))
+    const userTags: AccountTagList = JSON.parse(parsedText)
 
-  /**
-   * アカウントタグリスト
-   *
-   * GET /rpc/illust_bookmark_tags.php
-   * @param {'lev,total'} attributes 要求属性名リスト
-   * @param {string} tt トークン
-   */
-  function fetchUserTags(_: string) {
-    return wretch('/rpc/illust_bookmark_tags.php')
-      .options({ credentials: 'same-origin', cache: 'no-cache' })
-      .content('application/json')
-      .errorType('json')
-      .query({ attributes: 'lev,total', tt: token })
-      .get()
-      .json(parseAccountTagList)
-      .catch(handleError(`fetchUserTags()`))
-  }
-  function parseAccountTagList(json: AccountTagList) {
-    return Object.entries(json).map(([name, value]) => ({
+    return Object.entries(userTags).map(([name, value]) => ({
       ...value,
       name
     }))
@@ -264,7 +253,6 @@ export function createAPIClient(
     new LRUMap(1),
     true
   )
-  const useUserTagsCache = createCacheHook(fetchUserTags, new LRUMap(1))
 
   return {
     token,
@@ -278,7 +266,6 @@ export function createAPIClient(
     bookmarkBy,
     useUserCache,
     followUser,
-    useBookmarkCache,
-    useUserTagsCache
+    useBookmarkCache
   }
 }
