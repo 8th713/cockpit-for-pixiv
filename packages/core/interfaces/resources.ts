@@ -241,6 +241,11 @@ export interface BookmarkForm {
   comment: string
   tags: string
   restrict: 0 | 1
+  userTags: {
+    name: string
+    lev: number
+    total: number
+  }[]
 }
 
 /**

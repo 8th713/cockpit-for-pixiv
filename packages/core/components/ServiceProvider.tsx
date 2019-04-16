@@ -11,7 +11,7 @@ import {
   PaddingProvider,
   PickerProvider,
   SpreadProvider,
-  UserTagsProvider
+  TagSortProvider
 } from '../contexts'
 import { AddonStore } from '../externals/addonStore'
 import { APIClient } from '../externals/apiClient'
@@ -34,13 +34,13 @@ export function ServiceProvider(props: Props) {
               <FitProvider>
                 <SpreadProvider>
                   <InfoProvider>
-                    <UserTagsProvider>
+                    <TagSortProvider>
                       <PickerProvider>
                         <IllustProvider>
                           <BoardProvider>{props.children}</BoardProvider>
                         </IllustProvider>
                       </PickerProvider>
-                    </UserTagsProvider>
+                    </TagSortProvider>
                   </InfoProvider>
                 </SpreadProvider>
               </FitProvider>

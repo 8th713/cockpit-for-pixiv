@@ -34,6 +34,14 @@ export const TagList = styled.div`
   background-color: ${color.divider};
 `
 
+export const TagListHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  height: 48px;
+`
+
 const Button = styled.button`
   cursor: pointer;
   user-select: none;
