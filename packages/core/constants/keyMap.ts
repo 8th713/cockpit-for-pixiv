@@ -1,4 +1,10 @@
-export const keyMap = {
+export const keyMap: {
+  [key: string]: {
+    keyName: string
+    children: string
+    title?: string
+  }
+} = {
   goNext: { keyName: 'j', children: '次の作品に移動' },
   goPrev: { keyName: 'k', children: '前の作品に移動' },
   fit: { keyName: 'v', children: '縮尺モード切り替え' },
@@ -6,12 +12,24 @@ export const keyMap = {
   info: { keyName: 'i', children: '情報欄表示切り替え' },
   like: { keyName: 'l', children: 'いいね！' },
   bookmark: { keyName: 'b', children: 'ブックマーク' },
-  privateBookmark: { keyName: '⇧b', children: '非公開ブックマーク' },
-  openBookmark: { keyName: '^b', children: 'ブックマークフォーム表示' },
+  privateBookmark: {
+    keyName: '⇧b',
+    children: '非公開ブックマーク',
+    title: 'Shift + b'
+  },
+  openBookmark: {
+    keyName: '^b',
+    children: 'ブックマークフォーム表示',
+    title: 'Ctrl + b'
+  },
   download: { keyName: 'd', children: 'ダウンロード' },
   share: { keyName: 't', children: 'Twitterでシェア' },
   follow: { keyName: 'f', children: 'フォロー' },
-  privateFollow: { keyName: '⇧f', children: '非公開フォロー' },
+  privateFollow: {
+    keyName: '⇧f',
+    children: '非公開フォロー',
+    title: 'Shift + f'
+  },
   help: { keyName: '?', children: 'ヘルプ' }
 }
 

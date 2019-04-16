@@ -12,7 +12,7 @@ export function ShortcutsList() {
     () =>
       items.map(item => (
         <KeyItem key={item.keyName}>
-          <Kbd>{item.keyName}</Kbd>
+          <Kbd title={item.title}>{item.keyName}</Kbd>
           <Text as="span" v="b2" c="textSecondary">
             {item.children}
           </Text>
