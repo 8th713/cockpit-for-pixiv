@@ -38,6 +38,7 @@ export function Form(props: Props) {
       <CommentField {...comment.inputProps} />
       <Tags
         illust={props.illust}
+        userTags={props.data.userTags}
         {...tags.inputProps}
         onTagging={handleTagging}
       />

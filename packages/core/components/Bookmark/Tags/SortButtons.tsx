@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Column } from '../../../constants'
-import { UserTagsProvider } from '../../../contexts'
+import { TagSortProvider } from '../../../contexts'
 import { Button } from '../../shared/Button'
 
 export function SortButtons() {
-  const context = UserTagsProvider.use()
+  const context = TagSortProvider.use()
   const columnBtnStyle = btnStyle(context, Column.NAME)
   const totalBtnStyle = btnStyle(context, Column.TOTAL)
 
@@ -36,7 +36,7 @@ const ButtonArea = styled.div`
 `
 
 function btnStyle(
-  condition: ReturnType<typeof UserTagsProvider.use>,
+  condition: ReturnType<typeof TagSortProvider.use>,
   type: Column
 ) {
   const color: 'default' | 'primary' =
