@@ -1,10 +1,10 @@
 import React from 'react'
-import { IllustProvider } from '../../../contexts'
+import { useIllustContext } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { Refresh } from '../../shared/Icon'
 
 export function RefreshButton() {
-  const { read, retry } = IllustProvider.use()
+  const { read, retry } = useIllustContext()
   const illust = read()
 
   if (illust) return null

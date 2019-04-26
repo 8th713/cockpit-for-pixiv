@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { getDesc, keyMap } from '../../../constants'
-import { IllustProvider } from '../../../contexts'
+import { useIllustContext } from '../../../hooks'
 import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { Like } from '../../shared/Icon'
@@ -10,7 +10,7 @@ import { color } from '../../theme'
 const title = getDesc('like')
 
 export function LikeButton() {
-  const { read, like } = IllustProvider.use()
+  const { read, like } = useIllustContext()
   const illust = read()
 
   if (!illust) {

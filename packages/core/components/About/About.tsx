@@ -1,6 +1,6 @@
 import React from 'react'
 import { keyMap } from '../../constants'
-import { AboutProvider } from '../../contexts'
+import { useAboutContext } from '../../hooks'
 import { Hotkeys } from '../Hotkeys'
 import { Dialog } from '../shared/Dialog'
 import { Divider } from '../shared/Divider'
@@ -10,7 +10,7 @@ import { ShortcutsList } from './ShortcutsList'
 import { Signature } from './Signature'
 
 export function About() {
-  const [opened, toggle] = AboutProvider.use()
+  const [opened, toggle] = useAboutContext()
 
   function handleRequestClose() {
     toggle()

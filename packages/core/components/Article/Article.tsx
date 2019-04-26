@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import { keyMap } from '../../constants'
-import { PickerProvider } from '../../contexts'
+import { usePickerContext } from '../../hooks'
 import { Gallery } from '../Gallery'
 import { Hotkeys } from '../Hotkeys'
 import { Info } from '../Info'
 import { Modal } from '../shared/Modal'
 
 export function Article() {
-  const { illustId, actions } = PickerProvider.use()
+  const { illustId, actions } = usePickerContext()
   const { unsetElement, goNext, goPrev } = actions
 
   if (illustId === null) {

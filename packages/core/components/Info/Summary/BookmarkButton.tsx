@@ -1,7 +1,6 @@
 import React from 'react'
 import { getDesc, keyMap } from '../../../constants'
-import { IllustProvider } from '../../../contexts'
-import { useToggle } from '../../../hooks'
+import { useIllustContext, useToggle } from '../../../hooks'
 import { BookmarkPost } from '../../../interfaces'
 import { Bookmark } from '../../Bookmark'
 import { Hotkeys } from '../../Hotkeys'
@@ -15,7 +14,7 @@ const title = [
 ].join('\n')
 
 export function BookmarkButton() {
-  const { read, bookmark } = IllustProvider.use()
+  const { read, bookmark } = useIllustContext()
   const [opened, toggle] = useToggle(false)
   const illust = read()
 

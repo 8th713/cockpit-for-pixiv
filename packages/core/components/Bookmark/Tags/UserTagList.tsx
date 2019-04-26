@@ -1,5 +1,5 @@
 import React from 'react'
-import { TagSortProvider } from '../../../contexts'
+import { useSortContext } from '../../../hooks'
 import { BookmarkForm } from '../../../interfaces'
 import { Text } from '../../shared/Text'
 import { sortBy } from '../utils'
@@ -15,7 +15,7 @@ type Props = {
 
 export function UserTagList(props: Props) {
   const { tags, isSelected, onTagging } = props
-  const { column, direction } = TagSortProvider.use()
+  const { column, direction } = useSortContext()
   const sortedTags = sortBy(tags, column, direction)
 
   return (

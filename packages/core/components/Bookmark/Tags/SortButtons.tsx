@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Column } from '../../../constants'
-import { TagSortProvider } from '../../../contexts'
+import { useSortContext } from '../../../hooks'
 import { Button } from '../../shared/Button'
 
 export function SortButtons() {
-  const context = TagSortProvider.use()
+  const context = useSortContext()
   const columnBtnStyle = btnStyle(context, Column.NAME)
   const totalBtnStyle = btnStyle(context, Column.TOTAL)
 
@@ -35,10 +35,7 @@ const ButtonArea = styled.div`
   align-items: center;
 `
 
-function btnStyle(
-  condition: ReturnType<typeof TagSortProvider.use>,
-  type: Column
-) {
+function btnStyle(condition: ReturnType<typeof useSortContext>, type: Column) {
   const color: 'default' | 'primary' =
     condition.column === type ? 'default' : 'primary'
   const arrow = condition.column === type ? condition.direction : ''
