@@ -1,7 +1,8 @@
 import { Column, Direction } from '../constants'
 import { useStorage } from './useStorage'
+import { createUseContext } from './createUseContext'
 
-export function useSort() {
+export const useSortContext = createUseContext(function useSort() {
   const [column, setColumn] = useStorage('sortColumn', Column.TOTAL)
   const [direction, setDirection] = useStorage('sortDirection', Direction.DESC)
 
@@ -22,4 +23,4 @@ export function useSort() {
   }
 
   return { column, direction, sortByTotal, sortByName }
-}
+})

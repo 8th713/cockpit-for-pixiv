@@ -1,11 +1,12 @@
 import React from 'react'
 import {
-  BoardProvider,
-  FitProvider,
-  PickerProvider,
-  SpreadProvider
-} from '../../../contexts'
-import { useLazyImg, useVisibility } from '../../../hooks'
+  useBoardContext,
+  useFitContext,
+  useLazyImg,
+  usePickerContext,
+  useSpreadContext,
+  useVisibility
+} from '../../../hooks'
 import { Page } from '../../../interfaces'
 import { calcSize } from '../calcSize'
 
@@ -15,10 +16,10 @@ type Props = {
 }
 
 export function Img({ page }: Props) {
-  const { actions } = PickerProvider.use()
-  const [, size, node] = BoardProvider.use()
-  const [fit] = FitProvider.use()
-  const [spread] = SpreadProvider.use()
+  const { actions } = usePickerContext()
+  const [, size, node] = useBoardContext()
+  const [fit] = useFitContext()
+  const [spread] = useSpreadContext()
   const { width, height } = calcSize(size, fit, spread, page, true)
   const [imgRef, inView] = useVisibility({
     root: node,

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { InfoProvider } from '../../contexts'
+import { useExpansionContext } from '../../hooks'
 import { Divider } from '../shared/Divider'
 import { Progress } from '../shared/Progress'
 import { color } from '../theme'
@@ -9,7 +9,7 @@ import { Summary } from './Summary'
 import { UserCard } from './UserCard'
 
 export function Info() {
-  const [opened] = InfoProvider.use()
+  const [opened] = useExpansionContext()
 
   return (
     <Layout>

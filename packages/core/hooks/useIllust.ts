@@ -2,8 +2,12 @@ import { useContext } from 'react'
 import { AddonContext, ClientContext } from '../contexts'
 import { openTwitter } from '../externals/share'
 import { BookmarkPost, DownloadRequestAction, Illust } from '../interfaces'
+import { createUseContext } from './createUseContext'
+import { usePickerContext } from './usePicker'
 
-export function useIllust(illustId: string) {
+export const useIllustContext = createUseContext(function useIllust() {
+  const picker = usePickerContext()
+  const illustId = picker.illustId!
   const addonStore = useContext(AddonContext)
   const { useIllustCache, likeBy, bookmarkBy } = useContext(ClientContext)
   const { read, replace, reload: retry } = useIllustCache(illustId)
@@ -63,7 +67,7 @@ export function useIllust(illustId: string) {
   }
 
   return { read, retry, like, bookmark, share, download, canDonwload }
-}
+})
 
 function likeIllust(illust: Illust): Illust {
   const likeCount = illust.likeCount + 1

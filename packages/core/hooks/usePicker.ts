@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { EXCLUDES, INCLUDES, NO_SCROLLBAR } from '../constants'
+import { createUseContext } from './createUseContext'
 
-export function usePicker() {
+export const usePickerContext = createUseContext(function usePicker() {
   const [element, setElement] = useState<HTMLAnchorElement | null>(null)
   const illustId = element ? getId(element) : null
 
@@ -66,7 +67,7 @@ export function usePicker() {
   }, [element])
 
   return { illustId, actions: { goNext, goPrev, goFromEvent, unsetElement } }
-}
+})
 
 function ensureAnchorElement(element: Element) {
   if (element.matches(EXCLUDES)) return null

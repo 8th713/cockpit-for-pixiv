@@ -1,7 +1,11 @@
 import { FitStatus } from '../constants'
 import { useStorage } from './useStorage'
+import { createUseContext } from './createUseContext'
 
-export function useFit(): [FitStatus, () => void] {
+export const useFitContext = createUseContext(function useFit(): [
+  FitStatus,
+  () => void
+] {
   const [status, set] = useStorage('fit', FitStatus.COVER)
 
   function cycle() {
@@ -9,4 +13,4 @@ export function useFit(): [FitStatus, () => void] {
   }
 
   return [status, cycle]
-}
+})

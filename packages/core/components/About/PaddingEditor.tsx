@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { PaddingProvider } from '../../contexts'
+import { usePaddingContext } from '../../hooks'
 import { Slider } from '../shared/Slider'
 import { Text } from '../shared/Text'
 
 export function PaddingEditor() {
-  const [padding, setPadding] = PaddingProvider.use()
+  const [padding, setPadding] = usePaddingContext()
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setPadding(event.target.valueAsNumber)

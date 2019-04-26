@@ -1,7 +1,11 @@
 import { SpreadStatus } from '../constants'
 import { useStorage } from '../hooks'
+import { createUseContext } from './createUseContext'
 
-export function useSpread(): [SpreadStatus, () => void] {
+export const useSpreadContext = createUseContext(function useSpread(): [
+  SpreadStatus,
+  () => void
+] {
   const [status, set] = useStorage('spread', SpreadStatus.SPREAD)
 
   function cycle() {
@@ -9,4 +13,4 @@ export function useSpread(): [SpreadStatus, () => void] {
   }
 
   return [status, cycle]
-}
+})

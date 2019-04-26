@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
-import { PickerProvider } from '../../../contexts'
-import { usePlayer } from '../../../hooks'
+import { usePickerContext, usePlayer } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { Pause, Play, Stop } from '../../shared/Icon'
 import { Text } from '../../shared/Text'
@@ -20,7 +19,7 @@ type Props = {
 }
 
 export function Player({ style, frames }: Props) {
-  const { actions } = PickerProvider.use()
+  const { actions } = usePickerContext()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const palyer = usePlayer(canvasRef, frames)
 

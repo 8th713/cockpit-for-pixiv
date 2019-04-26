@@ -1,13 +1,13 @@
 import React from 'react'
 import { getDesc } from '../../../constants'
-import { AboutProvider } from '../../../contexts'
+import { useAboutContext } from '../../../hooks'
 import { Button } from '../../shared/Button'
 import { Help } from '../../shared/Icon'
 
 const title = getDesc('help')
 
 export function HelpButton() {
-  const [, toggle] = AboutProvider.use()
+  const [, toggle] = useAboutContext()
 
   function handleClick() {
     toggle()

@@ -1,6 +1,6 @@
 import React from 'react'
 import { getDesc, keyMap, SpreadStatus } from '../../../constants'
-import { SpreadProvider } from '../../../contexts'
+import { useSpreadContext } from '../../../hooks'
 import { Hotkeys } from '../../Hotkeys'
 import { Button } from '../../shared/Button'
 import { Spread, SpreadNone, SpreadShift } from '../../shared/Icon'
@@ -8,7 +8,7 @@ import { Spread, SpreadNone, SpreadShift } from '../../shared/Icon'
 const title = getDesc('spread')
 
 export function SpreadButton() {
-  const [value, cycle] = SpreadProvider.use()
+  const [value, cycle] = useSpreadContext()
 
   return (
     <Button v="icon" onClick={cycle} title={title}>

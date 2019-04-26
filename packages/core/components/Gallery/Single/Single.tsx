@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { PaddingProvider } from '../../../contexts'
+import { usePaddingContext } from '../../../hooks'
 import { Page } from '../../../interfaces'
 import { Img } from './Img'
 
@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function Single({ page }: Props) {
-  const [padding] = PaddingProvider.use()
+  const [padding] = usePaddingContext()
 
   return (
     <Layout style={{ padding }}>

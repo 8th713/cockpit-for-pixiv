@@ -1,6 +1,10 @@
 import { useStorage } from './useStorage'
+import { createUseContext } from './createUseContext'
 
-export function useExpansion(): [boolean, (force?: boolean) => void] {
+export const useExpansionContext = createUseContext(function useExpansion(): [
+  boolean,
+  (force?: boolean) => void
+] {
   const [opened, set] = useStorage('info', true)
 
   function toggle(force?: boolean) {
@@ -12,4 +16,4 @@ export function useExpansion(): [boolean, (force?: boolean) => void] {
   }
 
   return [opened, toggle]
-}
+})

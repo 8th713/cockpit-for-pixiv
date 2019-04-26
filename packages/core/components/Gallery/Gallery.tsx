@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { BoardProvider, PickerProvider } from '../../contexts'
+import { useBoardContext, usePickerContext } from '../../hooks'
 import { Progress } from '../shared/Progress'
 import { color } from '../theme'
 import { Divide, SimpleLayout } from './Divide'
 
 export function Gallery() {
-  const { illustId, actions } = PickerProvider.use()
+  const { illustId, actions } = usePickerContext()
   const { unsetElement, goFromEvent } = actions
-  const [ref, , node] = BoardProvider.use()
+  const [ref, , node] = useBoardContext()
 
   useEffect(() => {
     if (node) {
