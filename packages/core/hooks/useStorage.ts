@@ -7,10 +7,7 @@ const PREFIX = 'cockpit'
  * Returns a stateful value, and a function to update it.
  * When the value is updated, it is store to the storage.
  */
-export function useStorage<T>(
-  key: string,
-  defaultValue: T
-): [T, React.Dispatch<React.SetStateAction<T>>] {
+export function useStorage<T>(key: string, defaultValue: T) {
   const storage = useContext(StorageContext)
   const [value, set] = useState(() => load(storage, key, defaultValue))
 
@@ -22,7 +19,7 @@ export function useStorage<T>(
     set(load(storage, key, defaultValue))
   }, [key, storage])
 
-  return [value, set]
+  return [value, set] as const
 }
 
 function load<T>(storage: Storage, key: string, defaultValue: T): T {
