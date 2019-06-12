@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     // Basic Options
-    "target": "es2017",
+    "target": "es2018",
     "module": "esnext",
     // dafault es2017.full.d.ts
     // "lib": ["es2017", "dom"],
     "allowJs": true,
     "jsx": "react",
     "sourceMap": true,
-    "outDir": "build/dist",
+    "outDir": "docs",
     "rootDir": "packages",
     "noEmit": true,
 
@@ -33,6 +33,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "packages/**/*"
+    "packages"
   ]
 }
