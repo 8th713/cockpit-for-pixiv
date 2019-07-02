@@ -6,7 +6,7 @@
     // dafault es2017.full.d.ts
     // "lib": ["es2017", "dom"],
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "preserve",
     "sourceMap": true,
     "outDir": "docs",
     "rootDir": "packages",

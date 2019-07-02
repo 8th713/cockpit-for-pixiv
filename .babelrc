@@ -5,7 +5,9 @@
     "@babel/typescript"
   ],
   "plugins": [
-    "babel-plugin-styled-components",
+    ["babel-plugin-styled-components", {
+      "ssr": false
+    }],
     "@babel/proposal-class-properties",
     "@babel/proposal-object-rest-spread"
   ]
