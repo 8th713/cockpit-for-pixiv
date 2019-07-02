@@ -6,7 +6,7 @@ export type Dimension = {
   height: number
 }
 
-export interface PixivGlobalData {
+export interface GlobalData {
   token: string
   userId: string
 }
@@ -41,4 +41,10 @@ export type Frame = {
   image: HTMLImageElement
   delay: number
   file: string
+}
+
+export type KeyDefinition = {
+  keyName: string
+  children: string
+  title?: string
 }
