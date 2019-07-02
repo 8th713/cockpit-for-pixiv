@@ -1,20 +1,21 @@
-import wretch from 'wretch'
+import ky from 'ky'
 import { Pages, Ugoira } from '../core/interfaces'
 
-export function fetchUgoira(id: string) {
-  return wretch(`/ajax/illust/${id}/ugoira_meta`)
-    .options({ credentials: 'same-origin', cache: 'no-cache' })
-    .content('application/json')
-    .errorType('json')
-    .resolve(resolver => resolver.json(data => data.body))
-    .get() as Promise<Ugoira>
+const api = ky.create({
+  credentials: 'same-origin',
+  cache: 'no-cache'
+})
+
+export async function fetchUgoira(id: string) {
+  const data = await api
+    .get(`/ajax/illust/${id}/ugoira_meta`)
+    .json<{ body: Ugoira }>()
+
+  return data.body
 }
 
-export function fetchPages(id: string) {
-  return wretch(`/ajax/illust/${id}/pages`)
-    .options({ credentials: 'same-origin', cache: 'no-cache' })
-    .content('application/json')
-    .errorType('json')
-    .resolve(resolver => resolver.json(data => data.body))
-    .get() as Promise<Pages>
+export async function fetchPages(id: string) {
+  const data = await api.get(`/ajax/illust/${id}/pages`).json<{ body: Pages }>()
+
+  return data.body
 }
