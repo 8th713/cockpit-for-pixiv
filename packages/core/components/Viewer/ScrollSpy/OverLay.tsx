@@ -9,7 +9,9 @@ type Props = {
 }
 
 export function OverLay({ pages }: Props) {
-  const [{ index }, , scroll] = useScrollSpy()
+  const [{ index, isBottom }, , scroll] = useScrollSpy()
+  const needPrev = index > 0
+  const needNext = !isBottom
 
   return (
     <>
@@ -19,8 +21,8 @@ export function OverLay({ pages }: Props) {
         </ChipContainer>
       </Root>
       <Root>
-        <Prev tabIndex={-1} onClick={scroll.prev} />
-        <Next tabIndex={-1} onClick={scroll.next} />
+        {needPrev && <Prev tabIndex={-1} onClick={scroll.prev} />}
+        {needNext && <Next tabIndex={-1} onClick={scroll.next} />}
       </Root>
     </>
   )
