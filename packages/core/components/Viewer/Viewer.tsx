@@ -1,31 +1,48 @@
 import React from 'react'
-import { FullSizeViewLoader } from './FullSizeView'
-import { StandardViewLoader } from './StandardView'
-import { PagesHost } from './PagesHost'
-import { Info } from '../Info'
-import { ScrollSpy } from './ScrollSpy'
 import { FullSizeMode } from './FullSizeMode'
+import { FullSizeView } from './FullSizeView'
+import { PagesHost, usePages } from './PagesHost'
+import { ScrollSpy } from './ScrollSpy'
+import { StandardView, StandardViewMock } from './StandardView'
 
 type Props = {
   id: string
+  children?: React.ReactNode
 }
 
-export function Viewer({ id }: Props) {
-  const children = <Info id={id} />
+export function Viewer({ id, children }: Props) {
   return (
     <FullSizeMode>
       <ScrollSpy id={id}>
         <PagesHost id={id}>
           <React.Suspense
-            fallback={
-              <StandardViewLoader.Mock>{children}</StandardViewLoader.Mock>
-            }
+            fallback={<StandardViewMock>{children}</StandardViewMock>}
           >
-            <StandardViewLoader>{children}</StandardViewLoader>
-            <FullSizeViewLoader />
+            <PageLoader id={id}>{children}</PageLoader>
+            <FullSizePageLoader />
           </React.Suspense>
         </PagesHost>
       </ScrollSpy>
     </FullSizeMode>
+  )
+}
+
+function PageLoader({ id, children }: Props) {
+  const { read } = usePages()
+  const pages = read()
+
+  if (!pages) return <StandardViewMock id={id}>{children}</StandardViewMock>
+  return <StandardView pages={pages}>{children}</StandardView>
+}
+
+function FullSizePageLoader() {
+  const { input: id, read } = usePages()
+  const pages = read()
+
+  if (!pages) return null
+  return (
+    <FullSizeMode.On>
+      <FullSizeView id={id} pages={pages} />
+    </FullSizeMode.On>
   )
 }

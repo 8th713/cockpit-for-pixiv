@@ -9,12 +9,11 @@ import { Img } from './Img'
 import { Ugoira } from './Ugoira'
 
 type Props = {
-  id: string
   pages: Pages
   children?: React.ReactNode
 }
 
-export function StandardView({ id, pages, children }: Props) {
+export function StandardView({ pages, children }: Props) {
   const root = useRef<HTMLDivElement>(null)
   const { unset } = useRouteActions()
   const [isFullSize, setFullSize] = useFullSizeMode()
@@ -25,11 +24,11 @@ export function StandardView({ id, pages, children }: Props) {
       <ScrollSpy.SpyItem key={page.urls.original} index={index}>
         <Box tabIndex={0}>
           {!ugoira && <Img {...page} root={root} />}
-          {ugoira && <Ugoira id={id} {...page} />}
+          {ugoira && <Ugoira {...page} />}
         </Box>
       </ScrollSpy.SpyItem>
     ))
-  }, [id, pages])
+  }, [pages])
 
   useEffect(() => {
     setFullSize(false)
@@ -60,6 +59,7 @@ export function StandardView({ id, pages, children }: Props) {
 }
 
 const Root = styled.section`
+  outline: none;
   position: relative;
   overflow: auto;
   display: block;
@@ -75,6 +75,7 @@ const Container = styled.div`
 const Box = styled.div`
   box-sizing: border-box;
   outline: none;
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;

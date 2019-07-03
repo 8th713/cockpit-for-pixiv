@@ -1,1 +1,2 @@
-export * from './StandardViewLoader'
+export * from './StandardView'
+export * from './StandardViewMock'

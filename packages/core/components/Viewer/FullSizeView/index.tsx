@@ -1,1 +1,1 @@
-export * from './FullSizeViewLoader'
+export * from './FullSizeView'
