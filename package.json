@@ -13,6 +13,7 @@
   "repository": "8th713/cockpit-for-pixiv",
   "scripts": {
     "tsc": "tsc",
+    "lint": "eslint packages --ext js,ts,tsx",
     "build": "webpack --mode production",
     "start": "webpack --mode development --watch"
   },
