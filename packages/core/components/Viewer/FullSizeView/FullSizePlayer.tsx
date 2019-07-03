@@ -14,7 +14,6 @@ export function FullSizePlayer({ urls, frames, ...rest }: Props) {
 }
 
 const Canvas = styled.canvas`
-  cursor: pointer;
   display: block;
   background-color: rgba(255, 255, 255, var(--high));
 `
