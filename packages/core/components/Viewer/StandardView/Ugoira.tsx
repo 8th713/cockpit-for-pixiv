@@ -1,18 +1,26 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { Page } from '../../../interfaces'
+import { useServices } from '../../Services'
+import { usePages } from '../PagesHost'
 import { Img } from './Img'
-import { PlayerLoader } from './PlayerLoader'
+import { Player } from './Player'
 
-type Props = Page & {
-  id: string
-}
+type Props = Page
 
-export function Ugoira({ id, ...props }: Props) {
-  const root = useRef(null)
-
+export function Ugoira({ ...props }: Props) {
   return (
-    <React.Suspense fallback={<Img root={root} {...props} />}>
-      <PlayerLoader id={id} {...props} />
+    <React.Suspense fallback={<Img {...props} />}>
+      <UgoiraLoader {...props} />
     </React.Suspense>
   )
+}
+
+function UgoiraLoader({ ...props }: Props) {
+  const { apiClient } = useServices()
+  const { input: id } = usePages()
+  const { read } = apiClient.useUgoira(id)
+  const frames = read()
+
+  if (!frames) return <Img {...props} />
+  return <Player {...props} frames={frames} />
 }

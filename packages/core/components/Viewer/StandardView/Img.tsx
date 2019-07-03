@@ -5,7 +5,7 @@ import { Page } from '../../../interfaces'
 import { useRouteActions } from '../../Router'
 
 type Props = Page & {
-  root: React.RefObject<Element>
+  root?: React.RefObject<Element>
 }
 
 const getURL = (page: Page, inView: boolean) => {
@@ -21,7 +21,8 @@ const options = {
 
 function LazyImg(props: Props) {
   const { urls, root, ...rest } = props
-  const [ref, inView] = useInView({ ...options, root: root.current })
+  const rootElement = root && root.current
+  const [ref, inView] = useInView({ ...options, root: rootElement })
   const { go } = useRouteActions()
 
   return (
