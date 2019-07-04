@@ -1,23 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useIllust } from '../IllustHost'
+import { useRoute } from '../../Router'
+import { useServices } from '../../Services'
 import { FollowButton } from './FollowButton'
 import { NameCard } from './NameCard'
-import { UserHost } from './UserHost'
 
 export function User() {
-  const { read } = useIllust()
-  const illust = read()
+  const { apiClient } = useServices()
+  const { read } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return null
 
   return (
-    <UserHost id={illust.userId}>
-      <Root>
-        <NameCard />
-        <FollowButton />
-      </Root>
-    </UserHost>
+    <Root>
+      <NameCard id={illust.userId} />
+      <FollowButton id={illust.userId} />
+    </Root>
   )
 }
 

@@ -1,25 +1,28 @@
 import React from 'react'
+import { Illust } from '../../interfaces'
+import { useServices } from '../Services'
 import { Button } from '../shared/Button'
 import { Refresh } from '../shared/Icon'
 import { Text } from '../shared/Text'
 import { Form } from './Form'
-import { useForm } from './FormHost'
 import { FormMock } from './FormMock'
 
 type Props = {
+  illust: Illust
   children?: React.ReactNode
 }
 
-export function FormLoader({ children }: Props) {
-  const { illust, read, reload } = useForm()
-  const form = read()
+export function FormLoader({ illust, children }: Props) {
+  const { apiClient } = useServices()
+  const { read, remove } = apiClient.useBookmarkForm()
+  const form = read(illust.id)
 
   if (!form)
     return (
       <FormMock
         onSubmit={e => {
           e.preventDefault()
-          reload()
+          remove(illust.id)
         }}
         action={
           <Button kind="contained" color="error" type="submit">

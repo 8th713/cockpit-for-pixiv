@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { ToggleForm } from '../../Bookmark'
 import { BookmarkButton, BookmarkButtonMock } from './BookmarkButton'
 import { DownloadButton, DownloadButtonMock } from './DownloadButton'
 import { FullSizeModeButton } from './FullSizeModeButton'
@@ -35,7 +36,9 @@ export function Caption() {
         >
           <ReloadButton />
           <LikeButton />
-          <BookmarkButton />
+          <ToggleForm>
+            <BookmarkButton />
+          </ToggleForm>
           <DownloadButton />
           <ShareButton />
         </React.Suspense>

@@ -4,7 +4,6 @@ import { Dialog } from '../shared/Dialog'
 import { Modal } from '../shared/Modal'
 import { Progress } from '../shared/Progress'
 import { Text } from '../shared/Text'
-import { FormHost } from './FormHost'
 import { FormLoader } from './FormLoader'
 import { FormMock } from './FormMock'
 import { useToggleForm } from './ToggleForm'
@@ -25,22 +24,20 @@ export function Bookmark({ illust }: Props) {
           <Text as="h1">{illust.title}</Text>
         </Dialog.Header>
         <Dialog.Divider />
-        <FormHost illust={illust}>
-          <React.Suspense
-            fallback={
-              <FormMock>
-                <FormMock.FlexContainer>
-                  {children}
-                  <FormMock.FlexItem>
-                    <Progress />
-                  </FormMock.FlexItem>
-                </FormMock.FlexContainer>
-              </FormMock>
-            }
-          >
-            <FormLoader>{children}</FormLoader>
-          </React.Suspense>
-        </FormHost>
+        <React.Suspense
+          fallback={
+            <FormMock>
+              <FormMock.FlexContainer>
+                {children}
+                <FormMock.FlexItem>
+                  <Progress />
+                </FormMock.FlexItem>
+              </FormMock.FlexContainer>
+            </FormMock>
+          }
+        >
+          <FormLoader illust={illust}>{children}</FormLoader>
+        </React.Suspense>
       </Dialog>
     </Modal>
   )

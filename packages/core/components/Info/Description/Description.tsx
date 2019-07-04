@@ -8,10 +8,12 @@ import { TagList } from './TagList'
 export function Description() {
   return (
     <Root>
-      <Comment />
-      <TagList />
-      <Series />
-      <Stats />
+      <React.Suspense fallback={null}>
+        <Comment />
+        <TagList />
+        <Series />
+        <Stats />
+      </React.Suspense>
     </Root>
   )
 }

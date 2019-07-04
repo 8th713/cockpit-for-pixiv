@@ -1,17 +1,20 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { openTwitter } from '../../../externals/share'
+import { useRoute } from '../../Router'
+import { useServices } from '../../Services'
 import { Hotkey } from '../../shared/Hotkey'
 import { Tweet } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
-import { useIllust } from '../IllustHost'
 import { getTitle } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.share)
 
 export function ShareButton() {
-  const { read } = useIllust()
-  const illust = read()
+  const { apiClient } = useServices()
+  const { read } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return <ShareButtonMock />
   const share = () => openTwitter(illust)

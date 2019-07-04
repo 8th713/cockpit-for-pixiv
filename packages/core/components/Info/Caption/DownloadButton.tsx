@@ -1,19 +1,20 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { DownloadRequestAction } from '../../../interfaces'
+import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
 import { Hotkey } from '../../shared/Hotkey'
 import { Download } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
-import { useIllust } from '../IllustHost'
 import { getTitle } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.download)
 
 export function DownloadButton() {
-  const { addonStore } = useServices()
-  const { read } = useIllust()
-  const illust = read()
+  const { apiClient, addonStore } = useServices()
+  const { read } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
   const canDownload = addonStore.isConnected('download')
 
   if (!illust) return <DownloadButtonMock />

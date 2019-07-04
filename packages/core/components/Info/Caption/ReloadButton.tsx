@@ -1,16 +1,19 @@
 import React from 'react'
+import { useRoute } from '../../Router'
+import { useServices } from '../../Services'
 import { Refresh } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
-import { useIllust } from '../IllustHost'
 
 export function ReloadButton() {
-  const { read, reload } = useIllust()
-  const illust = read()
+  const { apiClient } = useServices()
+  const { read, remove } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id!)
 
   if (illust) return null
 
   return (
-    <IconButton onClick={() => reload()} title="再読込">
+    <IconButton onClick={() => remove(id!)} title="再読込">
       <Refresh />
     </IconButton>
   )

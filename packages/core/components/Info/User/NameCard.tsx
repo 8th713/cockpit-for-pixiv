@@ -1,11 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useServices } from '../../Services'
 import { AccountError } from '../../shared/Icon'
-import { useUser } from './UserHost'
 
-export function NameCard() {
-  const { read } = useUser()
-  const user = read()
+type Props = {
+  id: string
+}
+
+export function NameCard({ id }: Props) {
+  const { apiClient } = useServices()
+  const { read } = apiClient.useUser()
+  const user = read(id)
 
   if (!user) {
     return (

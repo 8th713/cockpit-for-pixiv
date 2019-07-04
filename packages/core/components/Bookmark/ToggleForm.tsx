@@ -5,9 +5,9 @@ import React, {
   useMemo,
   useState
 } from 'react'
+import { useRoute } from '../Router'
 
 type Props = {
-  id: string
   children?: React.ReactNode
 }
 
@@ -38,7 +38,8 @@ export function useUpdateToggleForm() {
   return value
 }
 
-export function ToggleForm({ id, children }: Props) {
+export function ToggleForm({ children }: Props) {
+  const [id] = useRoute()
   const [isOpend, setOpened] = useState(false)
   const value = useMemo(() => [isOpend, setOpened] as const, [isOpend])
 

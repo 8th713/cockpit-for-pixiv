@@ -1,19 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../../constants'
+import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
 import { Hotkey } from '../../shared/Hotkey'
 import { Like } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
-import { useIllust, like } from '../IllustHost'
-import { getTitle } from '../utils'
+import { getTitle, like } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.like)
 
 export function LikeButton() {
   const { apiClient } = useServices()
-  const { read, replace, reload } = useIllust()
-  const illust = read()
+  const { read, reload, replace } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return <LikeButtonMock />
   if (!illust.isBookmarkable)
@@ -29,13 +30,12 @@ export function LikeButton() {
       </FakeButton>
     )
 
-  const { id } = illust
   const handleLike = () => {
     if (!illust.isBookmarkable) return
     if (illust.likeData) return
 
-    replace(like(illust))
-    apiClient.likeBy(id).then(() => reload(), () => replace(illust))
+    replace(id, like(illust))
+    apiClient.likeBy(id).then(() => reload(id), () => replace(id, illust))
   }
 
   return (

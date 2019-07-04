@@ -1,16 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useIllust } from '../IllustHost'
+import { useRoute } from '../../Router'
+import { useServices } from '../../Services'
 
 const prefix = '/member_illust.php?mode=medium&illust_id='
 
 export function Title() {
-  const { read } = useIllust()
-  const illust = read()
+  const { apiClient } = useServices()
+  const { read } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return null
 
-  const { id, title } = illust
+  const { title } = illust
   return (
     <Link href={prefix + id} title={title}>
       {title}

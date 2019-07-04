@@ -1,12 +1,12 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { Bookmark, useUpdateToggleForm } from '../../Bookmark'
+import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
 import { Hotkey } from '../../shared/Hotkey'
 import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
-import { bookmark, useIllust } from '../IllustHost'
-import { getTitle } from '../utils'
+import { bookmark, getTitle } from '../utils'
 
 const title = [
   getTitle(KEY_ASSIGNMENT.bookmark),
@@ -17,8 +17,9 @@ const title = [
 export function BookmarkButton() {
   const setOpen = useUpdateToggleForm()
   const { apiClient } = useServices()
-  const { read, replace, reload } = useIllust()
-  const illust = read()
+  const { read, replace, reload } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return <BookmarkButtonMock />
   if (illust.isBookmarkable === false)
@@ -28,17 +29,17 @@ export function BookmarkButton() {
       </IconButton>
     )
 
-  const { id, bookmarkData, isBookmarkable } = illust
+  const { bookmarkData, isBookmarkable } = illust
   const bookmarked = !!bookmarkData
   const color = bookmarked ? 'error' : undefined
   const icon = bookmarked ? <BookmarkOn /> : <BookmarkOff />
   const handleBookmark = (event: { shiftKey: boolean; ctrlKey: boolean }) => {
     if (!isBookmarkable) return
     if (event.ctrlKey) return setOpen(true)
-    replace(bookmark(illust, event.shiftKey))
+    replace(id, bookmark(illust, event.shiftKey))
     apiClient
       .bookmarkBy(id, { restrict: event.shiftKey })
-      .then(() => reload(), () => replace(illust))
+      .then(() => reload(id), () => replace(id, illust))
   }
 
   return (

@@ -1,12 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useIllust } from '../IllustHost'
+import { useRoute } from '../../Router'
+import { useServices } from '../../Services'
 
 const tagURL = '/search.php?s_mode=s_tag_full&word='
 
 export function TagList() {
-  const { read } = useIllust()
-  const illust = read()
+  const { apiClient } = useServices()
+  const { read } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return null
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BookmarkForm, Illust } from '../../interfaces'
-import { bookmark, useIllust } from '../Info/IllustHost'
+import { bookmark } from '../Info/utils'
 import { useServices } from '../Services'
 import { Button } from '../shared/Button'
 import { Comment } from './Comment'
@@ -18,12 +18,8 @@ type Props = {
 }
 
 export function Form({ illust, data, children }: Props) {
-  const { userTags } = data
-  const {
-    tags: { tags: illustTags }
-  } = illust
   const { apiClient } = useServices()
-  const { input: id, replace, reload } = useIllust()
+  const { replace, reload } = apiClient.useIllust()
   const setOepn = useUpdateToggleForm()
   const [state, setState] = useState({
     restrict: !!data.restrict,
@@ -33,12 +29,11 @@ export function Form({ illust, data, children }: Props) {
   const [disabled, setDisabled] = useState(false)
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    if (id !== illust.id) return
-    replace(bookmark(illust, state.restrict))
+    replace(illust.id, bookmark(illust, state.restrict))
+    setOepn(false)
     apiClient
       .bookmarkBy(illust.id, toPostData(state))
-      .then(() => reload(), () => replace(illust))
-      .finally(() => setOepn(false))
+      .then(() => reload(illust.id), () => replace(illust.id, illust))
   }
 
   return (
@@ -68,8 +63,8 @@ export function Form({ illust, data, children }: Props) {
           />
           <SortHost>
             <Tags
-              illustTags={illustTags}
-              userTags={userTags}
+              illustTags={illust.tags.tags}
+              userTags={data.userTags}
               value={state.tags}
               onChange={(value, valid) => {
                 setState({ ...state, ...value })

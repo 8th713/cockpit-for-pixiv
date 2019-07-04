@@ -3,27 +3,19 @@ import styled from 'styled-components'
 import { Caption } from './Caption'
 import { Description } from './Description'
 import { User } from './User'
-import { IllustHost } from './IllustHost'
-import { ToggleForm } from '../Bookmark'
 
-type Props = {
-  id: string
-}
-
-export function Info({ id }: Props) {
+export function Info() {
   return (
-    <IllustHost id={id}>
-      <ToggleForm id={id}>
-        <Caption />
-      </ToggleForm>
+    <>
+      <Caption />
       <Divider />
       <Grid>
+        <Description />
         <React.Suspense fallback={null}>
-          <Description />
           <User />
         </React.Suspense>
       </Grid>
-    </IllustHost>
+    </>
   )
 }
 

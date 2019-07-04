@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useRoute } from '../../Router'
+import { useServices } from '../../Services'
 import { BookmarkOn, DateTime, Like, ViewCount } from '../../shared/Icon'
 import { Text } from '../../shared/Text'
-import { useIllust } from '../IllustHost'
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleString('ja-JP', {
@@ -15,8 +16,10 @@ const formatDate = (dateString: string) =>
   })
 
 export function Stats() {
-  const { read } = useIllust()
-  const illust = read()
+  const { apiClient } = useServices()
+  const { read } = apiClient.useIllust()
+  const id = useRoute()[0]!
+  const illust = read(id)
 
   if (!illust) return null
 

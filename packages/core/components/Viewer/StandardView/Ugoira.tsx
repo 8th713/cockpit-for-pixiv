@@ -1,7 +1,7 @@
 import React from 'react'
 import { Page } from '../../../interfaces'
+import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { usePages } from '../PagesHost'
 import { Img } from './Img'
 import { Player } from './Player'
 
@@ -17,9 +17,9 @@ export function Ugoira({ ...props }: Props) {
 
 function UgoiraLoader({ ...props }: Props) {
   const { apiClient } = useServices()
-  const { input: id } = usePages()
-  const { read } = apiClient.useUgoira(id)
-  const frames = read()
+  const { read } = apiClient.useUgoira()
+  const id = useRoute()[0]!
+  const frames = read(id)
 
   if (!frames) return <Img {...props} />
   return <Player {...props} frames={frames} />

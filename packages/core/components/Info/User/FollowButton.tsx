@@ -6,39 +6,42 @@ import { Button } from '../../shared/Button'
 import { Hotkey } from '../../shared/Hotkey'
 import { Add } from '../../shared/Icon'
 import { getTitle } from '../utils'
-import { useUser } from './UserHost'
+
+type Props = {
+  id: string
+}
 
 const title = [
   getTitle(KEY_ASSIGNMENT.follow),
   getTitle(KEY_ASSIGNMENT.followPrivate)
 ].join('\n')
 
-export function FollowButton() {
+export function FollowButton({ id }: Props) {
   const { apiClient } = useServices()
-  const { read, reload, replace } = useUser()
-  const user = read()
+  const { read, reload, remove, replace } = apiClient.useUser()
+  const user = read(id)
 
   if (!user) {
     return (
       <Action>
-        <Button kind="outlined" color="primary" onClick={() => reload()}>
+        <Button kind="outlined" color="primary" onClick={() => remove(id)}>
           <Add width="18" height="18" />
           再読込
         </Button>
       </Action>
     )
   }
-  const { isFollowed, userId } = user
-  const isSelf = apiClient.isSelf(userId)
+  const { isFollowed } = user
+  const isSelf = apiClient.isSelf(id)
 
   if (isSelf) return null
 
   const handleFollow = (event: { shiftKey: boolean }) => {
     if (isSelf) return
-    replace({ ...user, isFollowed: true })
+    replace(id, { ...user, isFollowed: true })
     apiClient
-      .followUser(userId, event.shiftKey)
-      .then(() => reload(), () => replace(user))
+      .followUser(id, event.shiftKey)
+      .then(() => reload(id), () => replace(id, user))
   }
 
   return (

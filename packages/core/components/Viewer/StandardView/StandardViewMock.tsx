@@ -1,9 +1,9 @@
 import React from 'react'
 import { useRouteActions } from '../../Router'
+import { useServices } from '../../Services'
 import { Progress } from '../../shared/Progress'
-import { StandardView } from './StandardView'
 import { ErrorDialog } from './ErrorDialog'
-import { usePages } from '../PagesHost'
+import { StandardView } from './StandardView'
 
 type Props = {
   id?: string
@@ -12,7 +12,8 @@ type Props = {
 
 export function StandardViewMock({ id, children }: Props) {
   const { unset, go } = useRouteActions()
-  const { reload } = usePages()
+  const { apiClient } = useServices()
+  const { remove } = apiClient.usePages()
   const goFromEvent: React.MouseEventHandler = e => {
     e.stopPropagation()
     go(e.shiftKey ? -1 : 1)
@@ -23,7 +24,7 @@ export function StandardViewMock({ id, children }: Props) {
       <span onClick={unset}>
         <StandardView.Box>
           {!id && <Progress onClick={goFromEvent} />}
-          {id && <ErrorDialog id={id} onClick={reload} />}
+          {id && <ErrorDialog id={id} onClick={() => remove(id)} />}
         </StandardView.Box>
       </span>
       {children}
