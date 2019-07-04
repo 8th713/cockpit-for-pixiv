@@ -195,7 +195,7 @@ export function createAPIClient(globalData: GlobalData) {
     isSelf,
     usePages: createCache(fetchPages, new LRUMap(20)),
     useUgoira: createCache(fetchUgoira, new LRUMap(2)),
-    useIllust: createCache(fetchIllust, new LRUMap(20)),
+    useIllust: createCache(fetchIllust, new LRUMap(1)),
     useUser: createCache(fetchUser, new LRUMap(20)),
     useBookmarkForm: createCache(fetchBookmarkForm, new LRUMap(1)),
     likeBy,
