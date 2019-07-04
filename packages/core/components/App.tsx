@@ -18,7 +18,7 @@ export function App({ services }: Props) {
         <Router>
           {id => (
             <Viewer id={id}>
-              <Info id={id} />
+              <Info />
             </Viewer>
           )}
         </Router>
