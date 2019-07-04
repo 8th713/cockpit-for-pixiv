@@ -49,10 +49,20 @@ function scrollIntoView(element: HTMLElement) {
 }
 
 const NO_PROVIDER = 'Missing Router'
+const ValueContext = React.createContext<
+  readonly [string | null, Actions] | typeof NO_PROVIDER
+>(NO_PROVIDER)
 const UpdateContext = React.createContext<Actions | typeof NO_PROVIDER>(
   NO_PROVIDER
 )
 
+export function useRoute() {
+  const value = useContext(ValueContext)
+  if (value === NO_PROVIDER) {
+    throw new Error(NO_PROVIDER)
+  }
+  return value
+}
 export function useRouteActions() {
   const value = useContext(UpdateContext)
   if (value === NO_PROVIDER) {
@@ -120,11 +130,13 @@ export function Router({ children }: Props) {
 
   return (
     <UpdateContext.Provider value={actions}>
-      <Modal open={!!id} onClose={actions.unset}>
-        {id && children(id)}
-      </Modal>
-      <Hotkey {...KEY_ASSIGNMENT.goNextIllust} action={actions.goNext} />
-      <Hotkey {...KEY_ASSIGNMENT.goPrevIllust} action={actions.goPrev} />
+      <ValueContext.Provider value={[id, actions] as const}>
+        <Modal open={!!id} onClose={actions.unset}>
+          {id && children(id)}
+        </Modal>
+        <Hotkey {...KEY_ASSIGNMENT.goNextIllust} action={actions.goNext} />
+        <Hotkey {...KEY_ASSIGNMENT.goPrevIllust} action={actions.goPrev} />
+      </ValueContext.Provider>
     </UpdateContext.Provider>
   )
 }
