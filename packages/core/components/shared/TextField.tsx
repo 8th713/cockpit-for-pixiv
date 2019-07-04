@@ -1,9 +1,4 @@
-import React, {
-  useImperativeHandle,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 type Props = React.ComponentPropsWithoutRef<'input'> & {
@@ -13,29 +8,13 @@ type Props = React.ComponentPropsWithoutRef<'input'> & {
 
 const TextField = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { className, children, invalid, ...rest } = props
-  const input = useRef<HTMLInputElement>(null)
-  const [isLeft, leave] = useState(false)
-  useImperativeHandle(ref, () => input.current!)
-  useLayoutEffect(() => {
-    const node = input.current
-    if (!node) return
-    const handleFocus = () => leave(true)
-    const handleBlur = () => leave(!!node.value)
-    node.addEventListener('focus', handleFocus)
-    node.addEventListener('blur', handleBlur)
-    leave(!!node.value)
-    return () => {
-      node.removeEventListener('focus', handleFocus)
-      node.removeEventListener('blur', handleBlur)
-    }
-  }, [])
 
   return (
     <Box className={className}>
-      <Input ref={input} aria-invalid={invalid} {...rest} />
+      <Input ref={ref} aria-invalid={invalid} {...rest} />
       <Outline>
         <Leading />
-        <Notch data-left={isLeft}>
+        <Notch>
           <Label>{children}</Label>
         </Notch>
         <Trailing />
@@ -140,15 +119,12 @@ const Notch = styled.div`
   flex: 0 0 auto;
   width: auto;
   height: 100%;
-  border-top: 2px solid;
+  border-top: 0;
   border-bottom: 2px solid;
   border-color: rgba(255, 255, 255, var(--divider));
   transition: border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   input:hover + div > & {
     border-color: var(--on-surface);
-  }
-  &[data-left='true'] {
-    border-top: 0;
   }
   input:focus + div > & {
     border-color: var(--primary);
@@ -163,12 +139,13 @@ const Notch = styled.div`
 const Label = styled.div`
   display: inline-block;
   position: relative;
-  top: 12px;
+  top: -8px;
   max-width: 100%;
   margin: 0 4px;
   opacity: var(--medium);
   font: inherit;
-  line-height: 1.75;
+  font-size: 12px;
+  line-height: 1.15rem;
   letter-spacing: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -176,11 +153,6 @@ const Label = styled.div`
   transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   input:hover + div > div > & {
     opacity: 1;
-  }
-  [data-left='true'] > & {
-    top: -8px;
-    font-size: 12px;
-    line-height: 1.15rem;
   }
   input:focus + div > div > & {
     color: var(--primary);
