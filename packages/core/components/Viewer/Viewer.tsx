@@ -27,8 +27,7 @@ export function Viewer({ id, children }: Props) {
 
 function PageLoader({ id, children }: Props) {
   const { apiClient } = useServices()
-  const { read } = apiClient.usePages()
-  const pages = read(id)
+  const pages = apiClient.usePages(id)
 
   if (!pages) return <StandardViewMock id={id}>{children}</StandardViewMock>
   return <StandardView pages={pages}>{children}</StandardView>
@@ -36,8 +35,7 @@ function PageLoader({ id, children }: Props) {
 
 function FullSizePageLoader({ id }: Props) {
   const { apiClient } = useServices()
-  const { read } = apiClient.usePages()
-  const pages = read(id)
+  const pages = apiClient.usePages(id)
 
   if (!pages) return null
   return (

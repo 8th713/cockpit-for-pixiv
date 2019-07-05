@@ -9,17 +9,15 @@ type Props = {
 
 export function NameCard({ id }: Props) {
   const { apiClient } = useServices()
-  const { read } = apiClient.useUser()
-  const user = read(id)
+  const user = apiClient.useUser(id)
 
-  if (!user) {
+  if (!user)
     return (
       <Link>
         <AccountError width="40" height="40" />
         <Name>取得できませんでした</Name>
       </Link>
     )
-  }
 
   return (
     <Link href={`https://www.pixiv.net/member.php?id=${user.userId}`}>

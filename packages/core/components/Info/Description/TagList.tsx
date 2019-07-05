@@ -7,9 +7,8 @@ const tagURL = '/search.php?s_mode=s_tag_full&word='
 
 export function TagList() {
   const { apiClient } = useServices()
-  const { read } = apiClient.useIllust()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = apiClient.useIllust(id)
 
   if (!illust) return null
 

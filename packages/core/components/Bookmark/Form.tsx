@@ -18,8 +18,9 @@ type Props = {
 }
 
 export function Form({ illust, data, children }: Props) {
-  const { apiClient } = useServices()
-  const { replace, reload } = apiClient.useIllust()
+  const {
+    apiClient: { useIllust, bookmarkBy }
+  } = useServices()
   const setOepn = useUpdateToggleForm()
   const [state, setState] = useState({
     restrict: !!data.restrict,
@@ -29,11 +30,12 @@ export function Form({ illust, data, children }: Props) {
   const [disabled, setDisabled] = useState(false)
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    replace(illust.id, bookmark(illust, state.restrict))
+
     setOepn(false)
-    apiClient
-      .bookmarkBy(illust.id, toPostData(state))
-      .then(() => reload(illust.id), () => replace(illust.id, illust))
+    useIllust.replace(illust.id, bookmark(illust, state.restrict))
+    bookmarkBy(illust.id, toPostData(state)).finally(() =>
+      useIllust.refresh(illust.id)
+    )
   }
 
   return (

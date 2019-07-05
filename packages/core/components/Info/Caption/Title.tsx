@@ -7,9 +7,8 @@ const prefix = '/member_illust.php?mode=medium&illust_id='
 
 export function Title() {
   const { apiClient } = useServices()
-  const { read } = apiClient.useIllust()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = apiClient.useIllust(id)
 
   if (!illust) return null
 

@@ -7,9 +7,8 @@ import { NameCard } from './NameCard'
 
 export function User() {
   const { apiClient } = useServices()
-  const { read } = apiClient.useIllust()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = apiClient.useIllust(id)
 
   if (!illust) return null
 

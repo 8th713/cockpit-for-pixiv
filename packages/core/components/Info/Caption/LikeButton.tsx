@@ -11,19 +11,23 @@ import { getTitle, like } from '../utils'
 const title = getTitle(KEY_ASSIGNMENT.like)
 
 export function LikeButton() {
-  const { apiClient } = useServices()
-  const { read, reload, replace } = apiClient.useIllust()
+  const {
+    apiClient: { useIllust, likeBy }
+  } = useServices()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = useIllust(id)
 
   if (!illust) return <LikeButtonMock />
-  if (!illust.isBookmarkable)
+
+  const { isBookmarkable, likeData } = illust
+
+  if (!isBookmarkable)
     return (
       <IconButton disabled title={title}>
         <Like />
       </IconButton>
     )
-  if (illust.likeData)
+  if (likeData)
     return (
       <FakeButton>
         <Like />
@@ -31,11 +35,11 @@ export function LikeButton() {
     )
 
   const handleLike = () => {
-    if (!illust.isBookmarkable) return
-    if (illust.likeData) return
+    if (!isBookmarkable) return
+    if (likeData) return
 
-    replace(id, like(illust))
-    apiClient.likeBy(id).then(() => reload(id), () => replace(id, illust))
+    useIllust.replace(id, like(illust))
+    likeBy(id).finally(() => useIllust.refresh(id))
   }
 
   return (

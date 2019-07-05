@@ -13,16 +13,17 @@ type Props = {
 }
 
 export function FormLoader({ illust, children }: Props) {
-  const { apiClient } = useServices()
-  const { read, remove } = apiClient.useBookmarkForm()
-  const form = read(illust.id)
+  const {
+    apiClient: { useBookmarkForm }
+  } = useServices()
+  const form = useBookmarkForm(illust.id)
 
   if (!form)
     return (
       <FormMock
         onSubmit={e => {
           e.preventDefault()
-          remove(illust.id)
+          useBookmarkForm.remove(illust.id)
         }}
         action={
           <Button kind="contained" color="error" type="submit">

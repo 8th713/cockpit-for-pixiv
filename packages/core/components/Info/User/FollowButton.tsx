@@ -17,31 +17,35 @@ const title = [
 ].join('\n')
 
 export function FollowButton({ id }: Props) {
-  const { apiClient } = useServices()
-  const { read, reload, remove, replace } = apiClient.useUser()
-  const user = read(id)
+  const {
+    apiClient: { useUser, followUser, isSelf }
+  } = useServices()
+  const user = useUser(id)
 
-  if (!user) {
+  if (!user)
     return (
       <Action>
-        <Button kind="outlined" color="primary" onClick={() => remove(id)}>
+        <Button
+          kind="outlined"
+          color="primary"
+          onClick={() => useUser.remove(id)}
+        >
           <Add width="18" height="18" />
           再読込
         </Button>
       </Action>
     )
-  }
-  const { isFollowed } = user
-  const isSelf = apiClient.isSelf(id)
 
-  if (isSelf) return null
+  const { isFollowed } = user
+  const self = isSelf(id)
+
+  if (self) return null
 
   const handleFollow = (event: { shiftKey: boolean }) => {
-    if (isSelf) return
-    replace(id, { ...user, isFollowed: true })
-    apiClient
-      .followUser(id, event.shiftKey)
-      .then(() => reload(id), () => replace(id, user))
+    if (self) return
+
+    useUser.replace(id, { ...user, isFollowed: true })
+    followUser(id, event.shiftKey).finally(() => useUser.refresh(id))
   }
 
   return (

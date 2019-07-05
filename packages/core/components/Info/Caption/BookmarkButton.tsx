@@ -16,30 +16,34 @@ const title = [
 
 export function BookmarkButton() {
   const setOpen = useUpdateToggleForm()
-  const { apiClient } = useServices()
-  const { read, replace, reload } = apiClient.useIllust()
+  const {
+    apiClient: { useIllust, bookmarkBy }
+  } = useServices()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = useIllust(id)
 
   if (!illust) return <BookmarkButtonMock />
-  if (illust.isBookmarkable === false)
+
+  const { bookmarkData, isBookmarkable } = illust
+
+  if (!isBookmarkable)
     return (
       <IconButton disabled title={title}>
         <BookmarkOff />
       </IconButton>
     )
 
-  const { bookmarkData, isBookmarkable } = illust
   const bookmarked = !!bookmarkData
   const color = bookmarked ? 'error' : undefined
   const icon = bookmarked ? <BookmarkOn /> : <BookmarkOff />
   const handleBookmark = (event: { shiftKey: boolean; ctrlKey: boolean }) => {
     if (!isBookmarkable) return
     if (event.ctrlKey) return setOpen(true)
-    replace(id, bookmark(illust, event.shiftKey))
-    apiClient
-      .bookmarkBy(id, { restrict: event.shiftKey })
-      .then(() => reload(id), () => replace(id, illust))
+
+    useIllust.replace(id, bookmark(illust, event.shiftKey))
+    bookmarkBy(id, { restrict: event.shiftKey }).finally(() =>
+      useIllust.refresh(id)
+    )
   }
 
   return (

@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import styled from 'styled-components'
 import { Pages } from '../../../interfaces'
 import { useRouteActions } from '../../Router'
 import { useFullSizeMode } from '../FullSizeMode'
 import { ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../utils'
 import { Img } from './Img'
+import { StandardViewMock } from './StandardViewMock'
 import { Ugoira } from './Ugoira'
 
 type Props = {
@@ -22,10 +22,10 @@ export function StandardView({ pages, children }: Props) {
     const ugoira = isUgoira(pages[0])
     return pages.map((page, index) => (
       <ScrollSpy.SpyItem key={page.urls.original} index={index}>
-        <Box tabIndex={0}>
+        <StandardViewMock.Box tabIndex={0}>
           {!ugoira && <Img {...page} root={root} />}
           {ugoira && <Ugoira {...page} />}
-        </Box>
+        </StandardViewMock.Box>
       </ScrollSpy.SpyItem>
     ))
   }, [pages])
@@ -45,43 +45,15 @@ export function StandardView({ pages, children }: Props) {
   }, [isFullSize])
 
   return (
-    <Root ref={root} tabIndex={0} hidden={isFullSize}>
-      <Container>
+    <StandardViewMock.Root ref={root} tabIndex={0} hidden={isFullSize}>
+      <StandardViewMock.Container>
         <span onClick={unset}>
           {imgs}
           <ScrollSpy.SpyItemLast />
         </span>
         {isMultiple && <ScrollSpy.OverLay pages={pages} />}
-      </Container>
+      </StandardViewMock.Container>
       {children}
-    </Root>
+    </StandardViewMock.Root>
   )
 }
-
-const Root = styled.section`
-  outline: none;
-  position: relative;
-  overflow: auto;
-  display: block;
-  width: 100%;
-  height: 100%;
-  &[hidden] {
-    opacity: 0;
-  }
-`
-const Container = styled.div`
-  position: relative;
-`
-const Box = styled.div`
-  box-sizing: border-box;
-  outline: none;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: calc(100vh - var(--caption-height));
-  padding: 32px;
-`
-
-StandardView.Mock = Root
-StandardView.Box = Box

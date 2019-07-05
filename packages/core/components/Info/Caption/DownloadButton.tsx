@@ -12,12 +12,12 @@ const title = getTitle(KEY_ASSIGNMENT.download)
 
 export function DownloadButton() {
   const { apiClient, addonStore } = useServices()
-  const { read } = apiClient.useIllust()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = apiClient.useIllust(id)
   const canDownload = addonStore.isConnected('download')
 
   if (!illust) return <DownloadButtonMock />
+
   const download = () => {
     if (canDownload === false) return
 
@@ -30,7 +30,7 @@ export function DownloadButton() {
   }
 
   return (
-    <IconButton onClick={download} title={title}>
+    <IconButton onClick={download} title={title} disabled={canDownload}>
       <Download />
       <Hotkey {...KEY_ASSIGNMENT.download} action={download} />
     </IconButton>

@@ -1,5 +1,5 @@
 import { LRUMap } from 'lru_map'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { unstable_batchedUpdates as batchedUpdates } from 'react-dom'
 import { useForceUpdate } from './useForceUpdate'
 
@@ -24,18 +24,13 @@ type RejectedResult = {
 
 type Result<V> = PendingResult | ResolvedResult<V> | RejectedResult
 
-type Cache<I, V> = {
-  forceUpdate: () => void
-  preload: (input: I) => void
-  read: (input: I) => V
-  reload: (input: I) => void
-  remove: (input: I) => void
-  replace: (input: I, value: V) => void
-}
-
 type CacheHook<I, V> = {
-  (): Cache<I, V>
+  (input: I): V
   readonly cache: LRUMap<I, Result<V>>
+  readonly preload: (input: I) => void
+  readonly refresh: (input: I) => void
+  readonly remove: (input: I) => void
+  readonly replace: (input: I, value: V) => void
 }
 
 const accessResult = <I, V>(
@@ -96,57 +91,49 @@ export function createCache<I extends string | number, V>(
       }
     })
   }
+  const preload = (input: I) => {
+    accessResult(cache, fetch, input)
+  }
+  const refresh = (input: I) => {
+    cache.delete(input)
+    const result = accessResult(cache, fetch, input)
+    if (result.status === Pending) {
+      result.value.finally(() => emit(input))
+    }
+  }
+  const remove = (input: I) => {
+    cache.delete(input)
+    emit(input)
+  }
+  const replace = (input: I, value: V) => {
+    cache.set(input, { status: Resolved, value })
+    emit(input)
+  }
 
-  function useCache(): Cache<I, V> {
+  function useCache(input: I) {
     const forceUpdate = useForceUpdate()
-    const value = useMemo(() => {
-      const preload = (input: I) => {
-        accessResult(cache, fetch, input)
-      }
-      const read = (input: I) => {
-        const result = accessResult(cache, fetch, input)
-        subscribe(input, forceUpdate)
-
-        switch (result.status) {
-          case Pending: {
-            throw result.value
-          }
-          case Resolved: {
-            return result.value
-          }
-          case Rejected: {
-            throw result.value
-          }
-        }
-      }
-      const reload = (input: I) => {
-        cache.delete(input)
-        const result = accessResult(cache, fetch, input)
-        if (result.status === Pending) {
-          result.value.finally(() => emit(input))
-        }
-      }
-      const remove = (input: I) => {
-        cache.delete(input)
-        emit(input)
-      }
-      const replace = (input: I, value: V) => {
-        const result: ResolvedResult<V> = {
-          status: Resolved,
-          value
-        }
-        cache.set(input, result)
-        emit(input)
-      }
-
-      return { forceUpdate, preload, read, reload, remove, replace }
-    }, [forceUpdate])
-
     useEffect(() => () => unsubscribe(forceUpdate), [forceUpdate])
 
-    return value
+    const result = accessResult(cache, fetch, input)
+    subscribe(input, forceUpdate)
+
+    switch (result.status) {
+      case Pending: {
+        throw result.value
+      }
+      case Resolved: {
+        return result.value
+      }
+      case Rejected: {
+        throw result.value
+      }
+    }
   }
 
   useCache.cache = cache
+  useCache.preload = preload
+  useCache.refresh = refresh
+  useCache.remove = remove
+  useCache.replace = replace
   return useCache
 }

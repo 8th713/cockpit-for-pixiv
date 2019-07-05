@@ -17,9 +17,8 @@ export function Ugoira({ ...props }: Props) {
 
 function UgoiraLoader({ ...props }: Props) {
   const { apiClient } = useServices()
-  const { read } = apiClient.useUgoira()
   const id = useRoute()[0]!
-  const frames = read(id)
+  const frames = apiClient.useUgoira(id)
 
   if (!frames) return <Img {...props} />
   return <Player {...props} frames={frames} />

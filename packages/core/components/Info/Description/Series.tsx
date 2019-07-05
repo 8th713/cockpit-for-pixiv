@@ -7,9 +7,8 @@ import { Text } from '../../shared/Text'
 
 export function Series() {
   const { apiClient } = useServices()
-  const { read } = apiClient.useIllust()
   const id = useRoute()[0]!
-  const illust = read(id)
+  const illust = apiClient.useIllust(id)
 
   if (!illust) return null
 

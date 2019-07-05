@@ -18,8 +18,7 @@ export function FullSizeUgoira(props: Props) {
 
 function FullSizeUgoiraLoader({ id, ...props }: Props) {
   const { apiClient } = useServices()
-  const { read } = apiClient.useUgoira()
-  const frames = read(id)
+  const frames = apiClient.useUgoira(id)
 
   if (!frames) return <FullSizeImg {...props} />
   return <FullSizePlayer {...props} frames={frames} />
