@@ -30,7 +30,7 @@ export function DownloadButton() {
   }
 
   return (
-    <IconButton onClick={download} title={title} disabled={canDownload}>
+    <IconButton onClick={download} title={title} disabled={!canDownload}>
       <Download />
       <Hotkey {...KEY_ASSIGNMENT.download} action={download} />
     </IconButton>
