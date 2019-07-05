@@ -67,6 +67,7 @@ const ButtonGroup = styled.div`
 const Header = styled.h1`
   overflow: hidden;
   margin: 0 0 0 16px;
+  font-size: 1em;
   white-space: nowrap;
   text-overflow: ellipsis;
 `
