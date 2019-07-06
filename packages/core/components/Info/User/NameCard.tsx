@@ -8,8 +8,8 @@ type Props = {
 }
 
 export function NameCard({ id }: Props) {
-  const { apiClient } = useServices()
-  const user = apiClient.useUser(id)
+  const { useUser } = useServices()
+  const user = useUser(id)
 
   if (!user)
     return (

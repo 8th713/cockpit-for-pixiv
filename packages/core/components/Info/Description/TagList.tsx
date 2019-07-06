@@ -6,9 +6,9 @@ import { useServices } from '../../Services'
 const tagURL = '/search.php?s_mode=s_tag_full&word='
 
 export function TagList() {
-  const { apiClient } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
 
   if (!illust) return null
 

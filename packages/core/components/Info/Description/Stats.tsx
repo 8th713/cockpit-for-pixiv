@@ -16,9 +16,9 @@ const formatDate = (dateString: string) =>
   })
 
 export function Stats() {
-  const { apiClient } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
 
   if (!illust) return null
 

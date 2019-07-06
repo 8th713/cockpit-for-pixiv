@@ -5,9 +5,9 @@ import { useServices } from '../../Services'
 import { Text } from '../../shared/Text'
 
 export function Comment() {
-  const { apiClient } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
 
   if (!illust) return null
 

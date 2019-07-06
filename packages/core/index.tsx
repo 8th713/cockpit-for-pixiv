@@ -6,9 +6,9 @@ import { createAPIClient } from './externals/apiClient'
 import { createGlobalData } from './externals/globalData'
 
 const globalData = createGlobalData()
-const apiClient = createAPIClient(globalData)
 const addonStore = createAddonStore()
-const services = { apiClient, addonStore }
+const apiClient = createAPIClient(globalData)
+const services = { addonStore, ...apiClient }
 
 ReactDOM.render(
   <App services={services} />,

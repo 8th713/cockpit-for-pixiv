@@ -5,9 +5,7 @@ import { Refresh } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
 
 export function ReloadButton() {
-  const {
-    apiClient: { useIllust }
-  } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
   const illust = useIllust(id)
 

@@ -6,9 +6,9 @@ import { useServices } from '../../Services'
 const prefix = '/member_illust.php?mode=medium&illust_id='
 
 export function Title() {
-  const { apiClient } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
 
   if (!illust) return null
 

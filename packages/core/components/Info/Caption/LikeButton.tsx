@@ -11,9 +11,7 @@ import { getTitle, like } from '../utils'
 const title = getTitle(KEY_ASSIGNMENT.like)
 
 export function LikeButton() {
-  const {
-    apiClient: { useIllust, likeBy }
-  } = useServices()
+  const { useIllust, likeBy } = useServices()
   const id = useRoute()[0]!
   const illust = useIllust(id)
 

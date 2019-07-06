@@ -9,7 +9,7 @@ type Props = {
 }
 
 export function ErrorDialog({ id }: Props) {
-  const { apiClient } = useServices()
+  const { usePages } = useServices()
 
   return (
     <Dialog onClick={e => e.stopPropagation()} backdrop={false}>
@@ -17,7 +17,7 @@ export function ErrorDialog({ id }: Props) {
         <Text>リクエストに失敗しました[id: {id}]</Text>
       </Dialog.Content>
       <Dialog.Action>
-        <Button kind="contained" onClick={() => apiClient.usePages.remove(id)}>
+        <Button kind="contained" onClick={() => usePages.remove(id)}>
           Retry
         </Button>
       </Dialog.Action>

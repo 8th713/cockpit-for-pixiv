@@ -11,9 +11,9 @@ import { getTitle } from '../utils'
 const title = getTitle(KEY_ASSIGNMENT.download)
 
 export function DownloadButton() {
-  const { apiClient, addonStore } = useServices()
+  const { useIllust, addonStore } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
   const canDownload = addonStore.isConnected('download')
 
   if (!illust) return <DownloadButtonMock />

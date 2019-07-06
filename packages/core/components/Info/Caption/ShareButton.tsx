@@ -11,9 +11,9 @@ import { getTitle } from '../utils'
 const title = getTitle(KEY_ASSIGNMENT.share)
 
 export function ShareButton() {
-  const { apiClient } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
 
   if (!illust) return <ShareButtonMock />
 

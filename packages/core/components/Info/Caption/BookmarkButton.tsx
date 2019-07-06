@@ -16,9 +16,7 @@ const title = [
 
 export function BookmarkButton() {
   const setOpen = useUpdateToggleForm()
-  const {
-    apiClient: { useIllust, bookmarkBy }
-  } = useServices()
+  const { useIllust, bookmarkBy } = useServices()
   const id = useRoute()[0]!
   const illust = useIllust(id)
 

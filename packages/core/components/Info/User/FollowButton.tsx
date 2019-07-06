@@ -17,9 +17,7 @@ const title = [
 ].join('\n')
 
 export function FollowButton({ id }: Props) {
-  const {
-    apiClient: { useUser, followUser, isSelf }
-  } = useServices()
+  const { useUser, followUser, isSelf } = useServices()
   const user = useUser(id)
 
   if (!user)

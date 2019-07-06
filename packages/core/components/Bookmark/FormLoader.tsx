@@ -13,9 +13,7 @@ type Props = {
 }
 
 export function FormLoader({ illust, children }: Props) {
-  const {
-    apiClient: { useBookmarkForm }
-  } = useServices()
+  const { useBookmarkForm } = useServices()
   const form = useBookmarkForm(illust.id)
 
   if (!form)

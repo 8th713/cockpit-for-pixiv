@@ -4,8 +4,7 @@ import { APIClient } from '../externals/apiClient'
 
 export type ServicesProps = {
   addonStore: AddonStore
-  apiClient: APIClient
-}
+} & APIClient
 
 type Props = ServicesProps & {
   children?: React.ReactNode

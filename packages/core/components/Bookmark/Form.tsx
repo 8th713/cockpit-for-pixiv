@@ -18,9 +18,7 @@ type Props = {
 }
 
 export function Form({ illust, data, children }: Props) {
-  const {
-    apiClient: { useIllust, bookmarkBy }
-  } = useServices()
+  const { useIllust, bookmarkBy } = useServices()
   const setOepn = useUpdateToggleForm()
   const [state, setState] = useState({
     restrict: !!data.restrict,

@@ -6,9 +6,9 @@ import { FollowButton } from './FollowButton'
 import { NameCard } from './NameCard'
 
 export function User() {
-  const { apiClient } = useServices()
+  const { useIllust } = useServices()
   const id = useRoute()[0]!
-  const illust = apiClient.useIllust(id)
+  const illust = useIllust(id)
 
   if (!illust) return null
 
