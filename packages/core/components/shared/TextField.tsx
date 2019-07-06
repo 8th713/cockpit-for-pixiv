@@ -73,9 +73,9 @@ const Input = styled.input`
     background-color: transparent;
     color: var(--on-surface);
     caret-color: var(--primary);
-    font: inherit;
+    font-family: inherit;
+    ${styles.fontPresets.body1};
     line-height: 1.75;
-    letter-spacing: inherit;
     transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     &::placeholder {
       color: var(--on-surface);
