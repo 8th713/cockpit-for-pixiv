@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
+import * as styles from '../../shared/styles'
 import { Text } from '../../shared/Text'
 
 export function Comment() {
@@ -18,12 +19,5 @@ export function Comment() {
 
 const Root = styled(Text)`
   word-break: break-word;
-  a {
-    all: unset;
-    cursor: pointer;
-    color: var(--primary);
-  }
-  a:focus {
-    outline: auto currentColor;
-  }
+  ${styles.link};
 `
