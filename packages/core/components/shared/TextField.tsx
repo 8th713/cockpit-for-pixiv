@@ -1,32 +1,63 @@
 import React from 'react'
 import styled from 'styled-components'
+import * as styles from './styles'
 
 type Props = React.ComponentPropsWithoutRef<'input'> & {
+  margin?: boolean
   invalid?: boolean
-  children?: React.ReactNode
+  label?: string
+  helperText?: string
+  counterText?: string
 }
 
-const TextField = React.forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { className, children, invalid, ...rest } = props
+export const TextField = React.forwardRef<HTMLInputElement, Props>(
+  (props, ref) => {
+    const {
+      className,
+      margin,
+      invalid,
+      label,
+      helperText,
+      counterText,
+      ...inputProps
+    } = props
+    const hasHelper = !!helperText || !!counterText
 
-  return (
-    <Box className={className}>
-      <Input ref={ref} aria-invalid={invalid} {...rest} />
-      <Outline>
-        <Leading />
-        <Notch>
-          <Label>{children}</Label>
-        </Notch>
-        <Trailing />
-      </Outline>
-    </Box>
-  )
-})
+    return (
+      <Root className={className} data-invalid={invalid} data-margin={margin}>
+        <Field>
+          <Input ref={ref} aria-invalid={invalid} {...inputProps} />
+          <Outline>
+            <Leading />
+            <Notch>
+              <Label>{label}</Label>
+            </Notch>
+            <Trailing />
+          </Outline>
+        </Field>
+        {hasHelper && (
+          <Helper>
+            <HelperText>{helperText}</HelperText>
+            <Counter>{counterText}</Counter>
+          </Helper>
+        )}
+      </Root>
+    )
+  }
+)
 
-const Box = styled.label`
+const Root = styled.div`
+  flex-shrink: 0;
+  min-width: 280px;
+  &[data-margin='true'] {
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+`
+const Field = styled.label`
   box-sizing: border-box;
   position: relative;
-  display: inline-flex;
+  display: flex;
   width: 100%;
   height: 56px;
 `
@@ -166,32 +197,25 @@ const Label = styled.div`
     display: none;
   }
 `
-const HelperLine = styled.div`
+const Helper = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 24px;
-  padding: 0 16px;
-`
-const HelperText = styled.div`
+  margin: 6px 16px -2px;
   color: var(--on-surface);
   opacity: var(--medium);
+  ${styles.fontPresets.caption};
+  line-height: 1;
   white-space: nowrap;
-  font-size: 0.75rem;
-  line-height: normal;
-  font-weight: 400;
-  letter-spacing: 0.0333333333em;
-`
-const Counter = styled(HelperText)`
-  justify-self: flex-end;
-  padding-left: 16px;
-  &[data-invalid='true'] {
+  [data-invalid='true'] > & {
     color: var(--error);
     opacity: 1;
   }
 `
-
-const Component = Object.assign(TextField, { HelperLine, HelperText, Counter })
-
-export { Component as TextField }
+const HelperText = styled.p`
+  margin: 0;
+`
+const Counter = styled.span`
+  padding-left: 16px;
+`

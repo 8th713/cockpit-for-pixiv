@@ -35,29 +35,21 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
   const sotedTags = sortBy(userTags, column, direction)
 
   return (
-    <Root>
-      <FieldBox>
-        <TextField
-          type="text"
-          name="tags"
-          invalid={!valid}
-          value={value}
-          onChange={handleChange}
-        >
-          ブックマークタグ
-        </TextField>
-        <TextField.HelperLine>
-          <TextField.HelperText>
-            スペース区切りで10個まで登録できます。英数字等は半角に統一されます。
-          </TextField.HelperText>
-          <TextField.Counter data-invalid={!valid}>
-            {selectedTags.length} / {MAX_LENGTH}
-          </TextField.Counter>
-        </TextField.HelperLine>
-      </FieldBox>
+    <>
+      <TextField
+        label="ブックマークタグ"
+        helperText="スペース区切りで10個まで登録できます。英数字等は半角に統一されます。"
+        counterText={`${selectedTags.length} / ${MAX_LENGTH}`}
+        margin
+        type="text"
+        name="tags"
+        invalid={!valid}
+        value={value}
+        onChange={handleChange}
+      />
       <FieldBox>
         <Header>
-          <Text as="h2">この作品のタグ</Text>
+          <Text kind="h2">この作品のタグ</Text>
         </Header>
         <TagList>
           {illustTags.map(item => (
@@ -74,7 +66,7 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
       </FieldBox>
       <FieldBox>
         <Header>
-          <Text as="h2">あなたのブックマークタグ</Text>
+          <Text kind="h2">あなたのブックマークタグ</Text>
           <SortButtons />
         </Header>
         <TagList>
@@ -91,17 +83,13 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
           ))}
         </TagList>
       </FieldBox>
-    </Root>
+    </>
   )
 }
 
-const Root = styled.div`
-  margin-top: 24px;
-`
 const FieldBox = styled.div`
-  & + & {
-    margin-top: 16px;
-  }
+  margin-top: 16px;
+  margin-bottom: 8px;
 `
 const Header = styled.div`
   box-sizing: border-box;
