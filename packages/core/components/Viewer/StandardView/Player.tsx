@@ -38,7 +38,7 @@ export function Player({ urls, frames, ...rest }: Props) {
         <IconButton onClick={() => dispatch({ type: 'rewind' })}>
           <Stop />
         </IconButton>
-        <Count as="span" kind="caption">
+        <Count kind="caption">
           {index + 1}/{frames.length}
         </Count>
       </PlayControl>

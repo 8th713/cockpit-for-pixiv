@@ -27,7 +27,7 @@ const Root = styled.div`
   border-radius: 16px;
   background-color: #616161;
   color: #fff;
-  font-size: 0.8125rem;
+  font-size: 12px;
   vertical-align: middle;
   text-decoration: none;
   white-space: nowrap;

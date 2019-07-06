@@ -15,7 +15,7 @@ export function About() {
     <Modal open={open} onClose={handleClose}>
       <Dialog onBackdropClick={handleClose}>
         <Dialog.Header>
-          <Text as="h1">{LABEL}</Text>
+          <Text kind="h1">{LABEL}</Text>
         </Dialog.Header>
         <Dialog.Content>
           <HotkeyList />

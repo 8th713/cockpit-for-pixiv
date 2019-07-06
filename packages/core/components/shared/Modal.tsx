@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
+import * as styles from './styles'
 
 type Props = {
   open?: boolean
@@ -87,10 +88,7 @@ const Root = styled.dialog`
   -webkit-font-smoothing: antialiased;
   font-family: 'Roboto', 'Helvetica Neue', 'arial', 'Noto Sans CJK JP',
     'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0.00938em;
+  ${styles.fontPresets.body1};
   text-decoration: none;
   text-transform: none;
   &:not([open]) {

@@ -10,6 +10,7 @@ import { ReloadButton } from './ReloadButton'
 import { ScrollButton } from './ScrollButton'
 import { ShareButton, ShareButtonMock } from './ShareButton'
 import { Title } from './Title'
+import { Text } from '../../shared/Text'
 
 export function Caption() {
   return (
@@ -17,11 +18,11 @@ export function Caption() {
       <ButtonGroup>
         <ScrollButton />
       </ButtonGroup>
-      <Header>
+      <Text kind="h1" noWrap style={{ paddingLeft: 16, paddingRight: 16 }}>
         <React.Suspense fallback={null}>
           <Title />
         </React.Suspense>
-      </Header>
+      </Text>
       <Grow />
       <ButtonGroup>
         <React.Suspense
@@ -63,13 +64,6 @@ const Snackbar = styled.div`
 const ButtonGroup = styled.div`
   display: flex;
   padding: 4px;
-`
-const Header = styled.h1`
-  overflow: hidden;
-  margin: 0 0 0 16px;
-  font-size: 1em;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 `
 const Grow = styled.div`
   flex-grow: 1;

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
+import * as styles from '../../shared/styles'
 
 const tagURL = '/search.php?s_mode=s_tag_full&word='
 
@@ -45,18 +46,9 @@ const Root = styled.div`
 
 const Link = styled.a`
   margin-right: 8px;
-  color: var(--primary);
-  font-size: 0.875em;
-  font-weight: 400;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
+  ${styles.link};
+  ${styles.fontPresets.body2};
   white-space: nowrap;
-  :hover {
-    text-decoration: none;
-  }
-  :focus {
-    outline: auto currentColor;
-  }
 `
 const BoldLink = styled(Link)`
   font-weight: 500;

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import * as styles from './styles'
 
 type Color = 'primary' | 'secondary' | 'error'
 type Kind = 'text' | 'contained' | 'outlined'
@@ -40,12 +41,8 @@ const Root = styled.button`
   padding: 6px 16px;
   border-radius: 18px;
   font-family: inherit;
-  font-size: 0.875em;
-  line-height: 1.75;
-  font-weight: 500;
-  letter-spacing: 0.02857em;
+  ${styles.fontPresets.button};
   text-decoration: none;
-  text-transform: uppercase;
   background-color: transparent;
   color: inherit;
   &::before {

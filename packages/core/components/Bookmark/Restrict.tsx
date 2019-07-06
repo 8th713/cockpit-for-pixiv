@@ -11,7 +11,9 @@ type Props = {
 export function Restrict({ value, onChange }: Props) {
   return (
     <Root>
-      <Label as="span">非公開</Label>
+      <Text as="span" style={{ marginRight: 8 }}>
+        非公開
+      </Text>
       <Switch
         name="restrict"
         aria-label="非公開"
@@ -25,7 +27,4 @@ export function Restrict({ value, onChange }: Props) {
 const Root = styled.div`
   display: flex;
   align-items: center;
-`
-const Label = styled(Text)`
-  margin-right: 8px;
 `

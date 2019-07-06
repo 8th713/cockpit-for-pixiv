@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
+import * as styles from '../../shared/styles'
 
 const prefix = '/member_illust.php?mode=medium&illust_id='
 
@@ -21,16 +22,6 @@ export function Title() {
 }
 
 const Link = styled.a`
+  ${styles.link};
   color: var(--on-surface);
-  font-size: 1.25em;
-  font-weight: 500;
-  line-height: 1.6;
-  letter-spacing: 0.0075em;
-  white-space: nowrap;
-  :hover {
-    text-decoration: none;
-  }
-  :focus {
-    outline: auto var(--primary);
-  }
 `

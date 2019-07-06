@@ -13,9 +13,7 @@ export function HotkeyList() {
       items.map(item => (
         <KeyItem key={item.keyName}>
           <Kbd title={item.title}>{item.keyName}</Kbd>
-          <Text as="span" kind="b2">
-            {item.children}
-          </Text>
+          <Text kind="b2">{item.children}</Text>
         </KeyItem>
       )),
     items // eslint-disable-line react-hooks/exhaustive-deps
@@ -48,7 +46,7 @@ const Kbd = styled.kbd`
   color: var(--on-surface);
   text-align: center;
   font-family: 'Source Code Pro', 'Consolas', monospace;
-  font-size: 0.875em;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.08929em;
   text-decoration: none;

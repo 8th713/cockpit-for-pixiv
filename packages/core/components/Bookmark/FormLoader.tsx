@@ -33,7 +33,7 @@ export function FormLoader({ illust, children }: Props) {
         <FormMock.FlexContainer>
           {children}
           <FormMock.FlexItem>
-            <Text as="span" color="error">
+            <Text color="error" style={{ margin: 'auto' }}>
               取得に失敗しました
             </Text>
           </FormMock.FlexItem>

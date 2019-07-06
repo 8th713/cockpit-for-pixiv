@@ -11,7 +11,7 @@ export function Section(props: Props) {
   return (
     <Layout>
       <Header>
-        <Text as="h2">{props.label}</Text>
+        <Text kind="h2">{props.label}</Text>
       </Header>
       {props.children}
     </Layout>

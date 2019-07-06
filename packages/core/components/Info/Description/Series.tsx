@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
 import { Collections } from '../../shared/Icon'
+import * as styles from '../../shared/styles'
 import { Text } from '../../shared/Text'
 
 export function Series() {
@@ -37,16 +38,7 @@ const Root = styled.div`
 `
 const Link = styled.a`
   margin: 0 8px;
-  color: var(--primary);
-  font-size: 0.875em;
-  font-weight: 400;
-  line-height: 1.43;
-  letter-spacing: 0.01071em;
+  ${styles.link}
+  ${styles.fontPresets.body2};
   white-space: nowrap;
-  :hover {
-    text-decoration: none;
-  }
-  :focus {
-    outline: auto currentColor;
-  }
 `
