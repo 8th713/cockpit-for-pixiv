@@ -1,34 +1,45 @@
 import React from 'react'
 import styled from 'styled-components'
+import * as sys from '../system'
 
-type Props = React.ComponentPropsWithoutRef<'svg'> & {
-  ml?: number | string
-  mr?: number | string
-  children?: never
-}
+interface SystemProps
+  extends sys.SizeProps,
+    sys.MarginProps,
+    sys.TextColorProps {}
+type NativeProps = React.ComponentPropsWithoutRef<'svg'>
+export type IconProps = NativeProps & SystemProps & { children?: never }
+
+const Svg = styled.svg`
+  user-select: none;
+  box-sizing: border-box;
+  display: inline-block;
+  flex-shrink: 0;
+  ${sys.compose(
+    sys.size,
+    sys.margin,
+    sys.color
+  )};
+  font-size: 24px;
+  fill: currentColor;
+  transition: fill 15ms linear;
+`
 
 function createIcon(path: JSX.Element, displayName: string) {
-  const Icon = React.forwardRef<SVGSVGElement, Props>(function Icon(
-    { ml, mr, style, ...props },
-    ref
-  ) {
-    return (
-      <Svg
-        ref={ref}
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        focusable="false"
-        aria-label={displayName}
-        {...props}
-        style={{ ...style, marginLeft: ml, marginRight: mr }}
-      >
-        {space}
-        {path}
-      </Svg>
-    )
-  })
+  const Icon = React.forwardRef<SVGSVGElement, IconProps>((props, ref) => (
+    <Svg
+      ref={ref}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      focusable="false"
+      aria-label={displayName}
+      {...props}
+    >
+      <path d="M0 0h24v24H0z" fill="none" />
+      {path}
+    </Svg>
+  ))
   const Component = React.memo(Icon)
 
   if (process.env.NODE_ENV !== 'production') {
@@ -37,16 +48,6 @@ function createIcon(path: JSX.Element, displayName: string) {
 
   return Component
 }
-
-const Svg = styled.svg`
-  fill: currentColor;
-  display: inline-block;
-  transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  flex-shrink: 0;
-  user-select: none;
-`
-
-const space = <path d="M0 0h24v24H0z" fill="none" />
 
 export const Account = createIcon(
   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />,
