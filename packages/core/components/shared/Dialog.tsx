@@ -20,9 +20,9 @@ const Root = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
   width: 100%;
   height: 100%;
-  display: flex;
   flex-direction: column;
 `
 const Backdrop = styled.div`
@@ -36,12 +36,12 @@ const Backdrop = styled.div`
 const Layout = styled.section`
   pointer-events: auto;
   position: relative;
-  overflow: hidden;
   display: flex;
-  flex-direction: column;
   max-width: 960px;
   min-width: 280px;
   max-height: 95vh;
+  overflow: hidden;
+  flex-direction: column;
   margin: auto;
   border-radius: 8px;
   background-color: var(--surface);
@@ -57,31 +57,36 @@ const Layout = styled.section`
     opacity: 0.16;
   }
 `
-Dialog.Header = styled.header`
+const Header = styled.header`
   box-sizing: border-box;
   display: flex;
-  align-items: center;
   flex: 0 0 auto;
   margin: 0;
   padding: 16px 24px;
+  align-items: center;
 `
-Dialog.Content = styled.div`
+const Content = styled.div`
   box-sizing: border-box;
-  overflow: auto;
   display: block;
+  overflow: auto;
   flex: 1 1 auto;
   padding: 8px 24px;
 `
-Dialog.Action = styled.footer`
+const Action = styled.footer`
   flex: 0 0 auto;
   display: flex;
   padding: 8px;
   align-items: center;
   justify-content: flex-end;
 `
-Dialog.Divider = styled.div`
+const Divider = styled.div`
   flex: 0 0 1px;
   margin: 0 24px;
   background-color: var(--on-surface);
   opacity: var(--divider);
 `
+
+Dialog.Header = Header
+Dialog.Content = Content
+Dialog.Action = Action
+Dialog.Divider = Divider

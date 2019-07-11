@@ -21,7 +21,6 @@ export function User() {
 }
 
 const Root = styled.div`
-  all: unset;
   position: sticky;
   top: var(--caption-height);
   flex: 0 0 280px;

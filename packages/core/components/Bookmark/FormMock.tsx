@@ -33,6 +33,7 @@ const FlexItem = styled.div`
   text-align: center;
 `
 const Thumbnail = styled.img`
+  all: unset;
   position: sticky;
   top: 0;
   width: 240px;

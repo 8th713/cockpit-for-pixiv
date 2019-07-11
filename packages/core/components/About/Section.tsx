@@ -10,24 +10,20 @@ type Props = {
 export function Section(props: Props) {
   return (
     <Layout>
-      <Header>
-        <Text kind="h2">{props.label}</Text>
-      </Header>
+      <header>
+        <Text textStyle="h2" pb={1}>
+          {props.label}
+        </Text>
+      </header>
       {props.children}
     </Layout>
   )
 }
 
 const Layout = styled.section`
-  all: unset;
   display: block;
   min-width: 512px;
   & + & {
-    padding-top: 16px;
+    margin-top: 16px;
   }
-`
-const Header = styled.header`
-  all: unset;
-  display: block;
-  padding: 16px 0;
 `

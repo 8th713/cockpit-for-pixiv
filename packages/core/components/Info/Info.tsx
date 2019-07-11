@@ -3,18 +3,19 @@ import styled from 'styled-components'
 import { Caption } from './Caption'
 import { Description } from './Description'
 import { User } from './User'
+import { Box } from '../shared/Box'
 
 export function Info() {
   return (
     <>
       <Caption />
       <Divider />
-      <Grid>
+      <Box display="flex" p={3} alignItems="flex-start" bg="surface">
         <Description />
         <React.Suspense fallback={null}>
           <User />
         </React.Suspense>
-      </Grid>
+      </Box>
     </>
   )
 }
@@ -31,10 +32,4 @@ const Divider = styled.div`
     background-color: var(--on-surface);
     opacity: 0.12;
   }
-`
-const Grid = styled.div`
-  display: flex;
-  align-items: flex-start;
-  padding: 16px;
-  background-color: var(--surface);
 `

@@ -38,7 +38,7 @@ export function Player({ urls, frames, ...rest }: Props) {
         <IconButton onClick={() => dispatch({ type: 'rewind' })}>
           <Stop />
         </IconButton>
-        <Count kind="caption">
+        <Count textStyle="caption">
           {index + 1}/{frames.length}
         </Count>
       </PlayControl>
@@ -66,13 +66,13 @@ const PlayControl = styled.div`
   left: 0;
   right: 0;
   display: grid;
-  grid-template-columns: min-content min-content 1fr;
-  align-items: center;
   height: 56px;
   padding: 4px 8px;
   background-color: rgba(0, 0, 0, var(--medium));
   color: var(--on-surface);
   opacity: 0;
+  grid-template-columns: min-content min-content 1fr;
+  align-items: center;
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover,
   &:focus-within {

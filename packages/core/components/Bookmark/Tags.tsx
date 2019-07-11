@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BookmarkForm, Illust } from '../../interfaces'
+import { Box } from '../shared/Box'
 import { Text } from '../shared/Text'
 import { TextField } from '../shared/TextField'
 import { SortButtons } from './SortButtons'
-import { splitTag, toggleTag, sortBy } from './utils'
 import { useSort } from './SortHost'
+import { sortBy, splitTag, toggleTag } from './utils'
 
 type Props = {
   userTags: BookmarkForm['userTags']
@@ -40,22 +41,24 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
         label="ブックマークタグ"
         helperText="スペース区切りで10個まで登録できます。英数字等は半角に統一されます。"
         counterText={`${selectedTags.length} / ${MAX_LENGTH}`}
-        margin
+        mt={3}
+        mb={2}
         type="text"
         name="tags"
         invalid={!valid}
         value={value}
         onChange={handleChange}
       />
-      <FieldBox>
+      <Box mt={3} mb={2}>
         <Header>
-          <Text kind="h2">この作品のタグ</Text>
+          <Text textStyle="h2">この作品のタグ</Text>
         </Header>
         <TagList>
           {illustTags.map(item => (
             <Tag
               key={item.tag}
               type="button"
+              data-level={6}
               aria-pressed={selectedTags.includes(item.tag)}
               onClick={() => handleTagging(item.tag)}
             >
@@ -63,10 +66,10 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
             </Tag>
           ))}
         </TagList>
-      </FieldBox>
-      <FieldBox>
+      </Box>
+      <Box mt={3} mb={2}>
         <Header>
-          <Text kind="h2">あなたのブックマークタグ</Text>
+          <Text textStyle="h2">あなたのブックマークタグ</Text>
           <SortButtons />
         </Header>
         <TagList>
@@ -82,21 +85,17 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
             </Tag>
           ))}
         </TagList>
-      </FieldBox>
+      </Box>
     </>
   )
 }
 
-const FieldBox = styled.div`
-  margin-top: 16px;
-  margin-bottom: 8px;
-`
 const Header = styled.div`
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   height: 48px;
+  align-items: center;
+  justify-content: space-between;
 `
 const TagList = styled.div`
   position: relative;
@@ -121,13 +120,11 @@ const Tag = styled.button`
   user-select: none;
   outline: none;
   box-sizing: border-box;
-  overflow: hidden;
   position: relative;
   z-index: 0;
   display: inline-flex;
+  overflow: hidden;
   flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
   margin-right: 8px;
   padding: 2px 8px;
   border: 0;
@@ -136,6 +133,8 @@ const Tag = styled.button`
   color: var(--primary);
   font: inherit;
   line-height: 1;
+  align-items: center;
+  justify-content: center;
   &[aria-pressed='true'] {
     background-color: var(--primary);
     color: var(--on-primary);
@@ -184,8 +183,8 @@ const Tag = styled.button`
     height: 100%;
     border-radius: inherit;
     background-color: currentColor;
-    opacity: var(--enabled);
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: opacity 15ms linear;
   }
   &:hover::before {
     opacity: var(--hovered);

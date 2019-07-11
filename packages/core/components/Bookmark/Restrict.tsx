@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import { Box } from '../shared/Box'
 import { Switch } from '../shared/Switch'
 import { Text } from '../shared/Text'
 
@@ -10,8 +10,8 @@ type Props = {
 
 export function Restrict({ value, onChange }: Props) {
   return (
-    <Root>
-      <Text as="span" style={{ marginRight: 8 }}>
+    <Box display="flex" alignItems="center">
+      <Text as="span" mr={2}>
         非公開
       </Text>
       <Switch
@@ -20,11 +20,6 @@ export function Restrict({ value, onChange }: Props) {
         checked={value}
         onChange={e => onChange({ restrict: e.target.checked })}
       />
-    </Root>
+    </Box>
   )
 }
-
-const Root = styled.div`
-  display: flex;
-  align-items: center;
-`

@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import { Box } from '../../shared/Box'
 import { Comment } from './Comment'
 import { Series } from './Series'
 import { Stats } from './Stats'
@@ -7,20 +7,13 @@ import { TagList } from './TagList'
 
 export function Description() {
   return (
-    <Root>
+    <Box display="grid" gridGap={3} flex="1 0">
       <React.Suspense fallback={null}>
         <Comment />
         <TagList />
         <Series />
         <Stats />
       </React.Suspense>
-    </Root>
+    </Box>
   )
 }
-
-const Root = styled.div`
-  all: unset;
-  display: grid;
-  gap: 24px;
-  flex: 1 0;
-`

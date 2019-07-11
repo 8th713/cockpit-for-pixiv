@@ -13,7 +13,8 @@ export function Comment({ value, onChange }: Props) {
     <TextField
       label="ブックマークコメント"
       counterText={`${value.length} / ${MAX_LENGTH}`}
-      margin
+      mt={3}
+      mb={2}
       type="text"
       name="comment"
       maxLength={MAX_LENGTH}

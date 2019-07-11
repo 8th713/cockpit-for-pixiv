@@ -4,7 +4,7 @@ import { KEY_ASSIGNMENT } from '../../../constants'
 import { useServices } from '../../Services'
 import { Button } from '../../shared/Button'
 import { Hotkey } from '../../shared/Hotkey'
-import { Add } from '../../shared/Icon'
+import { Add, Refresh } from '../../shared/Icon'
 import { getTitle } from '../utils'
 
 type Props = {
@@ -24,12 +24,12 @@ export function FollowButton({ id }: Props) {
     return (
       <Action>
         <Button
-          kind="outlined"
-          color="primary"
+          variant="contained"
+          colors="error"
           onClick={() => useUser.remove(id)}
         >
-          <Add width="18" height="18" />
-          再読込
+          <Refresh size={18} mr={2} />
+          再取得
         </Button>
       </Action>
     )
@@ -50,12 +50,12 @@ export function FollowButton({ id }: Props) {
     <Action>
       {!isFollowed && (
         <Button
-          kind="contained"
-          color="primary"
+          variant="contained"
+          colors="primary"
           title={title}
           onClick={handleFollow}
         >
-          <Add style={{ marginRight: 8 }} />
+          <Add size={18} mr={2} />
           フォローする
           <Hotkey {...KEY_ASSIGNMENT.follow} action={handleFollow} />
           <Hotkey {...KEY_ASSIGNMENT.followPrivate} action={handleFollow} />
@@ -63,8 +63,8 @@ export function FollowButton({ id }: Props) {
       )}
       {isFollowed && (
         <Button
-          kind="outlined"
-          color="primary"
+          variant="outlined"
+          colors="primary"
           title={title}
           onClick={handleFollow}
         >

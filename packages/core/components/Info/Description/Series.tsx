@@ -1,9 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
 import { Collections } from '../../shared/Icon'
-import * as styles from '../../shared/styles'
+import { Link } from '../../shared/Link'
 import { Text } from '../../shared/Text'
 
 export function Series() {
@@ -21,24 +20,12 @@ export function Series() {
   const href = `/user/${userId}/series/${seriesId}`
 
   return (
-    <Root>
+    <Text textStyle="b2" display="flex" alignItems="center" ellipsis>
       <Collections width="18" height="18" />
-      <Link href={href}>{title}</Link>
-      <Text as="span" kind="b2">
-        [#{order}]
-      </Text>
-    </Root>
+      <Link href={href} mx={2}>
+        {title}
+      </Link>
+      [#{order}]
+    </Text>
   )
 }
-
-const Root = styled.div`
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-`
-const Link = styled.a`
-  margin: 0 8px;
-  ${styles.link}
-  ${styles.fontPresets.body2};
-  white-space: nowrap;
-`

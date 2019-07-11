@@ -41,8 +41,8 @@ export function Form({ illust, data, children }: Props) {
       onSubmit={handleSubmit}
       action={
         <Button
-          kind="contained"
-          color="primary"
+          variant="contained"
+          colors="primary"
           type="submit"
           disabled={disabled}
         >

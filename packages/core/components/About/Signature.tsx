@@ -1,44 +1,40 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Box } from '../shared/Box'
 import { Bug, Help } from '../shared/Icon'
 import { Section } from './Section'
 
 export function Signature() {
   return (
     <Section label="About">
-      <List>
+      <Box mx={-24}>
         <LinkItem href={GM_info.script.homepage}>
-          <Help />
-          <Gap />
+          <Help mr={3} />
           View the Github Project
         </LinkItem>
         <LinkItem href={GM_info.script.supportURL}>
-          <Bug />
-          <Gap />
+          <Bug mr={3} />
           Report Issues
         </LinkItem>
-      </List>
+      </Box>
     </Section>
   )
 }
 
-const List = styled.div`
-  margin: 0 -24px;
-`
 const LinkItem = styled.a`
   cursor: pointer;
   box-sizing: border-box;
   position: relative;
-  overflow: hidden;
   display: flex;
-  align-items: center;
   width: 100%;
   height: 56px;
+  overflow: hidden;
   margin: 0;
   padding: 0 24px;
   border: 0;
   background-color: transparent;
   color: var(--primary);
+  align-items: center;
   &::before {
     content: '';
     pointer-events: none;
@@ -49,8 +45,8 @@ const LinkItem = styled.a`
     height: 100%;
     border-radius: inherit;
     background-color: currentColor;
-    opacity: var(--enabled);
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: opacity 15ms linear;
   }
   &:hover {
     text-decoration: none;
@@ -68,8 +64,4 @@ const LinkItem = styled.a`
       opacity: var(--pressed);
     }
   }
-`
-const Gap = styled.span`
-  display: inline-block;
-  width: 16px;
 `

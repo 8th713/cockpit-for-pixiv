@@ -11,10 +11,10 @@ export function SortButtons() {
 
   return (
     <Action>
-      <Button color={nameBtnStyle.color} type="button" onClick={sortByName}>
+      <Button colors={nameBtnStyle.color} type="button" onClick={sortByName}>
         名前順{nameBtnStyle.arrow}
       </Button>
-      <Button color={totalBtnStyle.color} type="button" onClick={sortByTotal}>
+      <Button colors={totalBtnStyle.color} type="button" onClick={sortByTotal}>
         件数順{totalBtnStyle.arrow}
       </Button>
     </Action>

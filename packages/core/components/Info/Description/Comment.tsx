@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import * as styles from '../../shared/styles'
 import { Text } from '../../shared/Text'
 
 export function Comment() {
@@ -11,13 +10,23 @@ export function Comment() {
   const illust = useIllust(id)
 
   if (!illust) return null
+  if (!illust.illustComment) return null
 
   const comment = illust.illustComment.trim()
 
-  return <Root kind="b2" dangerouslySetInnerHTML={{ __html: comment }} />
+  return <Root textStyle="b2" dangerouslySetInnerHTML={{ __html: comment }} />
 }
 
 const Root = styled(Text)`
   word-break: break-word;
-  ${styles.link};
+  a {
+    cursor: pointer;
+    color: var(--primary);
+    :hover {
+      text-decoration: none;
+    }
+    :focus {
+      outline: auto currentColor;
+    }
+  }
 `

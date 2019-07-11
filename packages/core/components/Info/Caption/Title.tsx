@@ -1,8 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import * as styles from '../../shared/styles'
+import { Link } from '../../shared/Link'
 
 const prefix = '/member_illust.php?mode=medium&illust_id='
 
@@ -15,13 +14,8 @@ export function Title() {
 
   const { title } = illust
   return (
-    <Link href={prefix + id} title={title}>
+    <Link href={prefix + id} title={title} color="onSurface">
       {title}
     </Link>
   )
 }
-
-const Link = styled.a`
-  ${styles.link};
-  color: var(--on-surface);
-`

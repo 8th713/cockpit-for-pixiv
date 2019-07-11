@@ -45,32 +45,32 @@ export function FullSizeView({ id, pages }: Props) {
 }
 
 const Root = styled.div`
-  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  overflow: auto;
   --caption-height: 0px;
 `
 const AdjustBox = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
   width: fit-content;
   height: fit-content;
   min-width: 100%;
   min-height: 100%;
   margin: auto;
+  flex-direction: column;
 `
 const ClickableBox = styled.div`
   cursor: zoom-out;
   display: flex;
-  flex-direction: column;
   min-width: 100%;
   min-height: 100%;
   flex: 1 0;
   margin: auto;
+  flex-direction: column;
 `
 const Preview = styled.div`
   box-sizing: border-box;

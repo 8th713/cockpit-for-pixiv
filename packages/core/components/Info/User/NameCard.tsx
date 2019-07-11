@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useServices } from '../../Services'
+import { Box } from '../../shared/Box'
 import { AccountError } from '../../shared/Icon'
 
 type Props = {
@@ -15,14 +16,14 @@ export function NameCard({ id }: Props) {
     return (
       <Link>
         <AccountError width="40" height="40" />
-        <Name>取得できませんでした</Name>
+        <Box ml={3}>取得できませんでした</Box>
       </Link>
     )
 
   return (
     <Link href={`https://www.pixiv.net/member.php?id=${user.userId}`}>
       <Avatar src={user.image} />
-      <Name>{user.name}</Name>
+      <Box ml={3}>{user.name}</Box>
     </Link>
   )
 }
@@ -30,14 +31,14 @@ export function NameCard({ id }: Props) {
 const Link = styled.a`
   cursor: pointer;
   box-sizing: border-box;
-  overflow: hidden;
   position: relative;
   display: flex;
-  align-items: center;
+  overflow: hidden;
   padding: 8px 16px;
   border-radius: 8px;
   color: var(--on-surface);
   text-decoration: none;
+  align-items: center;
   &::before {
     content: '';
     pointer-events: none;
@@ -48,8 +49,8 @@ const Link = styled.a`
     height: 100%;
     border-radius: inherit;
     background-color: currentColor;
-    opacity: var(--enabled);
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: opacity 15ms linear;
   }
   &:hover {
     text-decoration: none;
@@ -77,7 +78,4 @@ const Avatar = styled.img`
   height: 40px;
   background-color: var(--surface);
   border-radius: 50%;
-`
-const Name = styled.span`
-  margin-left: 16px;
 `

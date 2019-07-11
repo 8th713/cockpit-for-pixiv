@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import * as styles from './styles'
+import { themeGet } from '../system'
 
 type Props = {
   open?: boolean
@@ -63,7 +63,7 @@ const Root = styled.dialog`
   /* Text legibility */
   --high: 0.87;
   --medium: 0.6;
-  --disabled: 0.38;
+  --low: 0.38;
 
   /* Ripple opacity */
   --enabled: 0;
@@ -71,24 +71,25 @@ const Root = styled.dialog`
   --focused: 0.12;
   --pressed: 0.1;
   --divider: 0.12;
+  --disabled: 0.38;
 
   --caption-height: 56px;
 
-  overflow: auto;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: auto;
   margin: 0;
   border: 0;
   padding: 0;
   background: transparent;
   color: var(--on-surface);
   -webkit-font-smoothing: antialiased;
-  font-family: 'Roboto', 'Helvetica Neue', 'arial', 'Noto Sans CJK JP',
-    'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-  ${styles.fontPresets.body1};
+  font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
+    Hiragino Kaku Gothic ProN, Meiryo, sans-serif;
+  ${themeGet('textStyles.body1')};
   text-decoration: none;
   text-transform: none;
   &:not([open]) {

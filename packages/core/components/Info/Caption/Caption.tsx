@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { ToggleForm } from '../../Bookmark'
+import { Box } from '../../shared/Box'
+import { Text } from '../../shared/Text'
 import { BookmarkButton, BookmarkButtonMock } from './BookmarkButton'
 import { DownloadButton, DownloadButtonMock } from './DownloadButton'
 import { FullSizeModeButton } from './FullSizeModeButton'
@@ -10,21 +12,20 @@ import { ReloadButton } from './ReloadButton'
 import { ScrollButton } from './ScrollButton'
 import { ShareButton, ShareButtonMock } from './ShareButton'
 import { Title } from './Title'
-import { Text } from '../../shared/Text'
 
 export function Caption() {
   return (
-    <Snackbar>
-      <ButtonGroup>
+    <Root>
+      <Box display="flex" p={1}>
         <ScrollButton />
-      </ButtonGroup>
-      <Text kind="h1" noWrap style={{ paddingLeft: 16, paddingRight: 16 }}>
+      </Box>
+      <Text textStyle="h1" ellipsis px={3}>
         <React.Suspense fallback={null}>
           <Title />
         </React.Suspense>
       </Text>
-      <Grow />
-      <ButtonGroup>
+      <Box flexGrow={1} />
+      <Box display="flex" p={1}>
         <React.Suspense
           fallback={
             <>
@@ -45,26 +46,19 @@ export function Caption() {
         </React.Suspense>
         <FullSizeModeButton />
         <HelpButton />
-      </ButtonGroup>
-    </Snackbar>
+      </Box>
+    </Root>
   )
 }
 
-const Snackbar = styled.div`
+const Root = styled.div`
   box-sizing: border-box;
   position: sticky;
   top: 0;
   bottom: 0;
   z-index: 1;
   display: flex;
-  align-items: center;
   height: var(--caption-height);
   background-color: var(--surface);
-`
-const ButtonGroup = styled.div`
-  display: flex;
-  padding: 4px;
-`
-const Grow = styled.div`
-  flex-grow: 1;
+  align-items: center;
 `

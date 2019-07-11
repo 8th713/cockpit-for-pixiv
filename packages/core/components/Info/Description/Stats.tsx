@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
+import { Box } from '../../shared/Box'
 import { BookmarkOn, DateTime, Like, ViewCount } from '../../shared/Icon'
 import { Text } from '../../shared/Text'
 
@@ -25,42 +26,32 @@ export function Stats() {
   const { likeCount, bookmarkCount, viewCount, uploadDate } = illust
 
   return (
-    <Root>
-      <Score kind="b2">
-        <Like width="18" height="18" />
-        <SpaceText>{likeCount}</SpaceText>
+    <Box display="flex" flexWrap="wrap" alignItems="center">
+      <Score textStyle="b2">
+        <Like width="18" height="18" mr={2} />
+        {likeCount}
       </Score>
-      <Score kind="b2">
-        <BookmarkOn width="18" height="18" />
-        <SpaceText>{bookmarkCount}</SpaceText>
+      <Score textStyle="b2">
+        <BookmarkOn width="18" height="18" mr={2} />
+        {bookmarkCount}
       </Score>
-      <Score kind="b2">
-        <ViewCount width="18" height="18" />
-        <SpaceText>{viewCount}</SpaceText>
+      <Score textStyle="b2">
+        <ViewCount width="18" height="18" mr={2} />
+        {viewCount}
       </Score>
-      <Score kind="b2">
-        <DateTime width="18" height="18" />
-        <SpaceText>{formatDate(uploadDate)}</SpaceText>
+      <Score textStyle="b2">
+        <DateTime width="18" height="18" mr={2} />
+        {formatDate(uploadDate)}
       </Score>
-    </Root>
+    </Box>
   )
 }
 
-const Root = styled.div`
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-`
-
 const Score = styled(Text)`
   display: flex;
-  align-items: center;
   white-space: nowrap;
+  align-items: center;
   & + & {
     margin-left: 8px;
   }
-`
-
-const SpaceText = styled.span`
-  margin-left: 8px;
 `

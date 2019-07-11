@@ -34,10 +34,10 @@ export function StandardViewMock({ id, children }: Props) {
 const Root = styled.section`
   outline: none;
   position: relative;
-  overflow: auto;
   display: block;
   width: 100%;
   height: 100%;
+  overflow: auto;
   &[hidden] {
     opacity: 0;
   }
@@ -50,10 +50,10 @@ const Box = styled.div`
   outline: none;
   position: relative;
   display: flex;
-  flex-direction: column;
   width: 100%;
   height: calc(100vh - var(--caption-height));
   padding: 32px;
+  flex-direction: column;
 `
 
 StandardViewMock.Root = Root

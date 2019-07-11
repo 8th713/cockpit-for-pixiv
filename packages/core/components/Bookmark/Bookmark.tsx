@@ -21,7 +21,7 @@ export function Bookmark({ illust }: Props) {
     <Modal open={open} onClose={handleClose}>
       <Dialog onBackdropClick={handleClose}>
         <Dialog.Header>
-          <Text kind="h1">{illust.title}</Text>
+          <Text textStyle="h1">{illust.title}</Text>
         </Dialog.Header>
         <Dialog.Divider />
         <React.Suspense

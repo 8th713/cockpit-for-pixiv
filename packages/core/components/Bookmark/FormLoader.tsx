@@ -24,8 +24,8 @@ export function FormLoader({ illust, children }: Props) {
           useBookmarkForm.remove(illust.id)
         }}
         action={
-          <Button kind="contained" color="error" type="submit">
-            <Refresh mr={8} />
+          <Button variant="contained" colors="error" type="submit">
+            <Refresh size={18} mr={2} />
             再取得
           </Button>
         }
@@ -33,7 +33,7 @@ export function FormLoader({ illust, children }: Props) {
         <FormMock.FlexContainer>
           {children}
           <FormMock.FlexItem>
-            <Text color="error" style={{ margin: 'auto' }}>
+            <Text color="error" m="auto">
               取得に失敗しました
             </Text>
           </FormMock.FlexItem>

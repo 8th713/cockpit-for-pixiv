@@ -2,6 +2,7 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { KeyDefinition } from '../../interfaces'
+import { Box } from '../shared/Box'
 import { Text } from '../shared/Text'
 import { Section } from './Section'
 
@@ -11,41 +12,40 @@ export function HotkeyList() {
   const children = useMemo(
     () =>
       items.map(item => (
-        <KeyItem key={item.keyName}>
+        <Box key={item.keyName} display="flex" alignItems="center">
           <Kbd title={item.title}>{item.keyName}</Kbd>
-          <Text kind="b2">{item.children}</Text>
-        </KeyItem>
+          <Text textStyle="b2" em="high" ml={3}>
+            {item.children}
+          </Text>
+        </Box>
       )),
     items // eslint-disable-line react-hooks/exhaustive-deps
   )
 
   return (
     <Section label="Shortcuts">
-      <List>{children}</List>
+      <Box
+        display="grid"
+        gridTemplateColumns="1fr 1fr"
+        gridGap={3}
+        alignItems="center"
+      >
+        {children}
+      </Box>
     </Section>
   )
 }
 
-const List = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-`
-const KeyItem = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 36px 1fr;
-  gap: 24px;
-`
 const Kbd = styled.kbd`
   box-sizing: border-box;
   display: inline-block;
+  min-width: 32px;
   border: 1px solid rgba(255, 255, 255, var(--divider));
   border-radius: 2px;
   color: var(--on-surface);
   text-align: center;
-  font-family: 'Source Code Pro', 'Consolas', monospace;
+  font-family: Source Code Pro, SFMono-Regular, Consolas, Liberation Mono, Menlo,
+    Courier, monospace;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.08929em;

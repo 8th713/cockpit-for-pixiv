@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
+import { Box } from '../../shared/Box'
 import { Hotkey } from '../../shared/Hotkey'
 import { Like } from '../../shared/Icon'
 import { IconButton } from '../../shared/IconButton'
@@ -27,9 +27,9 @@ export function LikeButton() {
     )
   if (likeData)
     return (
-      <FakeButton>
+      <Box size={48} p="12px" color="primary">
         <Like />
-      </FakeButton>
+      </Box>
     )
 
   const handleLike = () => {
@@ -55,12 +55,3 @@ export function LikeButtonMock() {
     </IconButton>
   )
 }
-
-const FakeButton = styled.div`
-  box-sizing: border-box;
-  width: 48px;
-  height: 48px;
-  margin: auto;
-  padding: 12px;
-  color: var(--primary);
-`
