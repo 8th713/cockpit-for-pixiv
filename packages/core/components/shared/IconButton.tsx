@@ -1,14 +1,11 @@
 import styled from 'styled-components'
+import * as sys from '../system'
 
-type Color = 'primary' | 'secondary' | 'error'
+interface SystemProps extends sys.MarginProps, sys.SColorStyleProps {}
+type NativeProps = React.ComponentPropsWithoutRef<'button'>
+export type IconButtonProps = SystemProps & NativeProps
 
-type Props = {
-  color?: Color
-}
-
-export const IconButton = styled.button.attrs((props: Props) => ({
-  'data-color': props.color
-}))<Props>`
+export const IconButton = styled.button<IconButtonProps>`
   all: unset;
   cursor: pointer;
   user-select: none;
@@ -22,11 +19,14 @@ export const IconButton = styled.button.attrs((props: Props) => ({
   justify-content: center;
   width: 48px;
   height: 48px;
+  margin: 0;
   padding: 12px;
   border: 0;
   border-radius: 50%;
   background-color: transparent;
-  &::before {
+  color: inherit;
+  opacity: var(--high);
+  ::before {
     content: '';
     pointer-events: none;
     position: absolute;
@@ -36,36 +36,33 @@ export const IconButton = styled.button.attrs((props: Props) => ({
     height: 100%;
     border-radius: inherit;
     background-color: currentColor;
-    opacity: var(--enabled);
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transition: opacity 15ms linear;
   }
-  &:hover::before {
-    opacity: var(--hovered);
+  :hover {
+    ::before {
+      opacity: var(--hovered);
+    }
   }
-  &:focus::before {
-    opacity: var(--focused);
+  :focus {
+    ::before {
+      opacity: var(--focused);
+    }
   }
-  &:active::before {
-    opacity: var(--pressed);
+  :active {
+    ::before {
+      opacity: var(--pressed);
+    }
   }
-
-  &:not([data-color]) {
-    color: inherit;
-    opacity: var(--high);
-  }
-  &[data-color='primary'] {
-    color: var(--primary);
-  }
-  &[data-color='secondary'] {
-    color: var(--secondary);
-  }
-  &[data-color='error'] {
-    color: var(--error);
-  }
-  &:disabled {
+  :disabled {
     cursor: default;
     pointer-events: none;
     color: var(--on-surface);
     opacity: var(--disabled);
   }
+  ${sys.compose(
+    sys.margin,
+    sys.colorStyle
+  )}
 `
+IconButton.displayName = 'IconButton'
