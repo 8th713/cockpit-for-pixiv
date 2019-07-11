@@ -1,29 +1,35 @@
 import React from 'react'
-import styled from 'styled-components'
-import * as styles from './styles'
+import styled, { DefaultTheme } from 'styled-components'
+import * as sys from '../system'
+import { Text } from './Text'
 
-type Color = 'primary' | 'secondary' | 'error'
-type Kind = 'text' | 'contained' | 'outlined'
-
-type Props = React.ComponentPropsWithoutRef<'button'> & {
-  color?: Color
-  kind?: Kind
+interface SystemProps
+  extends sys.MarginProps,
+    sys.PositionProps,
+    sys.FlexItemProps,
+    sys.GridItemProps,
+    sys.SButtonStyleProps {
+  colors?: sys.StrictResponsiveValue<
+    sys.ValueOf<DefaultTheme, 'buttonColorStyles'>
+  >
 }
+type NativeProps = React.ComponentPropsWithoutRef<'button'>
+export type ButtonProps = SystemProps & NativeProps
 
-export const Button = React.forwardRef<HTMLButtonElement, Props>(
-  function Button(
-    { color = 'primary', kind = 'text', children, ...props },
-    ref
-  ) {
-    return (
-      <Root ref={ref} {...props} data-color={color} data-kind={kind}>
-        <span>{children}</span>
-      </Root>
-    )
-  }
-)
+const Impl = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+  const { children, ...buttonProps } = sys.omitSystemProps(props)
 
-const Root = styled.button`
+  return (
+    <button ref={ref} {...buttonProps}>
+      <Label textStyle="button">{children}</Label>
+    </button>
+  )
+})
+Impl.displayName = 'Button'
+
+export const Button = styled(Impl)`
+  --multiplier: 1;
+  --overlay-color: currentColor;
   all: unset;
   cursor: pointer;
   user-select: none;
@@ -40,11 +46,9 @@ const Root = styled.button`
   height: 36px;
   padding: 6px 16px;
   border-radius: 18px;
-  font-family: inherit;
-  ${styles.fontPresets.button};
-  text-decoration: none;
   background-color: transparent;
   color: inherit;
+  transition: background-color 15ms linear, color 15ms linear;
   &::before {
     content: '';
     pointer-events: none;
@@ -53,122 +57,46 @@ const Root = styled.button`
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: inherit;
-    background-color: currentColor;
-    opacity: var(--enabled);
-    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: var(--overlay-color);
+    opacity: 0;
+    transition: opacity 15ms linear;
   }
   &:disabled {
     cursor: default;
     pointer-events: none;
   }
   &:hover::before {
-    opacity: var(--hovered);
+    opacity: calc(var(--hovered) * var(--multiplier));
   }
   &:focus::before {
-    opacity: var(--focused);
+    opacity: calc(var(--focused) * var(--multiplier));
   }
   &:active::before {
-    opacity: var(--pressed);
+    opacity: calc(var(--pressed) * var(--multiplier));
   }
-  & > span {
-    width: 100%;
-    display: inherit;
-    align-items: inherit;
-    justify-content: inherit;
-  }
-  &:disabled > span {
-    opacity: var(--disabled);
-  }
-
-  &[data-kind='text'] {
-    padding: 6px 8px;
-    &[data-color='primary'] {
-      color: var(--primary);
-    }
-    &[data-color='secondary'] {
-      color: var(--secondary);
-    }
-    &[data-color='error'] {
-      color: var(--error);
-    }
-    &:disabled {
-      color: var(--on-surface);
-    }
-  }
-  &[data-kind='outlined'] {
-    &[data-color='primary'] {
-      color: var(--primary);
-    }
-    &[data-color='secondary'] {
-      color: var(--secondary);
-    }
-    &[data-color='error'] {
-      color: var(--error);
-    }
-    &:disabled {
-      color: var(--on-surface);
-    }
-    /* outline */
-    &::after {
-      content: '';
-      box-sizing: border-box;
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 2px solid currentColor;
-      border-radius: inherit;
-    }
-    &:disabled::after {
-      opacity: var(--divider);
-    }
-  }
-  &[data-kind='contained'] {
-    &[data-color='primary'] {
-      background-color: var(--primary);
-      color: var(--on-primary);
-    }
-    &[data-color='secondary'] {
-      background-color: var(--secondary);
-      color: var(--on-secondary);
-    }
-    &[data-color='error'] {
-      background-color: var(--error);
-      color: var(--on-error);
-    }
-    &::before {
-      background-color: var(--on-surface);
-    }
-    &::after {
-      content: '';
-      box-sizing: border-box;
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-    }
-    /* outline */
-    &:focus::after {
-      border: 2px solid var(--on-surface);
-    }
-    &:disabled {
-      background-color: transparent;
-      color: var(--on-surface);
-    }
-    /* overlay */
-    &:disabled::after {
-      background-color: var(--on-surface);
-      opacity: var(--divider);
-    }
-  }
-
+  ${sys.compose(
+    sys.buttonStyle,
+    sys.variant({
+      key: 'buttonColorStyles',
+      prop: 'colors'
+    })
+  )}
   & + & {
     margin-left: 8px;
+  }
+`
+Button.defaultProps = {
+  variant: 'text'
+}
+
+const Label = styled(Text)`
+  pointer-events: none;
+  box-sizing: border-box;
+  width: 100%;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+  button:disabled > & {
+    opacity: var(--disabled);
   }
 `
