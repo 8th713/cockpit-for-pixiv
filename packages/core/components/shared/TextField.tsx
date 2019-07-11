@@ -1,35 +1,70 @@
-import React from 'react'
+import React, {
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react'
 import styled from 'styled-components'
-import * as styles from './styles'
+import * as sys from '../system'
+import { Box } from './Box'
 
-type Props = React.ComponentPropsWithoutRef<'input'> & {
-  margin?: boolean
-  invalid?: boolean
-  label?: string
-  helperText?: string
-  counterText?: string
-}
+interface BoxProps
+  extends sys.PositionProps,
+    sys.WidthProps,
+    sys.MarginProps,
+    sys.FlexItemProps,
+    sys.GridItemProps {}
+type InputProps = React.ComponentPropsWithoutRef<'input'>
+export type TextFieldProps = BoxProps &
+  InputProps & {
+    as?: never
+    invalid?: boolean
+    label?: string
+    helperText?: string
+    counterText?: string
+  }
 
-export const TextField = React.forwardRef<HTMLInputElement, Props>(
+const Impl = React.forwardRef<HTMLInputElement, TextFieldProps>(
   (props, ref) => {
+    const otherProps = sys.omitSystemProps(props)
     const {
       className,
-      margin,
+      style,
       invalid,
       label,
       helperText,
       counterText,
       ...inputProps
-    } = props
+    } = otherProps
     const hasHelper = !!helperText || !!counterText
+    const input = useRef<HTMLInputElement>(null)
+    const [isLeft, leave] = useState(false)
+    useImperativeHandle(ref, () => input.current!)
+    useLayoutEffect(() => {
+      const node = input.current
+      if (!node) return
+      const handleInput = () => {
+        leave(!!node.value)
+      }
+      node.addEventListener('change', handleInput)
+      return () => {
+        node.removeEventListener('change', handleInput)
+      }
+    }, [])
+    useLayoutEffect(() => {
+      const node = input.current
+      if (!node) return
+      if (node === document.activeElement) return
+      leave(!!node.value)
+    }, [inputProps.value, inputProps.defaultValue])
 
     return (
-      <Root className={className} data-invalid={invalid} data-margin={margin}>
+      <div className={className} style={style} data-invalid={invalid}>
         <Field>
-          <Input ref={ref} aria-invalid={invalid} {...inputProps} />
+          <Input ref={input} aria-invalid={invalid} {...inputProps} />
           <Outline>
             <Leading />
-            <Notch>
+            <Notch data-left={isLeft}>
               <Label>{label}</Label>
             </Notch>
             <Trailing />
@@ -37,22 +72,26 @@ export const TextField = React.forwardRef<HTMLInputElement, Props>(
         </Field>
         {hasHelper && (
           <Helper>
-            <HelperText>{helperText}</HelperText>
-            <Counter>{counterText}</Counter>
+            <Box>{helperText}</Box>
+            <Box ml={3}>{counterText}</Box>
           </Helper>
         )}
-      </Root>
+      </div>
     )
   }
 )
+Impl.displayName = 'TextField'
 
-const Root = styled.div`
-  flex-shrink: 0;
+export const TextField = styled(Impl)`
+  box-sizing: border-box;
   min-width: 280px;
-  &[data-margin='true'] {
-    margin-top: 16px;
-    margin-bottom: 8px;
-  }
+  ${sys.compose(
+    sys.position,
+    sys.width,
+    sys.margin,
+    sys.flexItem,
+    sys.gridItem
+  )}
 `
 const Field = styled.label`
   box-sizing: border-box;
@@ -74,15 +113,19 @@ const Input = styled.input`
     color: var(--on-surface);
     caret-color: var(--primary);
     font-family: inherit;
-    ${styles.fontPresets.body1};
+    ${sys.themeGet('textStyles.b1')};
     line-height: 1.75;
     transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     &::placeholder {
       color: var(--on-surface);
-      opacity: var(--medium);
+      opacity: 0;
+      transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
     &:focus {
       outline: none;
+      &::placeholder {
+        opacity: var(--medium);
+      }
     }
     &:disabled {
       opacity: var(--disabled);
@@ -150,7 +193,7 @@ const Notch = styled.div`
   flex: 0 0 auto;
   width: auto;
   height: 100%;
-  border-top: 0;
+  border-top: 2px solid;
   border-bottom: 2px solid;
   border-color: rgba(255, 255, 255, var(--divider));
   transition: border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
@@ -166,22 +209,33 @@ const Notch = styled.div`
   input:disabled + div > & {
     border-color: rgba(255, 255, 255, var(--hovered));
   }
+  input:focus + div > &,
+  &[data-left='true'] {
+    border-top-width: 0;
+  }
 `
 const Label = styled.div`
+  box-sizing: border-box;
   display: inline-block;
   position: relative;
-  top: -8px;
+  top: 12px;
   max-width: 100%;
   margin: 0 4px;
   opacity: var(--medium);
   font: inherit;
-  font-size: 12px;
-  line-height: 1.15rem;
+  line-height: 1.75;
   letter-spacing: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+    font-size 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+    line-height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: top font-size line-height opacity;
+  input:required + div > div > &::after {
+    content: '*';
+  }
   input:hover + div > div > & {
     opacity: 1;
   }
@@ -196,6 +250,12 @@ const Label = styled.div`
   input:disabled + div > div > & {
     display: none;
   }
+  input:focus + div > div > &,
+  [data-left='true'] > & {
+    top: -8px;
+    font-size: 12px;
+    line-height: 1.15rem;
+  }
 `
 const Helper = styled.div`
   box-sizing: border-box;
@@ -205,17 +265,11 @@ const Helper = styled.div`
   margin: 6px 16px -2px;
   color: var(--on-surface);
   opacity: var(--medium);
-  ${styles.fontPresets.caption};
+  ${sys.themeGet('textStyles.caption')};
   line-height: 1;
   white-space: nowrap;
   [data-invalid='true'] > & {
     color: var(--error);
     opacity: 1;
   }
-`
-const HelperText = styled.p`
-  margin: 0;
-`
-const Counter = styled.span`
-  padding-left: 16px;
 `
