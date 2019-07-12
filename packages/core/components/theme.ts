@@ -150,15 +150,18 @@ export const theme: DefaultTheme = {
   buttonColorStyles: {
     primary: {
       '--bg-color': 'var(--primary)',
-      '--text-color': 'var(--on-primary)'
+      '--text-color': 'var(--on-primary)',
+      '--text-opacity': 1
     },
     secondary: {
       '--bg-color': 'var(--secondary)',
-      '--text-color': 'var(--on-secondary)'
+      '--text-color': 'var(--on-secondary)',
+      '--text-opacity': 1
     },
     error: {
       '--bg-color': 'var(--error)',
-      '--text-color': 'var(--on-error)'
+      '--text-color': 'var(--on-error)',
+      '--text-opacity': 1
     }
   }
 }

@@ -96,6 +96,7 @@ const Label = styled(Text)`
   display: inherit;
   align-items: inherit;
   justify-content: inherit;
+  opacity: var(--text-opacity, var(--high));
   button:disabled > & {
     opacity: var(--disabled);
   }
