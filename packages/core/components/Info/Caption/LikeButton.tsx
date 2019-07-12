@@ -2,10 +2,7 @@ import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Box } from '../../shared/Box'
-import { Hotkey } from '../../shared/Hotkey'
-import { Like } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { Box, Hotkey, IconButton, Like } from '../../shared'
 import { getTitle, like } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.like)

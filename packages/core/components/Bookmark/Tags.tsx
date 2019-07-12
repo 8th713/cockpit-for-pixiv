@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { BookmarkForm, Illust } from '../../interfaces'
-import { Box } from '../shared/Box'
-import { Text } from '../shared/Text'
-import { TextField } from '../shared/TextField'
+import { Box, Text, TextField } from '../shared'
 import { SortButtons } from './SortButtons'
 import { useSort } from './SortHost'
 import { sortBy, splitTag, toggleTag } from './utils'
@@ -51,7 +49,9 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
       />
       <Box mt={3} mb={2}>
         <Header>
-          <Text textStyle="h2">この作品のタグ</Text>
+          <Text textStyle="h2" em="high">
+            この作品のタグ
+          </Text>
         </Header>
         <TagList>
           {illustTags.map(item => (
@@ -67,9 +67,11 @@ export function Tags({ illustTags, userTags, value, onChange }: Props) {
           ))}
         </TagList>
       </Box>
-      <Box mt={3} mb={2}>
+      <Box mt={3}>
         <Header>
-          <Text textStyle="h2">あなたのブックマークタグ</Text>
+          <Text textStyle="h2" em="high">
+            あなたのブックマークタグ
+          </Text>
           <SortButtons />
         </Header>
         <TagList>

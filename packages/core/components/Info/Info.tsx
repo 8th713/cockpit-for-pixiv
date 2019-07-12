@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Box } from '../shared'
 import { Caption } from './Caption'
 import { Description } from './Description'
 import { User } from './User'
-import { Box } from '../shared/Box'
 
 export function Info() {
   return (

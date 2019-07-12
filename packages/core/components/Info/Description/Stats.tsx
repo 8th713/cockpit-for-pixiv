@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Box } from '../../shared/Box'
-import { BookmarkOn, DateTime, Like, ViewCount } from '../../shared/Icon'
-import { Text } from '../../shared/Text'
+import { BookmarkOn, Box, DateTime, Like, Text, ViewCount } from '../../shared'
 
 const formatDate = (dateString: string) =>
   new Date(dateString).toLocaleString('ja-JP', {

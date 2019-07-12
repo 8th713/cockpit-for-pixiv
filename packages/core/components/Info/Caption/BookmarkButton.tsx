@@ -3,9 +3,7 @@ import { KEY_ASSIGNMENT } from '../../../constants'
 import { Bookmark, useUpdateToggleForm } from '../../Bookmark'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Hotkey } from '../../shared/Hotkey'
-import { BookmarkOff, BookmarkOn } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { BookmarkOff, BookmarkOn, Hotkey, IconButton } from '../../shared'
 import { bookmark, getTitle } from '../utils'
 
 const title = [
@@ -33,7 +31,7 @@ export function BookmarkButton() {
 
   const bookmarked = !!bookmarkData
   const color = bookmarked ? 'error' : undefined
-  const icon = bookmarked ? <BookmarkOn /> : <BookmarkOff />
+  const icon = bookmarked ? <BookmarkOn color="error" /> : <BookmarkOff />
   const handleBookmark = (event: { shiftKey: boolean; ctrlKey: boolean }) => {
     if (!isBookmarkable) return
     if (event.ctrlKey) return setOpen(true)

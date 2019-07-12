@@ -3,9 +3,7 @@ import { KEY_ASSIGNMENT } from '../../../constants'
 import { DownloadRequestAction } from '../../../interfaces'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Hotkey } from '../../shared/Hotkey'
-import { Download } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { Download, Hotkey, IconButton } from '../../shared'
 import { getTitle } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.download)

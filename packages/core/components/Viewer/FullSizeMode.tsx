@@ -1,5 +1,5 @@
 import React, { useContext, useDebugValue, useMemo, useState } from 'react'
-import { Hotkey } from '../shared/Hotkey'
+import { Hotkey } from '../shared'
 import { KEY_ASSIGNMENT } from '../../constants'
 
 type Props = {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Link } from '../../shared/Link'
+import { Link } from '../../shared'
 
 const prefix = '/member_illust.php?mode=medium&illust_id='
 

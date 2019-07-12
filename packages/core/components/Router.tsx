@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { EXCLUDES, INCLUDES, KEY_ASSIGNMENT, NO_SCROLLBAR } from '../constants'
-import { Hotkey } from './shared/Hotkey'
-import { Modal } from './shared/Modal'
+import { Hotkey, Modal } from './shared'
 
 type Props = {
   children: (id: string) => React.ReactNode

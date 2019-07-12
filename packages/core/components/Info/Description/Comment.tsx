@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Text } from '../../shared/Text'
+import { Text } from '../../shared'
 
 export function Comment() {
   const { useIllust } = useServices()

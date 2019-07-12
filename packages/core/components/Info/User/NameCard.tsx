@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useServices } from '../../Services'
-import { Box } from '../../shared/Box'
-import { AccountError } from '../../shared/Icon'
+import { AccountError, Box } from '../../shared'
 
 type Props = {
   id: string

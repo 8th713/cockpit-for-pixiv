@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField } from '../shared/TextField'
+import { TextField } from '../shared'
 
 type Props = {
   value: string

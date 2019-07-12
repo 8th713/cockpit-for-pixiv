@@ -1,8 +1,7 @@
 import React from 'react'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Refresh } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { IconButton, Refresh } from '../../shared'
 
 export function ReloadButton() {
   const { useIllust } = useServices()

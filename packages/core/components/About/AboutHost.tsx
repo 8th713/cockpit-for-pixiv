@@ -1,6 +1,6 @@
 import React, { useContext, useDebugValue, useMemo, useState } from 'react'
 import { KEY_ASSIGNMENT } from '../../constants'
-import { Hotkey } from '../shared/Hotkey'
+import { Hotkey } from '../shared'
 
 type Props = {
   children?: React.ReactNode

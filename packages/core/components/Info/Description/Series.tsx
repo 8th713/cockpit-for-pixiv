@@ -1,9 +1,7 @@
 import React from 'react'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Collections } from '../../shared/Icon'
-import { Link } from '../../shared/Link'
-import { Text } from '../../shared/Text'
+import { Collections, Link, Text } from '../../shared'
 
 export function Series() {
   const { useIllust } = useServices()

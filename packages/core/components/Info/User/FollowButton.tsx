@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useServices } from '../../Services'
-import { Button } from '../../shared/Button'
-import { Hotkey } from '../../shared/Hotkey'
-import { Add, Refresh } from '../../shared/Icon'
+import { Add, Button, Hotkey, Refresh } from '../../shared'
 import { getTitle } from '../utils'
 
 type Props = {

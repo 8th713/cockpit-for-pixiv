@@ -1,7 +1,5 @@
 import React from 'react'
-import { Box } from '../shared/Box'
-import { Switch } from '../shared/Switch'
-import { Text } from '../shared/Text'
+import { Box, Switch, Text } from '../shared'
 
 type Props = {
   value: boolean
@@ -11,7 +9,7 @@ type Props = {
 export function Restrict({ value, onChange }: Props) {
   return (
     <Box display="flex" alignItems="center">
-      <Text as="span" mr={2}>
+      <Text as="span" mr={2} em="high">
         非公開
       </Text>
       <Switch

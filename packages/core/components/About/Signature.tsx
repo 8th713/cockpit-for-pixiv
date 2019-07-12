@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Box } from '../shared/Box'
-import { Bug, Help } from '../shared/Icon'
+import { Box, Bug, Help } from '../shared'
 import { Section } from './Section'
 
 export function Signature() {

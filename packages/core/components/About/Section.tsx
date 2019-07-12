@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text } from '../shared/Text'
+import { Text } from '../shared'
 
 type Props = {
   label: React.ReactNode

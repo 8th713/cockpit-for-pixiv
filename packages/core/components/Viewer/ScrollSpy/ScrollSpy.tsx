@@ -7,7 +7,7 @@ import React, {
   useRef
 } from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { Hotkey } from '../../shared/Hotkey'
+import { Hotkey } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
 import { OverLay } from './OverLay'
 import { SpyItem } from './SpyItem'

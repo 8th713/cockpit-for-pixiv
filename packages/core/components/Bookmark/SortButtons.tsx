@@ -1,6 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Button } from '../shared/Button'
+import { Box, Button } from '../shared'
 import { useSort } from './SortHost'
 import { getButtonStyle } from './utils'
 
@@ -10,21 +9,23 @@ export function SortButtons() {
   const totalBtnStyle = getButtonStyle(column === 'total', direction)
 
   return (
-    <Action>
-      <Button colors={nameBtnStyle.color} type="button" onClick={sortByName}>
+    <Box>
+      <Button
+        variant="outlined"
+        colors={nameBtnStyle.color}
+        type="button"
+        onClick={sortByName}
+      >
         名前順{nameBtnStyle.arrow}
       </Button>
-      <Button colors={totalBtnStyle.color} type="button" onClick={sortByTotal}>
+      <Button
+        variant="outlined"
+        colors={totalBtnStyle.color}
+        type="button"
+        onClick={sortByTotal}
+      >
         件数順{totalBtnStyle.arrow}
       </Button>
-    </Action>
+    </Box>
   )
 }
-
-const Action = styled.div`
-  display: flex;
-  align-items: center;
-  button + button {
-    margin-right: 8px;
-  }
-`

@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Link } from '../../shared/Link'
-import { Text } from '../../shared/Text'
+import { Link, Text } from '../../shared'
 
 const tagURL = '/search.php?s_mode=s_tag_full&word='
 

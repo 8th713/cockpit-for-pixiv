@@ -1,8 +1,7 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useUpdateAbout } from '../../About'
-import { Help } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { Help, IconButton } from '../../shared'
 import { getTitle } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.help)

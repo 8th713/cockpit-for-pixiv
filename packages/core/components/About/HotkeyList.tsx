@@ -2,8 +2,7 @@ import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { KeyDefinition } from '../../interfaces'
-import { Box } from '../shared/Box'
-import { Text } from '../shared/Text'
+import { Box, Text } from '../shared'
 import { Section } from './Section'
 
 const items: KeyDefinition[] = Object.values(KEY_ASSIGNMENT)

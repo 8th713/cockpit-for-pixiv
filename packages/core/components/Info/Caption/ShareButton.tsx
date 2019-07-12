@@ -3,9 +3,7 @@ import { KEY_ASSIGNMENT } from '../../../constants'
 import { openTwitter } from '../../../externals/share'
 import { useRoute } from '../../Router'
 import { useServices } from '../../Services'
-import { Hotkey } from '../../shared/Hotkey'
-import { Tweet } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { Hotkey, IconButton, Tweet } from '../../shared'
 import { getTitle } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.share)

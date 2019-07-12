@@ -1,8 +1,7 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
+import { IconButton, ScrollBottom } from '../../shared'
 import { useScrollSpy } from '../../Viewer/ScrollSpy'
-import { ScrollBottom } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
 import { getTitle } from '../utils'
 
 const title = getTitle(KEY_ASSIGNMENT.info)

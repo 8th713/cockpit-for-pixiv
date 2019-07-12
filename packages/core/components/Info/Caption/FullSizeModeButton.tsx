@@ -1,7 +1,6 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { FullScreen } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
+import { FullScreen, IconButton } from '../../shared'
 import { useUpdateFullSizeMode } from '../../Viewer'
 import { getTitle } from '../utils'
 

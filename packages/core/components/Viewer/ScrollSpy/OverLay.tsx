@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Pages } from '../../../interfaces'
-import { Chip } from '../../shared/Chip'
+import { Chip } from '../../shared'
 import { useScrollSpy } from './ScrollSpy'
 
 type Props = {
