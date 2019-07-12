@@ -2,11 +2,12 @@ import styled from 'styled-components'
 import * as sys from '../system'
 
 export interface BoxProps
-  extends sys.SpaceProps,
-    sys.ColorProps,
+  extends sys.PositionProps,
     sys.LayoutProps,
+    sys.SpaceProps,
     sys.FlexboxProps,
-    sys.GridProps {}
+    sys.GridProps,
+    sys.ColorProps {}
 
 export const Box = styled.div<BoxProps>`
   box-sizing: border-box;
@@ -18,11 +19,12 @@ export const Box = styled.div<BoxProps>`
     outline-color: currentColor;
   }
   ${sys.compose(
-    sys.space,
-    sys.color,
+    sys.position,
     sys.layout,
+    sys.space,
     sys.flexbox,
-    sys.grid
+    sys.grid,
+    sys.color
   )}
 `
 Box.displayName = 'Box'
