@@ -1,4 +1,5 @@
 import { BookmarkPost, Tag } from '../../interfaces'
+import { ButtonProps } from '../shared'
 
 export type State = {
   restrict: boolean
@@ -46,7 +47,7 @@ export const sortBy = (tagList: Tag[], prop: Column, direction: Direction) => {
 }
 
 export const getButtonStyle = (active: boolean, direction: Direction) => {
-  const color: 'secondary' | undefined = active ? 'secondary' : undefined
+  const color: ButtonProps['colors'] = active ? 'primary' : undefined
   const arrow = active ? direction : ''
   return { color, arrow }
 }
