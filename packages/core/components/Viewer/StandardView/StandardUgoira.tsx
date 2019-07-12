@@ -1,18 +1,35 @@
 import React, { useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { Frame, Page } from '../../../interfaces'
-import { useRouteActions } from '../../Router'
-import { Pause, Play, Stop } from '../../shared/Icon'
-import { IconButton } from '../../shared/IconButton'
-import { Text } from '../../shared/Text'
+import { useRoute, useRouteActions } from '../../Router'
+import { useServices } from '../../Services'
+import { IconButton, Pause, Play, Stop, Text } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
 import { usePlayer } from '../usePlayer'
+import { StandardImg } from './StandardImg'
 
-type Props = Page & {
+interface SuspenseProps extends Page {}
+interface LoaderProps extends Page {}
+interface SuccessProps extends Page {
   frames: Frame[]
 }
 
-export function Player({ urls, frames, ...rest }: Props) {
+export function StandardUgoira(props: SuspenseProps) {
+  return (
+    <React.Suspense fallback={<StandardImg {...props} />}>
+      <UgoiraLoader {...props} />
+    </React.Suspense>
+  )
+}
+function UgoiraLoader(props: LoaderProps) {
+  const { useUgoira } = useServices()
+  const id = useRoute()[0]!
+  const frames = useUgoira(id)
+
+  if (!frames) return <StandardImg {...props} />
+  return <UgoiraSuccess {...props} frames={frames} />
+}
+function UgoiraSuccess({ urls, frames, ...rest }: SuccessProps) {
   const { go } = useRouteActions()
   const [fullSizeMode] = useFullSizeMode()
   const [ref, { index, paused }, dispatch] = usePlayer(frames)
@@ -38,9 +55,9 @@ export function Player({ urls, frames, ...rest }: Props) {
         <IconButton onClick={() => dispatch({ type: 'rewind' })}>
           <Stop />
         </IconButton>
-        <Count textStyle="caption">
+        <Text p={3} textStyle="caption" justifySelf="flex-end">
           {index + 1}/{frames.length}
-        </Count>
+        </Text>
       </PlayControl>
     </Layout>
   )
@@ -78,8 +95,4 @@ const PlayControl = styled.div`
   &:focus-within {
     opacity: 1;
   }
-`
-const Count = styled(Text)`
-  justify-self: end;
-  padding: 0 16px;
 `

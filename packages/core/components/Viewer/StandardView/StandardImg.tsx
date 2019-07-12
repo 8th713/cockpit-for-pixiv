@@ -39,7 +39,7 @@ function LazyImg(props: Props) {
   )
 }
 
-export const Img = styled(LazyImg)`
+export const StandardImg = styled(LazyImg)`
   cursor: pointer;
   object-fit: contain;
   display: block;

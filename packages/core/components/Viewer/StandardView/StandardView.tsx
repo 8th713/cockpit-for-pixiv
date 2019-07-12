@@ -1,19 +1,101 @@
 import React, { useEffect, useMemo, useRef } from 'react'
+import styled from 'styled-components'
 import { Pages } from '../../../interfaces'
 import { useRouteActions } from '../../Router'
+import { useServices } from '../../Services'
+import { Box, Button, Dialog, Progress, Refresh, Text } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
 import { ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../utils'
-import { Img } from './Img'
-import { StandardViewMock } from './StandardViewMock'
-import { Ugoira } from './Ugoira'
+import { StandardImg } from './StandardImg'
+import { StandardUgoira } from './StandardUgoira'
 
-type Props = {
-  pages: Pages
+interface Props {
   children?: React.ReactNode
 }
+interface SuspenseProps extends Props {
+  id: string
+}
+interface LoaderProps extends Props {
+  id: string
+}
+interface LoadingProps extends Props {}
+interface FailureProps extends Props {
+  id: string
+}
+interface SuccessProps extends Props {
+  pages: Pages
+}
 
-export function StandardView({ pages, children }: Props) {
+export function StandardView({ id, children }: SuspenseProps) {
+  return (
+    <React.Suspense
+      fallback={<StandardViewLoading>{children}</StandardViewLoading>}
+    >
+      <StandardViewLoader id={id}>{children}</StandardViewLoader>
+    </React.Suspense>
+  )
+}
+function StandardViewLoader({ id, children }: LoaderProps) {
+  const { usePages } = useServices()
+  const pages = usePages(id)
+
+  if (!pages)
+    return <StandardViewFailure id={id}>{children}</StandardViewFailure>
+  return <StandardViewSuccess pages={pages}>{children}</StandardViewSuccess>
+}
+function StandardViewLoading({ children }: LoadingProps) {
+  const { unset, go } = useRouteActions()
+  const goFromEvent: React.MouseEventHandler = e => {
+    e.stopPropagation()
+    go(e.shiftKey ? -1 : 1)
+  }
+
+  return (
+    <Root>
+      <Box position="relative">
+        <span onClick={unset}>
+          <ImageBox>
+            <Progress onClick={goFromEvent} />
+          </ImageBox>
+        </span>
+      </Box>
+      {children}
+    </Root>
+  )
+}
+function StandardViewFailure({ id, children }: FailureProps) {
+  const { unset } = useRouteActions()
+  const { usePages } = useServices()
+
+  return (
+    <Root>
+      <Box position="relative">
+        <span onClick={unset}>
+          <ImageBox>
+            <Dialog onClick={e => e.stopPropagation()} backdrop={false}>
+              <Dialog.Content>
+                <Text>リクエストに失敗しました[id: {id}]</Text>
+              </Dialog.Content>
+              <Dialog.Action>
+                <Button
+                  variant="contained"
+                  colors="error"
+                  onClick={() => usePages.remove(id)}
+                >
+                  <Refresh size={18} mr={2} />
+                  再取得
+                </Button>
+              </Dialog.Action>
+            </Dialog>
+          </ImageBox>
+        </span>
+      </Box>
+      {children}
+    </Root>
+  )
+}
+function StandardViewSuccess({ pages, children }: SuccessProps) {
   const root = useRef<HTMLDivElement>(null)
   const { unset } = useRouteActions()
   const [isFullSize, setFullSize] = useFullSizeMode()
@@ -22,10 +104,10 @@ export function StandardView({ pages, children }: Props) {
     const ugoira = isUgoira(pages[0])
     return pages.map((page, index) => (
       <ScrollSpy.SpyItem key={page.urls.original} index={index}>
-        <StandardViewMock.Box tabIndex={0}>
-          {!ugoira && <Img {...page} root={root} />}
-          {ugoira && <Ugoira {...page} />}
-        </StandardViewMock.Box>
+        <ImageBox tabIndex={0}>
+          {!ugoira && <StandardImg {...page} root={root} />}
+          {ugoira && <StandardUgoira {...page} />}
+        </ImageBox>
       </ScrollSpy.SpyItem>
     ))
   }, [pages])
@@ -45,15 +127,37 @@ export function StandardView({ pages, children }: Props) {
   }, [isFullSize])
 
   return (
-    <StandardViewMock.Root ref={root} tabIndex={0} hidden={isFullSize}>
-      <StandardViewMock.Container>
+    <Root ref={root} tabIndex={0} hidden={isFullSize}>
+      <Box position="relative">
         <span onClick={unset}>
           {imgs}
           <ScrollSpy.SpyItemLast />
         </span>
         {isMultiple && <ScrollSpy.OverLay pages={pages} />}
-      </StandardViewMock.Container>
+      </Box>
       {children}
-    </StandardViewMock.Root>
+    </Root>
   )
 }
+
+const Root = styled.section`
+  outline: none;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  &[hidden] {
+    opacity: 0;
+  }
+`
+const ImageBox = styled.div`
+  box-sizing: border-box;
+  outline: none;
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: calc(100vh - var(--caption-height));
+  padding: 32px;
+  flex-direction: column;
+`
