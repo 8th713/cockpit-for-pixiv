@@ -2,8 +2,7 @@ import React from 'react'
 import { FullSizeMode } from './FullSizeMode'
 import { FullSizeView } from './FullSizeView'
 import { ScrollSpy } from './ScrollSpy'
-import { StandardView, StandardViewMock } from './StandardView'
-import { useServices } from '../Services'
+import { StandardView } from './StandardView'
 
 type Props = {
   id: string
@@ -14,33 +13,9 @@ export function Viewer({ id, children }: Props) {
   return (
     <FullSizeMode>
       <ScrollSpy id={id}>
-        <React.Suspense
-          fallback={<StandardViewMock>{children}</StandardViewMock>}
-        >
-          <PageLoader id={id}>{children}</PageLoader>
-          <FullSizePageLoader id={id} />
-        </React.Suspense>
+        <StandardView id={id}>{children}</StandardView>
+        <FullSizeView id={id} />
       </ScrollSpy>
     </FullSizeMode>
-  )
-}
-
-function PageLoader({ id, children }: Props) {
-  const { usePages } = useServices()
-  const pages = usePages(id)
-
-  if (!pages) return <StandardViewMock id={id}>{children}</StandardViewMock>
-  return <StandardView pages={pages}>{children}</StandardView>
-}
-
-function FullSizePageLoader({ id }: Props) {
-  const { usePages } = useServices()
-  const pages = usePages(id)
-
-  if (!pages) return null
-  return (
-    <FullSizeMode.On>
-      <FullSizeView id={id} pages={pages} />
-    </FullSizeMode.On>
   )
 }
