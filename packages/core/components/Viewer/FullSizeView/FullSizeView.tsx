@@ -1,18 +1,38 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Pages } from '../../../interfaces'
-import { useUpdateFullSizeMode } from '../FullSizeMode'
+import { useUpdateFullSizeMode, FullSizeMode } from '../FullSizeMode'
 import { ScrollSpy, useScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../utils'
 import { FullSizeImg } from './FullSizeImg'
 import { FullSizeUgoira } from './FullSizeUgoira'
+import { useServices } from '../../Services'
 
-type Props = {
+interface Props {
   id: string
+}
+interface LoaderProps extends Props {}
+interface SuccessProps extends Props {
   pages: Pages
 }
 
-export function FullSizeView({ id, pages }: Props) {
+export function FullSizeView({ id }: LoaderProps) {
+  return (
+    <FullSizeMode.On>
+      <React.Suspense fallback={null}>
+        <FullSizeViewLoader id={id} />
+      </React.Suspense>
+    </FullSizeMode.On>
+  )
+}
+function FullSizeViewLoader({ id }: LoaderProps) {
+  const { usePages } = useServices()
+  const pages = usePages(id)
+
+  if (!pages) return null
+  return <FullSizeViewSuccess id={id} pages={pages} />
+}
+function FullSizeViewSuccess({ id, pages }: SuccessProps) {
   const [{ index }] = useScrollSpy()
   const page = pages[index]
   const isMultiple = pages.length > 1
@@ -33,9 +53,7 @@ export function FullSizeView({ id, pages }: Props) {
         <ClickableBox onClick={() => updateFullSizeMode(false)}>
           <Preview>
             {!ugoira && <FullSizeImg key={page.urls.original} {...page} />}
-            {ugoira && (
-              <FullSizeUgoira key={page.urls.original} id={id} {...page} />
-            )}
+            {ugoira && <FullSizeUgoira id={id} {...page} />}
           </Preview>
         </ClickableBox>
         {isMultiple && <ScrollSpy.OverLay pages={pages} />}

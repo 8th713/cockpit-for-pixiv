@@ -1,25 +1,40 @@
 import React from 'react'
-import { Page } from '../../../interfaces'
-import { FullSizeImg } from './FullSizeImg'
+import styled from 'styled-components'
+import { Frame, Page } from '../../../interfaces'
 import { useServices } from '../../Services'
-import { FullSizePlayer } from './FullSizePlayer'
+import { usePlayer } from '../usePlayer'
+import { FullSizeImg } from './FullSizeImg'
 
-type Props = Page & {
+interface Props extends Page {
   id: string
 }
+interface SuspenseProps extends Props {}
+interface LoaderProps extends Props {}
+interface SuccessProps extends Page {
+  frames: Frame[]
+}
 
-export function FullSizeUgoira(props: Props) {
+export function FullSizeUgoira(props: SuspenseProps) {
   return (
     <React.Suspense fallback={<FullSizeImg {...props} />}>
       <FullSizeUgoiraLoader {...props} />
     </React.Suspense>
   )
 }
-
-function FullSizeUgoiraLoader({ id, ...props }: Props) {
+function FullSizeUgoiraLoader({ id, ...page }: LoaderProps) {
   const { useUgoira } = useServices()
   const frames = useUgoira(id)
 
-  if (!frames) return <FullSizeImg {...props} />
-  return <FullSizePlayer {...props} frames={frames} />
+  if (!frames) return <FullSizeImg {...page} />
+  return <FullSizeUgoiraSuccess {...page} frames={frames} />
 }
+function FullSizeUgoiraSuccess({ urls, frames, ...rest }: SuccessProps) {
+  const [ref] = usePlayer(frames)
+
+  return <Canvas key={urls.original} ref={ref} {...rest} />
+}
+
+const Canvas = styled.canvas`
+  display: block;
+  background-color: rgba(255, 255, 255, var(--high));
+`
