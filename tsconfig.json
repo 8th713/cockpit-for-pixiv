@@ -30,7 +30,7 @@
     // Advanced
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": false
   },
   "include": [
     "packages"
