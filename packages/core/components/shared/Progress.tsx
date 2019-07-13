@@ -52,8 +52,8 @@ export const Progress = styled(Impl)`
     sys.position,
     sys.size,
     sys.margin,
-    sys.flexItem,
-    sys.gridItem,
+    sys.flexbox,
+    sys.grid,
     sys.color
   )}
   & > svg {

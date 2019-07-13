@@ -2,11 +2,11 @@ import styled from 'styled-components'
 import * as sys from '../system'
 
 export interface LinkProps
-  extends sys.SpaceProps,
-    sys.ColorProps,
-    sys.LayoutProps,
+  extends sys.LayoutProps,
+    sys.SpaceProps,
     sys.FlexboxProps,
     sys.GridProps,
+    sys.ColorProps,
     sys.STextStyleProps,
     sys.EmProps,
     sys.EllipsisProps {}
@@ -30,11 +30,11 @@ export const Link = styled.a<LinkProps>`
       outline: auto currentColor;
     }
     ${sys.compose(
-      sys.space,
-      sys.color,
       sys.layout,
+      sys.space,
       sys.flexbox,
       sys.grid,
+      sys.color,
       sys.textStyle,
       sys.em
     )}

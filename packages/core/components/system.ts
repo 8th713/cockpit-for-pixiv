@@ -134,20 +134,6 @@ export const omitSystemProps = <P extends { [key: string]: any }>(props: P) => {
   return rest
 }
 
-export const flexItem = sys.compose(
-  sys.alignSelf,
-  sys.justifySelf,
-  sys.order
-)
-
-export const gridItem = sys.compose(
-  sys.alignSelf,
-  sys.justifySelf,
-  sys.gridArea,
-  sys.gridColumn,
-  sys.gridRow
-)
-
 export const em = sys.system({
   em: {
     property: 'opacity',

@@ -5,7 +5,6 @@ import { Text } from './Text'
 
 interface SystemProps
   extends sys.MarginProps,
-    sys.PositionProps,
     sys.FlexItemProps,
     sys.GridItemProps,
     sys.SButtonStyleProps {
@@ -75,6 +74,9 @@ export const Button = styled(Impl)`
     opacity: calc(var(--pressed) * var(--multiplier));
   }
   ${sys.compose(
+    sys.margin,
+    sys.flexbox,
+    sys.grid,
     sys.buttonStyle,
     sys.variant({
       key: 'buttonColorStyles',

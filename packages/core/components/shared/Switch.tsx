@@ -5,8 +5,8 @@ import * as sys from '../system'
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 interface SystemProps
-  extends sys.MarginProps,
-    sys.PositionProps,
+  extends sys.PositionProps,
+    sys.MarginProps,
     sys.FlexItemProps,
     sys.GridItemProps {}
 type NativeProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'type'>
@@ -40,10 +40,10 @@ export const Switch = styled(Impl)`
     opacity: var(--disabled);
   }
   ${sys.compose(
-    sys.margin,
     sys.position,
-    sys.flexItem,
-    sys.gridItem
+    sys.margin,
+    sys.flexbox,
+    sys.grid
   )}
 `
 

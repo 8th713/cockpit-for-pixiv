@@ -89,8 +89,8 @@ export const TextField = styled(Impl)`
     sys.position,
     sys.width,
     sys.margin,
-    sys.flexItem,
-    sys.gridItem
+    sys.flexbox,
+    sys.grid
   )}
 `
 const Field = styled.label`
