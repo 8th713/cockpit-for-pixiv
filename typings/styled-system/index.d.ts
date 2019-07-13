@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components'
 import 'styled-system'
 
 declare module 'styled-system' {
-  export declare function get<T>(obj: any, key: string, def: T): T
+  export function get<T>(obj: any, key: string, def: T): T
 
   export interface ColorProps extends OpacityProps {}
   export interface LayoutProps extends OverflowProps {}
@@ -42,7 +42,7 @@ declare module 'styled-system' {
       FlexboxProps,
       GridProps,
       BackgroundProps,
-      BorderProps,
+      BordersProps,
       PositionProps,
       ShadowProps,
       ButtonStyleProps,
