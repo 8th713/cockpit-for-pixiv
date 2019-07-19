@@ -16,8 +16,8 @@ export function About() {
           <Text textStyle="h1">{LABEL}</Text>
         </Dialog.Header>
         <Dialog.Content>
-          <HotkeyList />
           <Signature />
+          <HotkeyList />
         </Dialog.Content>
       </Dialog>
     </Modal>

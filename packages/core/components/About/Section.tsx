@@ -22,7 +22,7 @@ export function Section(props: Props) {
 
 const Layout = styled.section`
   display: block;
-  min-width: 512px;
+  min-width: 384px;
   & + & {
     margin-top: 16px;
   }
