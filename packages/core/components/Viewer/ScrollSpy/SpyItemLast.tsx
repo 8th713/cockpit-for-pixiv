@@ -26,7 +26,7 @@ export function SpyItemLast({ children }: Props) {
       ref={setRef}
       style={{
         position: 'relative',
-        top: 57,
+        top: 'calc(1px + var(--caption-height))',
         display: 'block',
         height: 1
       }}
