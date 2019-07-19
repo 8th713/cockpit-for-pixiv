@@ -12,22 +12,22 @@ export const KEY_ASSIGNMENT = {
   like: { keyName: 'l', children: 'いいね！' },
   bookmark: { keyName: 'b', children: 'ブックマーク' },
   bookmarkPrivate: {
-    keyName: '⇧b',
+    keyName: 'B',
     children: '非公開ブックマーク',
-    title: 'Shift + b'
+    title: 'Shift+B'
   },
   openBookmarkForm: {
-    keyName: '^b',
+    keyName: 'Control+b',
     children: 'ブックマークフォーム表示',
-    title: 'Ctrl + b'
+    title: 'Control+B'
   },
   download: { keyName: 'd', children: 'ダウンロード' },
   share: { keyName: 't', children: 'Twitterでシェア' },
   follow: { keyName: 'f', children: 'フォロー' },
   followPrivate: {
-    keyName: '⇧f',
+    keyName: 'F',
     children: '非公開フォロー',
-    title: 'Shift + f'
+    title: 'Shift+F'
   },
   help: { keyName: '?', children: 'ヘルプ' }
 }

@@ -12,6 +12,7 @@ export function Info() {
       <Divider />
       <Box display="flex" p={3} alignItems="flex-start" bg="surface">
         <Description />
+        <Box pr={3} />
         <React.Suspense fallback={null}>
           <User />
         </React.Suspense>

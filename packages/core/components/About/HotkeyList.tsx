@@ -4,31 +4,38 @@ import { KEY_ASSIGNMENT } from '../../constants'
 import { KeyDefinition } from '../../interfaces'
 import { Box, Text } from '../shared'
 import { Section } from './Section'
+import { themeGet } from '../system'
 
 const items: KeyDefinition[] = Object.values(KEY_ASSIGNMENT)
 
 export function HotkeyList() {
   const children = useMemo(
     () =>
-      items.map(item => (
-        <Box key={item.keyName} display="flex" alignItems="center">
-          <Kbd title={item.title}>{item.keyName}</Kbd>
-          <Text textStyle="b2" em="high" ml={3}>
-            {item.children}
-          </Text>
-        </Box>
-      )),
-    items // eslint-disable-line react-hooks/exhaustive-deps
+      items.map(item => {
+        const combokey = item.title || item.keyName.toUpperCase()
+        return (
+          <Box key={combokey} display="flex" alignItems="center">
+            <Text textStyle="b2" em="high" mr={3} flexGrow={1}>
+              {item.children}
+            </Text>
+            {combokey
+              .split('+')
+              .flatMap((key, i) => [
+                <Text key={i} mx={1} em="medium" textStyle="b2">
+                  +
+                </Text>,
+                <Kbd key={key}>{key}</Kbd>
+              ])
+              .slice(1)}
+          </Box>
+        )
+      }),
+    []
   )
 
   return (
     <Section label="Shortcuts">
-      <Box
-        display="grid"
-        gridTemplateColumns="1fr 1fr"
-        gridGap={3}
-        alignItems="center"
-      >
+      <Box display="grid" gridRowGap={2} alignItems="center">
         {children}
       </Box>
     </Section>
@@ -39,15 +46,13 @@ const Kbd = styled.kbd`
   box-sizing: border-box;
   display: inline-block;
   min-width: 32px;
+  padding: 0 8px;
   border: 1px solid rgba(255, 255, 255, var(--divider));
-  border-radius: 2px;
+  border-radius: 4px;
   color: var(--on-surface);
   text-align: center;
+  ${themeGet('textStyles.h3')};
   font-family: Source Code Pro, SFMono-Regular, Consolas, Liberation Mono, Menlo,
     Courier, monospace;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.08929em;
   text-decoration: none;
-  text-transform: uppercase;
 `

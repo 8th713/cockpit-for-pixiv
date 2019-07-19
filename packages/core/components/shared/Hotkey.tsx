@@ -6,69 +6,45 @@ type Props = {
 } & KeyDefinition
 
 const IGNORED = 'input, textarea, select'
-const map = new Map<string, Props>()
+const map = new Map<string, Props['action']>()
 
-function parseKeyName(keyName: string) {
-  const res = {
-    key: '',
-    shiftKey: false,
-    ctrlKey: false
-  }
-
-  if (keyName.includes('⇧') || keyName === '?') {
-    res.shiftKey = true
-    keyName = keyName.replace(/⇧/g, '')
-  }
-  if (keyName.includes('^')) {
-    res.ctrlKey = true
-    keyName = keyName.replace(/\^/g, '')
-  }
-  res.key = keyName.toLowerCase()
-  return res
-}
-
-function testKey(event: KeyboardEvent, keyName: string) {
-  const node = parseKeyName(keyName)
-  return (
-    event.repeat === false &&
-    event.key === node.key &&
-    event.shiftKey === node.shiftKey &&
-    event.ctrlKey === node.ctrlKey &&
-    (event.target as Element).matches(IGNORED) === false
-  )
+function parseKeyboardEvent(event: KeyboardEvent) {
+  let key = ''
+  if (event.ctrlKey) key += 'Control+'
+  if (event.altKey) key += 'Alt+'
+  if (event.metaKey) key += 'Meta+'
+  key += event.key
+  return key
 }
 
 function handleKeyDown(event: KeyboardEvent) {
-  const values = [...map.values()]
-  for (const props of values) {
-    if (testKey(event, props.keyName)) {
-      props.action(event)
+  const node = event.target as Element
+  if (event.repeat) return
+  if (node.matches(IGNORED)) return
+  const pressedKey = parseKeyboardEvent(event)
+  const values = [...map.entries()]
+  for (const [keyName, action] of values) {
+    if (pressedKey === keyName) {
+      action(event)
     }
   }
 }
 
-function attach() {
+function attach(props: Props) {
   if (map.size === 0) {
     window.addEventListener('keydown', handleKeyDown, true)
   }
-}
-function detach() {
-  if (map.size === 0) {
-    window.removeEventListener('keydown', handleKeyDown, true)
+  const { keyName, action } = props
+  map.set(keyName, action)
+  return () => {
+    map.delete(keyName)
+    if (map.size === 0) {
+      window.removeEventListener('keydown', handleKeyDown, true)
+    }
   }
 }
 
 export function Hotkey(props: Props) {
-  useEffect(() => {
-    const { keyName } = props
-
-    attach()
-    map.set(keyName, props)
-    return () => {
-      map.delete(keyName)
-      detach()
-    }
-  })
-
+  useEffect(() => attach(props))
   return null
 }

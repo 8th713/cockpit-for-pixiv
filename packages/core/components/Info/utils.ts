@@ -1,7 +1,8 @@
 import { Illust, KeyDefinition } from '../../interfaces'
 
 export function getTitle(props: KeyDefinition) {
-  return `${props.children}(${props.keyName.toUpperCase()})`
+  const key = props.title || props.keyName.toUpperCase()
+  return `${props.children}(${key})`
 }
 
 export function like(illust: Illust): Illust {
