@@ -23,23 +23,23 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-is": "^16.8.6",
-    "react-intersection-observer": "^8.23.0",
+    "react-intersection-observer": "^8.24.1",
     "styled-components": "^5.0.0-beta.8",
-    "styled-system": "^5.0.12"
+    "styled-system": "^5.0.15"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.5.4",
-    "@babel/preset-env": "^7.5.4",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@types/jszip": "^3.1.6",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
-    "@types/styled-components": "^4.1.17",
+    "@types/styled-components": "^4.1.18",
     "@types/styled-system": "^5.0.0",
-    "@typescript-eslint/parser": "^1.11.0",
+    "@typescript-eslint/parser": "^1.12.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.0.1",
@@ -52,8 +52,8 @@
     "source-map-loader": "^0.2.4",
     "terser-webpack-plugin": "^1.3.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5"
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6"
   },
   "resolutions": {
     "@types/react": "^16.0.0",
