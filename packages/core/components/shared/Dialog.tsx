@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 type Props = React.ComponentPropsWithoutRef<'section'> & {
   backdrop?: boolean
@@ -15,6 +15,14 @@ export function Dialog({ backdrop = true, onBackdropClick, ...props }: Props) {
   )
 }
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 const Root = styled.div`
   pointer-events: none;
   position: absolute;
@@ -45,6 +53,7 @@ const Layout = styled.section`
   margin: auto;
   border-radius: 8px;
   background-color: var(--surface);
+  animation: ${fadeIn} 150ms cubic-bezier(0, 0, 0.2, 1);
   ::after {
     content: '';
     pointer-events: none;

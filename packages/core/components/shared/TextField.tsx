@@ -115,11 +115,10 @@ const Input = styled.input`
     font-family: inherit;
     ${sys.themeGet('textStyles.b1')};
     line-height: 1.75;
-    transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 100ms linear;
     &::placeholder {
       color: var(--on-surface);
       opacity: 0;
-      transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     }
     &:focus {
       outline: none;
@@ -151,7 +150,7 @@ const Leading = styled.div`
   border-left: 2px solid;
   border-radius: 4px 0 0 4px;
   border-color: rgba(255, 255, 255, var(--divider));
-  transition: border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 100ms linear;
   input:hover + div > & {
     border-color: var(--on-surface);
   }
@@ -174,7 +173,7 @@ const Trailing = styled.div`
   border-right: 2px solid;
   border-radius: 0 4px 4px 0;
   border-color: rgba(255, 255, 255, var(--divider));
-  transition: border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 100ms linear;
   input:hover + div > & {
     border-color: var(--on-surface);
   }
@@ -196,7 +195,7 @@ const Notch = styled.div`
   border-top: 2px solid;
   border-bottom: 2px solid;
   border-color: rgba(255, 255, 255, var(--divider));
-  transition: border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 100ms linear;
   input:hover + div > & {
     border-color: var(--on-surface);
   }
@@ -228,11 +227,11 @@ const Label = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  transition: top 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-    font-size 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-    line-height 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: top font-size line-height opacity;
+  transition: top 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    font-size 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    line-height 150ms cubic-bezier(0.4, 0, 0.2, 1), color 100ms linear,
+    opacity 100ms linear;
+  will-change: top font-size line-height color opacity;
   input:required + div > div > &::after {
     content: '*';
   }
@@ -254,7 +253,7 @@ const Label = styled.div`
   [data-left='true'] > & {
     top: -8px;
     font-size: 12px;
-    line-height: 1.15rem;
+    line-height: 1.5;
   }
 `
 const Helper = styled.div`

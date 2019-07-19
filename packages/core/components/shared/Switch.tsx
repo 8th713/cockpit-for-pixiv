@@ -68,7 +68,7 @@ const Track = styled.span`
   width: 100%;
   height: 100%;
   opacity: 0.3;
-  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-radius: 7px;
   background-color: #fff;
   input:checked ~ & {
@@ -82,8 +82,8 @@ const Thumb = styled.span`
   left: 0;
   padding: 9px;
   color: var(--on-surface);
-  transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 100ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
   ::before {
     content: '';
     box-sizing: border-box;
