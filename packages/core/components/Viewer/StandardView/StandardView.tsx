@@ -7,7 +7,7 @@ import { Box, Button, Dialog, Progress, Refresh, Text } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
 import { ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../utils'
-import { StandardImg } from './StandardImg'
+import { PADDING, StandardImg } from './StandardImg'
 import { StandardUgoira } from './StandardUgoira'
 
 interface Props {
@@ -158,6 +158,6 @@ const ImageBox = styled.div`
   display: flex;
   width: 100%;
   height: calc(100vh - var(--caption-height));
-  padding: 32px;
+  padding: ${PADDING}px;
   flex-direction: column;
 `
