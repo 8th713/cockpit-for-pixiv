@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useRoute } from '../../Router'
+import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { Link, Text } from '../../shared'
 
@@ -8,7 +8,7 @@ const tagURL = '/search.php?s_mode=s_tag_full&word='
 
 export function TagList() {
   const { useIllust } = useServices()
-  const id = useRoute()[0]!
+  const id = useRouteId()
   const illust = useIllust(id)
 
   if (!illust) return null

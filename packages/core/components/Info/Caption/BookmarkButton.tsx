@@ -1,7 +1,7 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { Bookmark, useUpdateToggleForm } from '../../Bookmark'
-import { useRoute } from '../../Router'
+import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { BookmarkOff, BookmarkOn, Hotkey, IconButton } from '../../shared'
 import { bookmark, getTitle } from '../utils'
@@ -15,7 +15,7 @@ const title = [
 export function BookmarkButton() {
   const setOpen = useUpdateToggleForm()
   const { useIllust, bookmarkBy } = useServices()
-  const id = useRoute()[0]!
+  const id = useRouteId()
   const illust = useIllust(id)
 
   if (!illust) return <BookmarkButtonMock />

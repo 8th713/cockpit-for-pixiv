@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import { Frame, Page } from '../../../interfaces'
-import { useRoute, useRouteActions } from '../../Router'
+import { useRouteActions, useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { IconButton, Pause, Play, Stop, Text } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
@@ -23,7 +23,7 @@ export function StandardUgoira(props: SuspenseProps) {
 }
 function UgoiraLoader(props: LoaderProps) {
   const { useUgoira } = useServices()
-  const id = useRoute()[0]!
+  const id = useRouteId()
   const frames = useUgoira(id)
 
   if (!frames) return <StandardImg {...props} />
