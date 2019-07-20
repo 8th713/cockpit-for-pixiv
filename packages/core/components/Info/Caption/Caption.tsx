@@ -18,23 +18,12 @@ export function Caption() {
       <Box display="flex" p={1}>
         <ScrollButton />
       </Box>
-      <Text textStyle="h1" ellipsis px={3}>
-        <React.Suspense fallback={null}>
+      <React.Suspense fallback={<CaptionLoading />}>
+        <Text textStyle="h1" ellipsis px={3}>
           <Title />
-        </React.Suspense>
-      </Text>
-      <Box flexGrow={1} />
-      <Box display="flex" p={1}>
-        <React.Suspense
-          fallback={
-            <>
-              <LikeButtonMock />
-              <BookmarkButtonMock />
-              <DownloadButtonMock />
-              <ShareButtonMock />
-            </>
-          }
-        >
+        </Text>
+        <Box flexGrow={1} />
+        <Box display="flex" p={1}>
           <ReloadButton />
           <LikeButton />
           <ToggleForm>
@@ -42,11 +31,27 @@ export function Caption() {
           </ToggleForm>
           <DownloadButton />
           <ShareButton />
-        </React.Suspense>
+          <FullSizeModeButton />
+          <HelpButton />
+        </Box>
+      </React.Suspense>
+    </Root>
+  )
+}
+function CaptionLoading() {
+  return (
+    <>
+      <Text textStyle="h1" ellipsis px={3} />
+      <Box flexGrow={1} />
+      <Box display="flex" p={1}>
+        <LikeButtonMock />
+        <BookmarkButtonMock />
+        <DownloadButtonMock />
+        <ShareButtonMock />
         <FullSizeModeButton />
         <HelpButton />
       </Box>
-    </Root>
+    </>
   )
 }
 
