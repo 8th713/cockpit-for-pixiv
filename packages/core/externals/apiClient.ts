@@ -7,10 +7,12 @@ import {
   BookmarkData,
   BookmarkForm,
   BookmarkPost,
+  FormatedProfile,
   GlobalData,
   Illust,
   LikeData,
   Pages,
+  Profile,
   Ugoira,
   User
 } from '../interfaces'
@@ -42,7 +44,7 @@ export function createAPIClient(globalData: GlobalData) {
 
       return data.body
     } catch (error) {
-      console.error(LABEL, error)
+      console.error(`${LABEL}: failed fetchPages`, error)
       return null
     }
   }
@@ -60,13 +62,13 @@ export function createAPIClient(globalData: GlobalData) {
         .json<{ body: Ugoira }>()
       return loadZip(data.body)
     } catch (error) {
-      console.error(LABEL, error)
+      console.error(`${LABEL}: failed fetchUgoira`, error)
       return null
     }
   }
 
   /**
-   * 作品情報
+   * 作品
    *
    * GET /ajax/illust/:illustId
    * @param {string} illustId イラスト識別子
@@ -78,13 +80,13 @@ export function createAPIClient(globalData: GlobalData) {
         .json<{ body: Illust }>()
       return data.body
     } catch (error) {
-      console.error(LABEL, error)
+      console.error(`${LABEL}: failed fetchIllust`, error)
       return null
     }
   }
 
   /**
-   * ユーザー情報
+   * ユーザー
    *
    * GET /ajax/user/:userId
    * @param {string} userId ユーザー識別子
@@ -94,7 +96,25 @@ export function createAPIClient(globalData: GlobalData) {
       const data = await api.get(`/ajax/user/${userId}`).json<{ body: User }>()
       return data.body
     } catch (error) {
-      console.error(LABEL, error)
+      console.error(`${LABEL}: failed fetchUser`, error)
+      return null
+    }
+  }
+
+  /**
+   * ユーザープロフィール
+   *
+   * GET /ajax/user/:userId/profile/top
+   * @param {string} userId ユーザー識別子
+   */
+  async function fetchProfile(userId: string) {
+    try {
+      const data = await api
+        .get(`/ajax/user/${userId}/profile/top`)
+        .json<{ body: Profile }>()
+      return formatProfile(data.body)
+    } catch (error) {
+      console.error(`${LABEL}: failed fetchProfile`, error)
       return null
     }
   }
@@ -115,7 +135,7 @@ export function createAPIClient(globalData: GlobalData) {
         .text()
       return parseFormHTML(data)
     } catch (error) {
-      console.error(LABEL, error)
+      console.error(`${LABEL}: failed fetchBookmarkForm`, error)
       return null
     }
   }
@@ -197,6 +217,7 @@ export function createAPIClient(globalData: GlobalData) {
     useUgoira: createCache(fetchUgoira, new LRUMap(2)),
     useIllust: createCache(fetchIllust, new LRUMap(1)),
     useUser: createCache(fetchUser, new LRUMap(20)),
+    useProfire: createCache(fetchProfile, new LRUMap(20)),
     useBookmarkForm: createCache(fetchBookmarkForm, new LRUMap(1)),
     likeBy,
     bookmarkBy,
@@ -204,6 +225,15 @@ export function createAPIClient(globalData: GlobalData) {
   }
 }
 
+function formatProfile({
+  extraData,
+  illusts,
+  manga
+}: Profile): FormatedProfile {
+  const { meta } = extraData
+  const data = { ...illusts, ...manga }
+  return { ...meta, illusts: Object.values(data).reverse() }
+}
 function parseFormHTML(html: string) {
   const doc = new DOMParser().parseFromString(html, 'text/html')
   const form = doc.querySelector<HTMLFormElement>(

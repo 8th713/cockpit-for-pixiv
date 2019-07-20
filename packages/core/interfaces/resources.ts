@@ -1,5 +1,5 @@
 /**
- * ユーザー情報
+ * ユーザー
  *
  * GET /ajax/user/:userId
  * @param {string} userId ユーザー識別子
@@ -16,7 +16,59 @@ export interface User {
 }
 
 /**
- * 作品情報
+ * ユーザープロフィール
+ *
+ * GET /ajax/user/:userId/profile/top
+ * @param {string} userId ユーザー識別子
+ */
+export interface RelatedImages {
+  bookmarkData: Illust['bookmarkData']
+  description: Illust['description']
+  height: Illust['height']
+  id: Illust['id']
+  illustType: Illust['illustType']
+  isBookmarkable: Illust['isBookmarkable']
+  pageCount: Illust['pageCount']
+  restrict: Illust['restrict']
+  // ???
+  sl: number
+  // シンプルタグリスト
+  tags: string[]
+  title: Illust['title']
+  // 250x250 square1200
+  url: string
+  userId: Illust['userId']
+  userName: Illust['userName']
+  width: Illust['width']
+  xRestrict: Illust['xRestrict']
+}
+export interface Profile {
+  extraData: {
+    meta: {
+      // https://www.pixiv.net/member.php?id=:userId
+      canonical: string
+      // 紹介文
+      description: string
+      // キーワード
+      keywords: string
+    }
+  }
+  illusts: {
+    [illustId: string]: RelatedImages
+  }
+  manga: {
+    [illustId: string]: RelatedImages
+  }
+}
+export interface FormatedProfile {
+  canonical: string
+  description: string
+  illusts: RelatedImages[]
+  keywords: string
+}
+
+/**
+ * 作品
  *
  * GET /ajax/illust/:illustId
  * @param {string} illustId イラスト識別子
