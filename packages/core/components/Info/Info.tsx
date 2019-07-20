@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Box } from '../shared'
 import { Caption } from './Caption'
 import { Description } from './Description'
+import { Related } from './Related'
 import { User } from './User'
 
 export function Info() {
@@ -15,6 +16,11 @@ export function Info() {
         <Box pr={3} />
         <React.Suspense fallback={null}>
           <User />
+        </React.Suspense>
+      </Box>
+      <Box bg="surface">
+        <React.Suspense fallback={null}>
+          <Related />
         </React.Suspense>
       </Box>
     </>
