@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FormatedProfile } from '../../../interfaces'
-import { useRoute } from '../../Router'
+import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { Box, Button, Refresh, Text } from '../../shared'
 import { Img } from './Img'
@@ -17,7 +17,7 @@ interface SuccessProps extends Props, FormatedProfile {}
 const THUMBNAIL_SIZE = 168
 
 export function Related() {
-  const id = useRoute()[0]!
+  const id = useRouteId()
   const { useIllust } = useServices()
   const illust = useIllust(id)
 
