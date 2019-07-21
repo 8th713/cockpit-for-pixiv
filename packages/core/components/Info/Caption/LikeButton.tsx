@@ -1,6 +1,6 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { useRoute } from '../../Router'
+import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { Box, Hotkey, IconButton, Like } from '../../shared'
 import { getTitle, like } from '../utils'
@@ -9,7 +9,7 @@ const title = getTitle(KEY_ASSIGNMENT.like)
 
 export function LikeButton() {
   const { useIllust, likeBy } = useServices()
-  const id = useRoute()[0]!
+  const id = useRouteId()
   const illust = useIllust(id)
 
   if (!illust) return <LikeButtonMock />

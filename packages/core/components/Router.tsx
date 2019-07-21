@@ -62,6 +62,16 @@ export function useRoute() {
   }
   return value
 }
+export function useRouteId() {
+  const value = useContext(ValueContext)
+  if (value === NO_PROVIDER) {
+    throw new Error(NO_PROVIDER)
+  }
+  if (value[0] === null) {
+    throw new Error('Missing current id')
+  }
+  return value[0]
+}
 export function useRouteActions() {
   const value = useContext(UpdateContext)
   if (value === NO_PROVIDER) {

@@ -2,7 +2,6 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { About, AboutHost } from './About'
 import { GlobalStyle } from './GlobalStyle'
-import { Info } from './Info'
 import { Router } from './Router'
 import { Services, ServicesProps } from './Services'
 import { theme } from './theme'
@@ -18,13 +17,7 @@ export function App({ services }: Props) {
       <Services {...services}>
         <GlobalStyle />
         <AboutHost>
-          <Router>
-            {id => (
-              <Viewer id={id}>
-                <Info />
-              </Viewer>
-            )}
-          </Router>
+          <Router>{id => <Viewer id={id} />}</Router>
           <About />
         </AboutHost>
       </Services>

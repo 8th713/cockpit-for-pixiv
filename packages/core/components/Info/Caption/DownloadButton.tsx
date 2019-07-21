@@ -1,7 +1,7 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { DownloadRequestAction } from '../../../interfaces'
-import { useRoute } from '../../Router'
+import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { Download, Hotkey, IconButton } from '../../shared'
 import { getTitle } from '../utils'
@@ -10,7 +10,7 @@ const title = getTitle(KEY_ASSIGNMENT.download)
 
 export function DownloadButton() {
   const { useIllust, addonStore } = useServices()
-  const id = useRoute()[0]!
+  const id = useRouteId()
   const illust = useIllust(id)
   const canDownload = addonStore.isConnected('download')
 
