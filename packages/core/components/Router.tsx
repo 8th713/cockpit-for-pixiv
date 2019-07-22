@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState, useRef } from 'react'
 import { EXCLUDES, INCLUDES, KEY_ASSIGNMENT, NO_SCROLLBAR } from '../constants'
 import { Hotkey, Modal } from './shared'
 
@@ -11,6 +11,7 @@ type Actions = {
   goNext: () => void
   goPrev: () => void
   unset: () => void
+  push: (id: string) => void
 }
 
 function getId(element: HTMLAnchorElement) {
@@ -23,15 +24,21 @@ function ensureAnchorElement(element: Element) {
   return element.closest(INCLUDES) as HTMLAnchorElement | null
 }
 
-function isIllustThumbnailAnchorElement(element: HTMLAnchorElement) {
-  return element.outerHTML.includes('i.pximg.net') && !!getId(element)
+function isIllustThumbnailAnchorElement(
+  element: Element
+): element is HTMLAnchorElement {
+  return (
+    element instanceof HTMLAnchorElement &&
+    element.outerHTML.includes('i.pximg.net') &&
+    !!getId(element)
+  )
 }
 
-function getSibling(element: HTMLAnchorElement, n: number) {
-  const list = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>(INCLUDES)
-  ).filter(isIllustThumbnailAnchorElement)
-  const currentIndex = list.indexOf(element)
+function getSibling(element: Element, n: number) {
+  const list = Array.from(document.querySelectorAll(INCLUDES)).filter(
+    isIllustThumbnailAnchorElement
+  )
+  const currentIndex = list.indexOf(element as any)
   const nextIndex = (list.length + currentIndex + n) % list.length
 
   return list[nextIndex] || null
@@ -81,21 +88,27 @@ export function useRouteActions() {
 }
 
 export function Router({ children }: Props) {
-  const [element, setElement] = useState<HTMLAnchorElement | null>(null)
-  const id = element ? getId(element) : null
+  const latestElement = useRef<HTMLElement>()
+  const [id, setId] = useState<string | null>(null)
   const actions = useMemo(() => {
+    const setElement = (element: HTMLAnchorElement) => {
+      latestElement.current = element
+      setId(getId(element))
+    }
     const go = (n: number) => {
-      setElement(current => {
-        if (!current) return current
-
-        return getSibling(current, n)
-      })
+      if (!latestElement.current) return
+      const element = getSibling(latestElement.current, n)
+      setElement(element)
     }
     const goNext = () => go(1)
     const goPrev = () => go(-1)
-    const unset = () => setElement(null)
+    const unset = () => {
+      // Should update latestElement?
+      setId(null)
+    }
+    const push = setId
 
-    return { go, goNext, goPrev, unset }
+    return { go, goNext, goPrev, unset, push, setElement }
   }, [])
 
   useEffect(() => {
@@ -106,7 +119,7 @@ export function Router({ children }: Props) {
       if (!isIllustThumbnailAnchorElement(target)) return
 
       event.preventDefault()
-      setElement(target)
+      actions.setElement(target)
     }
     function handleMouseOver(event: MouseEvent) {
       const target = ensureAnchorElement(event.target as Element)
@@ -124,18 +137,18 @@ export function Router({ children }: Props) {
       document.body.removeEventListener('click', handleClick)
       document.body.removeEventListener('mouseover', handleMouseOver)
     }
-  }, [])
+  }, [actions])
 
   useEffect(() => {
     const html = document.documentElement!
 
-    if (element) {
+    if (id && latestElement.current) {
       html.classList.add(NO_SCROLLBAR)
-      scrollIntoView(element)
+      scrollIntoView(latestElement.current)
     } else {
       html.classList.remove(NO_SCROLLBAR)
     }
-  }, [element])
+  }, [id])
 
   return (
     <UpdateContext.Provider value={actions}>

@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { FormatedProfile } from '../../../interfaces'
-import { useRouteId } from '../../Router'
+import { useRouteId, useRouteActions } from '../../Router'
 import { useServices } from '../../Services'
-import { Box, Button, Refresh, Text } from '../../shared'
+import { Box, Button, Refresh, Text, Hotkey } from '../../shared'
 import { Img } from './Img'
+import { KEY_ASSIGNMENT } from '../../../constants'
+import { useInView } from 'react-intersection-observer'
 
 interface Props {
   illustId: string
@@ -33,7 +35,7 @@ function RelatedLoader(props: LoaderProps) {
   const profire = useProfire(props.userId)
 
   if (!profire) return <RelatedFailure {...props} />
-  return <RelatedSuccess {...props} {...profire} />
+  return <RelatedSuccess key={props.userId} {...props} {...profire} />
 }
 function RelatedFailure({ userId }: FailureProps) {
   const { useProfire } = useServices()
@@ -53,41 +55,57 @@ function RelatedFailure({ userId }: FailureProps) {
   )
 }
 function RelatedSuccess({ illustId, illusts }: SuccessProps) {
-  const ref = useRef<HTMLDivElement>(null)
+  const { push } = useRouteActions()
+  const root = useRef<HTMLDivElement>(null)
+  const latest = useRef<HTMLButtonElement>(null)
+  const [ref, inView] = useInView({ triggerOnce: true })
+  const go = (n: number) => {
+    const currentIndex = illusts.findIndex(illust => illust.id === illustId)
+    n = currentIndex === -1 ? 0 : n
+    const targetIndex = (illusts.length + currentIndex + n) % illusts.length
+    const nextIllustId = illusts[targetIndex]
+    push(nextIllustId.id)
+  }
+  const prev = () => go(-1)
+  const next = () => go(1)
+
   useEffect(() => {
-    const node = ref.current
-    if (!node) return
-    const current = document.getElementById(`cfp-related-${illustId}`)
-    if (current) {
-      const offset = node.offsetWidth / 2 - THUMBNAIL_SIZE / 2
-      node.scrollLeft = current.offsetLeft - offset
+    const rootNode = root.current
+    if (!rootNode) return
+    const selected = latest.current
+    if (selected) {
+      const offset = rootNode.offsetWidth / 2 - THUMBNAIL_SIZE / 2
+      rootNode.scrollLeft = selected.offsetLeft - offset
     } else {
-      node.scrollLeft = 0
+      rootNode.scrollLeft = 0
     }
-  }, [illustId])
+  }, [illustId, inView])
 
   return (
-    <Box ref={ref} overflow="auto">
-      <Container>
-        {illusts.map(illust => (
-          <ThumbnailButton
-            key={illust.id}
-            aria-current={illustId === illust.id}
-            tabIndex={illustId === illust.id ? -1 : void 0}
-            id={`cfp-related-${illust.id}`}
-            href={`/member_illust.php?mode=medium&illust_id=${illust.id}`}
-          >
-            <Img alt={illust.title} src={illust.url} size={THUMBNAIL_SIZE} />
-            <Chip textStyle="caption">
-              {illust.pageCount !== 1
-                ? illust.pageCount
-                : illust.illustType === 2
-                ? 'U'
-                : null}
-            </Chip>
-          </ThumbnailButton>
-        ))}
+    <Box ref={root} overflow="scroll auto">
+      <Container ref={ref}>
+        {inView &&
+          illusts.map(illust => (
+            <ThumbnailButton
+              key={illust.id}
+              disabled={illustId === illust.id}
+              ref={illustId === illust.id ? latest : null}
+              id={`cfp-related-${illust.id}`}
+              onClick={() => push(illust.id)}
+            >
+              <Img alt={illust.title} src={illust.url} size={THUMBNAIL_SIZE} />
+              <Chip textStyle="caption">
+                {illust.pageCount !== 1
+                  ? illust.pageCount
+                  : illust.illustType === 2
+                  ? 'U'
+                  : null}
+              </Chip>
+            </ThumbnailButton>
+          ))}
       </Container>
+      <Hotkey {...KEY_ASSIGNMENT.goPrevRelatedIllust} action={prev} />
+      <Hotkey {...KEY_ASSIGNMENT.goNextRelatedIllust} action={next} />
     </Box>
   )
 }
@@ -95,9 +113,11 @@ function RelatedSuccess({ illustId, illusts }: SuccessProps) {
 const Container = styled.div`
   display: flex;
   width: fit-content;
+  height: ${THUMBNAIL_SIZE}px;
   padding: 0 16px 4px;
 `
-const ThumbnailButton = styled.a`
+const ThumbnailButton = styled.button`
+  cursor: zoom-in;
   position: relative;
   display: flex;
   width: ${THUMBNAIL_SIZE}px;
@@ -126,8 +146,9 @@ const ThumbnailButton = styled.a`
   &:active::before {
     opacity: calc(var(--pressed) * 2);
   }
-  &[aria-current='true'] {
+  :disabled {
     pointer-events: none;
+    opacity: 1;
     ::before {
       opacity: var(--medium);
     }

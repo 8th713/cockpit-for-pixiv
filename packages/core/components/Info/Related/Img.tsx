@@ -20,7 +20,6 @@ export function Img({ src, size, ...props }: Props) {
       height={size}
       alt=""
       {...props}
-      data-src={src}
       src={finalSrc}
     />
   )
