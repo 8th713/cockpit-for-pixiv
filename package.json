@@ -23,7 +23,6 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-is": "^16.8.6",
-    "react-intersection-observer": "^8.24.1",
     "styled-components": "^5.0.0-beta.8",
     "styled-system": "^5.0.15"
   },
