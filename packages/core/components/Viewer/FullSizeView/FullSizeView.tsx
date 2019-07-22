@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { Pages } from '../../../interfaces'
 import { useUpdateFullSizeMode, FullSizeMode } from '../FullSizeMode'
-import { ScrollSpy, useScrollSpy } from '../ScrollSpy'
+import { OverLay, useScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../utils'
 import { FullSizeImg } from './FullSizeImg'
 import { FullSizeUgoira } from './FullSizeUgoira'
@@ -56,7 +56,7 @@ function FullSizeViewSuccess({ id, pages }: SuccessProps) {
             {ugoira && <FullSizeUgoira id={id} {...page} />}
           </Preview>
         </ClickableBox>
-        {isMultiple && <ScrollSpy.OverLay pages={pages} />}
+        {isMultiple && <OverLay pages={pages} />}
       </AdjustBox>
     </Root>
   )

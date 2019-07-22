@@ -5,7 +5,7 @@ import { useRouteActions } from '../../Router'
 import { useServices } from '../../Services'
 import { Box, Button, Dialog, Progress, Refresh, Text } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
-import { ScrollSpy } from '../ScrollSpy'
+import { OverLay, SpyItem, SpyItemLast } from '../ScrollSpy'
 import { isUgoira } from '../utils'
 import { PADDING, StandardImg } from './StandardImg'
 import { StandardUgoira } from './StandardUgoira'
@@ -103,12 +103,12 @@ function StandardViewSuccess({ pages, children }: SuccessProps) {
   const imgs = useMemo(() => {
     const ugoira = isUgoira(pages[0])
     return pages.map((page, index) => (
-      <ScrollSpy.SpyItem key={page.urls.original} index={index}>
+      <SpyItem key={page.urls.original} index={index}>
         <ImageBox tabIndex={0}>
           {!ugoira && <StandardImg {...page} root={root} />}
           {ugoira && <StandardUgoira {...page} />}
         </ImageBox>
-      </ScrollSpy.SpyItem>
+      </SpyItem>
     ))
   }, [pages])
 
@@ -131,9 +131,9 @@ function StandardViewSuccess({ pages, children }: SuccessProps) {
       <Box position="relative">
         <span onClick={unset}>
           {imgs}
-          <ScrollSpy.SpyItemLast />
+          <SpyItemLast />
         </span>
-        {isMultiple && <ScrollSpy.OverLay pages={pages} />}
+        {isMultiple && <OverLay pages={pages} />}
       </Box>
       {children}
     </Root>
