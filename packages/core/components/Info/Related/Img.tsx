@@ -1,17 +1,32 @@
-import React from 'react'
-import { useInView } from 'react-intersection-observer'
+import React, { useState, useCallback, useRef } from 'react'
+import { useLazyObserver } from './Related'
 
 type Props = React.ComponentPropsWithoutRef<'img'> & {
   size: number
 }
 
-const options = {
-  triggerOnce: true
-}
-
 export function Img({ src, size, ...props }: Props) {
-  const [ref, inView] = useInView(options)
+  const observer = useLazyObserver()
+  const [inView, setInview] = useState(false)
   const finalSrc = inView ? src : void 0
+  const nodeRef = useRef<Element | null>(null)
+  const ref = useCallback(
+    (node: Element | null) => {
+      if (nodeRef.current) {
+        observer.unobserve(nodeRef.current)
+      }
+      nodeRef.current = node
+      if (node) {
+        observer.observe(node, entry => {
+          if (entry.isIntersecting) {
+            setInview(true)
+            observer.unobserve(node)
+          }
+        })
+      }
+    },
+    [observer]
+  )
 
   return (
     <img

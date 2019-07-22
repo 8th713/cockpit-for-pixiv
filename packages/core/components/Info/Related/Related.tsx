@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { FormatedProfile } from '../../../interfaces'
-import { useRouteId, useRouteActions } from '../../Router'
-import { useServices } from '../../Services'
-import { Box, Button, Refresh, Text, Hotkey } from '../../shared'
-import { Img } from './Img'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { useInView } from 'react-intersection-observer'
+import { useIntersection } from '../../../hooks/useIntersection'
+import { FormatedProfile } from '../../../interfaces'
+import { useRouteActions, useRouteId } from '../../Router'
+import { useServices } from '../../Services'
+import { Box, Button, Hotkey, Refresh, Text } from '../../shared'
+import { Img } from './Img'
 
 interface Props {
   illustId: string
@@ -15,8 +15,18 @@ interface Props {
 interface LoaderProps extends Props {}
 interface FailureProps extends Props {}
 interface SuccessProps extends Props, FormatedProfile {}
+type Observer = ReturnType<typeof useIntersection>
 
 const THUMBNAIL_SIZE = 168
+const LazyContext = React.createContext<Observer | null>(null)
+
+export function useLazyObserver() {
+  const value = useContext(LazyContext)
+  if (value === null) {
+    throw new Error('Missing RelatedLazyContext')
+  }
+  return value
+}
 
 export function Related() {
   const id = useRouteId()
@@ -55,10 +65,10 @@ function RelatedFailure({ userId }: FailureProps) {
   )
 }
 function RelatedSuccess({ illustId, illusts }: SuccessProps) {
-  const { push } = useRouteActions()
+  const observer = useIntersection()
   const root = useRef<HTMLDivElement>(null)
   const latest = useRef<HTMLButtonElement>(null)
-  const [ref, inView] = useInView({ triggerOnce: true })
+  const { push } = useRouteActions()
   const go = (n: number) => {
     const currentIndex = illusts.findIndex(illust => illust.id === illustId)
     n = currentIndex === -1 ? 0 : n
@@ -69,6 +79,7 @@ function RelatedSuccess({ illustId, illusts }: SuccessProps) {
   const prev = () => go(-1)
   const next = () => go(1)
 
+  useEffect(observer.start, [observer])
   useEffect(() => {
     const rootNode = root.current
     if (!rootNode) return
@@ -79,18 +90,17 @@ function RelatedSuccess({ illustId, illusts }: SuccessProps) {
     } else {
       rootNode.scrollLeft = 0
     }
-  }, [illustId, inView])
+  }, [illustId])
 
   return (
     <Box ref={root} overflow="scroll auto">
-      <Container ref={ref}>
-        {inView &&
-          illusts.map(illust => (
+      <Container>
+        <LazyContext.Provider value={observer}>
+          {illusts.map(illust => (
             <ThumbnailButton
               key={illust.id}
               disabled={illustId === illust.id}
               ref={illustId === illust.id ? latest : null}
-              id={`cfp-related-${illust.id}`}
               onClick={() => push(illust.id)}
             >
               <Img alt={illust.title} src={illust.url} size={THUMBNAIL_SIZE} />
@@ -103,6 +113,7 @@ function RelatedSuccess({ illustId, illusts }: SuccessProps) {
               </Chip>
             </ThumbnailButton>
           ))}
+        </LazyContext.Provider>
       </Container>
       <Hotkey {...KEY_ASSIGNMENT.goPrevRelatedIllust} action={prev} />
       <Hotkey {...KEY_ASSIGNMENT.goNextRelatedIllust} action={next} />
