@@ -35,6 +35,17 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           use: ['source-map-loader'],
           enforce: 'pre'
+        },
+        {
+          test: /\.png$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]'
+              }
+            }
+          ]
         }
       ]
     },
