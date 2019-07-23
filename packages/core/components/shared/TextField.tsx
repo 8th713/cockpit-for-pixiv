@@ -80,7 +80,9 @@ const Impl = React.forwardRef<HTMLInputElement, TextFieldProps>(
     )
   }
 )
-Impl.displayName = 'TextField'
+if (process.env.NODE_ENV !== 'production') {
+  Impl.displayName = 'TextField'
+}
 
 export const TextField = styled(Impl)`
   box-sizing: border-box;

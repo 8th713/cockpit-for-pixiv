@@ -25,7 +25,9 @@ const Impl = React.forwardRef<HTMLInputElement, SwitchProps>((props, ref) => {
     </div>
   )
 })
-Impl.displayName = 'Switch'
+if (process.env.NODE_ENV !== 'production') {
+  Impl.displayName = 'Switch'
+}
 
 export const Switch = styled(Impl)`
   box-sizing: border-box;

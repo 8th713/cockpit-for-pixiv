@@ -35,7 +35,9 @@ export const Text = styled(Box).attrs(getAs)<TextProps>`
   )};
   ${sys.ellipsis};
 `
-Text.displayName = 'Text'
 Text.defaultProps = {
   textStyle: 'body1'
+}
+if (process.env.NODE_ENV !== 'production') {
+  Text.displayName = 'Text'
 }

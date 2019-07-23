@@ -41,7 +41,9 @@ export const Link = styled.a<LinkProps>`
     ${sys.ellipsis};
   }
 `
-Link.displayName = 'Link'
 Link.defaultProps = {
   color: 'primary'
+}
+if (process.env.NODE_ENV !== 'production') {
+  Link.displayName = 'Link'
 }

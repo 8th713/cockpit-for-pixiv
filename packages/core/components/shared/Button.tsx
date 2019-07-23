@@ -24,7 +24,9 @@ const Impl = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
     </button>
   )
 })
-Impl.displayName = 'Button'
+if (process.env.NODE_ENV !== 'production') {
+  Impl.displayName = 'Button'
+}
 
 export const Button = styled(Impl)`
   --multiplier: 1;

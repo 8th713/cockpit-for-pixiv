@@ -22,7 +22,9 @@ const Impl = React.forwardRef<HTMLDivElement, ProgressProps>((props, ref) => (
     </svg>
   </div>
 ))
-Impl.displayName = 'Progress'
+if (process.env.NODE_ENV !== 'production') {
+  Impl.displayName = 'Progress'
+}
 
 const rotate = keyframes`
   100% {

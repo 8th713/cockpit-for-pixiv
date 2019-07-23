@@ -27,4 +27,6 @@ export const Box = styled.div<BoxProps>`
     sys.color
   )}
 `
-Box.displayName = 'Box'
+if (process.env.NODE_ENV !== 'production') {
+  Box.displayName = 'Box'
+}

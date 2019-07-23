@@ -65,4 +65,6 @@ export const IconButton = styled.button<IconButtonProps>`
     sys.colorStyle
   )}
 `
-IconButton.displayName = 'IconButton'
+if (process.env.NODE_ENV !== 'production') {
+  IconButton.displayName = 'IconButton'
+}
