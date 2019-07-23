@@ -1,16 +1,14 @@
 import React from 'react'
-import { useInView } from 'react-intersection-observer'
+import { useInView } from '../../../hooks/useIntersection'
+import { useLazyObserver } from './Related'
 
 type Props = React.ComponentPropsWithoutRef<'img'> & {
   size: number
 }
 
-const options = {
-  triggerOnce: true
-}
-
 export function Img({ src, size, ...props }: Props) {
-  const [ref, inView] = useInView(options)
+  const observer = useLazyObserver()
+  const [inView, ref] = useInView(observer, true)
   const finalSrc = inView ? src : void 0
 
   return (

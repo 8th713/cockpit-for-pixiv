@@ -1,12 +1,12 @@
-import React, { useCallback, useRef } from 'react'
-import { useInView } from 'react-intersection-observer'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
+import { useInView } from '../../../hooks/useIntersection'
 import { Page } from '../../../interfaces'
 import { useRouteActions } from '../../Router'
+import { useLazyObserver } from './StandardView'
+import { useResize } from './useResize'
 
-type Props = Page & {
-  root?: React.RefObject<Element>
-}
+type Props = Page
 
 export const PADDING = 32
 
@@ -15,47 +15,23 @@ const getURL = (page: Page, inView: boolean) => {
   return page.urls.small.replace('540x540_70', '150x150')
 }
 
-const options = {
-  rootMargin: '50%',
-  threshold: 0,
-  triggerOnce: true
-}
-
 function LazyImg(props: Props) {
-  const { urls, root, ...rest } = props
-  const rootElement = root && root.current
-  const [ref, inView] = useInView({ ...options, root: rootElement })
+  const { urls, ...rest } = props
+  const observer = useLazyObserver()
+  const [inView, observe] = useInView(observer, true)
+  const resize = useResize(rest.width, rest.height, PADDING)
   const { go } = useRouteActions()
-  const handler = useRef<() => void>()
-  const resize = useCallback(
+  const ref = useCallback(
     (node: HTMLImageElement | null) => {
-      if (node) {
-        handler.current = () => {
-          const parent = node.parentElement!
-          const boxWidth = parent.clientWidth - PADDING * 2
-          const boxHeight = parent.clientHeight - PADDING * 2
-          const ratio = Math.min(
-            boxWidth / rest.width,
-            boxHeight / rest.height,
-            1
-          )
-          node.width = Math.floor(rest.width * ratio)
-          node.height = Math.floor(rest.height * ratio)
-        }
-        handler.current()
-        window.addEventListener('resize', handler.current)
-      } else if (handler.current) {
-        window.removeEventListener('resize', handler.current)
-        handler.current = undefined
-      }
-      ref(node)
+      observe(node)
+      resize(node)
     },
-    [ref, rest.width, rest.height]
+    [observe, resize]
   )
 
   return (
     <img
-      ref={resize}
+      ref={ref}
       alt=""
       {...rest}
       src={getURL(props, inView)}
