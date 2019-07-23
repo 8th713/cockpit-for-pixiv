@@ -2,7 +2,6 @@ import { useRef, useCallback } from 'react'
 
 const listeners = new Set<() => void>()
 const handler = () => {
-  console.log(listeners.size)
   for (const listener of listeners) {
     listener()
   }
