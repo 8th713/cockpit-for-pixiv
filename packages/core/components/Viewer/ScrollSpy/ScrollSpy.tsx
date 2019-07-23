@@ -4,14 +4,18 @@ import React, {
   useDebugValue,
   useEffect,
   useMemo,
-  useReducer,
-  useRef
+  useRef,
+  useState
 } from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { useIntersection } from '../../../hooks/useIntersection'
+import {
+  useIntersection,
+  useIntersectionEffect
+} from '../../../hooks/useIntersection'
 import { Hotkey } from '../../shared'
 import { useFullSizeMode } from '../FullSizeMode'
 import { OverLay } from './OverLay'
+import styled from 'styled-components'
 
 type HostProps = {
   id: string
@@ -30,10 +34,6 @@ type State = {
   isBottom: boolean
   lastNode: Element | null
 }
-type Action =
-  | { type: 'move'; index: number; inViewNode: Element }
-  | { type: 'changeBottom'; isBottom: boolean; lastNode: Element }
-  | { type: 'reset' }
 type ScrollActions = {
   scrollPrev: () => void
   scrollNext: () => void
@@ -73,30 +73,11 @@ const initialState: State = {
   isBottom: false,
   lastNode: null
 }
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'move': {
-      const { index, inViewNode } = action
-      if (index === state.index && inViewNode === state.inViewNode) return state
-      return { ...state, index, inViewNode }
-    }
-    case 'changeBottom': {
-      const { isBottom, lastNode } = action
-      if (isBottom === state.isBottom && lastNode === state.lastNode)
-        return state
-      return { ...state, isBottom, lastNode }
-    }
-    case 'reset': {
-      const { lastNode } = state
-      return { ...initialState, lastNode }
-    }
-  }
-}
 
 export function ScrollSpy({ id, children }: HostProps) {
   const observer = useIntersection()
   const [isFullSize, setFullSize] = useFullSizeMode()
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, setState] = useState(initialState)
   const stateRef = useRef(state)
   const behaviorRef = useRef<'auto' | 'smooth'>(isFullSize ? 'auto' : 'smooth')
   const actions = useMemo(() => {
@@ -125,9 +106,17 @@ export function ScrollSpy({ id, children }: HostProps) {
       setFullSize(false)
     }
     const setIndex = (index: number, inViewNode: Element) =>
-      dispatch({ type: 'move', index, inViewNode })
+      setState(state => {
+        if (index === state.index && inViewNode === state.inViewNode)
+          return state
+        return { ...state, index, inViewNode }
+      })
     const setIsBottom = (isBottom: boolean, lastNode: Element) =>
-      dispatch({ type: 'changeBottom', isBottom, lastNode })
+      setState(state => {
+        if (isBottom === state.isBottom && lastNode === state.lastNode)
+          return state
+        return { ...state, isBottom, lastNode }
+      })
 
     return {
       scrollPrev,
@@ -140,7 +129,7 @@ export function ScrollSpy({ id, children }: HostProps) {
   }, [observer, setFullSize])
 
   useEffect(() => observer.start({ threshold: 0.5 }), [observer])
-  useEffect(() => dispatch({ type: 'reset' }), [id])
+  useEffect(() => setState(initialState), [id])
   useEffect(() => {
     behaviorRef.current = isFullSize ? 'auto' : 'smooth'
   }, [isFullSize])
@@ -172,57 +161,36 @@ export function ScrollSpy({ id, children }: HostProps) {
   )
 }
 export function SpyItem({ index, children }: ItemProps) {
-  const { setIndex, observe, unobserve } = useScrollActions()
-  const nodeRef = useRef<Element | null>(null)
-  const ref = useCallback(
-    (node: Element | null) => {
-      if (nodeRef.current) {
-        unobserve(nodeRef.current)
-      }
-      nodeRef.current = node
-      if (node) {
-        observe(node, entry => {
-          if (entry.isIntersecting) {
-            setIndex(index, entry.target)
-          }
-        })
-      }
-    },
-    [index, setIndex, observe, unobserve]
+  const { setIndex, ...observer } = useScrollActions()
+  const ref = useIntersectionEffect(
+    observer,
+    useCallback(
+      entry => {
+        if (entry.isIntersecting) {
+          setIndex(index, entry.target)
+        }
+      },
+      [index, setIndex]
+    )
   )
 
   return <span ref={ref}>{children}</span>
 }
 export function SpyItemLast({ children }: LastItemProps) {
-  const { setIsBottom, observe, unobserve } = useScrollActions()
-  const nodeRef = useRef<Element | null>(null)
-  const ref = useCallback(
-    (node: Element | null) => {
-      if (nodeRef.current) {
-        unobserve(nodeRef.current)
-      }
-      nodeRef.current = node
-      if (node) {
-        observe(node, entry => {
-          setIsBottom(entry.isIntersecting, entry.target)
-        })
-      }
-    },
-    [setIsBottom, observe, unobserve]
+  const { setIsBottom, ...observer } = useScrollActions()
+  const ref = useIntersectionEffect(
+    observer,
+    useCallback(entry => setIsBottom(entry.isIntersecting, entry.target), [
+      setIsBottom
+    ])
   )
 
-  return (
-    <span
-      ref={ref}
-      style={{
-        position: 'relative',
-        top: 'calc(1px + var(--caption-height))',
-        display: 'block',
-        height: 1
-      }}
-    >
-      {children}
-    </span>
-  )
+  return <Box ref={ref}>{children}</Box>
 }
 export { OverLay }
+
+const Box = styled.div`
+  position: relative;
+  top: calc(1px + var(--caption-height));
+  height: 1px;
+`

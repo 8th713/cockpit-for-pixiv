@@ -1,28 +1,24 @@
-import { useRef } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import { unstable_batchedUpdates as batchedUpdates } from 'react-dom'
 
-interface Options extends IntersectionObserverInit {
-  once?: boolean
+interface Observer {
+  start: (options?: IntersectionObserverInit) => () => void
+  observe: (node: Element, callback: Callback) => void
+  unobserve: (node: Element) => void
 }
 
-type Callback = (entry: IntersectionObserverEntry, options: Options) => void
-
-export type UseInViewHook = () => [
-  boolean,
-  (node: Element | null) => void,
-  IntersectionObserverEntry | null
-]
+type Callback = (entry: IntersectionObserverEntry) => void
 
 const createObserver = () => {
   const callbacks = new Map<Element, Callback>()
   let instance: IntersectionObserver | null
-  const start = (options: Options = {}) => {
+  const start = (options: IntersectionObserverInit = {}) => {
     instance = new IntersectionObserver(entries => {
       batchedUpdates(() => {
         for (const entry of entries) {
           const callback = callbacks.get(entry.target)
           if (callback) {
-            callback(entry, options)
+            callback(entry)
           }
         }
       })
@@ -59,4 +55,38 @@ export function useIntersection() {
   if (observer.current) return observer.current
   observer.current = createObserver()
   return observer.current
+}
+
+export function useIntersectionEffect(observer: Observer, callback: Callback) {
+  const ref = useRef<Element | null>(null)
+  const setRef = useCallback(
+    (node: Element | null) => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+      ref.current = node
+      if (node) {
+        observer.observe(node, callback)
+      }
+    },
+    [observer, callback]
+  )
+  return setRef
+}
+
+export function useInView(observer: Observer, once?: boolean) {
+  const [inView, update] = useState(false)
+  const setRef = useIntersectionEffect(
+    observer,
+    useCallback(
+      entry => {
+        if (entry.isIntersecting && once) {
+          update(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      [observer, once]
+    )
+  )
+  return [inView, setRef] as const
 }
