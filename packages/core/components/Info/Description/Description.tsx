@@ -7,7 +7,7 @@ import { TagList } from './TagList'
 
 export function Description() {
   return (
-    <Box display="grid" gridGap={3} flex="1 0">
+    <Box display="grid" gridGap={3} flex="960px" maxWidth={960}>
       <React.Suspense fallback={null}>
         <Comment />
         <TagList />
