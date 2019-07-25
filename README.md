@@ -21,7 +21,7 @@ npm run build
 
 To type check:
 ```sh
-npm run type-check
+npm run tsc
 ```
 
 ## Contributing
