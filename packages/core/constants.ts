@@ -35,7 +35,7 @@ export const KEY_ASSIGNMENT = {
   },
   info: {
     keyName: 'i',
-    children: '情報欄表示'
+    children: '情報欄までスクロール'
   },
   like: {
     keyName: 'l',
