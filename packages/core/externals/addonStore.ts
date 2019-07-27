@@ -1,5 +1,4 @@
 import { LABEL } from '../constants'
-import { ConnectionRequestAction } from '../interfaces'
 
 type Action = {
   type: string
@@ -38,7 +37,9 @@ export function createAddonStore() {
   return { isConnected, dispatch }
 }
 
-function isConnectionRequest(action: any): action is ConnectionRequestAction {
+function isConnectionRequest(
+  action: any
+): action is CFPAddon.ConnectionRequestAction {
   return (
     action &&
     action.type === 'CONNECTION-REQUEST' &&

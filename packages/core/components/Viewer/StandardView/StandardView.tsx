@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components'
 import { useIntersection } from '../../../hooks/useIntersection'
-import { Pages } from '../../../interfaces'
 import { useRouteActions } from '../../Router'
 import { useServices } from '../../Services'
 import { Box, Button, Dialog, Progress, Refresh, Text } from '../../shared'
@@ -25,7 +24,7 @@ interface FailureProps extends Props {
   id: string
 }
 interface SuccessProps extends Props {
-  pages: Pages
+  pages: Pixiv.Pages
 }
 type Observer = ReturnType<typeof useIntersection>
 

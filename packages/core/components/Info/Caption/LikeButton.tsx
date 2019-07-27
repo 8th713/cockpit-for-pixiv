@@ -2,10 +2,10 @@ import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
-import { Box, Hotkey, IconButton, Like } from '../../shared'
-import { getTitle, like } from '../utils'
+import { Box, getHotkeyHint, Hotkey, IconButton, Like } from '../../shared'
+import { like } from '../utils'
 
-const title = getTitle(KEY_ASSIGNMENT.like)
+const title = getHotkeyHint(KEY_ASSIGNMENT.like)
 
 export function LikeButton() {
   const { useIllust, likeBy } = useServices()

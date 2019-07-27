@@ -1,14 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { BookmarkForm, Illust } from '../../interfaces'
 import { Box, Text, TextField } from '../shared'
 import { SortButtons } from './SortButtons'
 import { useSort } from './SortHost'
 import { sortBy, splitTag, toggleTag } from './utils'
 
 type Props = {
-  userTags: BookmarkForm['userTags']
-  illustTags: Illust['tags']['tags']
+  userTags: Pixiv.UserTag[]
+  illustTags: Pixiv.IllustTag[]
   value: string
   onChange: (value: { tags: string }, valid: boolean) => void
 }

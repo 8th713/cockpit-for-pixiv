@@ -1,17 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Frame, Page } from '../../../interfaces'
 import { useServices } from '../../Services'
 import { usePlayer } from '../usePlayer'
 import { FullSizeImg } from './FullSizeImg'
 
-interface Props extends Page {
+interface Props extends Pixiv.Page {
   id: string
 }
 interface SuspenseProps extends Props {}
 interface LoaderProps extends Props {}
-interface SuccessProps extends Page {
-  frames: Frame[]
+interface SuccessProps extends Pixiv.Page {
+  frames: Pixiv.FrameAndImage[]
 }
 
 export function FullSizeUgoira(props: SuspenseProps) {

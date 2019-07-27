@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Page } from '../../../interfaces'
 
-type Props = Page
+type Props = Pixiv.Page
 
 function FullImgImpl({ urls, ...rest }: Props) {
   const src = urls.original

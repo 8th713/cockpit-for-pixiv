@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { BookmarkForm, Illust } from '../../interfaces'
 import { bookmark } from '../Info/utils'
 import { useServices } from '../Services'
 import {
@@ -21,14 +20,14 @@ import { useToggleForm, useUpdateToggleForm } from './ToggleForm'
 import { toPostData } from './utils'
 
 interface Props {
-  illust: Illust
+  illust: Pixiv.Illust
 }
 interface SuspenseProps extends Props {}
 interface LoaderProps extends Props {}
 interface LoadingProps extends Props {}
 interface FailureProps extends Props {}
 interface SuccessProps extends Props {
-  data: BookmarkForm
+  data: Pixiv.BookmarkForm
 }
 
 export function Bookmark(props: SuspenseProps) {
@@ -103,7 +102,7 @@ function BookmarkSuccess({ illust, data }: SuccessProps) {
   const { useIllust, bookmarkBy } = useServices()
   const setOepn = useUpdateToggleForm()
   const [state, setState] = useState({
-    restrict: !!data.restrict,
+    restrict: data.restrict,
     comment: data.comment,
     tags: data.tags
   })

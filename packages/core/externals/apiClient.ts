@@ -2,25 +2,11 @@ import ky from 'ky'
 import { LRUMap } from 'lru_map'
 import { LABEL } from '../constants'
 import { createCache } from '../hooks/useCache'
-import {
-  AccountTagList,
-  BookmarkData,
-  BookmarkForm,
-  BookmarkPost,
-  FormatedProfile,
-  GlobalData,
-  Illust,
-  LikeData,
-  Pages,
-  Profile,
-  Ugoira,
-  User
-} from '../interfaces'
 import { loadZip } from './loadZip'
 
 export type APIClient = ReturnType<typeof createAPIClient>
 
-export function createAPIClient(globalData: GlobalData) {
+export function createAPIClient(globalData: Pixiv.GlobalData) {
   const { userId: yourId, token } = globalData
   const api = ky.create({
     credentials: 'same-origin',
@@ -40,7 +26,7 @@ export function createAPIClient(globalData: GlobalData) {
     try {
       const data = await api
         .get(`/ajax/illust/${illustId}/pages`, { cache: 'force-cache' })
-        .json<{ body: Pages }>()
+        .json<{ body: Pixiv.Pages }>()
 
       return data.body
     } catch (error) {
@@ -59,7 +45,7 @@ export function createAPIClient(globalData: GlobalData) {
     try {
       const data = await api
         .get(`/ajax/illust/${illustId}/ugoira_meta`, { cache: 'force-cache' })
-        .json<{ body: Ugoira }>()
+        .json<{ body: Pixiv.Ugoira }>()
       return loadZip(data.body)
     } catch (error) {
       console.error(`${LABEL}: failed fetchUgoira`, error)
@@ -77,7 +63,7 @@ export function createAPIClient(globalData: GlobalData) {
     try {
       const data = await api
         .get(`/ajax/illust/${illustId}`)
-        .json<{ body: Illust }>()
+        .json<{ body: Pixiv.Illust }>()
       return data.body
     } catch (error) {
       console.error(`${LABEL}: failed fetchIllust`, error)
@@ -93,7 +79,9 @@ export function createAPIClient(globalData: GlobalData) {
    */
   async function fetchUser(userId: string) {
     try {
-      const data = await api.get(`/ajax/user/${userId}`).json<{ body: User }>()
+      const data = await api
+        .get(`/ajax/user/${userId}`)
+        .json<{ body: Pixiv.User }>()
       return data.body
     } catch (error) {
       console.error(`${LABEL}: failed fetchUser`, error)
@@ -111,7 +99,7 @@ export function createAPIClient(globalData: GlobalData) {
     try {
       const data = await api
         .get(`/ajax/user/${userId}/profile/top`)
-        .json<{ body: Profile }>()
+        .json<{ body: Pixiv.Profile }>()
       return formatProfile(data.body)
     } catch (error) {
       console.error(`${LABEL}: failed fetchProfile`, error)
@@ -152,7 +140,7 @@ export function createAPIClient(globalData: GlobalData) {
         headers: { 'x-csrf-token': token },
         json: { illust_id: illustId }
       })
-      .json<{ body: LikeData }>()
+      .json<{ body: Pixiv.LikeData }>()
     return data.body
   }
 
@@ -165,7 +153,7 @@ export function createAPIClient(globalData: GlobalData) {
    * @param {stirng} comment コメント
    * @param {string[]} tags タグリスト
    */
-  async function bookmarkBy(illustId: string, body: BookmarkPost) {
+  async function bookmarkBy(illustId: string, body: Pixiv.BookmarkPost) {
     const { restrict = false, comment = '', tags = [] } = body
     const data = await api
       .post('/ajax/illusts/bookmarks/add', {
@@ -177,7 +165,7 @@ export function createAPIClient(globalData: GlobalData) {
           tags
         }
       })
-      .json<{ body: BookmarkData }>()
+      .json<{ body: Pixiv.BookmarkValue }>()
     return data.body
   }
 
@@ -226,13 +214,11 @@ export function createAPIClient(globalData: GlobalData) {
 }
 
 function formatProfile({
-  extraData,
   illusts,
   manga
-}: Profile): FormatedProfile {
-  const { meta } = extraData
+}: Pixiv.Profile): Pixiv.RelatedIllusts {
   const data = { ...illusts, ...manga }
-  return { ...meta, illusts: Object.values(data).reverse() }
+  return Object.values(data).reverse()
 }
 function parseFormHTML(html: string) {
   const doc = new DOMParser().parseFromString(html, 'text/html')
@@ -242,10 +228,10 @@ function parseFormHTML(html: string) {
   const data = new FormData(form)
   const script = doc.querySelector('.tag-cloud-container + script')!
   const userTags = parseUserTagList(script.innerHTML)
-  const res: BookmarkForm = {
+  const res: Pixiv.BookmarkForm = {
     comment: '',
     tags: '',
-    restrict: 0,
+    restrict: false,
     userTags
   }
 
@@ -255,15 +241,15 @@ function parseFormHTML(html: string) {
     } else if (name === 'tag') {
       res.tags = value as string
     } else if (name === 'restrict') {
-      res.restrict = Number(value) as 0 | 1
+      res.restrict = !!Number(value)
     }
   }
 
   return res
 }
-function parseUserTagList(text: string) {
+function parseUserTagList(text: string): Pixiv.UserTag[] {
   const parsedText = JSON.parse(text.slice(21, -1))
-  const userTags: AccountTagList = JSON.parse(parsedText)
+  const userTags: Pixiv.AccountTagList = JSON.parse(parsedText)
 
   return Object.entries(userTags).map(([name, value]) => ({
     ...value,

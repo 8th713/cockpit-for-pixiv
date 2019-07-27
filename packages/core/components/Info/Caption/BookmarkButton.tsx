@@ -3,13 +3,19 @@ import { KEY_ASSIGNMENT } from '../../../constants'
 import { Bookmark, useUpdateToggleForm } from '../../Bookmark'
 import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
-import { BookmarkOff, BookmarkOn, Hotkey, IconButton } from '../../shared'
-import { bookmark, getTitle } from '../utils'
+import {
+  BookmarkOff,
+  BookmarkOn,
+  getHotkeyHint,
+  Hotkey,
+  IconButton
+} from '../../shared'
+import { bookmark } from '../utils'
 
 const title = [
-  getTitle(KEY_ASSIGNMENT.bookmark),
-  getTitle(KEY_ASSIGNMENT.bookmarkPrivate),
-  getTitle(KEY_ASSIGNMENT.openBookmarkForm)
+  getHotkeyHint(KEY_ASSIGNMENT.bookmark),
+  getHotkeyHint(KEY_ASSIGNMENT.bookmarkPrivate),
+  getHotkeyHint(KEY_ASSIGNMENT.openBookmarkForm)
 ].join('\n')
 
 export function BookmarkButton() {

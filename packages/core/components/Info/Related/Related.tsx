@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useIntersection } from '../../../hooks/useIntersection'
-import { FormatedProfile } from '../../../interfaces'
 import { useRouteActions, useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { Box, Button, Hotkey, Refresh, Text } from '../../shared'
@@ -14,7 +13,9 @@ interface Props {
 }
 interface LoaderProps extends Props {}
 interface FailureProps extends Props {}
-interface SuccessProps extends Props, FormatedProfile {}
+interface SuccessProps extends Props {
+  illusts: Pixiv.RelatedIllusts
+}
 type Observer = ReturnType<typeof useIntersection>
 
 const THUMBNAIL_SIZE = 168
@@ -42,10 +43,12 @@ export function Related() {
 }
 function RelatedLoader(props: LoaderProps) {
   const { useProfire } = useServices()
-  const profire = useProfire(props.userId)
+  const relatedIllusts = useProfire(props.userId)
 
-  if (!profire) return <RelatedFailure {...props} />
-  return <RelatedSuccess key={props.userId} {...props} {...profire} />
+  if (!relatedIllusts) return <RelatedFailure {...props} />
+  return (
+    <RelatedSuccess key={props.userId} {...props} illusts={relatedIllusts} />
+  )
 }
 function RelatedFailure({ userId }: FailureProps) {
   const { useProfire } = useServices()

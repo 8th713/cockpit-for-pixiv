@@ -3,10 +3,9 @@ import { KEY_ASSIGNMENT } from '../../../constants'
 import { openTwitter } from '../../../externals/share'
 import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
-import { Hotkey, IconButton, Tweet } from '../../shared'
-import { getTitle } from '../utils'
+import { getHotkeyHint, Hotkey, IconButton, Tweet } from '../../shared'
 
-const title = getTitle(KEY_ASSIGNMENT.share)
+const title = getHotkeyHint(KEY_ASSIGNMENT.share)
 
 export function ShareButton() {
   const { useIllust } = useServices()

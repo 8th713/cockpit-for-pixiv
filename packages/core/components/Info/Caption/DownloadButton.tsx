@@ -1,12 +1,10 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { DownloadRequestAction } from '../../../interfaces'
 import { useRouteId } from '../../Router'
 import { useServices } from '../../Services'
-import { Download, Hotkey, IconButton } from '../../shared'
-import { getTitle } from '../utils'
+import { Download, getHotkeyHint, Hotkey, IconButton } from '../../shared'
 
-const title = getTitle(KEY_ASSIGNMENT.download)
+const title = getHotkeyHint(KEY_ASSIGNMENT.download)
 
 export function DownloadButton() {
   const { useIllust, addonStore } = useServices()
@@ -19,7 +17,7 @@ export function DownloadButton() {
   const download = () => {
     if (canDownload === false) return
 
-    const action: DownloadRequestAction = {
+    const action: CFPAddon.DownloadRequestAction = {
       type: 'DOWNLOAD_REQUEST',
       payload: illust
     }

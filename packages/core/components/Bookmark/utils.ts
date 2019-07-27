@@ -1,4 +1,3 @@
-import { BookmarkPost, Tag } from '../../interfaces'
 import { ButtonProps } from '../shared'
 
 export type State = {
@@ -11,7 +10,7 @@ export type Column = 'total' | 'name'
 
 export type Direction = '↓' | '↑'
 
-export const toPostData = (state: State): BookmarkPost => ({
+export const toPostData = (state: State): Pixiv.BookmarkPost => ({
   ...state,
   tags: splitTag(state.tags)
 })
@@ -33,7 +32,11 @@ export const toggleTag = (tags: string[], selectedTag: string) => {
   return [...set].join(' ')
 }
 
-export const sortBy = (tagList: Tag[], prop: Column, direction: Direction) => {
+export const sortBy = (
+  tagList: Pixiv.UserTag[],
+  prop: Column,
+  direction: Direction
+) => {
   const sorted = [...tagList].sort((a, b) => {
     const v = a[prop]!
     const w = b[prop]!

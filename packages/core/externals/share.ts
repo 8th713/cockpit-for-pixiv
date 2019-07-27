@@ -1,5 +1,3 @@
-import { Illust } from '../interfaces'
-
 function createUrl(text: string, link: string) {
   const url = new URL('https://twitter.com/intent/tweet')
 
@@ -46,7 +44,7 @@ function normalizeOption(options: {
 const WIDTH = 700
 const HEIGHT = 472
 
-export function openTwitter({ id, title, userName }: Illust) {
+export function openTwitter({ id, title, userName }: Pixiv.Illust) {
   const text = `${title} | ${userName} #pixiv`
   const link = `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${id}`
   const url = createUrl(text, link)

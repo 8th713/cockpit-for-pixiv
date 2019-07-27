@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../constants'
-import { KeyDefinition } from '../../interfaces'
-import { Box, Text } from '../shared'
+import { Box, Text, KeyDefinition } from '../shared'
 import { Section } from './Section'
 import { themeGet } from '../system'
 

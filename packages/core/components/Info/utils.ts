@@ -1,16 +1,12 @@
-import { Illust, KeyDefinition } from '../../interfaces'
-
-export function getTitle(props: KeyDefinition) {
-  const key = props.title || props.keyName.toUpperCase()
-  return `${props.children}(${key})`
-}
-
-export function like(illust: Illust): Illust {
+export function like(illust: Pixiv.Illust): Pixiv.Illust {
   const likeCount = illust.likeCount + 1
   return { ...illust, likeCount, likeData: true }
 }
 
-export function bookmark(illust: Illust, restrict: boolean): Illust {
+export function bookmark(
+  illust: Pixiv.Illust,
+  restrict: boolean
+): Pixiv.Illust {
   const bookmarkCount = illust.bookmarkData
     ? illust.bookmarkCount
     : illust.bookmarkCount + 1

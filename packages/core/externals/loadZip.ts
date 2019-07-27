@@ -1,5 +1,4 @@
 import ky from 'ky'
-import { Frame, Ugoira } from '../interfaces'
 import { createPool } from './threadPool'
 
 type EOCD = [number, number, number]
@@ -11,7 +10,9 @@ interface Entry {
 
 const pool = createPool(3)
 
-export async function loadZip(ugoira: Ugoira): Promise<Frame[]> {
+export async function loadZip(
+  ugoira: Pixiv.Ugoira
+): Promise<Pixiv.FrameAndImage[]> {
   const { originalSrc, frames } = ugoira
   const buffer = await ky
     .get(originalSrc, {

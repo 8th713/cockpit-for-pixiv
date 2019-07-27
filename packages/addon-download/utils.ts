@@ -1,6 +1,4 @@
-import { DownloadAaction } from '../core/interfaces'
-
-export function isValidAction(action: any): action is DownloadAaction {
+export function isValidAction(action: any): action is CFPAddon.DownloadAaction {
   return action && typeof action === 'object' && typeof action.type === 'string'
 }
 

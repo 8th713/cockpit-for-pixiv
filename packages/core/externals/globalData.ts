@@ -1,5 +1,4 @@
 import { LABEL } from '../constants'
-import { GlobalData } from '../interfaces'
 
 declare var pixiv: {
   context: {
@@ -17,7 +16,7 @@ declare var globalInitData: {
   }
 }
 
-export function createGlobalData(): GlobalData {
+export function createGlobalData(): Pixiv.GlobalData {
   let token: string = ''
   let userId: string = ''
 

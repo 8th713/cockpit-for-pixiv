@@ -1,5 +1,4 @@
 import { useLayoutEffect, useMemo, useReducer, useRef } from 'react'
-import { Frame } from '../../interfaces'
 
 type State = {
   index: number
@@ -52,7 +51,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export function usePlayer(frames: Frame[]) {
+export function usePlayer(frames: Pixiv.FrameAndImage[]) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const [state, dispatch] = useReducer(reducer, initialState)
   const { index, paused } = state

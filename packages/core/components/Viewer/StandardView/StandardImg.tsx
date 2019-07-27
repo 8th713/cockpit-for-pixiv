@@ -1,16 +1,15 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import { useInView } from '../../../hooks/useIntersection'
-import { Page } from '../../../interfaces'
 import { useRouteActions } from '../../Router'
 import { useLazyObserver } from './StandardView'
 import { useResize } from './useResize'
 
-type Props = Page
+type Props = Pixiv.Page
 
 export const PADDING = 32
 
-const getURL = (page: Page, inView: boolean) => {
+const getURL = (page: Pixiv.Page, inView: boolean) => {
   if (inView) return page.urls.original
   return page.urls.small.replace('540x540_70', '150x150')
 }

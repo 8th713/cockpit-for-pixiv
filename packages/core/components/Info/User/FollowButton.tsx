@@ -2,16 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import { KEY_ASSIGNMENT } from '../../../constants'
 import { useServices } from '../../Services'
-import { Add, Button, Hotkey, Refresh } from '../../shared'
-import { getTitle } from '../utils'
+import { Add, Button, getHotkeyHint, Hotkey, Refresh } from '../../shared'
 
 type Props = {
   id: string
 }
 
 const title = [
-  getTitle(KEY_ASSIGNMENT.follow),
-  getTitle(KEY_ASSIGNMENT.followPrivate)
+  getHotkeyHint(KEY_ASSIGNMENT.follow),
+  getHotkeyHint(KEY_ASSIGNMENT.followPrivate)
 ].join('\n')
 
 export function FollowButton({ id }: Props) {

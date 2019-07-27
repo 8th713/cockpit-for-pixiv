@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Pages } from '../../../interfaces'
 import { useUpdateFullSizeMode, FullSizeMode } from '../FullSizeMode'
 import { OverLay, useScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../utils'
@@ -13,7 +12,7 @@ interface Props {
 }
 interface LoaderProps extends Props {}
 interface SuccessProps extends Props {
-  pages: Pages
+  pages: Pixiv.Pages
 }
 
 export function FullSizeView({ id }: LoaderProps) {

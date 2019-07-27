@@ -1,10 +1,9 @@
 import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../constants'
-import { FullScreen, IconButton } from '../../shared'
+import { FullScreen, getHotkeyHint, IconButton } from '../../shared'
 import { useUpdateFullSizeMode } from '../../Viewer'
-import { getTitle } from '../utils'
 
-const title = getTitle(KEY_ASSIGNMENT.fullSizeMode)
+const title = getHotkeyHint(KEY_ASSIGNMENT.fullSizeMode)
 
 export function FullSizeModeButton() {
   const update = useUpdateFullSizeMode()

@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from 'react'
 import styled from 'styled-components'
-import { Frame, Page } from '../../../interfaces'
 import { useRouteActions, useRouteId } from '../../Router'
 import { useServices } from '../../Services'
 import { IconButton, Pause, Play, Stop, Text } from '../../shared'
@@ -8,10 +7,10 @@ import { useFullSizeMode } from '../FullSizeMode'
 import { usePlayer } from '../usePlayer'
 import { StandardImg } from './StandardImg'
 
-interface SuspenseProps extends Page {}
-interface LoaderProps extends Page {}
-interface SuccessProps extends Page {
-  frames: Frame[]
+interface SuspenseProps extends Pixiv.Page {}
+interface LoaderProps extends Pixiv.Page {}
+interface SuccessProps extends Pixiv.Page {
+  frames: Pixiv.FrameAndImage[]
 }
 
 export function StandardUgoira(props: SuspenseProps) {

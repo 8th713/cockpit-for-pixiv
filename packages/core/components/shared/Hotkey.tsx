@@ -1,5 +1,11 @@
 import { useEffect } from 'react'
-import { KeyDefinition } from '../../interfaces'
+
+/** HotKey 定義 */
+export interface KeyDefinition {
+  keyName: string
+  children: string
+  title?: string
+}
 
 type Props = {
   action: (event: KeyboardEvent) => unknown
@@ -47,4 +53,9 @@ function attach(props: Props) {
 export function Hotkey(props: Props) {
   useEffect(() => attach(props))
   return null
+}
+
+export function getHotkeyHint(props: KeyDefinition) {
+  const key = props.title || props.keyName.toUpperCase()
+  return `${props.children}(${key})`
 }
