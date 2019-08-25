@@ -19,6 +19,7 @@ export const Link = styled.a<LinkProps>`
     margin: 0;
     padding: 0;
     border-width: 0;
+    background-color: transparent;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
