@@ -1,6 +1,6 @@
 declare namespace Pixiv {
   /**
-   * ブックマークデータ
+   * プロフィール背景
    * - User.background
    */
   interface Background {
