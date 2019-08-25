@@ -72,6 +72,10 @@ export const KEY_ASSIGNMENT = {
     children: '非公開フォロー',
     title: 'Shift+F'
   },
+  profile: {
+    keyName: 'p',
+    children: 'プロフィール'
+  },
   help: {
     keyName: '?',
     children: 'ヘルプ'

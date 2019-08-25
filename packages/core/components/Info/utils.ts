@@ -15,3 +15,23 @@ export function bookmark(
     : { id: '', private: restrict }
   return { ...illust, bookmarkCount, bookmarkData }
 }
+
+const ANKER_TAG = /\<a href=".+?"/
+const replaceFn = (comment: string) => {
+  const doc = new DOMParser().parseFromString(comment, 'text/html')
+  const links = doc.getElementsByTagName('a')
+  for (const link of links) {
+    if (link.pathname === '/jump.php') {
+      link.href = unescape(link.search.slice(1))
+      link.referrerPolicy = 'no-referrer'
+    }
+  }
+  return doc.body.innerHTML
+}
+/**
+ * replace /jump.php to direct
+ * @param comment HTML string
+ */
+export const replaceJumpLink = (comment: string) => {
+  return ANKER_TAG.test(comment) ? replaceFn(comment) : comment
+}

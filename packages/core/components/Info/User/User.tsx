@@ -5,6 +5,7 @@ import { useServices } from '../../Services'
 import { Link } from '../../shared'
 import { FollowButton } from './FollowButton'
 import { NameCard } from './NameCard'
+import { ProfileButton } from './ProfileButton'
 
 export function User() {
   const { useIllust } = useServices()
@@ -24,6 +25,7 @@ export function User() {
       >
         作品一覧を見る
       </Link>
+      <ProfileButton id={illust.userId} />
     </Root>
   )
 }
