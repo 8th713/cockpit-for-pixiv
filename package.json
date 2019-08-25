@@ -12,9 +12,8 @@
   "readmeFilename": "README.md",
   "repository": "8th713/cockpit-for-pixiv",
   "scripts": {
-    "tsc": "tsc",
     "lint": "eslint packages --ext js,ts,tsx",
-    "prebuild": "npm run tsc && npm run lint",
+    "prebuild": "tsc && npm run lint",
     "build": "webpack --mode production",
     "start": "webpack --mode development --watch"
   },
