@@ -12,6 +12,17 @@ declare namespace Pixiv {
   }
 
   /**
+   * 誕生日
+   * - User.birthDay
+   */
+  interface BirthDay {
+    /** m月d日 */
+    name: string | null
+    /** 公開範囲 */
+    privacyLevel: RestrictString | null
+  }
+
+  /**
    * ブックマークデータ
    * - Illust.bookmarkData
    * - IllustSimple.bookmarkData
@@ -110,6 +121,17 @@ declare namespace Pixiv {
     delay: number
     /** ファイル名 */
     file: string
+  }
+
+  /**
+   * 性別
+   * - User.gender
+   */
+  interface Gender {
+    /** 男性 | 女性 */
+    name: string | null
+    /** 公開範囲 */
+    privacyLevel: RestrictString | null
   }
 
   /** GET /ajax/illust/:illustId */
@@ -300,6 +322,17 @@ declare namespace Pixiv {
     xRestrict: XRestrict
   }
 
+  /**
+   * 職業
+   * - User.job
+   */
+  interface Job {
+    /** 職業 */
+    name: string | null
+    /** 公開範囲 */
+    privacyLevel: RestrictString | null
+  }
+
   /** POST /ajax/illusts/like */
   interface LikeData {
     /** いいね！の状態 */
@@ -412,6 +445,17 @@ declare namespace Pixiv {
     zoneConfig: any
   }
 
+  /**
+   * 住所
+   * - User.region
+   */
+  interface Region {
+    /** 都道府県名 */
+    name: string | null
+    /** 公開範囲 */
+    privacyLevel: RestrictString | null
+  }
+
   /** 汎用 レスポンス型 */
   interface ResponseData<T> {
     /** Content */
@@ -429,6 +473,15 @@ declare namespace Pixiv {
    * - ImageResponse.restrict
    * */
   type Restrict = 0 | 1 | 2
+
+  /**
+   * 公開範囲 { 0=公開, 1=マイピクのみ, 2=非公開 }
+   * - User.birthDay
+   * - User.gender
+   * - User.job
+   * - User.region
+   * */
+  type RestrictString = '0' | '1' | '2'
 
   /**
    * シリーズ情報
@@ -542,10 +595,24 @@ declare namespace Pixiv {
     src: string
   }
 
-  /** GET /ajax/user/:userId */
+  /** GET /ajax/user/:userId?full=1 */
   interface User {
     /** 背景設定 */
     background: Background | null
+    /** 誕生日 */
+    birthDay: BirthDay
+    /** プロフィールコメント */
+    comment: string
+    /** HTML 形式 プロフィールコメント */
+    commentHtml: string
+    /** フォローバック */
+    followedBack: boolean
+    /** フォロイー人数 */
+    following: number
+    /** 性別 */
+    gender: Gender
+    /** グループ */
+    group: null
     /** 50x50 */
     image: string
     /** 170x170 */
@@ -556,14 +623,38 @@ declare namespace Pixiv {
     isFollowed: boolean
     /** マイピクか? */
     isMypixiv: boolean
+    /** 職業 */
+    job: Job
     /** ユーザー名 */
     name: string
+    /** オフィシャルアカウントか? */
+    official: boolean
     /** 謎 */
     partial: number
     /** プレミアム会員か? */
     premium: boolean
+    /** 住所 */
+    region: Region
+    /**
+     * ソーシャルメディアアカウント
+     * - twitter
+     * - facebook
+     * - instagram
+     * - tumblr
+     * - circlems
+     * - pawoo
+     */
+    social: {
+      [key: string]: {
+        url: string
+      }
+    }
     /** ユーザーの Id */
     userId: string
+    /** Web ページ URL */
+    webpage: string | null
+    /** 作業環境 */
+    workspace: Workspace
   }
 
   /**
@@ -573,4 +664,35 @@ declare namespace Pixiv {
    * - ImageResponse.xRestrict
    * */
   type XRestrict = 0 | 1 | 2
+
+  /**
+   * 作業環境
+   * - User.workspace
+   * */
+  interface Workspace {
+    /** 椅子 */
+    userWorkspaceChair?: string
+    /** 机 */
+    userWorkspaceDesk?: string
+    /** 机の上にあるもの */
+    userWorkspaceDesktop?: string
+    /** モニター */
+    userWorkspaceMonitor?: string
+    /** 絵を描く時に聞く音楽 */
+    userWorkspaceMusic?: string
+    /** コンピュータ */
+    userWorkspacePc?: string
+    /** プリンター */
+    userWorkspacePrinter?: string
+    /** スキャナー */
+    userWorkspaceScanner?: string
+    /** タブレット */
+    userWorkspaceTablet?: string
+    /** ソフト */
+    userWorkspaceTool?: string
+    /** 作業環境の画像 大 */
+    wsBigUrl?: string
+    /** 作業環境の画像 小 */
+    wsUrl?: string
+  }
 }

@@ -74,13 +74,13 @@ export function createAPIClient(globalData: Pixiv.GlobalData) {
   /**
    * ユーザー
    *
-   * GET /ajax/user/:userId
+   * GET /ajax/user/:userId?full=1
    * @param {string} userId ユーザー識別子
    */
   async function fetchUser(userId: string) {
     try {
       const data = await api
-        .get(`/ajax/user/${userId}`)
+        .get(`/ajax/user/${userId}?full=1`)
         .json<{ body: Pixiv.User }>()
       return data.body
     } catch (error) {
