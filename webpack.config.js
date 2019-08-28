@@ -28,7 +28,8 @@ module.exports = (env, argv) => {
         {
           test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: { envName: argv.mode }
         },
         {
           test: /\.js$/,
