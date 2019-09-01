@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
+import { Divider } from './Divider'
 
 type Props = React.ComponentPropsWithoutRef<'section'> & {
   backdrop?: boolean
@@ -87,12 +88,6 @@ const Action = styled.footer`
   padding: 8px;
   align-items: center;
   justify-content: flex-end;
-`
-const Divider = styled.div`
-  flex: 0 0 1px;
-  margin: 0 24px;
-  background-color: var(--on-surface);
-  opacity: var(--divider);
 `
 
 Dialog.Header = Header

@@ -125,7 +125,7 @@ function ProfileDialog(user: Pixiv.User) {
               py={2}
               dangerouslySetInnerHTML={{ __html: comment }}
             />
-            <Divider />
+            <Dialog.Divider height={1} />
             {user.gender.privacyLevel === '0' && (
               <Line>
                 <LineHead textStyle="b2">性別</LineHead>
@@ -166,12 +166,6 @@ const Avatar = styled.img`
   height: 80px;
   background-color: var(--surface);
   border-radius: 50%;
-`
-const Divider = styled.div`
-  height: 1px;
-  margin: 0 24px;
-  background-color: var(--on-surface);
-  opacity: var(--divider);
 `
 const IconLink = styled(Link)`
   display: inline-flex;
