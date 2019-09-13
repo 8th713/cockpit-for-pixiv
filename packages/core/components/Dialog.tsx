@@ -1,0 +1,99 @@
+import React from 'react'
+import styled, { keyframes } from 'styled-components'
+import { Divider } from './Divider'
+
+type Props = React.ComponentPropsWithoutRef<'section'> & {
+  backdrop?: boolean
+  onBackdropClick?: React.MouseEventHandler<HTMLDivElement>
+}
+
+export const Dialog = ({
+  backdrop = true,
+  onBackdropClick,
+  ...props
+}: Props) => (
+  <Root>
+    {backdrop && <Backdrop onClick={onBackdropClick} />}
+    <Layout {...props} />
+  </Root>
+)
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+const Root = styled.div`
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+`
+const Backdrop = styled.div`
+  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`
+const Layout = styled.section`
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  max-width: 960px;
+  min-width: 280px;
+  max-height: 95vh;
+  overflow: hidden;
+  flex-direction: column;
+  margin: auto;
+  border-radius: 8px;
+  background-color: var(--surface);
+  animation: ${fadeIn} 150ms cubic-bezier(0, 0, 0.2, 1);
+  ::after {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: var(--on-surface);
+    opacity: 0.16;
+  }
+`
+const Header = styled.header`
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 16px 24px;
+  align-items: center;
+`
+const Content = styled.div`
+  box-sizing: border-box;
+  display: block;
+  overflow: auto;
+  flex: 1 1 auto;
+  padding: 8px 24px;
+`
+const Action = styled.footer`
+  flex: 0 0 auto;
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  justify-content: flex-end;
+`
+
+Dialog.Header = Header
+Dialog.Content = Content
+Dialog.Action = Action
+Dialog.Divider = Divider
