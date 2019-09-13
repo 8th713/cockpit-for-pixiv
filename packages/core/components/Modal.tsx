@@ -23,7 +23,7 @@ export const Modal = ({ open, onCancel, onClose, children }: Props) => {
     const node = ref.current
     if (!node) return
 
-    function handleCancel(event: Event) {
+    const handleCancel = (event: Event) => {
       if (!onCancel) return
       onCancel(event)
     }
@@ -35,7 +35,7 @@ export const Modal = ({ open, onCancel, onClose, children }: Props) => {
     const node = ref.current
     if (!node) return
 
-    function handleClose(event: Event) {
+    const handleClose = (event: Event) => {
       if (!onClose) return
       onClose(event)
     }
