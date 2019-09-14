@@ -4,7 +4,7 @@
 node_modules
 
 # misc
-.back
+.docs
 .cache
 .DS_Store
 .env.local
