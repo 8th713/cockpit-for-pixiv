@@ -115,7 +115,7 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
 
   useEffect(() => {
     stateRef.current = state
-  }, [state])
+  })
   useEffect(() => {
     behaviorRef.current = isFullSize ? 'auto' : 'smooth'
   }, [isFullSize])
