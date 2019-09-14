@@ -15,7 +15,9 @@
     "lint": "eslint packages --ext js,ts,tsx",
     "prebuild": "tsc && npm run lint",
     "build": "webpack --mode production",
-    "start": "webpack --mode development --watch"
+    "start": "webpack --mode development --watch",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d docs"
   },
   "dependencies": {
     "ky": "^0.14.0",
@@ -43,6 +45,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react-hooks": "^2.0.1",
     "file-loader": "^4.2.0",
+    "gh-pages": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
     "lodash.template": "^4.5.0",
     "pug": "^2.0.4",
@@ -50,7 +53,7 @@
     "source-map-loader": "^0.2.4",
     "terser-webpack-plugin": "^2.0.1",
     "typescript": "^3.6.3",
-    "webpack": "^4.40.1",
+    "webpack": "^4.40.2",
     "webpack-cli": "^3.3.8"
   },
   "resolutions": {
