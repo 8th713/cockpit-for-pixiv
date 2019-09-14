@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
-import { Hotkey, Modal } from '../components'
-import { EXCLUDES, INCLUDES, KEY_ASSIGNMENT, NO_SCROLLBAR } from '../constants'
+import { Modal } from '../../components'
+import { EXCLUDES, INCLUDES, NO_SCROLLBAR } from '../../constants'
 
 type Props = {
   children: (id: string) => React.ReactNode
@@ -150,8 +150,6 @@ export const Router = ({ children }: Props) => {
       <RouterValue.Provider value={[id, actions] as const}>
         <Modal open={open} onClose={actions.unset}>
           {id && children(id)}
-          <Hotkey {...KEY_ASSIGNMENT.goNextIllust} action={actions.goNext} />
-          <Hotkey {...KEY_ASSIGNMENT.goPrevIllust} action={actions.goPrev} />
         </Modal>
       </RouterValue.Provider>
     </RouterActions.Provider>
