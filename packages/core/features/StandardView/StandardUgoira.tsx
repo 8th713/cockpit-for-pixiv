@@ -8,7 +8,7 @@ import {
   Text
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
-import { useRouteActions, useRouteId } from '../Router'
+import { useRouteId } from '../Router'
 import { usePlayer, useUgoira } from '../Ugoira'
 import { StandardImg } from './StandardImg'
 
@@ -32,15 +32,16 @@ const UgoiraLoader = (props: LoaderProps) => {
   return <UgoiraSuccess {...props} frames={frames} />
 }
 const UgoiraSuccess = ({ urls, frames, ...rest }: SuccessProps) => {
-  const { go } = useRouteActions()
-  const [fullSizeMode] = useFullSizeMode()
+  const [isFullSize, setFullSize] = useFullSizeMode()
   const [ref, { index, paused }, dispatch] = usePlayer(frames)
 
   useLayoutEffect(() => {
-    if (fullSizeMode) {
+    if (isFullSize) {
       dispatch({ type: 'rewind' })
+    } else {
+      dispatch({ type: 'play' })
     }
-  }, [fullSizeMode, dispatch])
+  }, [isFullSize, dispatch])
 
   return (
     <Layout onClick={e => e.stopPropagation()}>
@@ -48,7 +49,7 @@ const UgoiraSuccess = ({ urls, frames, ...rest }: SuccessProps) => {
         key={urls.original}
         ref={ref}
         {...rest}
-        onClick={e => go(e.shiftKey ? -1 : 1)}
+        onClick={() => setFullSize(true)}
       />
       <PlayControl>
         <IconButton onClick={() => dispatch({ type: 'toggle' })}>
@@ -73,7 +74,7 @@ const Layout = styled.div`
   background-color: rgba(255, 255, 255, var(--high));
 `
 const Canvas = styled.canvas`
-  cursor: pointer;
+  cursor: zoom-in;
   display: block;
   max-width: 100%;
   max-height: 100%;

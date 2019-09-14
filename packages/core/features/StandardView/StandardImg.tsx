@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import styled from 'styled-components'
+import { useUpdateFullSizeMode } from '../FullSizeView'
 import { useInView, useIObserver } from '../IntersectionObserver'
-import { useRouteActions } from '../Router'
 import { useResize } from './useResize'
 
 type Props = Pixiv.Page
@@ -17,8 +17,8 @@ function LazyImg(props: Props) {
   const { urls, ...rest } = props
   const observer = useIObserver()
   const [inView, observe] = useInView(observer, true)
+  const fullSize = useUpdateFullSizeMode()
   const resize = useResize(rest.width, rest.height, PADDING)
-  const { go } = useRouteActions()
   const ref = useCallback(
     (node: HTMLImageElement | null) => {
       observe(node)
@@ -35,14 +35,14 @@ function LazyImg(props: Props) {
       src={getURL(props, inView)}
       onClick={e => {
         e.stopPropagation()
-        go(e.shiftKey ? -1 : 1)
+        fullSize(true)
       }}
     />
   )
 }
 
 export const StandardImg = styled(LazyImg)`
-  cursor: pointer;
+  cursor: zoom-in;
   object-fit: contain;
   display: block;
   max-width: 100%;

@@ -10,6 +10,7 @@ type Action =
   | { type: 'goToTop' }
   | { type: 'toggle' }
   | { type: 'rewind' }
+  | { type: 'play' }
 
 const draw = (canvas: HTMLCanvasElement, image: HTMLImageElement) => {
   if (canvas.width !== image.width) {
@@ -47,6 +48,9 @@ const reducer = (state: State, action: Action): State => {
     }
     case 'rewind': {
       return { index: 0, paused: true }
+    }
+    case 'play': {
+      return { ...state, paused: false }
     }
   }
 }

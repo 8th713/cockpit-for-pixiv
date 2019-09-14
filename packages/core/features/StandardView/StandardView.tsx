@@ -11,7 +11,7 @@ import {
 import { useFullSizeMode } from '../FullSizeView'
 import { IOProvider, useIObserver } from '../IntersectionObserver'
 import { usePages } from '../Pages'
-import { useRouteActions } from '../Router'
+import { GoNextButton, GoPreviousButton, useRouteActions } from '../Router'
 import { OverLay, SpyItem, SpyItemLast } from '../ScrollSpy'
 import { isUgoira } from '../Ugoira'
 import { PADDING, StandardImg } from './StandardImg'
@@ -69,6 +69,14 @@ const StandardViewLoading = ({ children }: LoadingProps) => {
             <Progress onClick={goFromEvent} />
           </ImageBox>
         </span>
+        <Action>
+          <Circle>
+            <GoPreviousButton />
+          </Circle>
+          <Circle>
+            <GoNextButton />
+          </Circle>
+        </Action>
       </Box>
       {children}
     </Root>
@@ -99,6 +107,14 @@ const StandardViewFailure = ({ illustId, children }: FailureProps) => {
             </Dialog>
           </ImageBox>
         </span>
+        <Action>
+          <Circle>
+            <GoPreviousButton />
+          </Circle>
+          <Circle>
+            <GoNextButton />
+          </Circle>
+        </Action>
       </Box>
       {children}
     </Root>
@@ -153,6 +169,14 @@ const StandardViewSuccess = ({ pages, children }: SuccessProps) => {
           {imgs}
           <SpyItemLast />
         </span>
+        <Action>
+          <Circle>
+            <GoPreviousButton />
+          </Circle>
+          <Circle>
+            <GoNextButton />
+          </Circle>
+        </Action>
         {isMultiple && <OverLay pages={pages} />}
       </Box>
       {children}
@@ -180,4 +204,29 @@ const ImageBox = styled.div`
   height: calc(100vh - var(--caption-height));
   padding: ${PADDING}px;
   flex-direction: column;
+`
+const Action = styled.div`
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+`
+const Circle = styled(Box)`
+  pointer-events: auto;
+  position: sticky;
+  top: calc(50vh - var(--caption-height));
+  width: 48px;
+  height: 48px;
+  margin: 0 8px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  opacity: var(--medium);
+  transform: translateY(-50%);
+  :hover {
+    opacity: 1;
+  }
 `
