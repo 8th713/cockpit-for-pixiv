@@ -5,7 +5,7 @@ import { useAbout } from './AboutProvider'
 import { HotkeyList } from './HotkeyList'
 import { Signature } from './Signature'
 
-export const About = () => {
+export const AboutDialog = () => {
   const [open, setOpen] = useAbout()
   const handleClose = () => setOpen(false)
 
