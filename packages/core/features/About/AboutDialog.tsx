@@ -1,25 +1,24 @@
 import React from 'react'
 import { Dialog, Modal, Text } from '../../components'
 import { LABEL } from '../../constants'
-import { useAbout } from './About'
 import { HotkeyList } from './HotkeyList'
 import { Signature } from './Signature'
 
-export const AboutDialog = () => {
-  const [open, setOpen] = useAbout()
-  const handleClose = () => setOpen(false)
-
-  return (
-    <Modal open={open} onClose={handleClose}>
-      <Dialog onBackdropClick={handleClose}>
-        <Dialog.Header>
-          <Text textStyle="h1">{LABEL}</Text>
-        </Dialog.Header>
-        <Dialog.Content>
-          <Signature />
-          <HotkeyList />
-        </Dialog.Content>
-      </Dialog>
-    </Modal>
-  )
+type Props = {
+  open: boolean
+  onClose: () => void
 }
+
+export const AboutDialog = ({ open, onClose }: Props) => (
+  <Modal open={open} onClose={onClose}>
+    <Dialog onBackdropClick={onClose}>
+      <Dialog.Header>
+        <Text textStyle="h1">{LABEL}</Text>
+      </Dialog.Header>
+      <Dialog.Content>
+        <Signature />
+        <HotkeyList />
+      </Dialog.Content>
+    </Dialog>
+  </Modal>
+)
