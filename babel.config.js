@@ -10,7 +10,7 @@ module.exports = api => {
       'babel-plugin-styled-components',
       {
         ssr: false,
-        displayName: !production
+        displayName: true
       }
     ]
   ]
