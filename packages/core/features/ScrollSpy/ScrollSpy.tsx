@@ -115,10 +115,8 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
 
   useEffect(() => {
     stateRef.current = state
-  })
-  useEffect(() => {
     behaviorRef.current = isFullSize ? 'auto' : 'smooth'
-  }, [isFullSize])
+  })
   useEffect(() => observer.start({ threshold: 0.5 }), [observer])
   useEffect(() => setState(initialState), [illustId])
   useEffect(() => {
