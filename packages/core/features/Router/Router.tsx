@@ -6,6 +6,7 @@ type Props = {
   children: (id: string) => React.ReactNode
 }
 
+type Value = readonly [string | null, Actions]
 type Actions = {
   go: (n: number) => void
   goNext: () => void
@@ -50,35 +51,24 @@ const scrollIntoView = (element: HTMLElement) => {
   html.scroll({ behavior: 'smooth', left, top })
 }
 
-const NO_PROVIDER = 'Missing Router'
-const RouterValue = React.createContext<
-  readonly [string | null, Actions] | typeof NO_PROVIDER
->(NO_PROVIDER)
-const RouterActions = React.createContext<Actions | typeof NO_PROVIDER>(
-  NO_PROVIDER
-)
+const RouterValue = React.createContext<Value | null>(null)
+const RouterActions = React.createContext<Actions | null>(null)
 RouterValue.displayName = 'RouterValue'
 RouterActions.displayName = 'RouterActions'
 
 export const useRoute = () => {
   const value = useContext(RouterValue)
-  if (value === NO_PROVIDER) {
-    throw new Error(NO_PROVIDER)
-  }
+  if (value === null) throw new Error('Missing Router')
   return value
 }
 export const useRouteId = () => {
-  const value = useRoute()
-  if (value[0] === null) {
-    throw new Error('Missing current id')
-  }
-  return value[0]
+  const [illustId] = useRoute()
+  if (illustId === null) throw new Error('Missing current id')
+  return illustId
 }
 export const useRouteActions = () => {
   const value = useContext(RouterActions)
-  if (value === NO_PROVIDER) {
-    throw new Error(NO_PROVIDER)
-  }
+  if (value === null) throw new Error('Missing Router')
   return value
 }
 export const Router = ({ children }: Props) => {
