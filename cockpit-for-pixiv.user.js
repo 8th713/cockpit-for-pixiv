@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name         cockpit for pixiv
 // @description  Provide comfortable pixiv browsing.
-// @version      5.0.0-beta.0
+// @version      5.0.0-beta.1
 // @author       8th713
 // @homepage     https://github.com/8th713/cockpit-for-pixiv
 // @supportURL   https://github.com/8th713/cockpit-for-pixiv/issues
