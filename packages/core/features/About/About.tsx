@@ -21,7 +21,7 @@ export const useUpdateAbout = () => {
   if (value === null) throw new Error('Missing AboutProvider')
   return value
 }
-export const AboutProvider = ({ children }: Props) => {
+export const About = ({ children }: Props) => {
   const [open, setOpen] = useState(false)
   const value = useMemo(() => [open, setOpen] as const, [open])
   const toggle = () => setOpen(v => !v)
