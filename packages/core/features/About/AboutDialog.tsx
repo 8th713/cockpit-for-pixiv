@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dialog, Modal, Text } from '../../components'
 import { LABEL } from '../../constants'
-import { useAbout } from './AboutProvider'
+import { useAbout } from './About'
 import { HotkeyList } from './HotkeyList'
 import { Signature } from './Signature'
 

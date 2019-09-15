@@ -2,7 +2,7 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 import { Box, Divider } from '../components'
 import { AddonStore } from '../externals/addonStore'
-import { About, AboutProvider } from '../features/About'
+import { About } from '../features/About'
 import { AddonProvider } from '../features/Addon'
 import { Caption } from '../features/Caption'
 import { Description } from '../features/Description'
@@ -21,7 +21,7 @@ export const App = ({ addonStore }: Props) => (
   <ThemeProvider theme={theme}>
     <AddonProvider value={addonStore}>
       <GlobalStyle />
-      <AboutProvider>
+      <About>
         <Router>
           {illustId => (
             <FullSizeMode>
@@ -58,8 +58,7 @@ export const App = ({ addonStore }: Props) => (
             </FullSizeMode>
           )}
         </Router>
-        <About />
-      </AboutProvider>
+      </About>
     </AddonProvider>
   </ThemeProvider>
 )
