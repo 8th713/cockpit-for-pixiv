@@ -28,7 +28,9 @@ export const App = ({ addonStore }: Props) => (
               <ScrollSpy illustId={illustId}>
                 <StandardView illustId={illustId}>
                   <Caption />
-                  <Divider />
+                  <Box display="flex" flexDirection="column" bg="surface">
+                    <Divider mx={3} />
+                  </Box>
                   <Box
                     display="flex"
                     p={3}
