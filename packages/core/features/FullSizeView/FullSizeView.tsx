@@ -35,7 +35,7 @@ const FullSizeViewSuccess = ({ illustId, pages }: SuccessProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const ugoira = isUgoira(page)
 
-  // 作品を移動したら先頭までスクロールしてフォーカス
+  // ページを移動したら先頭までスクロールしてフォーカス
   useEffect(() => {
     const node = ref.current
     if (!node) return
