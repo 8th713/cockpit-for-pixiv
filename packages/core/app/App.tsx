@@ -7,6 +7,7 @@ import { AddonProvider } from '../features/Addon'
 import { Caption } from '../features/Caption'
 import { Description } from '../features/Description'
 import { FullSizeMode, FullSizeView } from '../features/FullSizeView'
+import { IOProvider } from '../features/IntersectionObserver'
 import { RelatedWorks } from '../features/RelatedWorks'
 import { Router } from '../features/Router'
 import { ScrollSpy } from '../features/ScrollSpy'
@@ -26,33 +27,35 @@ export const App = ({ addonStore }: Props) => (
           {illustId => (
             <FullSizeMode>
               <ScrollSpy illustId={illustId}>
-                <StandardView illustId={illustId}>
-                  <Caption />
-                  <Box display="flex" flexDirection="column" bg="surface">
-                    <Divider mx={3} />
-                  </Box>
-                  <Box
-                    display="flex"
-                    p={3}
-                    alignItems="flex-start"
-                    bg="surface"
-                  >
-                    <Box flex="960px" maxWidth={960}>
-                      <Description />
+                <IOProvider>
+                  <StandardView illustId={illustId}>
+                    <Caption />
+                    <Box display="flex" flexDirection="column" bg="surface">
+                      <Divider mx={3} />
                     </Box>
-                    <Box pr={3} flexGrow={1} />
                     <Box
-                      position="sticky"
-                      top="var(--caption-height)"
-                      flex="0 0 280px"
+                      display="flex"
+                      p={3}
+                      alignItems="flex-start"
+                      bg="surface"
                     >
-                      <User />
+                      <Box flex="960px" maxWidth={960}>
+                        <Description />
+                      </Box>
+                      <Box pr={3} flexGrow={1} />
+                      <Box
+                        position="sticky"
+                        top="var(--caption-height)"
+                        flex="0 0 280px"
+                      >
+                        <User />
+                      </Box>
                     </Box>
-                  </Box>
-                  <Box bg="surface">
-                    <RelatedWorks />
-                  </Box>
-                </StandardView>
+                    <Box bg="surface">
+                      <RelatedWorks />
+                    </Box>
+                  </StandardView>
+                </IOProvider>
                 <FullSizeView illustId={illustId} />
               </ScrollSpy>
             </FullSizeMode>
