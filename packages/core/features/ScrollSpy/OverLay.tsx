@@ -2,12 +2,31 @@ import React from 'react'
 import styled from 'styled-components'
 import { Chip } from '../../components'
 import { useScrollSpy } from './ScrollSpy'
+import { usePages } from '../Pages'
 
-type Props = {
+interface Props {
+  illustId: string
+}
+interface LoaderProps extends Props {}
+interface SuccessProps {
   pages: Pixiv.Pages
 }
 
-export const OverLay = ({ pages }: Props) => {
+export const OverLay = ({ illustId }: Props) => {
+  return (
+    <React.Suspense fallback={null}>
+      <OverLayLoader illustId={illustId} />
+    </React.Suspense>
+  )
+}
+const OverLayLoader = ({ illustId }: LoaderProps) => {
+  const pages = usePages(illustId)
+
+  if (!pages) return null
+  if (pages.length === 1) return null
+  return <OverLaySuccess pages={pages} />
+}
+const OverLaySuccess = ({ pages }: SuccessProps) => {
   const [{ index, isBottom }, actions] = useScrollSpy()
   const needPrev = index > 0
   const needNext = !isBottom
@@ -26,6 +45,7 @@ export const OverLay = ({ pages }: Props) => {
     </>
   )
 }
+OverLay.Success = OverLaySuccess
 
 const Root = styled.div`
   pointer-events: none;
