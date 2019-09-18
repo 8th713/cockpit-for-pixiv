@@ -9,7 +9,7 @@ import {
   Text
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
-import { IOProvider, useIObserver } from '../IntersectionObserver'
+import { useIObserver } from '../IntersectionObserver'
 import { usePages } from '../Pages'
 import { GoNextButton, GoPreviousButton, useRouteActions } from '../Router'
 import { OverLay, SpyItem, SpyItemLast } from '../ScrollSpy'
@@ -18,114 +18,107 @@ import { PADDING, StandardImg } from './StandardImg'
 import { StandardUgoira } from './StandardUgoira'
 
 interface Props {
-  children?: React.ReactNode
+  illustId: string
 }
 interface SuspenseProps extends Props {
-  illustId: string
+  children?: React.ReactNode
 }
-interface LoaderProps extends Props {
-  illustId: string
-}
-interface LoadingProps extends Props {}
-interface FailureProps extends Props {
-  illustId: string
-}
-interface SuccessProps extends Props {
+interface LoaderProps extends Props {}
+interface FailureProps extends Props {}
+interface SuccessProps {
   pages: Pixiv.Pages
 }
 
 export const StandardView = ({ illustId, children }: SuspenseProps) => {
-  return (
-    <IOProvider>
-      <React.Suspense
-        fallback={<StandardViewLoading>{children}</StandardViewLoading>}
-      >
-        <StandardViewLoader illustId={illustId}>{children}</StandardViewLoader>
-      </React.Suspense>
-    </IOProvider>
-  )
-}
-const StandardViewLoader = ({ illustId, children }: LoaderProps) => {
-  const pages = usePages(illustId)
-
-  if (!pages)
-    return (
-      <StandardViewFailure illustId={illustId}>{children}</StandardViewFailure>
-    )
-  return <StandardViewSuccess pages={pages}>{children}</StandardViewSuccess>
-}
-const StandardViewLoading = ({ children }: LoadingProps) => {
-  const { unset, go } = useRouteActions()
-  const goFromEvent: React.MouseEventHandler = e => {
-    e.stopPropagation()
-    go(e.shiftKey ? -1 : 1)
-  }
-
-  return (
-    <Root>
-      <Box position="relative">
-        <span onClick={unset}>
-          <ImageBox>
-            <Progress onClick={goFromEvent} />
-          </ImageBox>
-        </span>
-        <Action>
-          <Circle>
-            <GoPreviousButton />
-          </Circle>
-          <Circle>
-            <GoNextButton />
-          </Circle>
-        </Action>
-      </Box>
-      {children}
-    </Root>
-  )
-}
-const StandardViewFailure = ({ illustId, children }: FailureProps) => {
-  const { unset } = useRouteActions()
-
-  return (
-    <Root>
-      <Box position="relative">
-        <span onClick={unset}>
-          <ImageBox>
-            <Dialog onClick={e => e.stopPropagation()} backdrop={false}>
-              <Dialog.Content>
-                <Text>リクエストに失敗しました[illustId: {illustId}]</Text>
-              </Dialog.Content>
-              <Dialog.Action>
-                <Button
-                  variant="contained"
-                  colors="error"
-                  onClick={() => usePages.remove(illustId)}
-                >
-                  <RefreshIcon size={18} mr={2} />
-                  再取得
-                </Button>
-              </Dialog.Action>
-            </Dialog>
-          </ImageBox>
-        </span>
-        <Action>
-          <Circle>
-            <GoPreviousButton />
-          </Circle>
-          <Circle>
-            <GoNextButton />
-          </Circle>
-        </Action>
-      </Box>
-      {children}
-    </Root>
-  )
-}
-const StandardViewSuccess = ({ pages, children }: SuccessProps) => {
   const root = useRef<HTMLDivElement>(null)
   const { unset } = useRouteActions()
   const [isFullSize, setFullSize] = useFullSizeMode()
-  const isMultiple = pages.length > 1
   const observer = useIObserver()
+
+  // 作品を移動したら先頭までスクロールしてフォーカス
+  useEffect(() => {
+    setFullSize(false)
+    const node = root.current
+    if (!node) return
+    node.scroll(0, 0)
+    node.focus()
+  }, [illustId, setFullSize])
+  // フルサイズモードから戻ったらルートにフォーカス
+  useEffect(() => {
+    if (isFullSize) return
+    const node = root.current
+    if (!node) return
+    node.focus()
+  }, [isFullSize])
+  // Start lazy loading
+  useEffect(
+    () =>
+      observer.start({
+        root: root.current,
+        rootMargin: '50%'
+      }),
+    [observer]
+  )
+
+  return (
+    <Root ref={root} tabIndex={0} hidden={isFullSize}>
+      <Box position="relative">
+        <span onClick={unset}>
+          <React.Suspense fallback={<StandardViewLoading />}>
+            <StandardViewLoader illustId={illustId} />
+          </React.Suspense>
+        </span>
+        <Action>
+          <Circle>
+            <GoPreviousButton />
+          </Circle>
+          <Circle>
+            <GoNextButton />
+          </Circle>
+        </Action>
+        <OverLay illustId={illustId} />
+      </Box>
+      {children}
+    </Root>
+  )
+}
+const StandardViewLoader = ({ illustId }: LoaderProps) => {
+  const pages = usePages(illustId)
+
+  if (!pages) return <StandardViewFailure illustId={illustId} />
+  return <StandardViewSuccess pages={pages} />
+}
+const StandardViewLoading = () => {
+  const { go } = useRouteActions()
+
+  return (
+    <ImageBox onClick={e => e.stopPropagation()}>
+      <Progress onClick={e => go(e.shiftKey ? -1 : 1)} />
+    </ImageBox>
+  )
+}
+const StandardViewFailure = ({ illustId }: FailureProps) => {
+  return (
+    <ImageBox>
+      <Dialog onClick={e => e.stopPropagation()} backdrop={false}>
+        <Dialog.Content>
+          <Text>リクエストに失敗しました[illustId: {illustId}]</Text>
+        </Dialog.Content>
+        <Dialog.Action>
+          <Button
+            variant="contained"
+            colors="error"
+            onClick={() => usePages.remove(illustId)}
+          >
+            <RefreshIcon size={18} mr={2} />
+            再取得
+          </Button>
+        </Dialog.Action>
+      </Dialog>
+    </ImageBox>
+  )
+}
+const StandardViewSuccess = ({ pages }: SuccessProps) => {
   const imgs = useMemo(() => {
     const ugoira = isUgoira(pages[0])
     return pages.map((page, index) => (
@@ -138,49 +131,11 @@ const StandardViewSuccess = ({ pages, children }: SuccessProps) => {
     ))
   }, [pages])
 
-  useEffect(
-    () =>
-      observer.start({
-        root: root.current,
-        rootMargin: '50%'
-      }),
-    [observer]
-  )
-  // 作品を移動したら先頭までスクロールしてフォーカス
-  useEffect(() => {
-    setFullSize(false)
-    const node = root.current
-    if (!node) return
-    node.scroll(0, 0)
-    node.focus()
-  }, [pages, setFullSize])
-  // フルサイズモードから戻ったらルートにフォーカス
-  useEffect(() => {
-    if (isFullSize) return
-    const node = root.current
-    if (!node) return
-    node.focus()
-  }, [isFullSize])
-
   return (
-    <Root ref={root} tabIndex={0} hidden={isFullSize}>
-      <Box position="relative">
-        <span onClick={unset}>
-          {imgs}
-          <SpyItemLast />
-        </span>
-        <Action>
-          <Circle>
-            <GoPreviousButton />
-          </Circle>
-          <Circle>
-            <GoNextButton />
-          </Circle>
-        </Action>
-        {isMultiple && <OverLay pages={pages} />}
-      </Box>
-      {children}
-    </Root>
+    <>
+      {imgs}
+      <SpyItemLast />
+    </>
   )
 }
 
