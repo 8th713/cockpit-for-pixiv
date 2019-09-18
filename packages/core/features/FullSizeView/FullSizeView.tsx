@@ -52,7 +52,7 @@ const FullSizeViewSuccess = ({ illustId, pages }: SuccessProps) => {
             {ugoira && <FullSizeUgoira illustId={illustId} {...page} />}
           </Preview>
         </ClickableBox>
-        {isMultiple && <OverLay pages={pages} />}
+        {isMultiple && <OverLay.Success pages={pages} />}
       </AdjustBox>
     </Root>
   )
