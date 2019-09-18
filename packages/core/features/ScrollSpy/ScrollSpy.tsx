@@ -2,6 +2,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState
@@ -118,7 +119,7 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
     behaviorRef.current = isFullSize ? 'auto' : 'smooth'
   })
   useEffect(() => observer.start({ threshold: 0.5 }), [observer])
-  useEffect(() => setState(initialState), [illustId])
+  useLayoutEffect(() => setState(initialState), [illustId])
   useEffect(() => {
     const handle = () => {
       const state = stateRef.current
