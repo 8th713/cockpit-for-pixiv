@@ -13,35 +13,31 @@ export interface LinkProps
     TextOverflowProps {}
 
 export const Link = styled.a<LinkProps>`
-  &&& {
-    cursor: pointer;
-    box-sizing: border-box;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    background-color: transparent;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
-      Hiragino Kaku Gothic ProN, Meiryo, sans-serif;
-    :hover {
-      text-decoration: none;
-    }
-    :focus {
-      outline: auto currentColor;
-    }
-    ${sys.compose(
-      sys.layout,
-      sys.space,
-      sys.flexbox,
-      sys.grid,
-      sys.color,
-      sys.textStyle,
-      em,
-      textOverflow
-    )}
+  cursor: pointer;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  background-color: transparent;
+  font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
+    Hiragino Kaku Gothic ProN, Meiryo, sans-serif;
+  :hover {
+    text-decoration: none;
   }
+  :focus {
+    outline: auto currentColor;
+  }
+  ${sys.compose(
+    sys.layout,
+    sys.space,
+    sys.flexbox,
+    sys.grid,
+    sys.color,
+    sys.textStyle,
+    em,
+    textOverflow
+  )}
 `
 Link.defaultProps = {
   color: 'primary'
