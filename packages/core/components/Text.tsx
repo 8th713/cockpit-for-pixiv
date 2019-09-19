@@ -57,8 +57,6 @@ const getAs = ({ textStyle }: TextProps) => {
 }
 
 export const Text = styled(Box).attrs(getAs)<TextProps>`
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
   font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
     Hiragino Kaku Gothic ProN, Meiryo, sans-serif;
   ${sys.compose(

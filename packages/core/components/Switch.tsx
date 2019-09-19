@@ -49,7 +49,7 @@ export const Switch = styled(Impl)`
 `
 
 const Input = styled.input`
-  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
   box-sizing: border-box;
   position: absolute;
