@@ -101,34 +101,32 @@ const Field = styled.label`
   height: 56px;
 `
 const Input = styled.input`
-  &&& {
-    box-sizing: border-box;
-    display: flex;
-    align-self: flex-end;
-    width: 100%;
-    height: 100%;
-    padding: 12px 16px 14px;
-    border: 0;
-    background-color: transparent;
+  box-sizing: border-box;
+  display: flex;
+  align-self: flex-end;
+  width: 100%;
+  height: 100%;
+  padding: 12px 16px 14px;
+  border: 0;
+  background-color: transparent;
+  color: var(--on-surface);
+  caret-color: var(--primary);
+  font-family: inherit;
+  ${({ theme }) => theme.textStyles.body1};
+  line-height: 1.75;
+  transition: opacity 100ms linear;
+  &::placeholder {
     color: var(--on-surface);
-    caret-color: var(--primary);
-    font-family: inherit;
-    ${({ theme }) => theme.textStyles.body1};
-    line-height: 1.75;
-    transition: opacity 100ms linear;
+    opacity: 0;
+  }
+  &:focus {
+    outline: none;
     &::placeholder {
-      color: var(--on-surface);
-      opacity: 0;
+      opacity: var(--medium);
     }
-    &:focus {
-      outline: none;
-      &::placeholder {
-        opacity: var(--medium);
-      }
-    }
-    &:disabled {
-      opacity: var(--disabled);
-    }
+  }
+  &:disabled {
+    opacity: var(--disabled);
   }
 `
 const Outline = styled.div`

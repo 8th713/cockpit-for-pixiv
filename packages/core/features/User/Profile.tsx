@@ -156,7 +156,7 @@ const Avatar = styled.img`
 `
 const IconLink = styled(Link)`
   display: inline-flex;
-  & + &&& {
+  & + & {
     margin-left: 8px;
   }
 `
