@@ -4,7 +4,6 @@ import 'styled-system'
 declare module 'styled-system' {
   export function get<T>(obj: any, key: string, def: T): T
 
-  export interface ColorProps extends OpacityProps {}
   export interface LayoutProps extends OverflowProps {}
 
   export type ValueOf<O, P> = P extends keyof O ? O[P] : never
