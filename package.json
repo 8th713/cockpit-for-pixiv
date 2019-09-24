@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "5.0.0-beta.2",
+  "version": "5.0.0-beta.3",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -25,7 +25,7 @@
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-is": "^16.9.0",
-    "styled-components": "5.0.0-beta.8",
+    "styled-components": "5.0.0-beta.9",
     "styled-system": "^5.1.2",
     "stylis-plugin-extra-scope": "^0.1.1"
   },
@@ -39,7 +39,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/styled-components": "^4.1.19",
     "@types/styled-system": "^5.1.1",
-    "@typescript-eslint/parser": "^2.3.0",
+    "@typescript-eslint/parser": "^2.3.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.4.0",
