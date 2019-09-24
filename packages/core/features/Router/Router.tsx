@@ -15,8 +15,7 @@ type Actions = {
   push: (id: string) => void
 }
 
-const getId = (element: HTMLAnchorElement) =>
-  new URLSearchParams(element.search).get('illust_id')
+const getId = (element: HTMLAnchorElement) => element.pathname.split('/')[2]
 
 const ensureAnchorElement = (element: Element) => {
   if (element.matches(EXCLUDES)) return null
