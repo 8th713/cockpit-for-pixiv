@@ -48,7 +48,7 @@ module.exports = (env, argv) => {
       minimizer: [
         new TerserPlugin({
           terserOptions: {
-            ecma: 7,
+            ecma: 8,
             compress: {
               comparisons: false
             },
@@ -57,8 +57,7 @@ module.exports = (env, argv) => {
               ascii_only: true
             }
           },
-          parallel: true,
-          cache: true,
+          extractComments: false,
           sourceMap: true
         })
       ]
