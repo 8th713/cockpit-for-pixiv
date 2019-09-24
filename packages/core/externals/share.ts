@@ -48,7 +48,7 @@ const HEIGHT = 472
 
 export function openTwitter({ id, title, userName }: Illust) {
   const text = `${title} | ${userName} #pixiv`
-  const link = `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${id}`
+  const link = `https://www.pixiv.net/artworks/${id}`
   const url = createUrl(text, link)
   const options = normalizeOption(calcRect(WIDTH, HEIGHT))
 

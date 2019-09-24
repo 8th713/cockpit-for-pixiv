@@ -17,10 +17,7 @@ export function IllustTitle() {
 
   return (
     <Text as="h1" v="h6" noWrap>
-      <Link
-        href={`/member_illust.php?mode=medium&illust_id=${illust.illustId}`}
-        title={illust.illustTitle}
-      >
+      <Link href={`/artworks/${illust.illustId}`} title={illust.illustTitle}>
         {illust.illustTitle}
       </Link>
     </Text>

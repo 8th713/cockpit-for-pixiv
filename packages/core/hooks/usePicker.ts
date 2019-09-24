@@ -80,7 +80,7 @@ function isIllustThumbnailAnchorElement(element: HTMLAnchorElement) {
 }
 
 function getId(element: HTMLAnchorElement) {
-  return new URLSearchParams(element.search).get('illust_id')
+  return element.pathname.split('/')[2]
 }
 
 function getSibling(element: HTMLAnchorElement, n: number) {
