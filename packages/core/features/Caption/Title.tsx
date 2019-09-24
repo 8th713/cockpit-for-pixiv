@@ -3,7 +3,7 @@ import { Link } from '../../components'
 import { useIllust } from '../Illust'
 import { useRouteId } from '../Router'
 
-const PREFIX = '/member_illust.php?mode=medium&illust_id='
+const PREFIX = '/artworks/'
 
 export const Title = () => {
   const illustId = useRouteId()
