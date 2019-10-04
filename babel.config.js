@@ -10,11 +10,13 @@ module.exports = api => {
       'babel-plugin-styled-components',
       {
         ssr: false,
-        displayName: true
+        displayName: !production
       }
-    ]
+    ],
+    'dev-expression'
   ]
 
+  api.cache(true)
   return {
     presets,
     plugins
