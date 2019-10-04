@@ -1,129 +1,129 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import styled from 'styled-components'
-import * as sys from 'styled-system'
+import { createTransition } from './transitions'
+import { extend, sx, SxProps, themeGet } from './utils'
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type InputProps = React.ComponentPropsWithoutRef<'input'>
 
-interface SystemProps
-  extends sys.PositionProps,
-    sys.MarginProps,
-    sys.FlexboxProps,
-    sys.GridProps {}
-type NativeProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'type'>
-export type SwitchProps = SystemProps & NativeProps & { as?: never }
+export interface SwitchProps extends InputProps, SxProps {
+  type?: never
+  children?: never
+}
 
-const Impl = React.forwardRef<HTMLInputElement, SwitchProps>(function Switch(
-  props,
-  ref
-) {
-  const { className, style, ...inputProps } = props
-  const { disabled } = inputProps
-
-  return (
-    <div className={className} style={style} aria-disabled={disabled}>
-      <Input ref={ref} {...inputProps} type="checkbox" />
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
+  ({ sx, className, style, ...props }, ref) => (
+    <Root
+      aria-disabled={props.disabled}
+      className={className}
+      style={style}
+      sx={sx}
+    >
+      <Checkbox {...props} ref={ref} />
       <Track />
       <Thumb />
-    </div>
+    </Root>
   )
-})
+)
 
-export const Switch = styled(Impl)`
-  box-sizing: border-box;
-  position: relative;
-  display: inline-flex;
-  width: 58px;
-  height: 38px;
-  padding: 12px;
-  flex: 0 0 auto;
-  &[aria-disabled='true'] {
-    pointer-events: none;
-    opacity: var(--disabled);
-  }
-  ${sys.compose(
-    sys.position,
-    sys.margin,
-    sys.flexbox,
-    sys.grid
-  )}
-`
+const Root = styled.div<SxProps>(
+  extend({
+    boxSizing: 'border-box',
+    position: 'relative',
+    display: 'inline-flex',
+    width: 58,
+    height: 38,
+    p: '12px',
+    flexShrink: 0,
+    '&[aria-disabled="true"]': {
+      pointerEvents: 'none',
+      opacity: themeGet('opacities.disabled')
+    }
+  }),
+  sx
+)
 
-const Input = styled.input`
-  -webkit-appearance: none;
-  cursor: pointer;
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  outline: none;
-  :disabled {
-    cursor: auto;
-  }
-`
-const Track = styled.span`
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  opacity: 0.3;
-  transition: background-color 100ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  border-radius: 7px;
-  background-color: #fff;
-  input:checked ~ & {
-    background-color: var(--primary);
-  }
-`
-const Thumb = styled.span`
-  box-sizing: border-box;
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 9px;
-  color: var(--on-surface);
-  transition: color 100ms cubic-bezier(0.4, 0, 0.2, 1),
-    transform 100ms cubic-bezier(0.4, 0, 0.2, 1);
-  ::before {
-    content: '';
-    box-sizing: border-box;
-    display: flex;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: currentColor;
-  }
-  ::after {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: currentColor;
-    opacity: 0;
-    transition: opacity 15ms linear;
-  }
-  input:hover ~ & {
-    &:after {
-      opacity: var(--hovered);
+const Checkbox = styled.input(
+  extend({
+    WebkitAppearance: 'none',
+    cursor: 'pointer',
+    outlineWidth: 0,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
+    m: 0,
+    ':disabled': {
+      cursor: 'auto'
     }
-  }
-  input:focus ~ & {
-    &:after {
-      opacity: var(--focused);
+  })
+)
+Checkbox.defaultProps = {
+  type: 'checkbox'
+}
+
+const Track = styled.span(
+  extend({
+    width: '100%',
+    height: '100%',
+    borderRadius: '7px',
+    bg: '#fff',
+    opacity: 0.3,
+    transition: createTransition('background-color'),
+    'input:checked ~ &': {
+      bg: 'primary'
     }
-  }
-  input:active ~ & {
-    &:after {
-      opacity: var(--pressed);
+  })
+)
+
+const Thumb = styled.span(
+  extend({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    p: '9px',
+    color: 'onSurface',
+    transition: createTransition(['color', 'transform']),
+    'input:checked ~ &': {
+      color: 'primary',
+      transform: 'translateX(50%)'
+    },
+    '::before': {
+      content: "''",
+      boxSizing: 'inherit',
+      display: 'flex',
+      width: 20,
+      height: 20,
+      borderRadius: '50%',
+      backgroundColor: 'currentColor'
+    },
+    '::after': {
+      content: "''",
+      boxSizing: 'inherit',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      backgroundColor: 'currentColor',
+      opacity: 0,
+      transition: 'opacity 15ms linear'
+    },
+    'input:hover ~ &::after': {
+      opacity: themeGet('opacities.hover')
+    },
+    'input:focus ~ &::after': {
+      opacity: themeGet('opacities.focus')
     }
-  }
-  input:checked ~ & {
-    color: var(--primary);
-    transform: translateX(50%);
-  }
-`
+  })
+)
+
+if (__DEV__) {
+  Switch.displayName = 'Switch'
+  Root.displayName = 'Switch.Root'
+  Checkbox.displayName = 'Switch.Checkbox'
+  Track.displayName = 'Switch.Track'
+  Thumb.displayName = 'Switch.Thumb'
+}

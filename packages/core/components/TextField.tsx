@@ -1,272 +1,229 @@
-import React, {
-  useImperativeHandle,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react'
-import styled from 'styled-components'
-import * as sys from 'styled-system'
-import { Box } from './Box'
+import css from '@styled-system/css'
+import React, { forwardRef } from 'react'
+import styled, { DefaultTheme } from 'styled-components'
+import { Flex } from './Box'
+import { Paragraph } from './Text'
+import { createTransition } from './transitions'
+import { extend, sx, SxProps, themeGet } from './utils'
 
-interface BoxProps
-  extends sys.PositionProps,
-    sys.WidthProps,
-    sys.MarginProps,
-    sys.FlexboxProps,
-    sys.GridProps {}
-type InputProps = React.ComponentPropsWithoutRef<'input'>
-export type TextFieldProps = BoxProps &
-  InputProps & {
-    as?: never
-    invalid?: boolean
-    label?: string
-    helperText?: string
-    counterText?: string
-  }
+type NativeInput = React.ComponentPropsWithoutRef<'input'>
 
-const Impl = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField(
+export interface TextFieldProps extends NativeInput, SxProps {
+  children?: never
+  counter?: string
+  invalid?: boolean
+  label?: string
+  message?: string
+  type?: never
+}
+
+export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
+  (
     {
       className,
-      style,
+      counter,
+      disabled,
       invalid,
       label,
-      helperText,
-      counterText,
-      ...inputProps
+      message,
+      style,
+      sx,
+      ...props
     },
     ref
-  ) {
-    const hasHelper = !!helperText || !!counterText
-    const input = useRef<HTMLInputElement>(null)
-    const [isLeft, leave] = useState(false)
-    useImperativeHandle(ref, () => input.current!)
-    useLayoutEffect(() => {
-      const node = input.current
-      if (!node) return
-      const handleInput = () => {
-        leave(!!node.value)
-      }
-      node.addEventListener('change', handleInput)
-      return () => {
-        node.removeEventListener('change', handleInput)
-      }
-    }, [])
-    useLayoutEffect(() => {
-      const node = input.current
-      if (!node) return
-      if (node === document.activeElement) return
-      leave(!!node.value)
-    }, [inputProps.value, inputProps.defaultValue])
-
+  ) => {
+    const hasHelper = counter || message
     return (
-      <div className={className} style={style} data-invalid={invalid}>
-        <Field>
-          <Input ref={input} aria-invalid={invalid} {...inputProps} />
-          <Outline>
-            <Leading />
-            <Notch data-left={isLeft}>
-              <Label>{label}</Label>
-            </Notch>
-            <Trailing />
-          </Outline>
-        </Field>
+      <Root
+        className={className}
+        style={style}
+        sx={sx}
+        aria-invalid={invalid}
+        aria-disabled={disabled}
+      >
+        <Container>
+          <Input
+            placeholder=" "
+            {...props}
+            disabled={disabled}
+            type="text"
+            ref={ref}
+          />
+          <Label>{label}</Label>
+          <Line />
+        </Container>
         {hasHelper && (
-          <Helper>
-            <Box>{helperText}</Box>
-            <Box ml={3}>{counterText}</Box>
-          </Helper>
+          <Flex sx={{ px: 12 }}>
+            <Message textOverflow="ellipsis" sx={{ mr: 'auto' }}>
+              {message}
+            </Message>
+            <Message sx={{ flexShrink: 0, ml: 3 }}>{counter}</Message>
+          </Flex>
         )}
-      </div>
+      </Root>
     )
   }
 )
 
-export const TextField = styled(Impl)`
-  box-sizing: border-box;
-  min-width: 280px;
-  ${sys.compose(
-    sys.position,
-    sys.width,
-    sys.margin,
-    sys.flexbox,
-    sys.grid
-  )}
-`
-const Field = styled.label`
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: 56px;
-`
-const Input = styled.input`
-  box-sizing: border-box;
-  display: flex;
-  align-self: flex-end;
-  width: 100%;
-  height: 100%;
-  padding: 12px 16px 14px;
-  border: 0;
-  background-color: transparent;
-  color: var(--on-surface);
-  caret-color: var(--primary);
-  font-family: inherit;
-  ${({ theme }) => theme.textStyles.body1};
-  line-height: 1.75;
-  transition: opacity 100ms linear;
-  &::placeholder {
-    color: var(--on-surface);
-    opacity: 0;
-  }
-  &:focus {
-    outline: none;
-    &::placeholder {
-      opacity: var(--medium);
+const Root = styled.div<SxProps>(
+  extend({
+    minWidth: 280,
+    '&[aria-disabled="true"]': {
+      opacity: themeGet('opacities.disabled')
     }
-  }
-  &:disabled {
-    opacity: var(--disabled);
-  }
-`
-const Outline = styled.div`
-  box-sizing: border-box;
-  position: absolute;
-  right: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-`
-const Leading = styled.div`
-  box-sizing: border-box;
-  width: 12px;
-  height: 100%;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-left: 2px solid;
-  border-radius: 4px 0 0 4px;
-  border-color: rgba(255, 255, 255, var(--divider));
-  transition: border-color 100ms linear;
-  input:hover + div > & {
-    border-color: var(--on-surface);
-  }
-  input:focus + div > & {
-    border-color: var(--primary);
-  }
-  input[aria-invalid='true'] + div > & {
-    border-color: var(--error);
-  }
-  input:disabled + div > & {
-    border-color: rgba(255, 255, 255, var(--hovered));
-  }
-`
-const Trailing = styled.div`
-  box-sizing: border-box;
-  flex-grow: 1;
-  height: 100%;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-right: 2px solid;
-  border-radius: 0 4px 4px 0;
-  border-color: rgba(255, 255, 255, var(--divider));
-  transition: border-color 100ms linear;
-  input:hover + div > & {
-    border-color: var(--on-surface);
-  }
-  input:focus + div > & {
-    border-color: var(--primary);
-  }
-  input[aria-invalid='true'] + div > & {
-    border-color: var(--error);
-  }
-  input:disabled + div > & {
-    border-color: rgba(255, 255, 255, var(--hovered));
-  }
-`
-const Notch = styled.div`
-  box-sizing: border-box;
-  flex: 0 0 auto;
-  width: auto;
-  height: 100%;
-  border-top: 2px solid;
-  border-bottom: 2px solid;
-  border-color: rgba(255, 255, 255, var(--divider));
-  transition: border-color 100ms linear;
-  input:hover + div > & {
-    border-color: var(--on-surface);
-  }
-  input:focus + div > & {
-    border-color: var(--primary);
-  }
-  input[aria-invalid='true'] + div > & {
-    border-color: var(--error);
-  }
-  input:disabled + div > & {
-    border-color: rgba(255, 255, 255, var(--hovered));
-  }
-  input:focus + div > &,
-  &[data-left='true'] {
-    border-top-width: 0;
-  }
-`
-const Label = styled.div`
-  box-sizing: border-box;
-  display: inline-block;
-  position: relative;
-  top: 12px;
-  max-width: 100%;
-  margin: 0 4px;
-  opacity: var(--medium);
-  font: inherit;
-  line-height: 1.75;
-  letter-spacing: inherit;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: top 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    font-size 150ms cubic-bezier(0.4, 0, 0.2, 1),
-    line-height 150ms cubic-bezier(0.4, 0, 0.2, 1), color 100ms linear,
-    opacity 100ms linear;
-  will-change: top font-size line-height color opacity;
-  input:required + div > div > &::after {
-    content: '*';
-  }
-  input:hover + div > div > & {
-    opacity: 1;
-  }
-  input:focus + div > div > & {
-    color: var(--primary);
-    opacity: 1;
-  }
-  input[aria-invalid='true'] + div > div > & {
-    color: var(--error);
-    opacity: 1;
-  }
-  input:disabled + div > div > & {
-    display: none;
-  }
-  input:focus + div > div > &,
-  [data-left='true'] > & {
-    top: -8px;
-    font-size: 12px;
-    line-height: 1.5;
-  }
-`
-const Helper = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 6px 16px -2px;
-  color: var(--on-surface);
-  opacity: var(--medium);
-  ${({ theme }) => theme.textStyles.caption};
-  line-height: 1;
-  white-space: nowrap;
-  [data-invalid='true'] > & {
-    color: var(--error);
-    opacity: 1;
-  }
-`
+  }),
+  sx
+)
+
+const Container = styled.label(
+  extend({
+    position: 'relative',
+    display: 'block',
+    height: 56,
+    borderTopRightRadius: 4,
+    borderTopLeftRadius: 4,
+    '::before': {
+      content: '""',
+      pointerEvents: 'none',
+      boxSizing: 'inherit',
+      position: 'absolute',
+      zIndex: 0,
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: 'inherit',
+      bg: '#fff',
+      opacity: themeGet('opacities.divider')
+    },
+    '&:focus-within::before': {
+      opacity: 0.24
+    }
+  })
+)
+
+const Input = styled.input(
+  extend({
+    WebkitAppearance: 'none',
+    outlineWidth: 0,
+    position: 'relative',
+    zIndex: 1,
+    width: '100%',
+    height: '100%',
+    m: 0,
+    px: 12,
+    pt: 20,
+    pb: '6px',
+    borderWidth: 0,
+    bg: 'transparent',
+    color: 'inherit',
+    caretColor: ({ colors }: DefaultTheme) => colors.primary,
+    variant: 'text.body1',
+    ':disabled': {
+      opacity: themeGet('opacities.disabled')
+    },
+    '::placeholder': {
+      opacity: 0
+    },
+    '&:focus::placeholder': {
+      color: 'inherit',
+      opacity: themeGet('opacities.inactive')
+    }
+  })
+)
+
+const Label = styled.div(
+  extend({
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 16,
+    left: 12,
+    zIndex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    color: 'inherit',
+    opacity: themeGet('opacities.inactive'),
+    transformOrigin: '0 0',
+    transition: createTransition(['color', 'opacity', 'transform']),
+    'input:focus~&, input:not(:placeholder-shown)~&': {
+      transform: 'scale(0.75) translateY(-14px)'
+    },
+    '[aria-invalid="true"] input:focus~& , [aria-invalid="true"] input:not(:placeholder-shown)~&': {
+      color: 'secondary',
+      opacity: 1
+    },
+    'input:focus~&': {
+      color: 'primary',
+      opacity: 1
+    }
+  })
+)
+
+const Line = styled.div(
+  extend({
+    pointerEvents: 'none',
+    position: 'absolute',
+    overflow: 'hidden',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: 2,
+    '[aria-disabled="true"] &': {
+      height: 0
+    },
+    '::before': {
+      content: '""',
+      boxSizing: 'inherit',
+      display: 'block',
+      width: '100%',
+      height: 1,
+      mt: '1px',
+      bg: 'onSurface',
+      opacity: themeGet('opacities.inactive')
+    },
+    '::after': {
+      content: '""',
+      boxSizing: 'inherit',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      display: 'block',
+      width: '100%',
+      height: 2,
+      bg: 'primary',
+      transform: 'scaleX(0)',
+      transition: createTransition('transform')
+    },
+    '[aria-invalid="true"] &::after': {
+      bg: 'secondary',
+      transform: 'scaleX(1)'
+    },
+    'input:focus~&::after': {
+      transform: 'scaleX(1)'
+    }
+  })
+)
+
+const Message = styled(Paragraph)(
+  css({
+    mb: 0,
+    opacity: themeGet('opacities.inactive'),
+    '[aria-invalid="true"] &': {
+      color: 'secondary',
+      opacity: 1
+    }
+  })
+)
+Message.defaultProps = {
+  variant: 'caption'
+}
+
+if (__DEV__) {
+  TextField.displayName = 'TextField'
+  Root.displayName = 'TextField.Root'
+  Container.displayName = 'TextField.Container'
+  Input.displayName = 'TextField.Input'
+  Label.displayName = 'TextField.Label'
+  Line.displayName = 'TextField.Line'
+  Message.displayName = 'TextField.Message'
+}

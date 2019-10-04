@@ -1,99 +1,88 @@
-import React from 'react'
-import styled, { keyframes } from 'styled-components'
-import { Divider } from './Divider'
+import styled, { css, keyframes } from 'styled-components'
+import { duration, easing } from './transitions'
+import { ComponentSet, extend, sx, SxProps } from './utils'
 
-type Props = React.ComponentPropsWithoutRef<'section'> & {
-  backdrop?: boolean
-  onBackdropClick?: React.MouseEventHandler<HTMLDivElement>
-}
+export interface DialogProps extends SxProps {}
 
-export const Dialog = ({
-  backdrop = true,
-  onBackdropClick,
-  ...props
-}: Props) => (
-  <Root>
-    {backdrop && <Backdrop onClick={onBackdropClick} />}
-    <Layout {...props} />
-  </Root>
+type DialogType = ComponentSet<
+  'section',
+  DialogProps,
+  {
+    Header: typeof Header
+    Content: typeof Content
+    Footer: typeof Footer
+  }
+>
+
+const fadeIn = keyframes({
+  from: { opacity: 0 },
+  to: { opacity: 1 }
+})
+
+export const Dialog: DialogType = styled.section<DialogProps>(
+  extend({
+    pointerEvents: 'auto',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    maxWidth: 960,
+    minWidth: 280,
+    maxHeight: '95vh',
+    overflow: 'hidden',
+    m: 'auto',
+    borderRadius: 4,
+    backgroundColor: 'surface',
+    color: 'onSurface',
+    boxShadow: 24
+  }),
+  css`
+    animation: ${fadeIn} ${duration.smallIn} ${easing.standard};
+  `,
+  sx
+) as any
+
+const Header = styled.header<SxProps>(
+  extend({
+    display: 'flex',
+    alignItems: 'center',
+    flex: '0 0 auto',
+    height: 64,
+    px: 24
+  }),
+  sx
 )
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`
-const Root = styled.div`
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  flex-direction: column;
-`
-const Backdrop = styled.div`
-  pointer-events: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`
-const Layout = styled.section`
-  pointer-events: auto;
-  position: relative;
-  display: flex;
-  max-width: 960px;
-  min-width: 280px;
-  max-height: 95vh;
-  overflow: hidden;
-  flex-direction: column;
-  margin: auto;
-  border-radius: 8px;
-  background-color: var(--surface);
-  animation: ${fadeIn} 150ms cubic-bezier(0, 0, 0.2, 1);
-  ::after {
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    background-color: var(--on-surface);
-    opacity: 0.16;
-  }
-`
-const Header = styled.header`
-  box-sizing: border-box;
-  display: flex;
-  flex: 0 0 auto;
-  margin: 0;
-  padding: 16px 24px;
-  align-items: center;
-`
-const Content = styled.div`
-  box-sizing: border-box;
-  display: block;
-  overflow: auto;
-  flex: 1 1 auto;
-  padding: 8px 24px;
-`
-const Action = styled.footer`
-  flex: 0 0 auto;
-  display: flex;
-  padding: 8px;
-  align-items: center;
-  justify-content: flex-end;
-`
-
 Dialog.Header = Header
+
+const Content = styled.div<SxProps>(
+  extend({
+    overflow: 'auto',
+    flex: '1 1 auto',
+    px: 24,
+    pt: 12,
+    pb: 2
+  }),
+  sx
+)
 Dialog.Content = Content
-Dialog.Action = Action
-Dialog.Divider = Divider
+
+const Footer = styled.footer<SxProps>(
+  extend({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flex: '0 0 auto',
+    p: 2,
+    '& > :not(:first-child)': {
+      ml: 2
+    }
+  }),
+  sx
+)
+Dialog.Footer = Footer
+
+if (__DEV__) {
+  Dialog.displayName = 'Dialog'
+  Header.displayName = 'Dialog.Header'
+  Content.displayName = 'Dialog.Content'
+  Footer.displayName = 'Dialog.Footer'
+}
