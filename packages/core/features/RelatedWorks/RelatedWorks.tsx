@@ -1,72 +1,78 @@
+import css from '@styled-system/css'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { Box, Button, Hotkey, RefreshIcon, Text } from '../../components'
+import {
+  Box,
+  Button,
+  createTransition,
+  extend,
+  Hotkey,
+  RefreshIcon,
+  themeGet
+} from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { fetchRelatedIllusts } from '../../externals/apiClient'
 import { createCache } from '../../hooks/useCache'
 import { useIllust } from '../Illust'
 import { useRouteActions, useRouteId } from '../Router'
-import { Img } from './Img'
 
 interface Props {
   illustId: string
   userId: string
 }
-interface LoaderProps extends Props {}
-interface FailureProps extends Props {}
+
 interface SuccessProps extends Props {
-  illusts: Pixiv.RelatedIllusts
+  artworks: Pixiv.RelatedIllusts
 }
 
 const THUMBNAIL_SIZE = 168
 
 export const useRelatedIllusts = createCache(fetchRelatedIllusts, 20)
+
 export const RelatedWorks = () => (
   <React.Suspense fallback={null}>
     <IllustLoader />
   </React.Suspense>
 )
+
 const IllustLoader = () => {
   const illustId = useRouteId()
   const illust = useIllust(illustId)
   if (!illust) return null
-  return <RelatedWorksLoader illustId={illustId} userId={illust.userId} />
+  return <Loader illustId={illustId} userId={illust.userId} />
 }
-const RelatedWorksLoader = (props: LoaderProps) => {
-  const relatedIllusts = useRelatedIllusts(props.userId)
 
-  if (!relatedIllusts) return <RelatedWorksFailure {...props} />
-  return (
-    <RelatedWorksSuccess
-      key={props.userId}
-      {...props}
-      illusts={relatedIllusts}
-    />
-  )
+const Loader = (props: Props) => {
+  const relatedIllusts = useRelatedIllusts(props.userId)
+  if (!relatedIllusts) return <Failure {...props} />
+  return <Success key={props.userId} {...props} artworks={relatedIllusts} />
 }
-const RelatedWorksFailure = ({ userId }: FailureProps) => (
-  <Box display="flex" flexDirection="column" alignItems="center">
-    <Button
-      m="auto"
-      variant="contained"
-      colors="error"
-      onClick={() => useRelatedIllusts.remove(userId)}
-    >
-      <RefreshIcon size={18} mr={2} />
-      再取得
-    </Button>
-  </Box>
+
+const Failure = ({ userId }: Props) => (
+  <ScrollView>
+    <ThumbnailList>
+      <Button sx={{ m: 'auto' }}>
+        <RefreshIcon
+          sx={{ mr: 2 }}
+          onClick={() => useRelatedIllusts.remove(userId)}
+        />
+        再読み込み
+      </Button>
+    </ThumbnailList>
+  </ScrollView>
 )
-const RelatedWorksSuccess = ({ illustId, illusts }: SuccessProps) => {
+
+const Success = ({ illustId, artworks }: SuccessProps) => {
   const root = useRef<HTMLDivElement>(null)
   const selected = useRef<HTMLButtonElement>(null)
   const { push } = useRouteActions()
   const go = (n: number) => {
-    const currentIndex = illusts.findIndex(illust => illust.id === illustId)
+    const max = artworks.length
+    const currentIndex = artworks.findIndex(artwork => artwork.id === illustId)
     n = currentIndex === -1 ? 0 : n
-    const targetIndex = (illusts.length + currentIndex + n) % illusts.length
-    const nextIllustId = illusts[targetIndex]
-    push(nextIllustId.id)
+    const targetIndex = (max + currentIndex + n) % max
+    const artwork = artworks[targetIndex]
+    push(artwork.id)
   }
   const prev = () => go(-1)
   const next = () => go(1)
@@ -84,81 +90,133 @@ const RelatedWorksSuccess = ({ illustId, illusts }: SuccessProps) => {
   }, [illustId])
 
   return (
-    <Box ref={root} overflow="scroll auto">
-      <Container>
-        {illusts.map(illust => (
+    <ScrollView ref={root}>
+      <ThumbnailList>
+        {artworks.map((artwork, i) => (
           <ThumbnailButton
-            key={illust.id}
-            disabled={illustId === illust.id}
-            ref={illustId === illust.id ? selected : null}
-            onClick={() => push(illust.id)}
+            key={artwork.id}
+            disabled={illustId === artwork.id}
+            ref={illustId === artwork.id ? selected : null}
+            onClick={() => push(artwork.id)}
           >
-            <Img alt={illust.title} src={illust.url} size={THUMBNAIL_SIZE} />
-            <Chip textStyle="caption">{getChipText(illust)}</Chip>
+            <Thumbnail
+              loading="lazy"
+              src={artwork.url}
+              alt={artwork.title}
+              title={artwork.title}
+            />
+            <Chip>{getChipText(artwork)}</Chip>
           </ThumbnailButton>
         ))}
-      </Container>
+      </ThumbnailList>
       <Hotkey {...KEY_ASSIGNMENT.goPrevRelatedIllust} action={prev} />
       <Hotkey {...KEY_ASSIGNMENT.goNextRelatedIllust} action={next} />
-    </Box>
+    </ScrollView>
   )
 }
+
+const ScrollView = styled(Box)(
+  css({
+    overflowX: 'scroll',
+    scrollBehavior: 'smooth',
+    bg: 'surface',
+    color: 'onSurface'
+  })
+)
+
+const ThumbnailList = styled.div(
+  extend({
+    boxSizing: 'initial',
+    display: 'flex',
+    height: THUMBNAIL_SIZE,
+    px: 2,
+    pb: 2
+  })
+)
+
+const ThumbnailButton = styled.button(
+  extend({
+    WebkitAppearance: 'none',
+    cursor: 'zoom-in',
+    outlineWidth: 0,
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'block',
+    flexShrink: 0,
+    size: THUMBNAIL_SIZE,
+    p: 0,
+    borderWidth: 0,
+    opacity: 'unset',
+    ':disabled': {
+      cursor: 'default',
+      pointerEvents: 'none'
+    },
+    '::after': {
+      content: '""',
+      pointerEvents: 'none',
+      boxSizing: 'inherit',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: 'inherit',
+      bg: '#fff',
+      opacity: 0,
+      transition: createTransition('opacity')
+    },
+    '&:hover::after': {
+      opacity: themeGet('opacities.hover')
+    },
+    '&:focus::after': {
+      opacity: themeGet('opacities.focus')
+    },
+    '&:disabled::after': {
+      opacity: themeGet('opacities.disabled')
+    },
+    '&+&': {
+      ml: 2
+    }
+  })
+)
+
+const Thumbnail = styled.img(
+  extend({
+    display: 'block',
+    objectFit: 'contain'
+  })
+)
+Thumbnail.defaultProps = {
+  width: THUMBNAIL_SIZE,
+  height: THUMBNAIL_SIZE
+}
+
+const Chip = styled.span(
+  extend({
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    px: 2,
+    borderBottomLeftRadius: 4,
+    bg: 'rgba(0,0,0,0.38)',
+    color: 'onSurface',
+    ':empty': {
+      display: 'none'
+    }
+  })
+)
+
 const getChipText = ({ pageCount, illustType }: Pixiv.SimpleIllust) =>
   pageCount !== 1 ? pageCount : illustType === 2 ? 'U' : null
 
-const Container = styled.div`
-  display: flex;
-  width: fit-content;
-  height: ${THUMBNAIL_SIZE}px;
-  padding: 0 16px 4px;
-`
-const ThumbnailButton = styled.button`
-  cursor: zoom-in;
-  position: relative;
-  display: flex;
-  width: ${THUMBNAIL_SIZE}px;
-  height: ${THUMBNAIL_SIZE}px;
-  flex: 0 0 auto;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background-color: var(--on-surface);
-  ::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--on-surface);
-    opacity: 0;
-  }
-  &:hover::before {
-    opacity: calc(var(--hovered) * 2);
-  }
-  &:focus::before {
-    opacity: calc(var(--focused) * 2);
-  }
-  &:active::before {
-    opacity: calc(var(--pressed) * 2);
-  }
-  :disabled {
-    pointer-events: none;
-    opacity: 1;
-    ::before {
-      opacity: var(--medium);
-    }
-  }
-  & + & {
-    margin-left: 8px;
-  }
-`
-const Chip = styled(Text)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  padding: 0 8px;
-  border-bottom-left-radius: 4px;
-  background-color: rgba(0, 0, 0, var(--medium));
-  color: var(--on-surface);
-`
+if (__DEV__) {
+  IllustLoader.displayName = 'RelatedWorks.IllustLoader'
+  Loader.displayName = 'RelatedWorks.Loader'
+  Success.displayName = 'RelatedWorks.Success'
+  Failure.displayName = 'RelatedWorks.Failure'
+  ScrollView.displayName = 'RelatedWorks.ScrollView'
+  ThumbnailList.displayName = 'RelatedWorks.ThumbnailList'
+  ThumbnailButton.displayName = 'RelatedWorks.ThumbnailButton'
+  Thumbnail.displayName = 'RelatedWorks.Thumbnail'
+  Chip.displayName = 'RelatedWorks.Chip'
+}

@@ -1,190 +1,243 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import styled from 'styled-components'
 import {
   BookmarkOnIcon,
   Box,
   Button,
   Dialog,
-  Modal,
+  Divider,
+  Flex,
+  Heading,
+  Img,
+  Paragraph,
   Progress,
   RefreshIcon,
-  Text
+  Switch,
+  Text,
+  TextField
 } from '../../components'
 import { fetchBookmarkForm } from '../../externals/apiClient'
 import { createCache } from '../../hooks/useCache'
 import { bookmark, bookmarkBy, useIllust } from '../Illust'
-import { CommentField } from './CommentField'
-import { RestrictField } from './RestrictField'
-import { TagField } from './TagField'
 import { IllustTagList, UserTagList } from './TagList'
-import { splitTags, validate } from './utils'
 
-interface SuspenseProps {
-  illust: Pixiv.Illust
-  open: boolean
-  onClose: () => void
+interface Props extends Pixiv.Illust {
+  onSubmit: () => void
 }
-interface LoaderProps {
-  illust: Pixiv.Illust
-  onClose: () => void
-}
-interface LoadingProps {
-  thumbnail: string
-}
-interface FailureProps extends Pixiv.Illust {}
-interface SuccessProps extends LoaderProps {
+
+interface SuccessProps extends Props {
   fields: Pixiv.BookmarkForm
 }
 
+const COMMENT_MAX = 140
+const TAGS_MAX = 10
+
 const useBookmarkForm = createCache(fetchBookmarkForm, 1)
-export const BookmarkDialog = ({ illust, open, onClose }: SuspenseProps) => {
-  const { title, urls } = illust
 
-  return (
-    <Modal open={open} onClose={onClose}>
-      <Dialog onBackdropClick={onClose}>
-        <Dialog.Header>
-          <Text textStyle="h1">{title}</Text>
-        </Dialog.Header>
-        <Dialog.Divider />
-        <React.Suspense fallback={<BookmarkLoading thumbnail={urls.thumb} />}>
-          <BookmarkLoader illust={illust} onClose={onClose} />
-        </React.Suspense>
-      </Dialog>
-    </Modal>
-  )
-}
-const BookmarkLoader = (props: LoaderProps) => {
-  const fields = useBookmarkForm(props.illust.id)
+export const BookmarkDialog = (props: Props) => (
+  <Dialog sx={{ width: 960 }}>
+    <React.Suspense fallback={<Loading {...props} />}>
+      <Loader {...props} />
+    </React.Suspense>
+  </Dialog>
+)
 
-  if (!fields) return <BookmarkFailure {...props.illust} />
-  return <BookmarkSuccess {...props} fields={fields} />
+const Loader = (props: Props) => {
+  const fields = useBookmarkForm(props.id)
+
+  if (!fields) return <Failure {...props} />
+  return <Success {...props} fields={fields} />
 }
-const BookmarkLoading = ({ thumbnail }: LoadingProps) => (
+
+const Loading = ({ title, urls }: Props) => (
   <Form>
+    <Dialog.Header>
+      <Heading>{title}</Heading>
+    </Dialog.Header>
+    <Divider sx={{ mx: 24 }} />
     <Dialog.Content>
-      <FlexBox>
-        <Thumbnail src={thumbnail} />
-        <Box display="flex" flexGrow={1}>
-          <Progress />
+      <Flex>
+        <Box sx={{ flexShrink: 0, mr: 3 }}>
+          <Img
+            src={urls.thumb}
+            width="240"
+            height="240"
+            sx={{ position: 'sticky', top: 0 }}
+          />
         </Box>
-      </FlexBox>
+        <Flex sx={{ flexGrow: 1 }}>
+          <Progress />
+        </Flex>
+      </Flex>
     </Dialog.Content>
   </Form>
 )
-const BookmarkFailure = ({ illustId, urls }: FailureProps) => (
+
+const Failure = ({ id, title, urls }: Props) => (
   <Form
     onSubmit={e => {
       e.preventDefault()
-      useBookmarkForm.remove(illustId)
+      useBookmarkForm.remove(id)
     }}
   >
+    <Dialog.Header>
+      <Heading>{title}</Heading>
+    </Dialog.Header>
+    <Divider sx={{ mx: 24 }} />
     <Dialog.Content>
-      <FlexBox>
-        <Thumbnail src={urls.thumb} />
-        <Box display="flex" flexGrow={1}>
-          <Text color="error" m="auto">
-            取得に失敗しました
-          </Text>
+      <Flex>
+        <Box sx={{ flexShrink: 0, mr: 3 }}>
+          <Img
+            src={urls.thumb}
+            width="240"
+            height="240"
+            sx={{ position: 'sticky', top: 0 }}
+          />
         </Box>
-      </FlexBox>
+        <Flex sx={{ flexGrow: 1 }}>
+          <Paragraph sx={{ m: 'auto' }}>取得に失敗しました</Paragraph>
+        </Flex>
+      </Flex>
     </Dialog.Content>
-    <Dialog.Divider />
-    <Dialog.Action>
-      <Button variant="contained" colors="error" type="submit">
-        <RefreshIcon size={18} mr={2} />
+    <Divider sx={{ mx: 24 }} />
+    <Dialog.Footer>
+      <Button type="submit">
+        <RefreshIcon sx={{ size: 18, mr: 2 }} />
         再取得
       </Button>
-    </Dialog.Action>
+    </Dialog.Footer>
   </Form>
 )
-const BookmarkSuccess = ({ illust, fields, onClose }: SuccessProps) => {
-  const [state, setState] = useState(() => ({
-    restrict: fields.restrict,
-    comment: fields.comment,
-    tags: fields.tags
-  }))
-  const currentFields = {
-    restrict: state.restrict,
-    comment: state.comment,
-    tags: splitTags(state.tags)
-  }
-  const disabled = !validate(currentFields)
+
+const Success = ({ fields, onSubmit, ...illust }: SuccessProps) => {
+  const { getPostData, tagList, onChange, ...form } = useForm(fields)
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
-    onClose()
-    useIllust.replace(illust.id, bookmark(illust, state.restrict))
-    bookmarkBy(illust.id, currentFields).finally(() =>
+    onSubmit()
+    useIllust.replace(illust.id, bookmark(illust, form.restrict))
+    bookmarkBy(illust.id, getPostData()).finally(() =>
       useIllust.refresh(illust.id)
     )
   }
-  const handleChange = (value: Partial<typeof state>) =>
-    setState({ ...state, ...value })
 
   return (
     <Form onSubmit={handleSubmit}>
+      <Dialog.Header>
+        <Heading>{illust.title}</Heading>
+      </Dialog.Header>
+      <Divider sx={{ mx: 24 }} />
       <Dialog.Content>
-        <FlexBox>
-          <Thumbnail src={illust.urls.thumb} />
-          <Box flexGrow={1}>
-            <RestrictField value={state.restrict} onChange={handleChange} />
-            <CommentField value={state.comment} onChange={handleChange} />
-            <Sticky>
-              <TagField
-                value={state.tags}
-                count={currentFields.tags.length}
-                onChange={handleChange}
+        <Flex>
+          <Box sx={{ flexShrink: 0, mr: 3 }}>
+            <Img
+              src={illust.urls.thumb}
+              width="240"
+              height="240"
+              sx={{ position: 'sticky', top: 0 }}
+            />
+          </Box>
+          <Box sx={{ flexGrow: 1 }}>
+            <Flex sx={{ alignItems: 'center', ml: 3 }}>
+              <Text variant="body2" sx={{ mr: 2 }}>
+                非公開
+              </Text>
+              <Switch
+                name="restrict"
+                aria-label="非公開"
+                checked={form.restrict}
+                onChange={e => onChange({ restrict: e.target.checked })}
               />
-            </Sticky>
+            </Flex>
+            <TextField
+              sx={{ mt: 3, mb: 2 }}
+              name="comment"
+              maxLength={COMMENT_MAX}
+              value={form.comment}
+              onChange={e => onChange({ comment: e.target.value })}
+              label="ブックマークコメント"
+              counter={`${form.comment.length}/${COMMENT_MAX}`}
+            />
+            <TextField
+              sx={{
+                position: 'sticky',
+                top: -16,
+                zIndex: 1,
+                mt: 3,
+                mb: 2,
+                bg: 'surface'
+              }}
+              name="tags"
+              maxLength={TAGS_MAX}
+              value={form.tags}
+              onChange={e => onChange({ tags: e.target.value })}
+              label="ブックマークタグ"
+              message="スペース区切りで10個まで登録できます。英数字等は半角に統一されます。"
+              counter={`${tagList.length}/${TAGS_MAX}`}
+              invalid={tagList.length > TAGS_MAX}
+            />
             <IllustTagList
               items={illust.tags.tags}
-              currentTags={currentFields.tags}
-              onChange={handleChange}
+              current={tagList}
+              onChange={onChange}
             />
             <UserTagList
               items={fields.userTags}
-              currentTags={currentFields.tags}
-              onChange={handleChange}
+              current={tagList}
+              onChange={onChange}
             />
           </Box>
-        </FlexBox>
+        </Flex>
       </Dialog.Content>
-      <Dialog.Divider />
-      <Dialog.Action>
-        <Button
-          variant="contained"
-          colors="primary"
-          type="submit"
-          disabled={disabled}
-        >
-          <BookmarkOnIcon size={18} mr={2} color="crimson" />
+      <Divider sx={{ mx: 24 }} />
+      <Dialog.Footer>
+        <Button type="submit" disabled={form.disabled}>
+          <BookmarkOnIcon
+            sx={{
+              size: 18,
+              mr: 2,
+              color: 'crimson'
+            }}
+          />
           ブックマーク
         </Button>
-      </Dialog.Action>
+      </Dialog.Footer>
     </Form>
   )
 }
 
-const Form = styled.form`
-  display: contents;
-`
-const FlexBox = styled(Box)`
-  box-sizing: border-box;
-  display: flex;
-  width: 912px;
-`
-const Thumbnail = styled.img`
-  all: unset;
-  align-self: flex-start;
-  position: sticky;
-  top: 0;
-  width: 240px;
-  margin-right: 24px;
-`
-const Sticky = styled.div`
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background-color: var(--surface);
-`
+const Form = styled.form({
+  display: 'contents'
+})
+
+const useForm = ({ userTags, ...fields }: Pixiv.BookmarkForm) => {
+  const [state, setState] = useState(fields)
+  const tagList = useMemo(() => {
+    return state.tags
+      .trim()
+      .split(/[\s\xA0　]+/)
+      .filter(t => t.length)
+  }, [state.tags])
+  const getPostData = (): Required<Pixiv.BookmarkPost> => ({
+    ...state,
+    tags: tagList
+  })
+  const disabled = !validate(state.comment, tagList)
+  const onChange = (value: Partial<typeof state>) =>
+    setState({ ...state, ...value })
+  return { ...state, tagList, disabled, getPostData, onChange }
+}
+
+const validate = (comment: string, tags: string[]) => {
+  if (comment.length > COMMENT_MAX) return false
+  if (tags.length > TAGS_MAX) return false
+  return true
+}
+
+if (__DEV__) {
+  Loader.displayName = 'BookmarkDialog.Loader'
+  Loading.displayName = 'BookmarkDialog.Loading'
+  Failure.displayName = 'BookmarkDialog.Failure'
+  Success.displayName = 'BookmarkDialog.Success'
+  Form.displayName = 'BookmarkDialog.Form'
+}

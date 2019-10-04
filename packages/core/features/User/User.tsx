@@ -1,14 +1,24 @@
+import css from '@styled-system/css'
 import React from 'react'
 import styled from 'styled-components'
 import {
-  AccountErrorIcon,
-  AddIcon,
+  ArtworksIcon,
+  Avatar,
   Box,
-  Button,
-  getHotkeyHint,
-  Hotkey,
+  createTransition,
+  Flex,
+  FollowedIcon,
+  FollowIcon,
+  HomeIcon,
+  IconButton,
   Link,
-  RefreshIcon
+  ProfileIcon,
+  RefreshIcon,
+  Text,
+  themeGet,
+  TwitterIcon,
+  getHotkeyHint,
+  Hotkey
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { fetchUser, followUser, isSelf } from '../../externals/apiClient'
@@ -20,8 +30,12 @@ import { Profile } from './Profile'
 interface Props {
   userId: string
 }
-interface FailureProps extends Props {}
-interface SuccessProps extends Pixiv.User {}
+
+interface FollowButtonProps {
+  disabled: boolean
+  followed: boolean
+  onClick: (event: { shiftKey: boolean }) => void
+}
 
 const title = [
   getHotkeyHint(KEY_ASSIGNMENT.follow),
@@ -29,47 +43,53 @@ const title = [
 ].join('\n')
 
 export const useUser = createCache(fetchUser, 20)
+
 export const User = () => (
   <React.Suspense fallback={null}>
     <IllustLoader />
   </React.Suspense>
 )
+
 const IllustLoader = () => {
   const id = useRouteId()
   const illust = useIllust(id)
   if (!illust) return null
-  return <UserLoader userId={illust.userId} />
+  return <Loader userId={illust.userId} />
 }
-const UserLoader = ({ userId }: Props) => {
+
+const Loader = ({ userId }: Props) => {
   const user = useUser(userId)
-  if (!user) return <UserFailure userId={userId} />
-  return <UserSuccess {...user} />
+  if (!user) return <Failure userId={userId} />
+  return <Success {...user} />
 }
-const UserFailure = ({ userId }: FailureProps) => {
-  return (
-    <Box>
-      <NameLine>
-        <AccountErrorIcon width="40" height="40" />
-        <Box ml={3}>取得できませんでした</Box>
-      </NameLine>
-      <Action>
-        <Button
-          variant="contained"
-          colors="error"
-          onClick={() => useUser.remove(userId)}
-        >
-          <RefreshIcon size={18} mr={2} />
-          再取得
-        </Button>
-      </Action>
-      <Link textStyle="b2" ml={3} href={`/member_illust.php?id=${userId}`}>
-        作品一覧を見る
-      </Link>
-    </Box>
-  )
-}
-const UserSuccess = (props: SuccessProps) => {
-  const { userId, image, name, isFollowed } = props
+
+const Failure = ({ userId }: Props) => (
+  <Box sx={{ bg: 'surface', color: 'onSurface' }}>
+    <NameLink href={`https://www.pixiv.net/member.php?id=${userId}`}>
+      <Avatar />
+      <Text variant="h2" sx={{ ml: 3 }}>
+        取得できませんでした
+      </Text>
+    </NameLink>
+    <Flex sx={{ m: 2 }}>
+      <IconButton title="再取得" onClick={() => useUser.remove(userId)}>
+        <RefreshIcon />
+      </IconButton>
+      <IconButton title="プロフィール" disabled>
+        <ProfileIcon />
+      </IconButton>
+      <IconButton.Link
+        href={`/member_illust.php?id=${userId}`}
+        title="作品一覧"
+      >
+        <ArtworksIcon />
+      </IconButton.Link>
+    </Flex>
+  </Box>
+)
+
+const Success = (props: Pixiv.User) => {
+  const { userId, image, name, isFollowed, webpage, social } = props
   const self = isSelf(userId)
   const handleFollow = (event: { shiftKey: boolean }) => {
     if (self) return
@@ -77,88 +97,113 @@ const UserSuccess = (props: SuccessProps) => {
     useUser.replace(userId, { ...props, isFollowed: true })
     followUser(userId, event.shiftKey).finally(() => useUser.refresh(userId))
   }
+
   return (
-    <Box>
-      <NameLine href={`https://www.pixiv.net/member.php?id=${userId}`}>
-        <Avatar src={image} loading="lazy" width="40" height="40" />
-        <Box ml={3}>{name}</Box>
-      </NameLine>
-      {!self && (
-        <Action>
-          <Button
-            variant={isFollowed ? 'outlined' : 'contained'}
-            colors="primary"
-            title={title}
-            onClick={handleFollow}
+    <Box sx={{ bg: 'surface', color: 'onSurface' }}>
+      <NameLink href={`https://www.pixiv.net/member.php?id=${userId}`}>
+        <Avatar src={image} />
+        <Text variant="h2" sx={{ ml: 3 }}>
+          {name}
+        </Text>
+      </NameLink>
+      <Flex sx={{ m: 2 }}>
+        <FollowButton
+          disabled={self}
+          followed={isFollowed}
+          onClick={handleFollow}
+        />
+        <Profile key={props.userId} {...props} />
+        <IconButton.Link
+          href={`/member_illust.php?id=${userId}`}
+          title="作品一覧"
+        >
+          <ArtworksIcon />
+        </IconButton.Link>
+        {webpage && (
+          <IconButton.Link
+            href={webpage}
+            target="_blank"
+            rel="noopener referer"
+            title="Web ページ"
           >
-            {isFollowed ? null : <AddIcon />}
-            {isFollowed ? 'フォロー中' : 'フォローする'}
-          </Button>
-          <Hotkey {...KEY_ASSIGNMENT.follow} action={handleFollow} />
-          <Hotkey {...KEY_ASSIGNMENT.followPrivate} action={handleFollow} />
-        </Action>
-      )}
-      <Link textStyle="b2" ml={3} href={`/member_illust.php?id=${userId}`}>
-        作品一覧を見る
-      </Link>
-      <Profile key={props.userId} {...props} />
+            <HomeIcon />
+          </IconButton.Link>
+        )}
+        {social.twitter && (
+          <IconButton.Link
+            href={social.twitter.url}
+            target="_blank"
+            rel="noopener referer"
+            title="Twitter"
+          >
+            <TwitterIcon />
+          </IconButton.Link>
+        )}
+      </Flex>
     </Box>
   )
 }
 
-const NameLine = styled.a`
-  cursor: pointer;
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: var(--on-surface);
-  text-decoration: none;
-  align-items: center;
-  &::before {
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background-color: currentColor;
-    opacity: 0;
-    transition: opacity 15ms linear;
-  }
-  &:hover {
-    text-decoration: none;
-    &::before {
-      opacity: var(--hovered);
+const NameLink = styled(Link)(
+  css({
+    outlineWidth: 0,
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    px: 3,
+    py: 2,
+    borderRadius: 4,
+    color: 'onSurface',
+    textDecoration: 'none',
+    '::after': {
+      content: '""',
+      pointerEvents: 'none',
+      boxSizing: 'inherit',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: 'inherit',
+      bg: 'currentColor',
+      opacity: 0,
+      transition: createTransition('opacity')
+    },
+    '&:hover::after': {
+      opacity: themeGet('opacities.hover')
+    },
+    '&:focus::after': {
+      opacity: themeGet('opacities.focus')
     }
-  }
-  &:focus {
-    outline: auto var(--primary);
-    &::before {
-      opacity: var(--focused);
-    }
-  }
-  &:active {
-    &::before {
-      opacity: var(--pressed);
-    }
-  }
-`
-const Avatar = styled.img`
-  all: unset;
-  user-select: none;
-  object-fit: cover;
-  width: 40px;
-  height: 40px;
-  background-color: var(--surface);
-  border-radius: 50%;
-`
-const Action = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 8px 0 8px 16px;
-`
+  })
+)
+
+const FollowButton = ({ disabled, followed, onClick }: FollowButtonProps) => {
+  const icon = followed ? (
+    <FollowedIcon sx={{ color: 'primary' }} />
+  ) : (
+    <FollowIcon />
+  )
+
+  return (
+    <IconButton disabled={disabled} title={title} onClick={onClick}>
+      {icon}
+      {!disabled && (
+        <>
+          <Hotkey {...KEY_ASSIGNMENT.follow} action={onClick} />
+          <Hotkey {...KEY_ASSIGNMENT.followPrivate} action={onClick} />
+        </>
+      )}
+    </IconButton>
+  )
+}
+
+if (__DEV__) {
+  IllustLoader.displayName = 'User.IllustLoader'
+  Loader.displayName = 'User.Loader'
+  Failure.displayName = 'User.Failure'
+  Success.displayName = 'User.Success'
+  NameLink.displayName = 'User.NameLink'
+  FollowButton.displayName = 'Caption.FollowButton'
+}

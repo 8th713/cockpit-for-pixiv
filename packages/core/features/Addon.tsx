@@ -7,13 +7,17 @@ type Props = {
 }
 
 const Addon = React.createContext<AddonStore | null>(null)
-Addon.displayName = 'Addon'
 
 export const useAddon = () => {
   const value = useContext(Addon)
   if (value === null) throw new Error('Missing AddonProvider')
   return value
 }
+
 export const AddonProvider = ({ children, value }: Props) => (
   <Addon.Provider value={value}>{children}</Addon.Provider>
 )
+
+if (__DEV__) {
+  Addon.displayName = 'Addon'
+}

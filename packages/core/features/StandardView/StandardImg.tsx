@@ -1,20 +1,12 @@
 import React, { useCallback } from 'react'
-import styled from 'styled-components'
+import { Img } from '../../components'
 import { useUpdateFullSizeMode } from '../FullSizeView'
 import { useInView, useIObserver } from '../IntersectionObserver'
 import { useResize } from './useResize'
 
-type Props = Pixiv.Page
-
 export const PADDING = 32
 
-const getURL = (page: Pixiv.Page, inView: boolean) => {
-  if (inView) return page.urls.original
-  return page.urls.small.replace('540x540_70', '150x150')
-}
-
-function LazyImg(props: Props) {
-  const { urls, ...rest } = props
+export const StandardImg = ({ urls, ...rest }: Pixiv.Page) => {
   const observer = useIObserver()
   const [inView, observe] = useInView(observer, true)
   const fullSize = useUpdateFullSizeMode()
@@ -28,11 +20,19 @@ function LazyImg(props: Props) {
   )
 
   return (
-    <img
+    <Img
       ref={ref}
-      alt=""
       {...rest}
-      src={getURL(props, inView)}
+      sx={{
+        cursor: 'zoom-in',
+        objectFit: 'contain',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
+        m: 'auto',
+        bg: 'rgba(255, 255, 255, .87)'
+      }}
+      src={getURL(urls, inView)}
       onClick={e => {
         e.stopPropagation()
         fullSize(true)
@@ -41,12 +41,7 @@ function LazyImg(props: Props) {
   )
 }
 
-export const StandardImg = styled(LazyImg)`
-  cursor: zoom-in;
-  object-fit: contain;
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-  margin: auto;
-  background-color: rgba(255, 255, 255, var(--high));
-`
+const getURL = (urls: Pixiv.PageUrls, inView: boolean) => {
+  if (inView) return urls.original
+  return urls.small.replace('540x540_70', '150x150')
+}

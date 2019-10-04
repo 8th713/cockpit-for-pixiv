@@ -7,8 +7,7 @@ import React, {
   useRef,
   useState
 } from 'react'
-import styled from 'styled-components'
-import { Hotkey } from '../../components'
+import { Box, Hotkey } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { useFullSizeMode } from '../FullSizeView'
 import { useIntersection, useIntersectionEffect } from '../IntersectionObserver'
@@ -17,19 +16,23 @@ type HostProps = {
   illustId: string
   children?: React.ReactNode
 }
+
 type ItemProps = {
   index: number
   children?: React.ReactNode
 }
+
 type LastItemProps = {
   children?: React.ReactNode
 }
+
 type State = {
   index: number
   inViewNode: Element | null
   isBottom: boolean
   lastNode: Element | null
 }
+
 type ScrollActions = {
   scrollPrev: () => void
   scrollNext: () => void
@@ -37,6 +40,7 @@ type ScrollActions = {
   setIndex: (index: number, inViewNode: Element) => void
   setIsBottom: (isBottom: boolean, lastNode: Element) => void
 } & ReturnType<typeof useIntersection>
+
 type Value = [State, ScrollActions]
 
 const initialState: State = {
@@ -47,19 +51,19 @@ const initialState: State = {
 }
 const ScrollSpyValue = React.createContext<Value | null>(null)
 const ScrollSpyActions = React.createContext<ScrollActions | null>(null)
-ScrollSpyValue.displayName = 'ScrollSpyValue'
-ScrollSpyActions.displayName = 'ScrollSpyActions'
 
 export const useScrollSpy = () => {
   const value = useContext(ScrollSpyValue)
   if (value === null) throw new Error('Missing ScrollSpy')
   return value
 }
+
 export const useScrollActions = () => {
   const value = useContext(ScrollSpyActions)
   if (value === null) throw new Error('Missing ScrollSpy')
   return value
 }
+
 export const ScrollSpy = ({ illustId, children }: HostProps) => {
   const observer = useIntersection()
   const [isFullSize, setFullSize] = useFullSizeMode()
@@ -147,7 +151,8 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
     </ScrollSpyActions.Provider>
   )
 }
-export const SpyItem = ({ index, children }: ItemProps) => {
+
+const SpyItem = ({ index, children }: ItemProps) => {
   const { setIndex, ...observer } = useScrollActions()
   const ref = useIntersectionEffect(
     observer,
@@ -163,7 +168,9 @@ export const SpyItem = ({ index, children }: ItemProps) => {
 
   return <span ref={ref}>{children}</span>
 }
-export const SpyItemLast = ({ children }: LastItemProps) => {
+ScrollSpy.SpyItem = SpyItem
+
+const SpyItemLast = ({ children }: LastItemProps) => {
   const { setIsBottom, ...observer } = useScrollActions()
   const ref = useIntersectionEffect(
     observer,
@@ -172,11 +179,24 @@ export const SpyItemLast = ({ children }: LastItemProps) => {
     ])
   )
 
-  return <Box ref={ref}>{children}</Box>
+  return (
+    <Box
+      sx={{
+        position: 'relative',
+        top: 'calc(1px + var(--caption-height))',
+        height: 1
+      }}
+      ref={ref}
+    >
+      {children}
+    </Box>
+  )
 }
+ScrollSpy.SpyItemLast = SpyItemLast
 
-const Box = styled.div`
-  position: relative;
-  top: calc(1px + var(--caption-height));
-  height: 1px;
-`
+if (__DEV__) {
+  ScrollSpyValue.displayName = 'ScrollSpyValue'
+  ScrollSpyActions.displayName = 'ScrollSpyActions'
+  SpyItem.displayName = 'ScrollSpy.SpyItem'
+  SpyItemLast.displayName = 'ScrollSpy.SpyItemLast'
+}

@@ -4,19 +4,12 @@ import {
   BookmarkOnIcon,
   getHotkeyHint,
   Hotkey,
-  IconButton
+  IconButton,
+  Modal
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { bookmark, bookmarkBy, useIllust } from '../Illust'
-import { useRouteId } from '../Router'
 import { BookmarkDialog } from './BookmarkDialog'
-
-export const Bookmark = () => {
-  const illustId = useRouteId()
-  return <BookmarkButton key={illustId} illustId={illustId} />
-}
-
-type Props = { illustId: string }
 
 const title = [
   getHotkeyHint(KEY_ASSIGNMENT.bookmark),
@@ -24,34 +17,26 @@ const title = [
   getHotkeyHint(KEY_ASSIGNMENT.openBookmarkForm)
 ].join('\n')
 
-const BookmarkButton = ({ illustId }: Props) => {
+export const Bookmark = (props: Pixiv.Illust) => {
   const [open, setOpen] = useState(false)
-  const illust = useIllust(illustId)
+  const { id, bookmarkData, isBookmarkable } = props
 
-  if (!illust) return <BookmarkButtonMock />
-
-  const { bookmarkData, isBookmarkable } = illust
-
-  if (!isBookmarkable)
-    return (
-      <IconButton disabled title={title}>
-        <BookmarkOffIcon />
-      </IconButton>
-    )
+  if (!isBookmarkable) return <Mock />
 
   const bookmarked = !!bookmarkData
   const icon = bookmarked ? (
-    <BookmarkOnIcon color="error" />
+    <BookmarkOnIcon sx={{ color: 'secondary' }} />
   ) : (
     <BookmarkOffIcon />
   )
+  const close = () => setOpen(false)
   const handleBookmark = (event: { shiftKey: boolean; ctrlKey: boolean }) => {
     if (!isBookmarkable) return
     if (event.ctrlKey) return setOpen(true)
 
-    useIllust.replace(illustId, bookmark(illust, event.shiftKey))
-    bookmarkBy(illustId, { restrict: event.shiftKey }).finally(() =>
-      useIllust.refresh(illustId)
+    useIllust.replace(id, bookmark(props, event.shiftKey))
+    bookmarkBy(id, { restrict: event.shiftKey }).finally(() =>
+      useIllust.refresh(id)
     )
   }
 
@@ -63,19 +48,22 @@ const BookmarkButton = ({ illustId }: Props) => {
         <Hotkey {...KEY_ASSIGNMENT.bookmarkPrivate} action={handleBookmark} />
         <Hotkey {...KEY_ASSIGNMENT.openBookmarkForm} action={handleBookmark} />
       </IconButton>
-      <BookmarkDialog
-        illust={illust}
-        open={open}
-        onClose={() => setOpen(false)}
-      />
+      <Modal open={open} onClose={close} onBackdropClick={close}>
+        <BookmarkDialog {...props} onSubmit={close} />
+      </Modal>
     </>
   )
 }
 
-export const BookmarkButtonMock = () => {
+export const Mock = () => {
   return (
     <IconButton disabled title={title}>
       <BookmarkOffIcon />
     </IconButton>
   )
+}
+Bookmark.Mock = Mock
+
+if (__DEV__) {
+  Mock.displayName = 'Bookmark.Mock'
 }
