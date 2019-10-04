@@ -1,38 +1,31 @@
+import { SystemStyleObject } from '@styled-system/css'
+import * as CSS from 'csstype'
 import 'styled-components'
 
 declare module 'styled-components' {
+  type VariantRecord<T extends string = string> = Record<T, SystemStyleObject>
+
+  type FontVars = 'sans' | 'mono'
+  type ColorsVars =
+    | 'bg'
+    | 'surface'
+    | 'onSurface'
+    | 'primary'
+    | 'onPrimary'
+    | 'secondary'
+    | 'onSecondary'
+  type OpacitiesVars = 'hover' | 'focus' | 'divider' | 'inactive' | 'disabled'
+  type TextVars = 'h1' | 'h2' | 'h3' | 'body1' | 'body2' | 'caption' | 'button'
+
   export interface DefaultTheme {
-    colors: {
-      surface: string
-      onSurface: string
-      primary: string
-      onPrimary: string
-      secondary: string
-      onSecondary: string
-      error: string
-      onError: string
-    }
-    colorStyles: {
-      primary: CSSObject
-      secondary: CSSObject
-      error: CSSObject
-    }
-    textStyles: {
-      h1: CSSObject
-      h2: CSSObject
-      h3: CSSObject
-      body1: CSSObject
-      body2: CSSObject
-      button: CSSObject
-      caption: CSSObject
-      overline: CSSObject
-      b1: CSSObject
-      b2: CSSObject
-    }
-    buttons: {
-      text: CSSObject
-      outlined: CSSObject
-      contained: CSSObject
-    }
+    breakpoints: string[]
+    // system
+    fonts: Record<FontVars, CSS.FontFamilyProperty>
+    fontSizes: Record<TextVars, CSS.FontSizeProperty<string>>
+    colors: Record<ColorsVars, CSS.ColorProperty>
+    shadows: string[]
+    // variants
+    opacities: Record<OpacitiesVars, CSS.GlobalsNumber>
+    text: VariantRecord<TextVars>
   }
 }

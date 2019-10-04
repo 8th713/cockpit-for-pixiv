@@ -1,18 +1,25 @@
 import { useEffect } from 'react'
 
-/** HotKey 定義 */
 export interface KeyDefinition {
+  /** Description */
+  children?: string
+  /** Key assignment */
   keyName: string
-  children: string
+  /** HotKey 定義 */
   title?: string
 }
 
-type Props = {
-  action: (event: KeyboardEvent) => unknown
-} & KeyDefinition
+export interface KeyAction {
+  (event: KeyboardEvent): void
+}
+
+export interface HotkeyProps extends KeyDefinition {
+  action: KeyAction
+  disabled?: boolean
+}
 
 const IGNORED = 'input, textarea, select'
-const map = new Map<string, Props['action']>()
+const map = new Map<string, KeyAction>()
 
 const parseKeyboardEvent = (event: KeyboardEvent) => {
   let key = ''
@@ -28,19 +35,18 @@ const handleKeyDown = (event: KeyboardEvent) => {
   if (event.repeat) return
   if (node.matches(IGNORED)) return
   const pressedKey = parseKeyboardEvent(event)
-  const values = [...map.entries()]
-  for (const [keyName, action] of values) {
+  const entries = [...map.entries()]
+  for (const [keyName, action] of entries) {
     if (pressedKey === keyName) {
       action(event)
     }
   }
 }
 
-const attach = (props: Props) => {
+const attach = (keyName: string, action: KeyAction) => {
   if (map.size === 0) {
     window.addEventListener('keydown', handleKeyDown, true)
   }
-  const { keyName, action } = props
   map.set(keyName, action)
   return () => {
     map.delete(keyName)
@@ -50,12 +56,13 @@ const attach = (props: Props) => {
   }
 }
 
-export const Hotkey = (props: Props) => {
-  useEffect(() => attach(props))
+export const Hotkey = ({ action, disabled, keyName }: HotkeyProps) => {
+  useEffect(() => {
+    if (disabled) return
+    return attach(keyName, action)
+  })
   return null
 }
 
-export const getHotkeyHint = (props: KeyDefinition) => {
-  const key = props.title || props.keyName.toUpperCase()
-  return `${props.children}(${key})`
-}
+export const getHotkeyHint = ({ children, keyName, title }: KeyDefinition) =>
+  `${children}(${title || keyName.toUpperCase()})`

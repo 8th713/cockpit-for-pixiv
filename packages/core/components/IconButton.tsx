@@ -1,64 +1,74 @@
 import styled from 'styled-components'
-import * as sys from 'styled-system'
+import { createTransition } from './transitions'
+import { ComponentSet, extend, sx, SxProps, themeGet } from './utils'
 
-interface SystemProps extends sys.MarginProps {}
-type NativeProps = React.ComponentPropsWithoutRef<'button'>
-export type IconButtonProps = SystemProps & NativeProps
+export interface IconButtonProps extends SxProps {}
 
-export const IconButton = styled.button<IconButtonProps>`
-  all: unset;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-  z-index: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  margin: 0;
-  padding: 12px;
-  border: 0;
-  border-radius: 50%;
-  background-color: transparent;
-  color: inherit;
-  opacity: var(--high);
-  ::before {
-    content: '';
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background-color: currentColor;
-    opacity: 0;
-    transition: opacity 15ms linear;
+type IconButtonType = ComponentSet<
+  'button',
+  IconButtonProps,
+  {
+    Link: typeof Link
   }
-  :hover {
-    ::before {
-      opacity: var(--hovered);
+>
+
+export const IconButton: IconButtonType = styled.button<IconButtonProps>(
+  extend({
+    WebkitAppearance: 'none',
+    userSelect: 'none',
+    cursor: 'pointer',
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 48,
+    height: 48,
+    m: 0,
+    borderWidth: '0',
+    borderRadius: '50%',
+    bg: 'transparent',
+    color: 'inherit',
+    textAlign: 'center',
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    transition: createTransition('opacity'),
+    ':focus': {
+      outline: 0
+    },
+    ':disabled': {
+      pointerEvents: 'none',
+      cursor: 'default',
+      opacity: themeGet('opacities.disabled')
+    },
+    '::after': {
+      content: '""',
+      pointerEvents: 'none',
+      boxSizing: 'inherit',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: 'inherit',
+      bg: 'currentColor',
+      opacity: 0,
+      transition: createTransition('opacity')
+    },
+    '&:hover::after': {
+      opacity: themeGet('opacities.hover')
+    },
+    '&:focus::after': {
+      opacity: themeGet('opacities.focus')
     }
-  }
-  :focus {
-    ::before {
-      opacity: var(--focused);
-    }
-  }
-  :active {
-    ::before {
-      opacity: var(--pressed);
-    }
-  }
-  :disabled {
-    cursor: default;
-    pointer-events: none;
-    color: var(--on-surface);
-    opacity: var(--disabled);
-  }
-  ${sys.margin}
-`
+  }),
+  sx
+) as any
+
+const Link = IconButton.withComponent('a')
+IconButton.Link = Link
+
+if (__DEV__) {
+  IconButton.displayName = 'IconButton'
+  Link.displayName = 'IconButton.Link'
+}

@@ -1,14 +1,27 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import { extend, sx, SxProps, themeGet } from './utils'
 
-type Props = {
-  open?: boolean
+export interface ModalProps extends SxProps {
+  backdrop?: boolean
+  backdropSx?: SxProps['sx']
+  children?: React.ReactNode
+  onBackdropClick?: React.MouseEventHandler<HTMLDivElement>
   onCancel?: (event: Event) => unknown
   onClose?: (event: Event) => unknown
-  children?: React.ReactNode
+  open?: boolean
 }
 
-export const Modal = ({ open, onCancel, onClose, children }: Props) => {
+export const Modal = ({
+  backdrop,
+  backdropSx,
+  children,
+  onBackdropClick,
+  onCancel,
+  onClose,
+  open,
+  ...props
+}: ModalProps) => {
   const ref = useRef<HTMLDialogElement>(null)
   useEffect(() => {
     const node = ref.current
@@ -44,57 +57,77 @@ export const Modal = ({ open, onCancel, onClose, children }: Props) => {
     return () => node.removeEventListener('close', handleClose)
   }, [onClose])
 
-  return <Root ref={ref}>{open && children}</Root>
+  const useBackdrop = !!onBackdropClick || backdrop
+
+  return (
+    <Dialog ref={ref} {...props}>
+      {open && (
+        <>
+          {useBackdrop && (
+            <Backdrop onClick={onBackdropClick} sx={backdropSx} />
+          )}
+          <ScrollView>{children}</ScrollView>
+        </>
+      )}
+    </Dialog>
+  )
 }
 
-const Root = styled.dialog`
-  /* Color */
-  --surface: #0b132b;
-  --on-surface: #fff;
-  --primary: #55cfff;
-  --on-primary: #000;
-  --secondary: #ff9100;
-  --on-secondary: #000;
-  --error: #f28d85;
-  --on-error: #000;
+const Dialog = styled.dialog<SxProps>(
+  extend({
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    overflow: 'auto',
+    width: '100%',
+    height: '100%',
+    p: 0,
+    border: 0,
+    backgroundColor: 'transparent',
+    color: 'onSurface',
+    WebkitFontSmoothing: 'antialiased',
+    fontFamily: 'sans',
+    textDecoration: 'none',
+    textTransform: 'none',
+    variant: 'text.body1',
+    '&:not([open])': {
+      display: 'none'
+    },
+    '&::backdrop': {
+      backgroundColor: 'transparent'
+    }
+  }),
+  sx
+)
 
-  /* Text legibility */
-  --high: 0.87;
-  --medium: 0.6;
-  --low: 0.38;
+const Backdrop = styled.div<SxProps>(
+  extend({
+    position: 'sticky',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    bg: 'surface',
+    opacity: themeGet('opacities.disabled')
+  }),
+  sx
+)
 
-  /* Ripple opacity */
-  --enabled: 0;
-  --hovered: 0.04;
-  --focused: 0.12;
-  --pressed: 0.1;
-  --divider: 0.12;
-  --disabled: 0.38;
+const ScrollView = styled.div(
+  extend({
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    minHeight: '100%'
+  })
+)
 
-  --caption-height: 56px;
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--on-surface);
-  -webkit-font-smoothing: antialiased;
-  font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
-    Hiragino Kaku Gothic ProN, Meiryo, sans-serif;
-  ${({ theme }) => theme.textStyles.body1};
-  text-decoration: none;
-  text-transform: none;
-  &:not([open]) {
-    display: none;
-  }
-  &::backdrop {
-    background: #0b132b;
-    opacity: 0.38;
-  }
-`
+if (__DEV__) {
+  Dialog.displayName = 'Modal.Root'
+  Backdrop.displayName = 'Modal.Backdrop'
+  ScrollView.displayName = 'Modal.ScrollView'
+}

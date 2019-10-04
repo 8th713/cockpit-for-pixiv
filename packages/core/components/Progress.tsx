@@ -1,78 +1,65 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
-import * as sys from 'styled-system'
+import styled, { keyframes, css } from 'styled-components'
+import { extend, sx, SxProps } from './utils'
 
-interface BoxProps
-  extends sys.PositionProps,
-    sys.SizeProps,
-    sys.MarginProps,
-    sys.FlexboxProps,
-    sys.GridProps,
-    sys.ColorProps {}
-type DivProps = React.ComponentPropsWithoutRef<'div'>
-export type ProgressProps = BoxProps &
-  DivProps & {
-    as?: never
-  }
+export interface ProgressProps extends SxProps {
+  onClick?: React.MouseEventHandler<HTMLDivElement>
+  size?: number
+}
 
-const Impl = React.forwardRef<HTMLDivElement, ProgressProps>(function Progress(
-  props,
-  ref
-) {
-  return (
-    <div ref={ref} {...props} role="progressbar">
-      <svg viewBox="0 0 50 50">
-        <circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
-      </svg>
-    </div>
-  )
+export const Progress = ({ size, sx, ...props }: ProgressProps) => (
+  <Root
+    {...props}
+    sx={{
+      ...sx,
+      width: size,
+      height: size
+    }}
+    role="progressbar"
+  >
+    <Svg viewBox="0 0 50 50">
+      <Circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
+    </Svg>
+  </Root>
+)
+
+const rotate = keyframes({
+  to: { transform: 'rotate(360deg)' }
+})
+const dash = keyframes({
+  from: { strokeDasharray: '1,200', strokeDashoffset: 0 },
+  '50%': { strokeDasharray: '100,200', strokeDashoffset: -15 },
+  to: { strokeDasharray: '100,200', strokeDashoffset: -120 }
 })
 
-const rotate = keyframes`
-  100% {
-    transform: rotate(360deg);
-  }
+const Root = styled.div<SxProps>(
+  extend({
+    flexShrink: 0,
+    size: 256,
+    m: 'auto',
+    color: 'primary'
+  }),
+  sx
+)
+
+const Svg = styled.svg`
+  animation: ${rotate} 1.4s linear infinite;
 `
 
-const dash = keyframes`
-  0% {
-    stroke-dasharray: 1,200;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 100,200;
-    stroke-dashoffset: -15;
-  }
-  100% {
-    stroke-dasharray: 100,200;
-    stroke-dashoffset: -120;
-  }
-`
+const Circle = styled.circle(
+  {
+    strokeDasharray: '80,200',
+    strokeDashoffset: 0,
+    stroke: 'currentColor',
+    strokeLinecap: 'round'
+  },
+  css`
+    animation: ${dash} 1.4s ease-in-out infinite;
+  `
+)
 
-export const Progress = styled(Impl)`
-  box-sizing: border-box;
-  flex-shrink: 0;
-  ${sys.compose(
-    sys.position,
-    sys.size,
-    sys.margin,
-    sys.flexbox,
-    sys.grid,
-    sys.color
-  )}
-  & > svg {
-    animation: ${rotate} 1.4s linear infinite;
-    & > circle {
-      animation: ${dash} 1.4s ease-in-out infinite;
-      stroke-dasharray: 80, 200;
-      stroke-dashoffset: 0;
-      stroke: currentColor;
-      stroke-linecap: round;
-    }
-  }
-`
-Progress.defaultProps = {
-  size: 256,
-  m: 'auto',
-  color: 'primary'
+if (__DEV__) {
+  Root.displayName = 'Progress.Root'
+  Svg.displayName = 'Progress.Svg'
+  Circle.displayName = 'Progress.Circle'
 }

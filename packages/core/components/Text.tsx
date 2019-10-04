@@ -1,90 +1,108 @@
+import React from 'react'
 import styled from 'styled-components'
-import * as sys from 'styled-system'
-import { Box, BoxProps } from './Box'
+import { extend, sx, SxProps, themeRef, VariantProps } from './utils'
+import { textOverflow, TextOverflowProps } from './variants'
 
-export interface EmProps {
-  em?: sys.ResponsiveValue<'high' | 'medium' | 'low' | number>
-}
-export interface TextOverflowProps {
-  textOverflow?: 'clip' | 'ellipsis'
-}
-export interface TextProps
-  extends BoxProps,
-    sys.STextStyleProps,
-    EmProps,
-    TextOverflowProps {}
+export interface TextProps extends VariantProps<'text'>, SxProps {}
 
-export const em = sys.system({
-  em: {
-    property: 'opacity',
-    defaultScale: {
-      high: 'var(--high)',
-      medium: 'var(--medium)',
-      low: 'var(--low)'
+export interface LinkProps extends TextProps {
+  href: string
+}
+
+export interface ParagraphProps extends TextProps, TextOverflowProps {}
+
+export interface HTMLTextProps
+  extends React.ComponentPropsWithoutRef<typeof Paragraph> {
+  children?: string
+}
+
+export const Text = styled.span<TextProps>(extend(), themeRef('text'), sx)
+
+export const Link = styled.a<LinkProps>(
+  extend({
+    cursor: 'pointer',
+    color: 'primary',
+    textDecorationLine: 'none',
+    ':focus': {
+      outlineStyle: 'auto',
+      outlineColor: 'currentColor'
     }
-  }
-})
-export const textOverflow = sys.variant({
-  prop: 'textOverflow',
-  variants: {
-    clip: {
-      overflow: 'hidden',
-      textOverflow: 'clip',
-      whiteSpace: 'nowrap'
-    },
-    ellipsis: {
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap'
-    }
-  }
-})
+  }),
+  themeRef('text'),
+  sx
+)
 
-const getAs = ({ textStyle }: TextProps) => {
-  switch (textStyle) {
-    case 'h1':
-    case 'h2':
-    case 'h3':
-      return { as: textStyle }
-    case 'body1':
-    case 'body2':
-    case 'b1':
-    case 'b2':
-      return { as: 'p' }
-    default:
-      return { as: 'span' }
-  }
+export const Heading = styled.h1<ParagraphProps>(
+  extend({
+    fontSize: '1.5rem',
+    fontWeight: 500,
+    lineHeight: 1.34
+  }),
+  themeRef('text'),
+  textOverflow,
+  sx
+)
+Heading.defaultProps = { variant: 'h1' }
+
+export const Paragraph = styled.p<ParagraphProps>(
+  extend({
+    mb: 3
+  }),
+  themeRef('text'),
+  textOverflow,
+  sx
+)
+Paragraph.defaultProps = {
+  variant: 'body1'
 }
 
-export const Text = styled(Box).attrs(getAs)<TextProps>`
-  font-family: Roboto, Helvetica Neue, arial, Noto Sans CJK JP,
-    Hiragino Kaku Gothic ProN, Meiryo, sans-serif;
-  ${sys.compose(
-    sys.textStyle,
-    em,
-    textOverflow
-  )};
-`
-Text.defaultProps = {
-  textStyle: 'body1'
+export const HTMLText = ({ sx, children, ...props }: HTMLTextProps) => (
+  <Paragraph
+    variant="body2"
+    {...props}
+    dangerouslySetInnerHTML={{ __html: replaceJumpLink(children) }}
+    sx={{
+      ':empty': {
+        display: 'none'
+      },
+      a: {
+        cursor: 'pointer',
+        color: 'primary',
+        textDecoration: 'none',
+        ':focus': {
+          outline: 'auto currentColor'
+        }
+      },
+      ...sx
+    }}
+  />
+)
+
+if (__DEV__) {
+  Text.displayName = 'Text'
+  Link.displayName = 'Link'
+  Heading.displayName = 'Heading'
+  Paragraph.displayName = 'Paragraph'
 }
 
-const ANKER_TAG = /\<a href=".+?"/
+const ANKER_TAG = /<a href=".+?"/
+
 const replaceFn = (comment: string) => {
   const doc = new DOMParser().parseFromString(comment, 'text/html')
   const links = doc.getElementsByTagName('a')
   for (const link of links) {
     if (link.pathname === '/jump.php') {
       link.href = unescape(link.search.slice(1))
-      link.referrerPolicy = 'no-referrer'
+      link.rel = 'noopener noreferrer'
     }
   }
   return doc.body.innerHTML
 }
+
 /**
  * replace /jump.php to direct
  * @param comment HTML string
  */
-export const replaceJumpLink = (comment: string) => {
+export const replaceJumpLink = (comment: string = '') => {
   return ANKER_TAG.test(comment) ? replaceFn(comment) : comment
 }
