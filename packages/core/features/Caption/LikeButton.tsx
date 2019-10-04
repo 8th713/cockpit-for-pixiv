@@ -1,44 +1,36 @@
 import React from 'react'
 import {
-  Box,
   getHotkeyHint,
   Hotkey,
   IconButton,
-  LikeIcon
+  LikeIcon,
+  SxProps
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { like, likeBy, useIllust } from '../Illust'
-import { useRouteId } from '../Router'
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.like)
 
-export const LikeButton = () => {
-  const id = useRouteId()
-  const illust = useIllust(id)
-
-  if (!illust) return <LikeButtonMock />
-
-  const { isBookmarkable, likeData } = illust
-
-  if (!isBookmarkable)
+export const LikeButton = (props: Pixiv.Illust) => {
+  if (!props.isBookmarkable) return <LikeButton.Mock />
+  if (props.likeData)
     return (
-      <IconButton disabled title={title}>
-        <LikeIcon />
-      </IconButton>
-    )
-  if (likeData)
-    return (
-      <Box size={48} p="12px" color="primary">
-        <LikeIcon />
-      </Box>
+      <LikeButton.Mock
+        sx={{
+          ':disabled': {
+            color: 'primary',
+            opacity: 1
+          }
+        }}
+      />
     )
 
   const handleLike = () => {
-    if (!isBookmarkable) return
-    if (likeData) return
+    if (!props.isBookmarkable) return
+    if (props.likeData) return
 
-    useIllust.replace(id, like(illust))
-    likeBy(id).finally(() => useIllust.refresh(id))
+    useIllust.replace(props.id, like(props))
+    likeBy(props.id).finally(() => useIllust.refresh(props.id))
   }
 
   return (
@@ -49,10 +41,13 @@ export const LikeButton = () => {
   )
 }
 
-export const LikeButtonMock = () => {
-  return (
-    <IconButton disabled title={title}>
-      <LikeIcon />
-    </IconButton>
-  )
+const Mock = ({ sx }: SxProps) => (
+  <IconButton disabled title={title} sx={sx}>
+    <LikeIcon />
+  </IconButton>
+)
+LikeButton.Mock = Mock
+
+if (__DEV__) {
+  Mock.displayName = 'LikeButton.Mock'
 }

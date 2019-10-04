@@ -5,7 +5,6 @@ type Observer = ReturnType<typeof useIntersection>
 type Props = { children?: React.ReactNode }
 
 const IObserver = React.createContext<Observer | null>(null)
-IObserver.displayName = 'IObserver'
 
 export const useIObserver = () => {
   const value = useContext(IObserver)
@@ -14,6 +13,11 @@ export const useIObserver = () => {
   }
   return value
 }
+
 export const IOProvider = ({ children }: Props) => (
   <IObserver.Provider value={useIntersection()}>{children}</IObserver.Provider>
 )
+
+if (__DEV__) {
+  IObserver.displayName = 'IObserver'
+}

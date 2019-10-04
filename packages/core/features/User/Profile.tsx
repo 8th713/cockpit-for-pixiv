@@ -1,142 +1,109 @@
+import css from '@styled-system/css'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import {
+  Avatar,
   Box,
+  CirclemsIcon,
   Dialog,
+  Divider,
+  Dl,
   FacebookIcon,
+  Flex,
+  getHotkeyHint,
+  Heading,
   HomeIcon,
   Hotkey,
+  HTMLText,
+  IconButton,
   InstagramIcon,
-  Link,
   Modal,
-  replaceJumpLink,
-  Text,
+  PawooIcon,
+  ProfileIcon,
   TumblrIcon,
   TwitterIcon
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 
-export const Profile = (user: Pixiv.User) => {
+interface DetailListItemProps extends Pixiv.Appanage {
+  label: string
+}
+
+const title = getHotkeyHint(KEY_ASSIGNMENT.profile)
+
+export const Profile = (props: Pixiv.User) => {
   const [open, setOpen] = useState(false)
   const handleClose = () => setOpen(false)
-  const { social } = user
-  const comment = replaceJumpLink(user.commentHtml)
+  const { social } = props
 
   return (
     <>
-      <Link as="button" ml={3} textStyle="b2" onClick={() => setOpen(true)}>
-        プロフィール
-      </Link>
-      <Modal open={open} onClose={handleClose}>
-        <Dialog onBackdropClick={handleClose}>
-          <Dialog.Header>
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              flexGrow={1}
-              minWidth={256}
-            >
-              <Avatar src={user.imageBig} />
-              <Text textStyle="h2" mt={2}>
-                {user.name}
-              </Text>
-            </Box>
-          </Dialog.Header>
-          <Dialog.Divider />
-          <Dialog.Content style={{ padding: 0 }}>
-            <Box display="flex" alignItems="center" px={24} py={2}>
-              {user.webpage && (
-                <IconLink textStyle="b2" target="_blank" href={user.webpage}>
+      <IconButton title={title} onClick={() => setOpen(true)}>
+        <ProfileIcon />
+      </IconButton>
+      <Modal open={open} onClose={handleClose} onBackdropClick={handleClose}>
+        <Dialog sx={{ minWidth: 720 }}>
+          <Dialog.Header
+            sx={{
+              flexDirection: 'column',
+              height: 'auto',
+              pt: 3
+            }}
+          >
+            <Avatar size={128} src={props.imageBig} />
+            <Heading sx={{ mt: 2 }}>{props.name}</Heading>
+            <LinkContainer>
+              {props.webpage && (
+                <IconLink href={props.webpage} title="Web ページ">
                   <HomeIcon />
                 </IconLink>
               )}
               {social.twitter && (
-                <IconLink
-                  textStyle="b2"
-                  target="_blank"
-                  href={social.twitter.url}
-                >
+                <IconLink href={social.twitter.url} title="Twitter">
                   <TwitterIcon />
                 </IconLink>
               )}
               {social.facebook && (
-                <IconLink
-                  textStyle="b2"
-                  target="_blank"
-                  href={social.facebook.url}
-                >
+                <IconLink href={social.facebook.url} title="Facebook">
                   <FacebookIcon />
                 </IconLink>
               )}
               {social.instagram && (
-                <IconLink
-                  textStyle="b2"
-                  target="_blank"
-                  href={social.instagram.url}
-                >
+                <IconLink href={social.instagram.url} title="Instagram">
                   <InstagramIcon />
                 </IconLink>
               )}
               {social.tumblr && (
-                <IconLink
-                  textStyle="b2"
-                  target="_blank"
-                  href={social.tumblr.url}
-                >
+                <IconLink href={social.tumblr.url} title="Tumblr">
                   <TumblrIcon />
                 </IconLink>
               )}
               {social.circlems && (
-                <IconLink
-                  textStyle="b2"
-                  target="_blank"
-                  href={social.circlems.url}
-                >
-                  Circle.ms
+                <IconLink href={social.circlems.url} title="Circle.ms">
+                  <CirclemsIcon />
                 </IconLink>
               )}
               {social.pawoo && (
-                <IconLink
-                  textStyle="b2"
-                  target="_blank"
-                  href={social.pawoo.url}
-                >
-                  Pawoo
+                <IconLink href={social.pawoo.url} title="Pawoo">
+                  <PawooIcon />
                 </IconLink>
               )}
-            </Box>
-            <Comment
-              textStyle="b2"
-              px={24}
-              py={2}
-              dangerouslySetInnerHTML={{ __html: comment }}
-            />
-            <Dialog.Divider height={1} />
-            {user.gender.privacyLevel === '0' && (
-              <Line>
-                <LineHead textStyle="b2">性別</LineHead>
-                <Text textStyle="b2">{user.gender.name}</Text>
-              </Line>
+            </LinkContainer>
+          </Dialog.Header>
+          <Divider />
+          <Dialog.Content>
+            {props.commentHtml && (
+              <>
+                <HTMLText>{props.commentHtml}</HTMLText>
+                <Divider />
+              </>
             )}
-            {user.region.privacyLevel === '0' && (
-              <Line>
-                <LineHead textStyle="b2">居住地</LineHead>
-                <Text textStyle="b2">{user.region.name}</Text>
-              </Line>
-            )}
-            {user.birthDay.privacyLevel === '0' && (
-              <Line>
-                <LineHead textStyle="b2">誕生日</LineHead>
-                <Text textStyle="b2">{user.birthDay.name}</Text>
-              </Line>
-            )}
-            {user.job.privacyLevel === '0' && (
-              <Line>
-                <LineHead textStyle="b2">職業</LineHead>
-                <Text textStyle="b2">{user.job.name}</Text>
-              </Line>
-            )}
+            <DetailList>
+              <DetailListItem label="性別" {...props.gender} />
+              <DetailListItem label="居住地" {...props.region} />
+              <DetailListItem label="誕生日" {...props.birthDay} />
+              <DetailListItem label="職業" {...props.job} />
+            </DetailList>
           </Dialog.Content>
         </Dialog>
       </Modal>
@@ -145,39 +112,47 @@ export const Profile = (user: Pixiv.User) => {
   )
 }
 
-const Avatar = styled.img`
-  all: unset;
-  user-select: none;
-  object-fit: cover;
-  width: 80px;
-  height: 80px;
-  background-color: var(--surface);
-  border-radius: 50%;
-`
-const IconLink = styled(Link)`
-  display: inline-flex;
-  & + & {
-    margin-left: 8px;
-  }
-`
-const Line = styled(Box)`
-  display: flex;
-  margin: 8px 24px;
-  align-items: center;
-`
-const LineHead = styled(Text)`
-  width: 30%;
-`
-const Comment = styled(Text)`
-  word-break: break-word;
-  a {
-    cursor: pointer;
-    color: var(--primary);
-    :hover {
-      text-decoration: none;
+const LinkContainer = styled(Flex)(
+  css({
+    justifyContent: 'center',
+    m: 2,
+    ':empty': {
+      display: 'none'
     }
-    :focus {
-      outline: auto currentColor;
+  })
+)
+
+const IconLink = styled(IconButton.Link)({})
+IconLink.defaultProps = {
+  target: '_blank',
+  rel: 'noopener referer'
+}
+
+const DetailList = styled(Box)(
+  css({
+    columnCount: 2,
+    gap: 4,
+    columnRuleStyle: 'solid',
+    columnRuleColor: 'rgba(255,255,255,.12)',
+    columnRuleWidth: 1,
+    mt: 3,
+    ':empty': {
+      display: 'none'
     }
-  }
-`
+  })
+)
+
+const DetailListItem = ({ privacyLevel, label, name }: DetailListItemProps) =>
+  privacyLevel === '0' ? (
+    <Dl>
+      <Dl.Dt sx={{ width: '50%' }}>{label}</Dl.Dt>
+      <Dl.Dd>{name}</Dl.Dd>
+    </Dl>
+  ) : null
+
+if (__DEV__) {
+  LinkContainer.displayName = 'Profile.LinkContainer'
+  IconLink.displayName = 'Profile.IconLink'
+  DetailList.displayName = 'Profile.DetailList'
+  DetailListItem.displayName = 'Profile.DetailListItem'
+}

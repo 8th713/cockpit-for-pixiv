@@ -8,19 +8,19 @@ type SetState = React.Dispatch<React.SetStateAction<boolean>>
 
 const FullSizeValue = React.createContext<Value | null>(null)
 const FullSizeUpdate = React.createContext<SetState | null>(null)
-FullSizeValue.displayName = 'FullSizeValue'
-FullSizeUpdate.displayName = 'FullSizeUpdate'
 
 export const useFullSizeMode = () => {
   const value = useContext(FullSizeValue)
   if (value === null) throw new Error('Missing FullSizeMode')
   return value
 }
+
 export const useUpdateFullSizeMode = () => {
   const value = useContext(FullSizeUpdate)
   if (value === null) throw new Error('Missing FullSizeMode')
   return value
 }
+
 export const FullSizeMode = ({ children }: Props) => {
   const [isFullSize, setFullSize] = useState(false)
   const value = useMemo(() => [isFullSize, setFullSize] as const, [isFullSize])
@@ -35,11 +35,18 @@ export const FullSizeMode = ({ children }: Props) => {
     </FullSizeUpdate.Provider>
   )
 }
+
 const FullSizeOn = ({ children }: Props) => (
   <>{useFullSizeMode()[0] ? children : null}</>
 )
+FullSizeMode.On = FullSizeOn
+
 const FullSizeOff = ({ children }: Props) => (
   <>{useFullSizeMode()[0] ? null : children}</>
 )
-FullSizeMode.On = FullSizeOn
 FullSizeMode.Off = FullSizeOff
+
+if (__DEV__) {
+  FullSizeValue.displayName = 'FullSizeValue'
+  FullSizeUpdate.displayName = 'FullSizeUpdate'
+}

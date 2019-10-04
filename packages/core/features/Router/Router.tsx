@@ -52,24 +52,25 @@ const scrollIntoView = (element: HTMLElement) => {
 
 const RouterValue = React.createContext<Value | null>(null)
 const RouterActions = React.createContext<Actions | null>(null)
-RouterValue.displayName = 'RouterValue'
-RouterActions.displayName = 'RouterActions'
 
 export const useRoute = () => {
   const value = useContext(RouterValue)
   if (value === null) throw new Error('Missing Router')
   return value
 }
+
 export const useRouteId = () => {
   const [illustId] = useRoute()
   if (illustId === null) throw new Error('Missing current id')
   return illustId
 }
+
 export const useRouteActions = () => {
   const value = useContext(RouterActions)
   if (value === null) throw new Error('Missing Router')
   return value
 }
+
 export const Router = ({ children }: Props) => {
   const latestElement = useRef<HTMLElement>()
   const [id, setId] = useState<string | null>(null)
@@ -137,10 +138,19 @@ export const Router = ({ children }: Props) => {
   return (
     <RouterActions.Provider value={actions}>
       <RouterValue.Provider value={[id, actions] as const}>
-        <Modal open={open} onClose={actions.unset}>
+        <Modal
+          open={open}
+          onClose={actions.unset}
+          onBackdropClick={actions.unset}
+        >
           {id && children(id)}
         </Modal>
       </RouterValue.Provider>
     </RouterActions.Provider>
   )
+}
+
+if (__DEV__) {
+  RouterValue.displayName = 'RouterValue'
+  RouterActions.displayName = 'RouterActions'
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheetManager, ThemeProvider } from 'styled-components'
-import { Box, Divider } from '../components'
+import { Box, Divider, Flex } from '../components'
 import { AddonStore } from '../externals/addonStore'
 import { About } from '../features/About'
 import { AddonProvider } from '../features/Addon'
@@ -40,30 +40,59 @@ export const App = ({ addonStore, stylisPlugins }: Props) => (
                   <ScrollSpy illustId={illustId}>
                     <IOProvider>
                       <StandardView illustId={illustId}>
-                        <Caption />
-                        <Box display="flex" flexDirection="column" bg="surface">
-                          <Divider mx={3} />
+                        <Box
+                          sx={{
+                            pointerEvents: 'auto',
+                            position: 'sticky',
+                            top: 0,
+                            bottom: 0,
+                            zIndex: 1,
+                            flexShrink: 0,
+                            bg: 'surface'
+                          }}
+                        >
+                          <Caption />
+                          <Divider
+                            sx={{
+                              mx: 3,
+                              mt: '-1px',
+                              transform: 'translateY(1px)'
+                            }}
+                          />
                         </Box>
                         <Box
-                          display="flex"
-                          p={3}
-                          alignItems="flex-start"
-                          bg="surface"
+                          sx={{
+                            pointerEvents: 'auto',
+                            bg: 'surface',
+                            color: 'onSurface'
+                          }}
                         >
-                          <Box flex="960px" maxWidth={960}>
-                            <Description />
+                          <Flex>
+                            <Box
+                              sx={{
+                                flexGrow: 0,
+                                flexShrink: 1,
+                                flexBasis: '60em',
+                                m: 3
+                              }}
+                            >
+                              <Description />
+                            </Box>
+                            <Divider sx={{ ml: 'auto', my: 3 }} />
+                            <Box
+                              sx={{
+                                flexGrow: 0,
+                                flexShrink: 0,
+                                flexBasis: 256,
+                                m: 3
+                              }}
+                            >
+                              <User />
+                            </Box>
+                          </Flex>
+                          <Box>
+                            <RelatedWorks />
                           </Box>
-                          <Box pr={3} flexGrow={1} />
-                          <Box
-                            position="sticky"
-                            top="var(--caption-height)"
-                            flex="0 0 280px"
-                          >
-                            <User />
-                          </Box>
-                        </Box>
-                        <Box bg="surface">
-                          <RelatedWorks />
                         </Box>
                       </StandardView>
                     </IOProvider>

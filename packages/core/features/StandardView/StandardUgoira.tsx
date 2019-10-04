@@ -1,6 +1,9 @@
 import React, { useLayoutEffect } from 'react'
 import styled from 'styled-components'
 import {
+  createTransition,
+  duration,
+  extend,
   IconButton,
   PauseIcon,
   PlayIcon,
@@ -12,26 +15,24 @@ import { useRouteId } from '../Router'
 import { usePlayer, useUgoira } from '../Ugoira'
 import { StandardImg } from './StandardImg'
 
-interface SuspenseProps extends Pixiv.Page {}
-interface LoaderProps extends Pixiv.Page {}
 interface SuccessProps extends Pixiv.Page {
   frames: Pixiv.FrameAndImage[]
 }
 
-export const StandardUgoira = (props: SuspenseProps) => {
-  return (
-    <React.Suspense fallback={<StandardImg {...props} />}>
-      <UgoiraLoader {...props} />
-    </React.Suspense>
-  )
-}
-const UgoiraLoader = (props: LoaderProps) => {
+export const StandardUgoira = (props: Pixiv.Page) => (
+  <React.Suspense fallback={<StandardImg {...props} />}>
+    <Loader {...props} />
+  </React.Suspense>
+)
+
+const Loader = (props: Pixiv.Page) => {
   const id = useRouteId()
   const frames = useUgoira(id)
   if (!frames) return <StandardImg {...props} />
-  return <UgoiraSuccess {...props} frames={frames} />
+  return <Success {...props} frames={frames} />
 }
-const UgoiraSuccess = ({ urls, frames, ...rest }: SuccessProps) => {
+
+const Success = ({ urls, frames, ...rest }: SuccessProps) => {
   const [isFullSize, setFullSize] = useFullSizeMode()
   const [ref, { index, paused }, dispatch] = usePlayer(frames)
 
@@ -58,7 +59,7 @@ const UgoiraSuccess = ({ urls, frames, ...rest }: SuccessProps) => {
         <IconButton onClick={() => dispatch({ type: 'rewind' })}>
           <StopIcon />
         </IconButton>
-        <Text p={3} textStyle="caption" justifySelf="flex-end">
+        <Text variant="caption" sx={{ ml: 'auto', p: 3 }}>
           {index + 1}/{frames.length}
         </Text>
       </PlayControl>
@@ -66,36 +67,53 @@ const UgoiraSuccess = ({ urls, frames, ...rest }: SuccessProps) => {
   )
 }
 
-const Layout = styled.div`
-  position: relative;
-  margin: auto;
-  max-width: 100%;
-  max-height: 100%;
-  background-color: rgba(255, 255, 255, var(--high));
-`
-const Canvas = styled.canvas`
-  cursor: zoom-in;
-  display: block;
-  max-width: 100%;
-  max-height: 100%;
-`
-const PlayControl = styled.div`
-  box-sizing: border-box;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: grid;
-  height: 56px;
-  padding: 4px 8px;
-  background-color: rgba(0, 0, 0, var(--medium));
-  color: var(--on-surface);
-  opacity: 0;
-  grid-template-columns: min-content min-content 1fr;
-  align-items: center;
-  transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  &:hover,
-  &:focus-within {
-    opacity: 1;
-  }
-`
+const Layout = styled.div(
+  extend({
+    position: 'relative',
+    maxWidth: '100%',
+    maxHeight: '100%',
+    m: 'auto',
+    bg: 'rgba(255, 255, 255, .87)'
+  })
+)
+
+const Canvas = styled.canvas(
+  extend({
+    cursor: 'zoom-in',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%'
+  })
+)
+
+const PlayControl = styled.div(
+  extend({
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: 'grid',
+    gridTemplateColumns: 'min-content min-content 1fr',
+    alignItems: 'center',
+    height: 56,
+    px: 2,
+    py: 1,
+    backgroundColor: 'rgba(0, 0, 0, .6)',
+    color: 'onSurface',
+    opacity: 0,
+    transition: createTransition('opacity', {
+      duration: duration.smallIn
+    }),
+    '&:hover,&:focus-within': {
+      opacity: 1
+    }
+  })
+)
+
+if (__DEV__) {
+  Loader.displayName = 'StandardUgoira.Loader'
+  Success.displayName = 'StandardUgoira.Success'
+  Layout.displayName = 'StandardUgoira.Layout'
+  Canvas.displayName = 'StandardUgoira.Canvas'
+  PlayControl.displayName = 'StandardUgoira.PlayControl'
+}

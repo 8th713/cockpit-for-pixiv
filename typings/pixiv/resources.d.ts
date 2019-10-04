@@ -1,5 +1,18 @@
 declare namespace Pixiv {
   /**
+   * 個人属性
+   * - User.birthDay
+   * - User.gender
+   * - User.job
+   * - User.region
+   */
+  interface Appanage {
+    /** 説明 */
+    name: string | null
+    /** 公開範囲 */
+    privacyLevel: RestrictString | null
+  }
+  /**
    * プロフィール背景
    * - User.background
    */
@@ -9,17 +22,6 @@ declare namespace Pixiv {
     repeat: null
     /** ヘッダー画像 1920x960 */
     url: string
-  }
-
-  /**
-   * 誕生日
-   * - User.birthDay
-   */
-  interface BirthDay {
-    /** m月d日 */
-    name: string | null
-    /** 公開範囲 */
-    privacyLevel: RestrictString | null
   }
 
   /**
@@ -121,17 +123,6 @@ declare namespace Pixiv {
     delay: number
     /** ファイル名 */
     file: string
-  }
-
-  /**
-   * 性別
-   * - User.gender
-   */
-  interface Gender {
-    /** 男性 | 女性 */
-    name: string | null
-    /** 公開範囲 */
-    privacyLevel: RestrictString | null
   }
 
   /** GET /ajax/illust/:illustId */
@@ -322,17 +313,6 @@ declare namespace Pixiv {
     xRestrict: XRestrict
   }
 
-  /**
-   * 職業
-   * - User.job
-   */
-  interface Job {
-    /** 職業 */
-    name: string | null
-    /** 公開範囲 */
-    privacyLevel: RestrictString | null
-  }
-
   /** POST /ajax/illusts/like */
   interface LikeData {
     /** いいね！の状態 */
@@ -421,17 +401,6 @@ declare namespace Pixiv {
     selectedValue: number | null
     /** 回答した人の数 */
     total: number
-  }
-
-  /**
-   * 住所
-   * - User.region
-   */
-  interface Region {
-    /** 都道府県名 */
-    name: string | null
-    /** 公開範囲 */
-    privacyLevel: RestrictString | null
   }
 
   /** 汎用 レスポンス型 */
@@ -578,7 +547,7 @@ declare namespace Pixiv {
     /** 背景設定 */
     background: Background | null
     /** 誕生日 */
-    birthDay: BirthDay
+    birthDay: Appanage
     /** プロフィールコメント */
     comment: string
     /** HTML 形式 プロフィールコメント */
@@ -588,7 +557,7 @@ declare namespace Pixiv {
     /** フォロイー人数 */
     following: number
     /** 性別 */
-    gender: Gender
+    gender: Appanage
     /** グループ */
     group: null
     /** 50x50 */
@@ -602,7 +571,7 @@ declare namespace Pixiv {
     /** マイピクか? */
     isMypixiv: boolean
     /** 職業 */
-    job: Job
+    job: Appanage
     /** ユーザー名 */
     name: string
     /** オフィシャルアカウントか? */
@@ -612,7 +581,7 @@ declare namespace Pixiv {
     /** プレミアム会員か? */
     premium: boolean
     /** 住所 */
-    region: Region
+    region: Appanage
     /**
      * ソーシャルメディアアカウント
      * - twitter

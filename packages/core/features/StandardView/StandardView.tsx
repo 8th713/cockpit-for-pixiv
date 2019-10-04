@@ -6,13 +6,15 @@ import {
   Dialog,
   Progress,
   RefreshIcon,
-  Text
+  Paragraph,
+  extend,
+  themeGet
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
 import { useIObserver } from '../IntersectionObserver'
 import { usePages } from '../Pages'
 import { GoNextButton, GoPreviousButton, useRouteActions } from '../Router'
-import { OverLay, SpyItem, SpyItemLast } from '../ScrollSpy'
+import { OverLay, ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../Ugoira'
 import { PADDING, StandardImg } from './StandardImg'
 import { StandardUgoira } from './StandardUgoira'
@@ -20,11 +22,11 @@ import { StandardUgoira } from './StandardUgoira'
 interface Props {
   illustId: string
 }
+
 interface SuspenseProps extends Props {
   children?: React.ReactNode
 }
-interface LoaderProps extends Props {}
-interface FailureProps extends Props {}
+
 interface SuccessProps {
   pages: Pixiv.Pages
 }
@@ -62,10 +64,10 @@ export const StandardView = ({ illustId, children }: SuspenseProps) => {
 
   return (
     <Root ref={root} tabIndex={0} hidden={isFullSize}>
-      <Box position="relative">
+      <Box sx={{ userSelect: 'none', position: 'relative' }}>
         <span onClick={unset}>
-          <React.Suspense fallback={<StandardViewLoading />}>
-            <StandardViewLoader illustId={illustId} />
+          <React.Suspense fallback={<Loading />}>
+            <Loader illustId={illustId} />
           </React.Suspense>
         </span>
         <Action>
@@ -82,13 +84,15 @@ export const StandardView = ({ illustId, children }: SuspenseProps) => {
     </Root>
   )
 }
-const StandardViewLoader = ({ illustId }: LoaderProps) => {
+
+const Loader = ({ illustId }: Props) => {
   const pages = usePages(illustId)
 
-  if (!pages) return <StandardViewFailure illustId={illustId} />
-  return <StandardViewSuccess pages={pages} />
+  if (!pages) return <Failure illustId={illustId} />
+  return <Success pages={pages} />
 }
-const StandardViewLoading = () => {
+
+const Loading = () => {
   const { go } = useRouteActions()
 
   return (
@@ -97,91 +101,112 @@ const StandardViewLoading = () => {
     </ImageBox>
   )
 }
-const StandardViewFailure = ({ illustId }: FailureProps) => {
+
+const Failure = ({ illustId }: Props) => {
   return (
     <ImageBox>
-      <Dialog onClick={e => e.stopPropagation()} backdrop={false}>
+      <Dialog onClick={e => e.stopPropagation()}>
         <Dialog.Content>
-          <Text>リクエストに失敗しました[illustId: {illustId}]</Text>
+          <Paragraph>リクエストに失敗しました[illustId: {illustId}]</Paragraph>
         </Dialog.Content>
-        <Dialog.Action>
-          <Button
-            variant="contained"
-            colors="error"
-            onClick={() => usePages.remove(illustId)}
-          >
-            <RefreshIcon size={18} mr={2} />
+        <Dialog.Footer>
+          <Button onClick={() => usePages.remove(illustId)}>
+            <RefreshIcon width={18} height={18} sx={{ mr: 2 }} />
             再取得
           </Button>
-        </Dialog.Action>
+        </Dialog.Footer>
       </Dialog>
     </ImageBox>
   )
 }
-const StandardViewSuccess = ({ pages }: SuccessProps) => {
+
+const Success = ({ pages }: SuccessProps) => {
   const imgs = useMemo(() => {
     const ugoira = isUgoira(pages[0])
     return pages.map((page, index) => (
-      <SpyItem key={page.urls.original} index={index}>
+      <ScrollSpy.SpyItem key={page.urls.original} index={index}>
         <ImageBox tabIndex={0}>
           {!ugoira && <StandardImg {...page} />}
           {ugoira && <StandardUgoira {...page} />}
         </ImageBox>
-      </SpyItem>
+      </ScrollSpy.SpyItem>
     ))
   }, [pages])
 
   return (
     <>
       {imgs}
-      <SpyItemLast />
+      <ScrollSpy.SpyItemLast />
     </>
   )
 }
 
-const Root = styled.section`
-  outline: none;
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  &[hidden] {
-    opacity: 0;
-  }
-`
-const ImageBox = styled.div`
-  box-sizing: border-box;
-  outline: none;
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: calc(100vh - var(--caption-height));
-  padding: ${PADDING}px;
-  flex-direction: column;
-`
-const Action = styled.div`
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: space-between;
-`
-const Circle = styled(Box)`
-  pointer-events: auto;
-  position: sticky;
-  top: calc(50vh - var(--caption-height));
-  width: 48px;
-  height: 48px;
-  margin: 0 8px;
-  border-radius: 50%;
-  background-color: var(--surface);
-  opacity: var(--medium);
-  transform: translateY(-50%);
-  :hover {
-    opacity: 1;
-  }
-`
+const Root = styled.section(
+  extend({
+    '--caption-height': '56px',
+    pointerEvents: 'auto',
+    outline: 'none',
+    position: 'relative',
+    overflow: 'auto',
+    width: '100%',
+    height: '100vh',
+    '&[hidden]': {
+      display: 'block',
+      opacity: 0
+    }
+  })
+)
+
+const ImageBox = styled.div(
+  extend({
+    outline: 'none',
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: 'calc(100vh - var(--caption-height))',
+    p: PADDING
+  })
+)
+
+const Action = styled.div(
+  extend({
+    pointerEvents: 'none',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+    size: '100%'
+  })
+)
+
+const Circle = styled(Box)(
+  extend({
+    pointerEvents: 'auto',
+    position: 'sticky',
+    top: 'calc(50vh - var(--caption-height))',
+    width: '48px',
+    height: '48px',
+    mx: 2,
+    my: 0,
+    borderRadius: '50%',
+    bg: 'surface',
+    opacity: themeGet('opacities.inactive'),
+    transform: 'translateY(-50%)',
+    ':hover': {
+      opacity: 1
+    }
+  })
+)
+
+if (__DEV__) {
+  Loader.displayName = 'StandardView.Loader'
+  Loading.displayName = 'StandardView.Loading'
+  Success.displayName = 'StandardView.Success'
+  Failure.displayName = 'StandardView.Failure'
+  Root.displayName = 'StandardView.Root'
+  ImageBox.displayName = 'StandardView.ImageBox'
+  Action.displayName = 'StandardView.Action'
+  Circle.displayName = 'StandardView.Circle'
+}
