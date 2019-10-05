@@ -6,7 +6,7 @@ import { About } from '../features/About'
 import { AddonProvider } from '../features/Addon'
 import { Caption } from '../features/Caption'
 import { Description } from '../features/Description'
-import { FullSizeMode } from '../features/FullSizeView'
+import { FullSizeMode, FullSizeView } from '../features/FullSizeView'
 import { RelatedWorks } from '../features/RelatedWorks'
 import { Router } from '../features/Router'
 import { ScrollSpy } from '../features/ScrollSpy'
@@ -101,6 +101,7 @@ export const App = ({ addonStore, stylisPlugins }: Props) => (
                         </Box>
                       </Box>
                     </StandardView>
+                    <FullSizeView illustId={illustId} />
                   </ScrollSpy>
                 </FullSizeMode>
               )}
