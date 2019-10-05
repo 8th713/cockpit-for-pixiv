@@ -9,7 +9,6 @@ interface Props extends SxProps {
 }
 
 export const Avatar = ({ src, sx, size = 40 }: Props) => {
-  const Component = src ? Img : AccountIcon
   const memoizedSx = useMemo<NonNullable<typeof sx>>(
     () => ({
       width: size,
@@ -24,5 +23,9 @@ export const Avatar = ({ src, sx, size = 40 }: Props) => {
     [size, sx]
   )
 
-  return <Component src={src} width={size} height={size} sx={memoizedSx} />
+  return src ? (
+    <Img loading="lazy" src={src} width={size} height={size} sx={memoizedSx} />
+  ) : (
+    <AccountIcon width={size} height={size} sx={memoizedSx} />
+  )
 }
