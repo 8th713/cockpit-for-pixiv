@@ -181,7 +181,7 @@ const Action = styled.div(
   })
 )
 
-const Circle = styled(Box)(
+const Circle = styled.div(
   extend({
     pointerEvents: 'auto',
     position: 'sticky',
@@ -189,7 +189,6 @@ const Circle = styled(Box)(
     width: '48px',
     height: '48px',
     mx: 2,
-    my: 0,
     borderRadius: '50%',
     bg: 'surface',
     opacity: themeGet('opacities.inactive'),

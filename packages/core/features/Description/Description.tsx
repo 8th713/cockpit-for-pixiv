@@ -145,9 +145,7 @@ const Series = ({ userId, seriesId, title, order }: SeriesProps) => (
 
 const ListItem = styled(Label)(
   css({
-    '&+&': {
-      ml: 3
-    }
+    mr: 3
   })
 )
 

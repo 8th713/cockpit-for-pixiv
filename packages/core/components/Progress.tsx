@@ -34,6 +34,7 @@ const dash = keyframes({
 
 const Root = styled.div<SxProps>(
   extend({
+    overflow: 'hidden',
     flexShrink: 0,
     size: 256,
     m: 'auto',
