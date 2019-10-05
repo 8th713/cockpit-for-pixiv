@@ -154,9 +154,7 @@ const Tag = ({ active, ...props }: TagProps) => (
     variant={active ? 'primary' : 'inherit'}
     sx={{
       mb: 1,
-      '&+&': {
-        ml: 1
-      }
+      mr: 3
     }}
     {...props}
   />

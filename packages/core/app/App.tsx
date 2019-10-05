@@ -84,10 +84,18 @@ export const App = ({ addonStore, stylisPlugins }: Props) => (
                                 flexGrow: 0,
                                 flexShrink: 0,
                                 flexBasis: 256,
-                                m: 3
+                                mx: 3
                               }}
                             >
-                              <User />
+                              <Box
+                                sx={{
+                                  position: 'sticky',
+                                  top: 'var(--caption-height)',
+                                  py: 3
+                                }}
+                              >
+                                <User />
+                              </Box>
                             </Box>
                           </Flex>
                           <Box>
