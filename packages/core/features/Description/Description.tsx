@@ -81,30 +81,31 @@ const Success = ({
   )
 }
 
+const TAG_URL = '/search.php?s_mode=s_tag_full&word='
 const TagList = ({ xRestrict, isOriginal, isHowto, tags }: TagListProps) => {
   const rating = xRestrict === 1 ? 'R-18' : xRestrict === 2 ? 'R-18G' : ''
   return (
     <TagListRoot>
       {rating && (
         <Link
-          href={`#${rating}`}
+          href={`${TAG_URL}${rating}`}
           sx={{ mr: 2, color: 'secondary', fontWeight: 500 }}
         >
           {rating}
         </Link>
       )}
       {isOriginal && (
-        <Link href="#オリジナル" sx={{ mr: 2, fontWeight: 500 }}>
+        <Link href={`${TAG_URL}オリジナル`} sx={{ mr: 2, fontWeight: 500 }}>
           オリジナル
         </Link>
       )}
       {isHowto && (
-        <Link href="#howto" sx={{ mr: 2, fontWeight: 500 }}>
+        <Link href="/howto" sx={{ mr: 2, fontWeight: 500 }}>
           描き方
         </Link>
       )}
       {tags.map(tag => (
-        <TagLink key={tag.tag} href={'#' + encodeURIComponent(tag.tag)}>
+        <TagLink key={tag.tag} href={TAG_URL + encodeURIComponent(tag.tag)}>
           {tag.tag}
         </TagLink>
       ))}
@@ -136,7 +137,7 @@ const Series = ({ userId, seriesId, title, order }: SeriesProps) => (
   <>
     {seriesId && (
       <ListItem icon={CollectionsIcon}>
-        <Link href={`#${userId}/${seriesId}`}>{title}</Link>
+        <Link href={`/user/${userId}/series/${seriesId}`}>{title}</Link>
         <Text sx={{ ml: 1 }}>#{order}</Text>
       </ListItem>
     )}
