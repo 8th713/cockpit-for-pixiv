@@ -11,7 +11,6 @@ import {
   themeGet
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
-import { useIObserver } from '../IntersectionObserver'
 import { usePages } from '../Pages'
 import { GoNextButton, GoPreviousButton, useRouteActions } from '../Router'
 import { OverLay, ScrollSpy } from '../ScrollSpy'
@@ -35,7 +34,6 @@ export const StandardView = ({ illustId, children }: SuspenseProps) => {
   const root = useRef<HTMLDivElement>(null)
   const { unset } = useRouteActions()
   const [isFullSize, setFullSize] = useFullSizeMode()
-  const observer = useIObserver()
 
   // 作品を移動したら先頭までスクロールしてフォーカス
   useEffect(() => {
@@ -52,15 +50,6 @@ export const StandardView = ({ illustId, children }: SuspenseProps) => {
     if (!node) return
     node.focus()
   }, [isFullSize])
-  // Start lazy loading
-  useEffect(
-    () =>
-      observer.start({
-        root: root.current,
-        rootMargin: '50%'
-      }),
-    [observer]
-  )
 
   return (
     <Root ref={root} tabIndex={0} hidden={isFullSize}>

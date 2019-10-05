@@ -6,8 +6,7 @@ import { About } from '../features/About'
 import { AddonProvider } from '../features/Addon'
 import { Caption } from '../features/Caption'
 import { Description } from '../features/Description'
-import { FullSizeMode, FullSizeView } from '../features/FullSizeView'
-import { IOProvider } from '../features/IntersectionObserver'
+import { FullSizeMode } from '../features/FullSizeView'
 import { RelatedWorks } from '../features/RelatedWorks'
 import { Router } from '../features/Router'
 import { ScrollSpy } from '../features/ScrollSpy'
@@ -38,73 +37,70 @@ export const App = ({ addonStore, stylisPlugins }: Props) => (
               {illustId => (
                 <FullSizeMode>
                   <ScrollSpy illustId={illustId}>
-                    <IOProvider>
-                      <StandardView illustId={illustId}>
-                        <Box
+                    <StandardView illustId={illustId}>
+                      <Box
+                        sx={{
+                          pointerEvents: 'auto',
+                          position: 'sticky',
+                          top: 0,
+                          bottom: 0,
+                          zIndex: 1,
+                          flexShrink: 0,
+                          bg: 'surface'
+                        }}
+                      >
+                        <Caption />
+                        <Divider
                           sx={{
-                            pointerEvents: 'auto',
-                            position: 'sticky',
-                            top: 0,
-                            bottom: 0,
-                            zIndex: 1,
-                            flexShrink: 0,
-                            bg: 'surface'
+                            mx: 3,
+                            mt: '-1px',
+                            transform: 'translateY(1px)'
                           }}
-                        >
-                          <Caption />
-                          <Divider
+                        />
+                      </Box>
+                      <Box
+                        sx={{
+                          pointerEvents: 'auto',
+                          bg: 'surface',
+                          color: 'onSurface'
+                        }}
+                      >
+                        <Flex>
+                          <Box
                             sx={{
-                              mx: 3,
-                              mt: '-1px',
-                              transform: 'translateY(1px)'
+                              flexGrow: 0,
+                              flexShrink: 1,
+                              flexBasis: '60em',
+                              m: 3
                             }}
-                          />
-                        </Box>
-                        <Box
-                          sx={{
-                            pointerEvents: 'auto',
-                            bg: 'surface',
-                            color: 'onSurface'
-                          }}
-                        >
-                          <Flex>
-                            <Box
-                              sx={{
-                                flexGrow: 0,
-                                flexShrink: 1,
-                                flexBasis: '60em',
-                                m: 3
-                              }}
-                            >
-                              <Description />
-                            </Box>
-                            <Divider sx={{ ml: 'auto', my: 3 }} />
-                            <Box
-                              sx={{
-                                flexGrow: 0,
-                                flexShrink: 0,
-                                flexBasis: 256,
-                                mx: 3
-                              }}
-                            >
-                              <Box
-                                sx={{
-                                  position: 'sticky',
-                                  top: 'var(--caption-height)',
-                                  py: 3
-                                }}
-                              >
-                                <User />
-                              </Box>
-                            </Box>
-                          </Flex>
-                          <Box>
-                            <RelatedWorks />
+                          >
+                            <Description />
                           </Box>
+                          <Divider sx={{ ml: 'auto', my: 3 }} />
+                          <Box
+                            sx={{
+                              flexGrow: 0,
+                              flexShrink: 0,
+                              flexBasis: 256,
+                              mx: 3
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                position: 'sticky',
+                                top: 'var(--caption-height)',
+                                py: 3
+                              }}
+                            >
+                              <User />
+                            </Box>
+                          </Box>
+                        </Flex>
+                        <Box>
+                          <RelatedWorks />
                         </Box>
-                      </StandardView>
-                    </IOProvider>
-                    <FullSizeView illustId={illustId} />
+                      </Box>
+                    </StandardView>
                   </ScrollSpy>
                 </FullSizeMode>
               )}
