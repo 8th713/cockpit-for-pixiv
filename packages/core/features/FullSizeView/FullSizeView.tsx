@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { extend, Flex } from '../../components'
 import { usePages } from '../Pages'
-import { OverLay, useScrollSpy } from '../ScrollSpy'
+import { Overlay, useScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../Ugoira'
 import { FullSizeImg } from './FullSizeImg'
 import { FullSizeMode, useUpdateFullSizeMode } from './FullSizeMode'
@@ -60,7 +60,7 @@ const Success = ({ illustId, pages }: SuccessProps) => {
             {ugoira && <FullSizeUgoira illustId={illustId} {...page} />}
           </Flex>
         </ClickableBox>
-        {isMultiple && <OverLay pages={pages} />}
+        {isMultiple && <Overlay pages={pages} />}
       </AdjustBox>
     </Root>
   )
