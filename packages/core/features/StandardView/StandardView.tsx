@@ -67,7 +67,6 @@ export const StandardView = ({ illustId, children }: SuspenseProps) => {
             <GoNextButton />
           </Circle>
         </Action>
-        <OverLay illustId={illustId} />
       </Box>
       {children}
     </Root>
@@ -110,6 +109,7 @@ const Failure = ({ illustId }: Props) => {
 }
 
 const Success = ({ pages }: SuccessProps) => {
+  const isMultiple = pages.length > 1
   const imgs = useMemo(() => {
     const ugoira = isUgoira(pages[0])
     return pages.map((page, index) => (
@@ -126,6 +126,7 @@ const Success = ({ pages }: SuccessProps) => {
     <>
       {imgs}
       <ScrollSpy.SpyItemLast />
+      {isMultiple && <OverLay pages={pages} />}
     </>
   )
 }
