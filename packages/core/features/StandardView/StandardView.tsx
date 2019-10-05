@@ -12,7 +12,7 @@ import {
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
 import { usePages } from '../Pages'
-import { GoNextButton, GoPreviousButton, useRouteActions } from '../Router'
+import { Nav, useRouteActions } from '../Router'
 import { OverLay, ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../Ugoira'
 import { PADDING, StandardImg } from './StandardImg'
@@ -59,14 +59,7 @@ export const StandardView = ({ illustId, children }: SuspenseProps) => {
             <Loader illustId={illustId} />
           </React.Suspense>
         </span>
-        <Action>
-          <Circle>
-            <GoPreviousButton />
-          </Circle>
-          <Circle>
-            <GoNextButton />
-          </Circle>
-        </Action>
+        <Nav />
       </Box>
       {children}
     </Root>
