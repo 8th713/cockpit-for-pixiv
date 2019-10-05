@@ -2,33 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { Badge, extend } from '../../components'
 import { useScrollSpy } from './ScrollSpy'
-import { usePages } from '../Pages'
 
 interface Props {
-  illustId: string
-}
-interface LoaderProps extends Props {}
-interface SuccessProps {
   pages: Pixiv.Pages
 }
 
-export const OverLay = ({ illustId }: Props) => {
-  return (
-    <React.Suspense fallback={null}>
-      <Loader illustId={illustId} />
-    </React.Suspense>
-  )
-}
-
-const Loader = ({ illustId }: LoaderProps) => {
-  const pages = usePages(illustId)
-
-  if (!pages) return null
-  if (pages.length === 1) return null
-  return <Success pages={pages} />
-}
-
-const Success = ({ pages }: SuccessProps) => {
+export const OverLay = ({ pages }: Props) => {
   const [{ index, isBottom }, actions] = useScrollSpy()
   const needPrev = index > 0
   const needNext = !isBottom
@@ -47,7 +26,6 @@ const Success = ({ pages }: SuccessProps) => {
     </>
   )
 }
-OverLay.Success = Success
 
 const Root = styled.div(
   extend({
@@ -103,8 +81,6 @@ const Next = styled.button(
 )
 
 if (__DEV__) {
-  Loader.displayName = 'OverLay.Loader'
-  Success.displayName = 'OverLay.Success'
   Root.displayName = 'OverLay.Root'
   Sticky.displayName = 'OverLay.Sticky'
   Prev.displayName = 'OverLay.Prev'

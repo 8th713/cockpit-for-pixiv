@@ -60,7 +60,7 @@ const Success = ({ illustId, pages }: SuccessProps) => {
             {ugoira && <FullSizeUgoira illustId={illustId} {...page} />}
           </Flex>
         </ClickableBox>
-        {isMultiple && <OverLay.Success pages={pages} />}
+        {isMultiple && <OverLay pages={pages} />}
       </AdjustBox>
     </Root>
   )
