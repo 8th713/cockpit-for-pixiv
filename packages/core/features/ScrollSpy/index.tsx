@@ -1,3 +1,3 @@
-export * from './OverLay'
+export * from './Overlay'
 export * from './ScrollButton'
 export * from './ScrollSpy'

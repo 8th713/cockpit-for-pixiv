@@ -13,7 +13,7 @@ import {
 import { useFullSizeMode } from '../FullSizeView'
 import { usePages } from '../Pages'
 import { Nav, useRouteActions } from '../Router'
-import { OverLay, ScrollSpy } from '../ScrollSpy'
+import { Overlay, ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../Ugoira'
 import { PADDING, StandardImg } from './StandardImg'
 import { StandardUgoira } from './StandardUgoira'
@@ -73,33 +73,27 @@ const Loader = ({ illustId }: Props) => {
   return <Success pages={pages} />
 }
 
-const Loading = () => {
-  const { go } = useRouteActions()
+const Loading = () => (
+  <ImageBox>
+    <Progress />
+  </ImageBox>
+)
 
-  return (
-    <ImageBox onClick={e => e.stopPropagation()}>
-      <Progress onClick={e => go(e.shiftKey ? -1 : 1)} />
-    </ImageBox>
-  )
-}
-
-const Failure = ({ illustId }: Props) => {
-  return (
-    <ImageBox>
-      <Dialog onClick={e => e.stopPropagation()}>
-        <Dialog.Content>
-          <Paragraph>リクエストに失敗しました[illustId: {illustId}]</Paragraph>
-        </Dialog.Content>
-        <Dialog.Footer>
-          <Button onClick={() => usePages.remove(illustId)}>
-            <RefreshIcon width={18} height={18} sx={{ mr: 2 }} />
-            再取得
-          </Button>
-        </Dialog.Footer>
-      </Dialog>
-    </ImageBox>
-  )
-}
+const Failure = ({ illustId }: Props) => (
+  <ImageBox>
+    <Dialog onClick={e => e.stopPropagation()}>
+      <Dialog.Content>
+        <Paragraph>リクエストに失敗しました[illustId: {illustId}]</Paragraph>
+      </Dialog.Content>
+      <Dialog.Footer>
+        <Button onClick={() => usePages.remove(illustId)}>
+          <RefreshIcon width={18} height={18} sx={{ mr: 2 }} />
+          再取得
+        </Button>
+      </Dialog.Footer>
+    </Dialog>
+  </ImageBox>
+)
 
 const Success = ({ pages }: SuccessProps) => {
   const isMultiple = pages.length > 1
@@ -119,7 +113,7 @@ const Success = ({ pages }: SuccessProps) => {
     <>
       {imgs}
       <ScrollSpy.SpyItemLast />
-      {isMultiple && <OverLay pages={pages} />}
+      {isMultiple && <Overlay pages={pages} />}
     </>
   )
 }

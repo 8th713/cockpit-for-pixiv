@@ -7,23 +7,19 @@ interface Props {
   pages: Pixiv.Pages
 }
 
-export const OverLay = ({ pages }: Props) => {
+export const Overlay = ({ pages }: Props) => {
   const [{ index, isBottom }, actions] = useScrollSpy()
   const needPrev = index > 0
   const needNext = !isBottom
 
   return (
-    <>
-      <Root>
-        <Sticky>
-          <Badge>{`${index + 1} / ${pages.length}`}</Badge>
-        </Sticky>
-      </Root>
-      <Root>
-        {needPrev && <Prev tabIndex={-1} onClick={actions.scrollPrev} />}
-        {needNext && <Next tabIndex={-1} onClick={actions.scrollNext} />}
-      </Root>
-    </>
+    <Root onClick={e => e.stopPropagation()}>
+      <BadgeContainer>
+        <Badge sx={{ px: 3 }}>{`${index + 1} / ${pages.length}`}</Badge>
+      </BadgeContainer>
+      {needPrev && <Prev tabIndex={-1} onClick={actions.scrollPrev} />}
+      {needNext && <Next tabIndex={-1} onClick={actions.scrollNext} />}
+    </Root>
   )
 }
 
@@ -37,7 +33,7 @@ const Root = styled.div(
   })
 )
 
-const Sticky = styled.div(
+const BadgeContainer = styled.div(
   extend({
     position: 'sticky',
     top: 0,
@@ -81,8 +77,8 @@ const Next = styled.button(
 )
 
 if (__DEV__) {
-  Root.displayName = 'OverLay.Root'
-  Sticky.displayName = 'OverLay.Sticky'
-  Prev.displayName = 'OverLay.Prev'
-  Next.displayName = 'OverLay.Next'
+  Root.displayName = 'Overlay.Root'
+  BadgeContainer.displayName = 'Overlay.BadgeContainer'
+  Prev.displayName = 'Overlay.Prev'
+  Next.displayName = 'Overlay.Next'
 }
