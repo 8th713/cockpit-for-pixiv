@@ -119,10 +119,11 @@ const ScrollView = styled.div(
     position: 'absolute',
     top: 0,
     left: 0,
+    overflow: 'auto',
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    minHeight: '100%'
+    height: '100%'
   })
 )
 
