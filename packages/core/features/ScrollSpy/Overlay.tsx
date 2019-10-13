@@ -8,9 +8,8 @@ interface Props {
 }
 
 export const Overlay = ({ pages }: Props) => {
-  const [{ index, isBottom }, actions] = useScrollSpy()
+  const [index, actions] = useScrollSpy()
   const needPrev = index > 0
-  const needNext = !isBottom
 
   return (
     <Root onClick={e => e.stopPropagation()}>
@@ -18,7 +17,7 @@ export const Overlay = ({ pages }: Props) => {
         <Badge sx={{ px: 3 }}>{`${index + 1} / ${pages.length}`}</Badge>
       </BadgeContainer>
       {needPrev && <Prev tabIndex={-1} onClick={actions.scrollPrev} />}
-      {needNext && <Next tabIndex={-1} onClick={actions.scrollNext} />}
+      <Next tabIndex={-1} onClick={actions.scrollNext} />
     </Root>
   )
 }

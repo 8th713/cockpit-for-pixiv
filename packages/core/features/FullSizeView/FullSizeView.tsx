@@ -31,7 +31,7 @@ const Loader = ({ illustId }: Props) => {
 }
 
 const Success = ({ illustId, pages }: SuccessProps) => {
-  const [{ index }] = useScrollSpy()
+  const [index] = useScrollSpy()
   const page = pages[index]
   const isMultiple = pages.length > 1
   const updateFullSizeMode = useUpdateFullSizeMode()
