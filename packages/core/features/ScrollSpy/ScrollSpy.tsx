@@ -1,5 +1,4 @@
 import React, {
-  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -7,10 +6,10 @@ import React, {
   useRef,
   useState
 } from 'react'
-import { Box, Hotkey } from '../../components'
+import { Hotkey } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { useFullSizeMode } from '../FullSizeView'
-import { useIntersection, useIntersectionEffect } from '../IntersectionObserver'
+import { useIntersection } from '../IntersectionObserver'
 
 type HostProps = {
   illustId: string
@@ -22,32 +21,25 @@ type ItemProps = {
   children?: React.ReactNode
 }
 
-type LastItemProps = {
-  children?: React.ReactNode
-}
-
 type State = {
-  index: number
-  inViewNode: Element | null
+  page: number
   isBottom: boolean
-  lastNode: Element | null
 }
 
 type ScrollActions = {
+  addSpy: (node: HTMLElement, index: number) => () => void
+  addBottom: (node: HTMLElement) => () => void
+  scrollIntoView: (index: number) => boolean
   scrollPrev: () => void
   scrollNext: () => void
   scrollBottom: () => void
-  setIndex: (index: number, inViewNode: Element) => void
-  setIsBottom: (isBottom: boolean, lastNode: Element) => void
 } & ReturnType<typeof useIntersection>
 
-type Value = [State, ScrollActions]
+type Value = [number, ScrollActions]
 
 const initialState: State = {
-  index: 0,
-  inViewNode: null,
-  isBottom: false,
-  lastNode: null
+  page: 0,
+  isBottom: false
 }
 const ScrollSpyValue = React.createContext<Value | null>(null)
 const ScrollSpyActions = React.createContext<ScrollActions | null>(null)
@@ -71,49 +63,69 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
   const stateRef = useRef(state)
   const behaviorRef = useRef<'auto' | 'smooth'>(isFullSize ? 'auto' : 'smooth')
   const actions = useMemo(() => {
-    const scrollPrev = () => {
-      const { inViewNode, isBottom } = stateRef.current
-      if (!inViewNode) return
-      const behavior = behaviorRef.current
-      if (isBottom) {
-        inViewNode.scrollIntoView({ behavior })
-      } else if (inViewNode.previousElementSibling) {
-        inViewNode.previousElementSibling.scrollIntoView({ behavior })
+    const items = new Map<number, HTMLElement>()
+    const addSpy = (node: HTMLElement, page: number) => {
+      items.set(page, node)
+      observer.observe(node, entry => {
+        if (entry.isIntersecting) {
+          const state = stateRef.current
+          if (state.page === page && state.isBottom === false) return
+          setState({ page, isBottom: false })
+        }
+      })
+      return () => {
+        items.delete(page)
+        observer.unobserve(node)
       }
     }
-    const scrollNext = () => {
-      const { inViewNode, lastNode } = stateRef.current
-      if (!inViewNode) return
+    let lastNode: HTMLElement
+    const addBottom = (node: HTMLElement) => {
+      lastNode = node
+      observer.observe(node, entry => {
+        const isBottom = entry.isIntersecting
+        setState(state => {
+          if (state.isBottom === isBottom) return state
+          return { ...state, isBottom }
+        })
+      })
+      return () => {
+        lastNode = null as any
+      }
+    }
+    const scrollIntoView = (index: number) => {
+      const node = items.get(index)
+      if (!node) return false
       const behavior = behaviorRef.current
-      const next = inViewNode.nextElementSibling
-      if (next === lastNode) setFullSize(false)
-      if (next) next.scrollIntoView({ behavior })
+      node.scrollIntoView({ behavior })
+      return true
+    }
+    const scrollPrev = () => {
+      const { page, isBottom } = stateRef.current
+      const targetIndex = isBottom ? page : page - 1
+      if (targetIndex < 0) return
+      scrollIntoView(targetIndex)
+    }
+    const scrollNext = () => {
+      const { page, isBottom } = stateRef.current
+      if (isBottom) return
+      const targetIndex = page + 1
+      if (!scrollIntoView(targetIndex)) {
+        scrollBottom()
+      }
     }
     const scrollBottom = () => {
-      const { lastNode } = stateRef.current
-      if (!lastNode) return
-      lastNode.scrollIntoView()
+      const behavior = behaviorRef.current
+      lastNode.scrollIntoView({ behavior })
       setFullSize(false)
     }
-    const setIndex = (index: number, inViewNode: Element) =>
-      setState(state => {
-        if (index === state.index && inViewNode === state.inViewNode)
-          return state
-        return { ...state, index, inViewNode }
-      })
-    const setIsBottom = (isBottom: boolean, lastNode: Element) =>
-      setState(state => {
-        if (isBottom === state.isBottom && lastNode === state.lastNode)
-          return state
-        return { ...state, isBottom, lastNode }
-      })
 
     return {
+      addSpy,
+      addBottom,
+      scrollIntoView,
       scrollPrev,
       scrollNext,
       scrollBottom,
-      setIndex,
-      setIsBottom,
       ...observer
     }
   }, [observer, setFullSize])
@@ -126,11 +138,11 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
   useLayoutEffect(() => setState(initialState), [illustId])
   useEffect(() => {
     const handle = () => {
-      const state = stateRef.current
-      if (state.isBottom && state.lastNode) {
-        state.lastNode.scrollIntoView()
-      } else if (state.inViewNode) {
-        state.inViewNode.scrollIntoView()
+      const { page, isBottom } = stateRef.current
+      if (isBottom) {
+        actions.scrollBottom()
+      } else {
+        actions.scrollIntoView(page)
       }
     }
 
@@ -138,11 +150,11 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
     return () => {
       window.removeEventListener('resize', handle)
     }
-  }, [])
+  }, [actions])
 
   return (
     <ScrollSpyActions.Provider value={actions}>
-      <ScrollSpyValue.Provider value={[state, actions]}>
+      <ScrollSpyValue.Provider value={[state.page, actions]}>
         {children}
         <Hotkey {...KEY_ASSIGNMENT.goPrevImage} action={actions.scrollPrev} />
         <Hotkey {...KEY_ASSIGNMENT.goNextImage} action={actions.scrollNext} />
@@ -153,43 +165,28 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
 }
 
 const SpyItem = ({ index, children }: ItemProps) => {
-  const { setIndex, ...observer } = useScrollActions()
-  const ref = useIntersectionEffect(
-    observer,
-    useCallback(
-      entry => {
-        if (entry.isIntersecting) {
-          setIndex(index, entry.target)
-        }
-      },
-      [index, setIndex]
-    )
-  )
+  const ref = useRef<HTMLSpanElement>(null)
+  const { addSpy } = useScrollActions()
 
+  useEffect(() => addSpy(ref.current!, index), [addSpy, index])
   return <span ref={ref}>{children}</span>
 }
 ScrollSpy.SpyItem = SpyItem
 
-const SpyItemLast = ({ children }: LastItemProps) => {
-  const { setIsBottom, ...observer } = useScrollActions()
-  const ref = useIntersectionEffect(
-    observer,
-    useCallback(entry => setIsBottom(entry.isIntersecting, entry.target), [
-      setIsBottom
-    ])
-  )
+const SpyItemLast = () => {
+  const ref = useRef<HTMLSpanElement>(null)
+  const { addBottom } = useScrollActions()
 
+  useEffect(() => addBottom(ref.current!), [addBottom])
   return (
-    <Box
-      sx={{
+    <span
+      ref={ref}
+      style={{
         position: 'relative',
         top: 'calc(1px + var(--caption-height))',
         height: 1
       }}
-      ref={ref}
-    >
-      {children}
-    </Box>
+    />
   )
 }
 ScrollSpy.SpyItemLast = SpyItemLast
