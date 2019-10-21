@@ -110,12 +110,13 @@ export const ScrollSpy = ({ illustId, children }: HostProps) => {
       if (isBottom) return
       const targetIndex = page + 1
       if (!scrollIntoView(targetIndex)) {
-        scrollBottom()
+        const behavior = behaviorRef.current
+        lastNode.scrollIntoView({ behavior })
+        setFullSize(false)
       }
     }
     const scrollBottom = () => {
-      const behavior = behaviorRef.current
-      lastNode.scrollIntoView({ behavior })
+      lastNode.scrollIntoView({ behavior: 'auto' })
       setFullSize(false)
     }
 
