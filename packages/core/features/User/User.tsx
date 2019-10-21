@@ -134,7 +134,7 @@ const Success = (props: Pixiv.User) => {
             href={social.twitter.url}
             target="_blank"
             rel="noopener referer"
-            title="Twitter"
+            title="Twitter アカウント"
           >
             <TwitterIcon />
           </IconButton.Link>
