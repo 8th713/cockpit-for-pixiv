@@ -15,7 +15,12 @@ type Actions = {
   push: (id: string) => void
 }
 
-const getId = (element: HTMLAnchorElement) => element.pathname.split('/')[2]
+const getId = (element: HTMLAnchorElement) => {
+  if (element.pathname === '/member_illust.php') {
+    return new URLSearchParams(element.search).get('illust_id')!
+  }
+  return element.pathname.split('/')[2]
+}
 
 const ensureAnchorElement = (element: Element) => {
   if (element.matches(EXCLUDES)) return null
