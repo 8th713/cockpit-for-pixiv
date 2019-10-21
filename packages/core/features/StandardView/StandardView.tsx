@@ -4,19 +4,21 @@ import {
   Box,
   Button,
   Dialog,
+  extend,
+  Paragraph,
   Progress,
   RefreshIcon,
-  Paragraph,
-  extend,
   themeGet
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
+import { useIntersection } from '../IntersectionObserver'
 import { usePages } from '../Pages'
 import { Nav, useRouteActions } from '../Router'
 import { Overlay, ScrollSpy } from '../ScrollSpy'
 import { isUgoira } from '../Ugoira'
 import { PADDING, StandardImg } from './StandardImg'
 import { StandardUgoira } from './StandardUgoira'
+import { LazyLoadingObserver } from './useLazyLoad'
 
 interface Props {
   illustId: string
@@ -108,13 +110,18 @@ const Success = ({ pages }: SuccessProps) => {
       </ScrollSpy.SpyItem>
     ))
   }, [pages])
+  const observer = useIntersection()
+
+  useEffect(() => {
+    observer.start()
+  }, [observer])
 
   return (
-    <>
+    <LazyLoadingObserver.Provider value={observer}>
       {imgs}
       <ScrollSpy.SpyItemLast />
       {isMultiple && <Overlay pages={pages} />}
-    </>
+    </LazyLoadingObserver.Provider>
   )
 }
 
