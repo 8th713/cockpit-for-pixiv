@@ -18,7 +18,8 @@
 const CP_SELECTORS = {
   /**! ビューで開く対象となる要素のセレクタ */
   INCLUDES: [
-    'a[href*="/artworks/"]'
+    'a[href*="/artworks/"]',
+    'a[href*="member_illust.php"][href*="mode=medium"][href*="illust_id="]'
   ],
   /**! 誤動作する要素のセレクタ */
   EXCLUDES: [

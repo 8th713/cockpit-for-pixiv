@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -18,21 +18,21 @@
   },
   "dependencies": {
     "lru_map": "^0.3.3",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "styled-components": "^4.4.0",
-    "wretch": "^1.5.4"
+    "wretch": "^1.5.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
     "@types/jszip": "^3.1.6",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
     "@types/styled-components": "^4.1.19",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
@@ -41,15 +41,14 @@
     "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
     "source-map-loader": "^0.2.4",
-    "terser-webpack-plugin": "^2.1.0",
-    "typescript": "^3.6.3",
-    "webpack": "^4.40.2",
+    "terser-webpack-plugin": "^2.2.1",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },
   "resolutions": {
-    "@types/react": "^16.0.0",
-    "@types/react-dom": "^16.0.0",
-    "@types/styled-components": "^4.0.0"
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2"
   },
   "browserslist": [
     "last 2 Chrome versions"
