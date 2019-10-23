@@ -1,7 +1,7 @@
 {
   "name": "cockpit-for-pixiv",
   "description": "Provide comfortable pixiv browsing.",
-  "version": "5.0.0-beta.4",
+  "version": "5.0.0-beta.5",
   "author": "8th713",
   "bugs": {
     "url": "https://github.com/8th713/cockpit-for-pixiv/issues"
@@ -23,29 +23,29 @@
     "@styled-system/css": "^5.0.23",
     "ky": "^0.15.0",
     "lru_map": "^0.3.3",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-is": "^16.10.2",
-    "styled-components": "5.0.0-beta.9",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-is": "^16.11.0",
+    "styled-components": "5.0.0-beta.11",
     "stylis-plugin-extra-scope": "^0.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
     "@types/jszip": "^3.1.6",
-    "@types/react": "^16.9.5",
-    "@types/react-dom": "^16.9.1",
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
     "@types/styled-components": "^4.1.19",
     "@types/styled-system__css": "^5.0.4",
-    "@typescript-eslint/parser": "^2.3.2",
+    "@typescript-eslint/parser": "^2.5.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^6.5.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react-hooks": "^2.1.2",
+    "eslint-plugin-react-hooks": "^2.2.0",
     "file-loader": "^4.2.0",
     "gh-pages": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
@@ -53,14 +53,14 @@
     "pug": "^2.0.4",
     "pug-loader": "^2.4.0",
     "source-map-loader": "^0.2.4",
-    "terser-webpack-plugin": "^2.1.2",
-    "typescript": "^3.6.3",
-    "webpack": "^4.41.0",
+    "terser-webpack-plugin": "^2.2.1",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },
   "resolutions": {
-    "@types/react": "^16.9.5",
-    "@types/react-dom": "^16.9.1"
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2"
   },
   "browserslist": [
     "last 2 Chrome versions"
