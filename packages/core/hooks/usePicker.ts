@@ -80,9 +80,11 @@ function isIllustThumbnailAnchorElement(element: HTMLAnchorElement) {
 }
 
 function getId(element: HTMLAnchorElement) {
+  if (element.pathname === '/member_illust.php') {
+    return new URLSearchParams(element.search).get('illust_id')!
+  }
   return element.pathname.split('/')[2]
 }
-
 function getSibling(element: HTMLAnchorElement, n: number) {
   const list = Array.from(
     document.querySelectorAll<HTMLAnchorElement>(INCLUDES)
