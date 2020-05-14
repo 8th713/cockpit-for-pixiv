@@ -8,7 +8,7 @@ import {
   Paragraph,
   Progress,
   RefreshIcon,
-  themeGet
+  themeGet,
 } from '../../components'
 import { useFullSizeMode } from '../FullSizeView'
 import { useIntersection } from '../IntersectionObserver'
@@ -83,7 +83,7 @@ const Loading = () => (
 
 const Failure = ({ illustId }: Props) => (
   <ImageBox>
-    <Dialog onClick={e => e.stopPropagation()}>
+    <Dialog onClick={(e) => e.stopPropagation()}>
       <Dialog.Content>
         <Paragraph>リクエストに失敗しました[illustId: {illustId}]</Paragraph>
       </Dialog.Content>
@@ -136,9 +136,9 @@ const Root = styled.section(
     height: '100vh',
     '&[hidden]': {
       display: 'block',
-      opacity: 0
-    }
-  })
+      opacity: 0,
+    },
+  } as any)
 )
 
 const ImageBox = styled.div(
@@ -149,7 +149,7 @@ const ImageBox = styled.div(
     flexDirection: 'column',
     width: '100%',
     height: 'calc(100vh - var(--caption-height))',
-    p: PADDING
+    p: PADDING,
   })
 )
 
@@ -161,7 +161,8 @@ const Action = styled.div(
     left: 0,
     display: 'flex',
     justifyContent: 'space-between',
-    size: '100%'
+    width: '100%',
+    height: '100%',
   })
 )
 
@@ -178,8 +179,8 @@ const Circle = styled.div(
     opacity: themeGet('opacities.inactive'),
     transform: 'translateY(-50%)',
     ':hover': {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   })
 )
 

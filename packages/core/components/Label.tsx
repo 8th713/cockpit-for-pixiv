@@ -3,7 +3,7 @@ import { Box } from './Box'
 import { SxProps } from './utils'
 import { SvgIcon } from './SvgIcon'
 
-interface IconProps extends React.ComponentProps<typeof SvgIcon> {}
+type IconProps = React.ComponentProps<typeof SvgIcon>
 
 export interface LabelProps extends SxProps {
   children?: React.ReactNode

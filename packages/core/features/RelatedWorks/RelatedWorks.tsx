@@ -8,7 +8,7 @@ import {
   extend,
   Hotkey,
   RefreshIcon,
-  themeGet
+  themeGet,
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { fetchRelatedIllusts } from '../../externals/apiClient'
@@ -68,7 +68,9 @@ const Success = ({ illustId, artworks }: SuccessProps) => {
   const { push } = useRouteActions()
   const go = (n: number) => {
     const max = artworks.length
-    const currentIndex = artworks.findIndex(artwork => artwork.id === illustId)
+    const currentIndex = artworks.findIndex(
+      (artwork) => artwork.id === illustId
+    )
     n = currentIndex === -1 ? 0 : n
     const targetIndex = (max + currentIndex + n) % max
     const artwork = artworks[targetIndex]
@@ -120,7 +122,7 @@ const ScrollView = styled(Box)(
     overflowX: 'scroll',
     scrollBehavior: 'smooth',
     bg: 'surface',
-    color: 'onSurface'
+    color: 'onSurface',
   })
 )
 
@@ -130,7 +132,7 @@ const ThumbnailList = styled.div(
     display: 'flex',
     height: THUMBNAIL_SIZE,
     px: 2,
-    pb: 2
+    pb: 2,
   })
 )
 
@@ -143,13 +145,14 @@ const ThumbnailButton = styled.button(
     overflow: 'hidden',
     display: 'block',
     flexShrink: 0,
-    size: THUMBNAIL_SIZE,
+    width: THUMBNAIL_SIZE,
+    height: THUMBNAIL_SIZE,
     p: 0,
     borderWidth: 0,
     opacity: 'unset',
     ':disabled': {
       cursor: 'default',
-      pointerEvents: 'none'
+      pointerEvents: 'none',
     },
     '::after': {
       content: '""',
@@ -163,32 +166,32 @@ const ThumbnailButton = styled.button(
       borderRadius: 'inherit',
       bg: '#fff',
       opacity: 0,
-      transition: createTransition('opacity')
+      transition: createTransition('opacity'),
     },
     '&:hover::after': {
-      opacity: themeGet('opacities.hover')
+      opacity: themeGet('opacities.hover'),
     },
     '&:focus::after': {
-      opacity: themeGet('opacities.focus')
+      opacity: themeGet('opacities.focus'),
     },
     '&:disabled::after': {
-      opacity: themeGet('opacities.disabled')
+      opacity: themeGet('opacities.disabled'),
     },
     '&+&': {
-      ml: 2
-    }
-  })
+      ml: 2,
+    },
+  } as any)
 )
 
 const Thumbnail = styled.img(
   extend({
     display: 'block',
-    objectFit: 'contain'
+    objectFit: 'contain',
   })
 )
 Thumbnail.defaultProps = {
   width: THUMBNAIL_SIZE,
-  height: THUMBNAIL_SIZE
+  height: THUMBNAIL_SIZE,
 }
 
 const Chip = styled.span(
@@ -201,8 +204,8 @@ const Chip = styled.span(
     bg: 'rgba(0,0,0,0.38)',
     color: 'onSurface',
     ':empty': {
-      display: 'none'
-    }
+      display: 'none',
+    },
   })
 )
 

@@ -85,17 +85,17 @@ const Dialog = styled.dialog<SxProps>(
     border: 0,
     backgroundColor: 'transparent',
     color: 'onSurface',
-    WebkitFontSmoothing: 'antialiased',
+    // WebkitFontSmoothing: 'antialiased',
     fontFamily: 'sans',
     textDecoration: 'none',
     textTransform: 'none',
     variant: 'text.body1',
     '&:not([open])': {
-      display: 'none'
+      display: 'none',
     },
     '&::backdrop': {
-      backgroundColor: 'transparent'
-    }
+      backgroundColor: 'transparent',
+    },
   }),
   sx
 )
@@ -108,7 +108,7 @@ const Backdrop = styled.div<SxProps>(
     width: '100%',
     height: '100%',
     bg: 'surface',
-    opacity: themeGet('opacities.disabled')
+    opacity: themeGet('opacities.disabled'),
   }),
   sx
 )
@@ -123,7 +123,7 @@ const ScrollView = styled.div(
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    height: '100%'
+    height: '100%',
   })
 )
 

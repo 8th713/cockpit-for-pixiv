@@ -34,12 +34,12 @@ export const IconButton: IconButtonType = styled.button<IconButtonProps>(
     whiteSpace: 'nowrap',
     transition: createTransition('opacity'),
     ':focus': {
-      outline: 0
+      outline: 0,
     },
     ':disabled': {
       pointerEvents: 'none',
       cursor: 'default',
-      opacity: themeGet('opacities.disabled')
+      opacity: themeGet('opacities.disabled'),
     },
     '::after': {
       content: '""',
@@ -53,15 +53,15 @@ export const IconButton: IconButtonType = styled.button<IconButtonProps>(
       borderRadius: 'inherit',
       bg: 'currentColor',
       opacity: 0,
-      transition: createTransition('opacity')
+      transition: createTransition('opacity'),
     },
     '&:hover::after': {
-      opacity: themeGet('opacities.hover')
+      opacity: themeGet('opacities.hover'),
     },
     '&:focus::after': {
-      opacity: themeGet('opacities.focus')
-    }
-  }),
+      opacity: themeGet('opacities.focus'),
+    },
+  } as any),
   sx
 ) as any
 
