@@ -1,15 +1,15 @@
 import ky from 'ky'
 import { LABEL } from '../constants'
-import { createGlobalData } from './globalData'
+// import { createGlobalData } from './globalData'
 import { loadZip } from './loadZip'
 
 const api = ky.create({
   credentials: 'same-origin',
   cache: 'no-store',
-  retry: 1
+  retry: 1,
 })
 
-export const isSelf = (userId: string) => userId === createGlobalData().userId
+// export const isSelf = (userId: string) => userId === createGlobalData().userId
 
 /**
  * 画像情報
@@ -20,7 +20,11 @@ export const isSelf = (userId: string) => userId === createGlobalData().userId
  */
 export const fetchPages = async (illustId: string) => {
   try {
-    const { body, error, message } = await api
+    const {
+      body,
+      error,
+      message,
+    } = await api
       .get(`/ajax/illust/${illustId}/pages`, { cache: 'force-cache' })
       .json<Pixiv.ResponseData<Pixiv.Pages>>()
 
@@ -40,7 +44,11 @@ export const fetchPages = async (illustId: string) => {
  */
 export const fetchUgoira = async (illustId: string) => {
   try {
-    const { body, error, message } = await api
+    const {
+      body,
+      error,
+      message,
+    } = await api
       .get(`/ajax/illust/${illustId}/ugoira_meta`, { cache: 'force-cache' })
       .json<Pixiv.ResponseData<Pixiv.Ugoira>>()
 
@@ -127,7 +135,7 @@ export const fetchBookmarkForm = async (illustId: string) => {
   try {
     const data = await api
       .get('/bookmark_add.php', {
-        searchParams: { type: 'illust', illust_id: illustId }
+        searchParams: { type: 'illust', illust_id: illustId },
       })
       .text()
     return parseFormHTML(data)
@@ -148,7 +156,7 @@ const parseFormHTML = (html: string) => {
     comment: '',
     tags: '',
     restrict: false,
-    userTags
+    userTags,
   }
 
   for (const [name, value] of data.entries()) {
@@ -169,7 +177,7 @@ const parseUserTagList = (text: string): Pixiv.UserTag[] => {
 
   return Object.entries(userTags).map(([name, value]) => ({
     ...value,
-    name
+    name,
   }))
 }
 
@@ -180,11 +188,11 @@ const parseUserTagList = (text: string): Pixiv.UserTag[] => {
  * @param {string} illsut_id イラスト識別子
  */
 export const likeBy = async (illustId: string) => {
-  const { token } = createGlobalData()
+  const { token } = await fetchGlobal()
   const { body, error, message } = await api
     .post('/ajax/illusts/like', {
       headers: { 'x-csrf-token': token },
-      json: { illust_id: illustId }
+      json: { illust_id: illustId },
     })
     .json<Pixiv.ResponseData<Pixiv.LikeData>>()
 
@@ -205,7 +213,7 @@ export const bookmarkBy = async (
   illustId: string,
   { restrict = false, comment = '', tags = [] }: Pixiv.BookmarkPost
 ) => {
-  const { token } = createGlobalData()
+  const { token } = await fetchGlobal()
   const { body, error, message } = await api
     .post('/ajax/illusts/bookmarks/add', {
       headers: { 'x-csrf-token': token },
@@ -213,8 +221,8 @@ export const bookmarkBy = async (
         illust_id: illustId,
         restrict: restrict ? 1 : 0,
         comment,
-        tags
-      }
+        tags,
+      },
     })
     .json<Pixiv.ResponseData<Pixiv.BookmarkValue>>()
 
@@ -235,7 +243,9 @@ export const bookmarkBy = async (
  * @param {string} tt トークン
  */
 export const followUser = async (userId: string, restrict: boolean) => {
-  const { token } = createGlobalData()
+  const { token, userId: myId } = await fetchGlobal()
+
+  if (myId === userId) throw new Error(`This user is yourself`)
   const searchParams = new URLSearchParams()
   searchParams.append('mode', 'add')
   searchParams.append('type', 'user')
@@ -246,7 +256,55 @@ export const followUser = async (userId: string, restrict: boolean) => {
   return await api
     .post('/bookmark_add.php', {
       headers: { 'x-csrf-token': token },
-      body: searchParams
+      body: searchParams,
     })
     .json<never>()
+}
+
+declare var pixiv: {
+  context: {
+    token: string
+  }
+  user: {
+    id: string
+  }
+}
+
+declare var globalInitData: {
+  token: string
+  userData: {
+    id: string
+  }
+}
+
+const savedGlobal = { token: '', userId: '' }
+
+export const fetchGlobal = async () => {
+  if (savedGlobal.token.length) return savedGlobal
+  if (typeof pixiv !== 'undefined') {
+    savedGlobal.token = pixiv.context.token
+    savedGlobal.userId = pixiv.user.id
+    return savedGlobal
+  }
+  if (typeof globalInitData !== 'undefined') {
+    savedGlobal.token = globalInitData.token
+    savedGlobal.userId = globalInitData.userData.id
+    return savedGlobal
+  }
+
+  const data = await api.get(location.href).text()
+  const parsedData = parseGlobal(data)
+  savedGlobal.token = parsedData.token
+  savedGlobal.userId = parsedData.userId
+  return savedGlobal
+}
+const parseGlobal = (html: string) => {
+  const doc = new DOMParser().parseFromString(html, 'text/html')
+  const meta = doc.querySelector<HTMLMetaElement>('#meta-global-data')!
+  const { token, userData }: { token: string; userData: any } = JSON.parse(
+    meta.content
+  )
+  const userId: string = userData.id
+
+  return { token, userId }
 }
