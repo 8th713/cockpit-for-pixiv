@@ -1,42 +1,41 @@
-import { useContext, useEffect, useState } from 'react'
-import { StorageContext } from '../contexts'
+import { useEffect, useState } from 'react'
+import { LABEL } from '../constants'
 
 const PREFIX = 'cockpit'
 
-/**
- * Returns a stateful value, and a function to update it.
- * When the value is updated, it is store to the storage.
- */
-export function useStorage<T>(key: string, defaultValue: T) {
-  const storage = useContext(StorageContext)
-  const [value, set] = useState(() => load(storage, key, defaultValue))
-
-  useEffect(() => {
-    store(storage, key, value)
-  }, [value])
-
-  useEffect(() => {
-    set(load(storage, key, defaultValue))
-  }, [key, storage])
-
-  return [value, set] as const
-}
-
-function load<T>(storage: Storage, key: string, defaultValue: T): T {
+const load = <T>(storage: Storage, key: string, defaultValue: T): T => {
   const value = storage.getItem(`${PREFIX}/${key}`)
 
   if (value !== null) {
     try {
       return JSON.parse(value)
     } catch (err) {
-      console.error(err)
+      console.error(`${LABEL} JSON parse error: ${key} is ${value}`)
       return defaultValue
     }
   }
   return defaultValue
 }
-function store<T>(storage: Storage, key: string, value: T) {
+const store = <T>(storage: Storage, key: string, value: T) => {
   const stringifiedValue = JSON.stringify(value)
 
   storage.setItem(`${PREFIX}/${key}`, stringifiedValue)
+}
+
+/**
+ * Returns a stateful value, and a function to update it.
+ * When the value is updated, it is store to the storage.
+ */
+export const useStorage = <T>(key: string, defaultValue: T) => {
+  const [value, set] = useState(() => load(localStorage, key, defaultValue))
+
+  useEffect(() => {
+    store(localStorage, key, value)
+  }, [key, value])
+
+  useEffect(() => {
+    set(load(localStorage, key, defaultValue))
+  }, [key, defaultValue])
+
+  return [value, set] as const
 }

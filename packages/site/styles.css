@@ -2,7 +2,7 @@ body {
   -webkit-font-smoothing: antialiased;
   margin: 0;
   background-color: #0b132b;
-  color: rgba(255,255,255,.60);
+  color: rgba(255, 255, 255, 0.6);
   font-family: 'Roboto', 'Helvetica Neue', 'arial', 'Noto Sans CJK JP',
     'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
   font-size: 1rem;
@@ -18,7 +18,8 @@ a:hover {
   text-decoration: underline;
 }
 
-ul, ol {
+ul,
+ol {
   padding: 0;
 }
 
@@ -66,7 +67,7 @@ h2:after {
   z-index: -1;
 
   display: block;
-  border-top: 1px solid rgba(255,255,255,.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 h2 span {
@@ -176,7 +177,6 @@ h3 {
   background-color: inherit;
   color: #fff;
 }
-
 
 .alert {
   list-style-type: none;

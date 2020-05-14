@@ -1,23 +1,22 @@
-import { DownloadAaction } from '../core/interfaces'
+export const isValidAction = (
+  action: any
+): action is CFPAddon.DownloadAaction =>
+  action && typeof action === 'object' && typeof action.type === 'string'
 
-export function isValidAction(action: any): action is DownloadAaction {
-  return action && typeof action === 'object' && typeof action.type === 'string'
-}
-
-export function injectScript(src: string) {
+export const injectScript = (src: string) => {
   const script = document.createElement('script')
 
   script.src = src
   document.body.appendChild(script)
 }
 
-export function getExtension(url: string): string {
+export const getExtension = (url: string): string => {
   const index = url.lastIndexOf('.')
 
   return url.slice(index + 1)
 }
 
-export function getBlob(url: string) {
+export const getBlob = (url: string) => {
   return new Promise<Blob>((resolve, reject) => {
     GM_xmlhttpRequest({
       url,
@@ -30,7 +29,7 @@ export function getBlob(url: string) {
   })
 }
 
-export function saveAs(blob: Blob, name: string) {
+export const saveAs = (blob: Blob, name: string) => {
   const element = document.createElement('a')
 
   element.style.display = 'none'

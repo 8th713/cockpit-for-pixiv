@@ -1,5 +1,4 @@
-import wretch from 'wretch'
-import { Frame, Ugoira } from '../interfaces'
+import ky from 'ky'
 import { createPool } from './threadPool'
 
 type EOCD = [number, number, number]
@@ -11,35 +10,44 @@ interface Entry {
 
 const pool = createPool(3)
 
-export async function loadZip(ugoira: Ugoira): Promise<Frame[]> {
-  const client = wretch(ugoira.originalSrc, { credentials: 'same-origin' })
-  const response = await client.get().res()
-  const length = Number(response.headers.get('content-length'))
-  const buffer = await response.arrayBuffer()
-  const eocd = getEOCD(buffer, length)
+export const loadZip = async (
+  ugoira: Pixiv.Ugoira
+): Promise<Pixiv.FrameAndImage[]> => {
+  const { originalSrc, frames } = ugoira
+  const buffer = await ky
+    .get(originalSrc, {
+      credentials: 'same-origin',
+      cache: 'force-cache',
+      retry: 1
+    })
+    .arrayBuffer()
+  const eocd = getEOCD(buffer)
   const entries = getEntries(buffer, eocd)
 
   return Promise.all(
-    entries.map(entry =>
-      pool.execute(() => getSrc(buffer, entry, ugoira.mime_type))
+    entries.map((entry, i) =>
+      pool.execute(async () => {
+        const frame = frames[i]
+        const image = await getSrc(buffer, entry, ugoira.mime_type)
+        return { ...frame, image }
+      })
     )
-  ).then(images =>
-    ugoira.frames.map((frame, i) => ({ ...frame, image: images[i] }))
   )
 }
-function getEOCD(buffer: ArrayBuffer, length: number): EOCD {
+const getEOCD = (buffer: ArrayBuffer): EOCD => {
+  const length = buffer.byteLength
   const view = new DataView(buffer, length - 22, 22)
 
-  if (view.getUint32(0, true) !== 0x06054b50) {
+  if (view.getUint32(0, true) !== 0x06054b50)
     throw new Error('End of Central Directory signature not found')
-  }
+
   const cdCount = view.getUint16(10, true) // セントラルディレクトリレコードの合計数
   const cdSize = view.getUint32(12, true) // セントラルディレクトリのサイズ (バイト)
   const cdOffset = view.getUint32(16, true) // セントラルディレクトリの開始位置のオフセット
 
   return [cdCount, cdOffset, cdSize]
 }
-function getEntries(buffer: ArrayBuffer, [count, offset, size]: EOCD) {
+const getEntries = (buffer: ArrayBuffer, [count, offset, size]: EOCD) => {
   const view = new DataView(buffer, offset, size)
   const entries: Array<Entry> = []
   let p = 0
@@ -63,7 +71,7 @@ function getEntries(buffer: ArrayBuffer, [count, offset, size]: EOCD) {
   }
   return entries
 }
-function getSrc(buffer: ArrayBuffer, entry: Entry, type: string) {
+const getSrc = (buffer: ArrayBuffer, entry: Entry, type: string) => {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const view = new DataView(buffer, entry.begin, entry.size)
     const length = view.getUint32(22, true) // 非圧縮サイズ

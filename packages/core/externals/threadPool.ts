@@ -1,26 +1,22 @@
 type Task<T> = () => Promise<T>
 
-interface Delayed<T> {
+type Delayed<T> = {
   resolve: (value: Promise<T>) => void
   task: Task<T>
 }
 
-export function createPool(size: number) {
+export const createPool = (size: number) => {
   const queue: Delayed<any>[] = []
-
-  function release() {
+  const release = () => {
     size++
 
     if (queue.length) {
       const next = queue.shift()
 
-      if (next) {
-        next.resolve(execute(next.task))
-      }
+      if (next) next.resolve(execute(next.task))
     }
   }
-
-  function execute<T>(task: Task<T>) {
+  const execute = <T>(task: Task<T>) => {
     if (size) {
       size--
 

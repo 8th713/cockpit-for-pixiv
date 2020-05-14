@@ -1,21 +1,16 @@
-import { Illust } from '../core/interfaces'
 import { fetchPages, fetchUgoira } from './fetcher'
 import { getBlob, getExtension, saveAs } from './utils'
 
-export function download(illust: Illust) {
+export const download = (illust: Pixiv.Illust) => {
   // うごイラ
-  if (illust.illustType === 2) {
-    return downloadUgoira(illust)
-  }
+  if (illust.illustType === 2) return downloadUgoira(illust)
   // 漫画
-  if (illust.pageCount > 1) {
-    return downloadComic(illust)
-  }
+  if (illust.pageCount > 1) return downloadComic(illust)
   // イラスト
   return downloadSingle(illust)
 }
 
-async function downloadSingle(illust: Illust) {
+const downloadSingle = async (illust: Pixiv.Illust) => {
   const { id, title, userName } = illust
   const [page] = await fetchPages(id)
   const url = page.urls.original
@@ -24,7 +19,7 @@ async function downloadSingle(illust: Illust) {
   saveAs(blob, `${userName} - ${title}.${extension}`)
 }
 
-async function downloadComic(illust: Illust) {
+const downloadComic = async (illust: Pixiv.Illust) => {
   const { id, title, userName } = illust
   const pages = await fetchPages(id)
   const zip = new unsafeWindow.JSZip()
@@ -43,7 +38,7 @@ async function downloadComic(illust: Illust) {
   saveAs(blob, `${userName} - ${title}.zip`)
 }
 
-async function downloadUgoira(illust: Illust) {
+const downloadUgoira = async (illust: Pixiv.Illust) => {
   const { id, title, userName } = illust
   const data = await fetchUgoira(id)
   const blob = await getBlob(data.originalSrc)

@@ -1,27 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { App } from './components/App'
-import { ServiceProvider } from './components/ServiceProvider'
+import { App } from './app/App'
 import { createAddonStore } from './externals/addonStore'
-import { createAPIClient } from './externals/apiClient'
-import { createLoggingService } from './externals/logging'
-import { createGlobalData } from './externals/pixivGlobalData'
+import extraScopePlugin from 'stylis-plugin-extra-scope'
 
-const loggingService = createLoggingService()
-const globalData = createGlobalData(loggingService)
-const apiClient = createAPIClient(globalData, loggingService)
+const scope = '#cockpit-for-pixiv'
+const stylisPlugins = [extraScopePlugin(scope)]
 const addonStore = createAddonStore()
+const root = document.createElement('div')
+root.id = scope.slice(1)
 
 ReactDOM.render(
-  <ServiceProvider
-    loggingService={loggingService}
-    apiCllient={apiClient}
-    addonStore={addonStore}
-  >
-    <App />
-  </ServiceProvider>,
-  document.body.appendChild(document.createElement('div'))
+  <App addonStore={addonStore} stylisPlugins={stylisPlugins} />,
+  document.body.appendChild(root)
 )
-
-// @ts-ignore
-window.dumpError = loggingService.dump

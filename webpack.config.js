@@ -28,13 +28,25 @@ module.exports = (env, argv) => {
         {
           test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: { envName: argv.mode }
         },
         {
           test: /\.js$/,
           exclude: /node_modules/,
           use: ['source-map-loader'],
           enforce: 'pre'
+        },
+        {
+          test: /\.png$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]'
+              }
+            }
+          ]
         }
       ]
     },
