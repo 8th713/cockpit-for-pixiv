@@ -8,7 +8,7 @@ import {
   getHotkeyHint,
   Hotkey,
   IconButton,
-  themeGet
+  themeGet,
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
 import { useRouteActions } from './Router'
@@ -28,7 +28,8 @@ export const Nav = () => {
         left: 0,
         display: 'flex',
         justifyContent: 'space-between',
-        size: '100%'
+        width: '100%',
+        height: '100%',
       }}
     >
       <Circle>
@@ -60,8 +61,8 @@ const Circle = styled.div(
     opacity: themeGet('opacities.inactive'),
     transform: 'translateY(-50%)',
     ':hover': {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   })
 )
 

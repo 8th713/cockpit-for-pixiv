@@ -69,8 +69,8 @@ const Root = styled.div<SxProps>(
   extend({
     minWidth: 280,
     '&[aria-disabled="true"]': {
-      opacity: themeGet('opacities.disabled')
-    }
+      opacity: themeGet('opacities.disabled'),
+    },
   }),
   sx
 )
@@ -94,11 +94,11 @@ const Container = styled.label(
       height: '100%',
       borderRadius: 'inherit',
       bg: '#fff',
-      opacity: themeGet('opacities.divider')
+      opacity: themeGet('opacities.divider'),
     },
     '&:focus-within::before': {
-      opacity: 0.24
-    }
+      opacity: 0.24,
+    },
   })
 )
 
@@ -120,16 +120,16 @@ const Input = styled.input(
     caretColor: ({ colors }: DefaultTheme) => colors.primary,
     variant: 'text.body1',
     ':disabled': {
-      opacity: themeGet('opacities.disabled')
+      opacity: themeGet('opacities.disabled'),
     },
     '::placeholder': {
-      opacity: 0
+      opacity: 0,
     },
     '&:focus::placeholder': {
       color: 'inherit',
-      opacity: themeGet('opacities.inactive')
-    }
-  })
+      opacity: themeGet('opacities.inactive'),
+    },
+  } as any)
 )
 
 const Label = styled.div(
@@ -146,16 +146,16 @@ const Label = styled.div(
     transformOrigin: '0 0',
     transition: createTransition(['color', 'opacity', 'transform']),
     'input:focus~&, input:not(:placeholder-shown)~&': {
-      transform: 'scale(0.75) translateY(-14px)'
+      transform: 'scale(0.75) translateY(-14px)',
     },
     '[aria-invalid="true"] input:focus~& , [aria-invalid="true"] input:not(:placeholder-shown)~&': {
       color: 'secondary',
-      opacity: 1
+      opacity: 1,
     },
     'input:focus~&': {
       color: 'primary',
-      opacity: 1
-    }
+      opacity: 1,
+    },
   })
 )
 
@@ -169,7 +169,7 @@ const Line = styled.div(
     width: '100%',
     height: 2,
     '[aria-disabled="true"] &': {
-      height: 0
+      height: 0,
     },
     '::before': {
       content: '""',
@@ -179,7 +179,7 @@ const Line = styled.div(
       height: 1,
       mt: '1px',
       bg: 'onSurface',
-      opacity: themeGet('opacities.inactive')
+      opacity: themeGet('opacities.inactive'),
     },
     '::after': {
       content: '""',
@@ -192,15 +192,15 @@ const Line = styled.div(
       height: 2,
       bg: 'primary',
       transform: 'scaleX(0)',
-      transition: createTransition('transform')
+      transition: createTransition('transform'),
     },
     '[aria-invalid="true"] &::after': {
       bg: 'secondary',
-      transform: 'scaleX(1)'
+      transform: 'scaleX(1)',
     },
     'input:focus~&::after': {
-      transform: 'scaleX(1)'
-    }
+      transform: 'scaleX(1)',
+    },
   })
 )
 
@@ -210,12 +210,12 @@ const Message = styled(Paragraph)(
     opacity: themeGet('opacities.inactive'),
     '[aria-invalid="true"] &': {
       color: 'secondary',
-      opacity: 1
-    }
+      opacity: 1,
+    },
   })
 )
 Message.defaultProps = {
-  variant: 'caption'
+  variant: 'caption',
 }
 
 if (__DEV__) {

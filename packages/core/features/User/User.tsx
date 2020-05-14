@@ -18,10 +18,10 @@ import {
   themeGet,
   TwitterIcon,
   getHotkeyHint,
-  Hotkey
+  Hotkey,
 } from '../../components'
 import { KEY_ASSIGNMENT } from '../../constants'
-import { fetchUser, followUser, isSelf } from '../../externals/apiClient'
+import { fetchUser, followUser } from '../../externals/apiClient'
 import { createCache } from '../../hooks/useCache'
 import { useIllust } from '../Illust'
 import { useRouteId } from '../Router'
@@ -39,7 +39,7 @@ interface FollowButtonProps {
 
 const title = [
   getHotkeyHint(KEY_ASSIGNMENT.follow),
-  getHotkeyHint(KEY_ASSIGNMENT.followPrivate)
+  getHotkeyHint(KEY_ASSIGNMENT.followPrivate),
 ].join('\n')
 
 export const useUser = createCache(fetchUser, 20)
@@ -90,10 +90,7 @@ const Failure = ({ userId }: Props) => (
 
 const Success = (props: Pixiv.User) => {
   const { userId, image, name, isFollowed, webpage, social } = props
-  const self = isSelf(userId)
   const handleFollow = (event: { shiftKey: boolean }) => {
-    if (self) return
-
     useUser.replace(userId, { ...props, isFollowed: true })
     followUser(userId, event.shiftKey).finally(() => useUser.refresh(userId))
   }
@@ -108,7 +105,7 @@ const Success = (props: Pixiv.User) => {
       </NameLink>
       <Flex sx={{ m: 2 }}>
         <FollowButton
-          disabled={self}
+          disabled={false}
           followed={isFollowed}
           onClick={handleFollow}
         />
@@ -168,14 +165,14 @@ const NameLink = styled(Link)(
       borderRadius: 'inherit',
       bg: 'currentColor',
       opacity: 0,
-      transition: createTransition('opacity')
+      transition: createTransition('opacity'),
     },
     '&:hover::after': {
-      opacity: themeGet('opacities.hover')
+      opacity: themeGet('opacities.hover'),
     },
     '&:focus::after': {
-      opacity: themeGet('opacities.focus')
-    }
+      opacity: themeGet('opacities.focus'),
+    },
   })
 )
 

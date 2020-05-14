@@ -36,8 +36,8 @@ const Root = styled.div<SxProps>(
     flexShrink: 0,
     '&[aria-disabled="true"]': {
       pointerEvents: 'none',
-      opacity: themeGet('opacities.disabled')
-    }
+      opacity: themeGet('opacities.disabled'),
+    },
   }),
   sx
 )
@@ -55,12 +55,12 @@ const Checkbox = styled.input(
     height: '100%',
     m: 0,
     ':disabled': {
-      cursor: 'auto'
-    }
-  })
+      cursor: 'auto',
+    },
+  } as any)
 )
 Checkbox.defaultProps = {
-  type: 'checkbox'
+  type: 'checkbox',
 }
 
 const Track = styled.span(
@@ -72,8 +72,8 @@ const Track = styled.span(
     opacity: 0.3,
     transition: createTransition('background-color'),
     'input:checked ~ &': {
-      bg: 'primary'
-    }
+      bg: 'primary',
+    },
   })
 )
 
@@ -87,7 +87,7 @@ const Thumb = styled.span(
     transition: createTransition(['color', 'transform']),
     'input:checked ~ &': {
       color: 'primary',
-      transform: 'translateX(50%)'
+      transform: 'translateX(50%)',
     },
     '::before': {
       content: "''",
@@ -96,7 +96,7 @@ const Thumb = styled.span(
       width: 20,
       height: 20,
       borderRadius: '50%',
-      backgroundColor: 'currentColor'
+      backgroundColor: 'currentColor',
     },
     '::after': {
       content: "''",
@@ -109,14 +109,14 @@ const Thumb = styled.span(
       borderRadius: '50%',
       backgroundColor: 'currentColor',
       opacity: 0,
-      transition: 'opacity 15ms linear'
+      transition: 'opacity 15ms linear',
     },
     'input:hover ~ &::after': {
-      opacity: themeGet('opacities.hover')
+      opacity: themeGet('opacities.hover'),
     },
     'input:focus ~ &::after': {
-      opacity: themeGet('opacities.focus')
-    }
+      opacity: themeGet('opacities.focus'),
+    },
   })
 )
 

@@ -53,7 +53,7 @@ const Success = ({ illustId, pages }: SuccessProps) => {
           <Flex
             sx={{
               m: 'auto',
-              p: 4
+              p: 4,
             }}
           >
             {!ugoira && <FullSizeImg key={page.urls.original} {...page} />}
@@ -75,8 +75,8 @@ const Root = styled.div(
     left: 0,
     overflow: 'auto',
     width: '100vw',
-    height: '100vh'
-  })
+    height: '100vh',
+  } as any)
 )
 
 const AdjustBox = styled.div(
@@ -88,7 +88,7 @@ const AdjustBox = styled.div(
     height: 'fit-content',
     minWidth: '100%',
     minHeight: '100%',
-    m: 'auto'
+    m: 'auto',
   })
 )
 
@@ -101,7 +101,7 @@ const ClickableBox = styled.div(
     flexShrink: 0,
     minWidth: '100%',
     minHeight: '100%',
-    m: 'auto'
+    m: 'auto',
   })
 )
 

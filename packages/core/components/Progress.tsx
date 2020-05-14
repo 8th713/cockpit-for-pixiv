@@ -13,7 +13,7 @@ export const Progress = ({ size, sx, ...props }: ProgressProps) => (
     sx={{
       ...sx,
       width: size,
-      height: size
+      height: size,
     }}
     role="progressbar"
   >
@@ -24,21 +24,23 @@ export const Progress = ({ size, sx, ...props }: ProgressProps) => (
 )
 
 const rotate = keyframes({
-  to: { transform: 'rotate(360deg)' }
+  to: { transform: 'rotate(360deg)' },
 })
 const dash = keyframes({
   from: { strokeDasharray: '1,200', strokeDashoffset: 0 },
   '50%': { strokeDasharray: '100,200', strokeDashoffset: -15 },
-  to: { strokeDasharray: '100,200', strokeDashoffset: -120 }
+  to: { strokeDasharray: '100,200', strokeDashoffset: -120 },
 })
 
 const Root = styled.div<SxProps>(
   extend({
     overflow: 'hidden',
     flexShrink: 0,
-    size: 256,
+    // size: 256,
+    width: 256,
+    height: 256,
     m: 'auto',
-    color: 'primary'
+    color: 'primary',
   }),
   sx
 )
@@ -52,7 +54,7 @@ const Circle = styled.circle(
     strokeDasharray: '80,200',
     strokeDashoffset: 0,
     stroke: 'currentColor',
-    strokeLinecap: 'round'
+    strokeLinecap: 'round',
   },
   css`
     animation: ${dash} 1.4s ease-in-out infinite;

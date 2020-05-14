@@ -38,12 +38,12 @@ export const Button: ButtonType = styled.button<ButtonProps>(
     variant: 'text.button',
     transition: createTransition('opacity'),
     ':focus': {
-      outline: 0
+      outline: 0,
     },
     ':disabled': {
       pointerEvents: 'none',
       cursor: 'default',
-      opacity: themeGet('opacities.disabled')
+      opacity: themeGet('opacities.disabled'),
     },
     '::after': {
       content: '""',
@@ -57,31 +57,31 @@ export const Button: ButtonType = styled.button<ButtonProps>(
       borderRadius: 'inherit',
       bg: '#fff',
       opacity: 0,
-      transition: createTransition('opacity')
+      transition: createTransition('opacity'),
     },
     '&:hover::after': {
-      opacity: themeGet('opacities.hover')
+      opacity: themeGet('opacities.hover'),
     },
     '&:focus::after': {
-      opacity: themeGet('opacities.focus')
-    }
-  }),
+      opacity: themeGet('opacities.focus'),
+    },
+  } as any),
   variant('variant', {
     primary: {
       bg: 'primary',
       color: 'onPrimary',
       ':disabled': {
         bg: 'onSurface',
-        color: 'surface'
-      }
+        color: 'surface',
+      },
     },
     secondary: {
       bg: 'secondary',
       color: 'onSecondary',
       ':disabled': {
         bg: 'onSurface',
-        color: 'surface'
-      }
+        color: 'surface',
+      },
     },
     outlined: {
       borderWidth: '2px',
@@ -90,27 +90,27 @@ export const Button: ButtonType = styled.button<ButtonProps>(
       bg: 'transparent',
       color: 'primary',
       ':disabled': {
-        color: 'onSurface'
-      }
+        color: 'onSurface',
+      },
     },
     inherit: {
       bg: 'transparent',
       color: 'inherit',
       ':disabled': {
         bg: 'onSurface',
-        color: 'surface'
-      }
-    }
+        color: 'surface',
+      },
+    },
   }),
   sx
 ) as any
 Button.defaultProps = {
-  variant: 'primary'
+  variant: 'primary',
 }
 
 const Link = Button.withComponent('a')
 Link.defaultProps = {
-  variant: 'primary'
+  variant: 'primary',
 }
 
 Button.Link = Link
