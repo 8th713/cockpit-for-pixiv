@@ -7,7 +7,6 @@
     // "lib": ["es2017", "dom"],
     "allowJs": true,
     "jsx": "react",
-    "sourceMap": true,
     "outDir": "docs",
     "rootDir": "packages",
     "noEmit": true,
@@ -21,10 +20,7 @@
 
     // Module Resolution Options
     "moduleResolution": "node",
-    "typeRoots": [
-      "typings",
-      "node_modules/@types"
-    ],
+    "typeRoots": ["packages/types", "node_modules/@types"],
     "esModuleInterop": true,
 
     // Advanced
@@ -32,7 +28,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": false
   },
-  "include": [
-    "packages"
-  ]
+  "include": ["packages"]
 }
