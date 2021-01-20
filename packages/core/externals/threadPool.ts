@@ -25,7 +25,7 @@ export const createPool = (size: number) => {
       result.then(release, release)
       return result
     } else {
-      return new Promise<T>(resolve => {
+      return new Promise<T>((resolve) => {
         queue.push({ resolve, task })
       })
     }

@@ -1,6 +1,7 @@
 import ky from 'ky'
 import { createPool } from './threadPool'
 
+// type EOCD = [count: number, offset: number, size: number]
 type EOCD = [number, number, number]
 interface Entry {
   name: string
@@ -8,7 +9,7 @@ interface Entry {
   begin: number
 }
 
-const pool = createPool(3)
+const pool = createPool(10)
 
 export const loadZip = async (
   ugoira: Pixiv.Ugoira
@@ -18,7 +19,7 @@ export const loadZip = async (
     .get(originalSrc, {
       credentials: 'same-origin',
       cache: 'force-cache',
-      retry: 1
+      retry: 1,
     })
     .arrayBuffer()
   const eocd = getEOCD(buffer)
@@ -28,12 +29,13 @@ export const loadZip = async (
     entries.map((entry, i) =>
       pool.execute(async () => {
         const frame = frames[i]
-        const image = await getSrc(buffer, entry, ugoira.mime_type)
+        const image = await getImage(buffer, entry, ugoira.mime_type)
         return { ...frame, image }
       })
     )
   )
 }
+
 const getEOCD = (buffer: ArrayBuffer): EOCD => {
   const length = buffer.byteLength
   const view = new DataView(buffer, length - 22, 22)
@@ -47,6 +49,7 @@ const getEOCD = (buffer: ArrayBuffer): EOCD => {
 
   return [cdCount, cdOffset, cdSize]
 }
+
 const getEntries = (buffer: ArrayBuffer, [count, offset, size]: EOCD) => {
   const view = new DataView(buffer, offset, size)
   const entries: Array<Entry> = []
@@ -71,7 +74,8 @@ const getEntries = (buffer: ArrayBuffer, [count, offset, size]: EOCD) => {
   }
   return entries
 }
-const getSrc = (buffer: ArrayBuffer, entry: Entry, type: string) => {
+
+const getImage = (buffer: ArrayBuffer, entry: Entry, type: string) => {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const view = new DataView(buffer, entry.begin, entry.size)
     const length = view.getUint32(22, true) // 非圧縮サイズ
@@ -83,14 +87,16 @@ const getSrc = (buffer: ArrayBuffer, entry: Entry, type: string) => {
     const src = URL.createObjectURL(blob)
     const img = new Image()
 
-    img.addEventListener('load', () => {
-      URL.revokeObjectURL(src)
-      resolve(img)
-    })
-    img.addEventListener('error', () => {
-      URL.revokeObjectURL(src)
-      reject(img)
-    })
     img.src = src
+    img.decode().then(
+      () => {
+        URL.revokeObjectURL(src)
+        resolve(img)
+      },
+      () => {
+        URL.revokeObjectURL(src)
+        reject(img)
+      }
+    )
   })
 }

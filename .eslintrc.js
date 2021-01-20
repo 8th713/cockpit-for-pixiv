@@ -6,31 +6,29 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    jest: true,
-    node: true
+    node: true,
   },
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
-    warnOnUnsupportedTypeScriptVersion: true
+    warnOnUnsupportedTypeScriptVersion: true,
   },
   settings: {
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
   rules: {
-    'jsx-a11y/accessible-emoji': 'warn',
     'jsx-a11y/alt-text': 'warn',
     'jsx-a11y/anchor-has-content': 'warn',
     'jsx-a11y/anchor-is-valid': [
       'warn',
       {
-        aspects: ['noHref', 'invalidHref']
-      }
+        aspects: ['noHref', 'invalidHref'],
+      },
     ],
     'jsx-a11y/aria-activedescendant-has-tabindex': 'warn',
     'jsx-a11y/aria-props': 'warn',
@@ -47,6 +45,6 @@ module.exports = {
     'jsx-a11y/role-supports-aria-props': 'warn',
     'jsx-a11y/scope': 'warn',
     'react-hooks/rules-of-hooks': 'warn',
-    'react-hooks/exhaustive-deps': 'warn'
-  }
+    'react-hooks/exhaustive-deps': 'warn',
+  },
 }

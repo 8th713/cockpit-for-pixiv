@@ -1,16 +1,32 @@
+import { Provider } from 'jotai'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { App } from './app/App'
-import { createAddonStore } from './externals/addonStore'
-import extraScopePlugin from 'stylis-plugin-extra-scope'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { App } from './App'
 
-const scope = '#cockpit-for-pixiv'
-const stylisPlugins = [extraScopePlugin(scope)]
-const addonStore = createAddonStore()
+const seconds = (s: number) => s * 1000
+const minutes = (m: number) => m * seconds(60)
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+      staleTime: minutes(5),
+      cacheTime: minutes(1),
+    },
+  },
+})
+
+const scope = 'cockpit-for-pixiv'
 const root = document.createElement('div')
-root.id = scope.slice(1)
+root.id = scope
 
 ReactDOM.render(
-  <App addonStore={addonStore} stylisPlugins={stylisPlugins} />,
+  <QueryClientProvider client={queryClient}>
+    <Provider>
+      <App />
+    </Provider>
+  </QueryClientProvider>,
   document.body.appendChild(root)
 )

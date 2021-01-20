@@ -1,0 +1,124 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="https://8th713.github.io" />
+    <meta
+      property="og:url"
+      content="https://8th713.github.io/cockpit-for-pixiv/"
+    />
+    <meta property="og:title" content="cockpit-for-pixiv" />
+    <meta property="og:image" content="./8th713.png" />
+    <meta
+      property="og:description"
+      content="pixiv の閲覧が快適になるユーザースクリプト"
+    />
+    <title>cockpit-for-pixiv</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-33220357-5"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+
+      gtag('config', 'UA-33220357-5')
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>cockpit-for-pixiv</h1>
+      <p>pixiv の閲覧が快適になるユーザースクリプト</p>
+      <a href="#install" class="btn outlined">Install cockpit-for-pixiv</a>
+    </header>
+
+    <section class="content">
+      <h2><span>Features</span></h2>
+      <ul>
+        <li>画面遷移なしでイラスト表示、複数枚投稿・うごイラ対応</li>
+        <li>イラストの画面フィット表示・原寸表示</li>
+        <li>ボトムパネルでキャプションやタグを表示</li>
+        <li>その場でのブックマークやいいね！、フォローが可能</li>
+        <li>ショートカットキー操作可能</li>
+        <li>アドオン連携で画像のローカル保存に対応(cockpit download addon)</li>
+      </ul>
+    </section>
+    <section class="content">
+      <h2 id="install"><span>Install</span></h2>
+      <p>
+        cockpit-for-pixiv は Google Chrome + Tampermonkey 環境で実行される
+        UserScript です。
+      </p>
+
+      <h3>準備</h3>
+      <ol>
+        <li>
+          <a href="https://www.google.co.jp/chrome/browser/">Google Chrome</a>
+          をインストールします。
+        </li>
+        <li>
+          <a
+            href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo"
+            >Tampermonkey</a
+          >
+          をインストールします。
+        </li>
+        <li>
+          このページのインストールボタンから<b>「cockpit-for-pixiv」</b>をインストールします。
+        </li>
+        <li>
+          ローカル保存機能を使用する場合<b>「cockpit-download-addon」</b>をインストールします。
+        </li>
+      </ol>
+
+      <h3>インストール</h3>
+      <div class="download">
+        <div>
+          <a class="btn" href="cockpit-for-pixiv.user.js">
+            Install cockpit for pixiv v<%= version %>
+          </a>
+        </div>
+        <div>
+          <a class="btn" href="cockpit-download-addon.user.js">
+            Install download addon v<%= version %>
+          </a>
+        </div>
+      </div>
+
+      <h3>注意</h3>
+      <ul class="alert">
+        <li>
+          スマートフォン、Mozilla Firefox + Greasemonkey
+          環境での動作確認は行っていません。
+        </li>
+        <li>pixiv は、ピクシブ株式会社の登録商標です。</li>
+        <li>
+          cockpit for pixiv は pixiv
+          が作成、配布しているアプリケーションではありません。
+        </li>
+      </ul>
+    </section>
+    <footer>
+      <ul class="links">
+        <li class="link-item">
+          <a href="https://github.com/8th713/cockpit-for-pixiv">Source</a>
+        </li>
+        <li class="link-item">
+          <a href="https://github.com/8th713/cockpit-for-pixiv/issues"
+            >Issues</a
+          >
+        </li>
+        <li class="link-item">
+          <a href="https://twitter.com/8th_713">Twitter</a>
+        </li>
+      </ul>
+      <section class="copyright">Copyright © 2014-2021 8th713.</section>
+    </footer>
+  </body>
+</html>

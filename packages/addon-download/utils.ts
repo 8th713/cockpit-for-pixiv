@@ -1,7 +1,28 @@
-export const isValidAction = (
-  action: any
-): action is CFPAddon.DownloadAaction =>
-  action && typeof action === 'object' && typeof action.type === 'string'
+interface ConnectionSuccess {
+  type: 'CFP-ADDON-CONNECTION-SUCCESS'
+  key: string
+  methods: string[]
+}
+
+interface DownloadRequest {
+  type: 'DOWNLOAD'
+  payload: {
+    work: Pixiv.Illust
+    pages: Pixiv.Pages
+  }
+}
+
+export const isSuccess = (data: any): data is ConnectionSuccess =>
+  data && data.type === 'CFP-ADDON-CONNECTION-SUCCESS'
+
+export const isDownload = (data: any): data is DownloadRequest => {
+  return (
+    data &&
+    data.type === 'DOWNLOAD' &&
+    data.payload?.work &&
+    data.payload?.pages
+  )
+}
 
 export const injectScript = (src: string) => {
   const script = document.createElement('script')
@@ -23,8 +44,8 @@ export const getBlob = (url: string) => {
       responseType: 'blob',
       method: 'GET',
       headers: { referer: url },
-      onload: xhr => resolve(xhr.response),
-      onerror: reject
+      onload: (xhr) => resolve(xhr.response),
+      onerror: reject,
     })
   })
 }
