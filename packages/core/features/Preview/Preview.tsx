@@ -26,7 +26,7 @@ export const Preview = ({ id, children }: PreviewProps) => {
       <Box
         ref={scrollableElementRef}
         id="cfp-scrollable"
-        tabIndex={0}
+        tabIndex={-1}
         css={{ cover: 0, overflow: 'auto' }}
         style={{ opacity: isFullSize ? 0 : 1 }}
       >

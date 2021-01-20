@@ -31,7 +31,7 @@ export const FullSize = ({ id }: FullSizeProps) => {
   return (
     <Box
       ref={scrollableElementRef}
-      tabIndex={0}
+      tabIndex={-1}
       css={{
         cover: 0,
         position: 'fixed',
