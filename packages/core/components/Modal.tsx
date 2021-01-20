@@ -81,6 +81,8 @@ const Dialog = styled.dialog<SxProps>(
     overflow: 'auto',
     width: '100%',
     height: '100%',
+    maxWidth: '100%',
+    maxHeight: '100%',
     p: 0,
     border: 0,
     backgroundColor: 'transparent',
