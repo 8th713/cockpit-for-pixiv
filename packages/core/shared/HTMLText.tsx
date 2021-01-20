@@ -13,6 +13,8 @@ export const HTMLText = ({ children }: HTMLTextProps) =>
           color: '$primary',
           textDecoration: 'none',
           ':focus': {
+            outlineOffset: -1,
+            outlineWidth: 1,
             outlineStyle: 'dotted',
             outlineColor: 'currentcolor',
           },

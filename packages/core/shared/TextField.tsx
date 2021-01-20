@@ -47,33 +47,35 @@ const Container = styled('label', {
 })
 
 const Input = styled('input', {
-  appearance: 'none',
-  boxSizing: 'border-box',
-  position: 'relative',
-  zIndex: 1,
-  width: '100%',
-  minWidth: 0,
-  height: '100%',
-  outlineWidth: 0,
-  margin: 0,
-  paddingX: 12,
-  paddingTop: 20,
-  paddingBottom: '6px',
-  borderWidth: 0,
-  backgroundColor: 'transparent',
-  color: 'inherit',
-  caretColor: '$primary',
-  text: '$body',
-  fontSize: '16px',
-  ':disabled': {
-    opacity: 0.38,
-  },
-  '::placeholder': {
-    opacity: 0,
-  },
-  '&:focus::placeholder': {
+  '&&&': {
+    appearance: 'none',
+    boxSizing: 'border-box',
+    position: 'relative',
+    zIndex: 1,
+    width: '100%',
+    minWidth: 0,
+    height: '100%',
+    outlineWidth: 0,
+    margin: 0,
+    paddingX: 12,
+    paddingTop: 20,
+    paddingBottom: '6px',
+    borderWidth: 0,
+    backgroundColor: 'transparent',
     color: 'inherit',
-    opacity: 0.6,
+    caretColor: '$primary',
+    text: '$body',
+    fontSize: '16px',
+    ':disabled': {
+      opacity: 0.38,
+    },
+    '::placeholder': {
+      opacity: 0,
+    },
+    ':focus::placeholder': {
+      color: 'inherit',
+      opacity: 0.6,
+    },
   },
 })
 

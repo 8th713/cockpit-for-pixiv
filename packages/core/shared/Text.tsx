@@ -38,6 +38,8 @@ export const Link = styled('a', {
   color: '$primary',
   textDecorationLine: 'none',
   ':focus': {
+    outlineOffset: -1,
+    outlineWidth: 1,
     outlineStyle: 'dotted',
     outlineColor: 'currentColor',
   },
