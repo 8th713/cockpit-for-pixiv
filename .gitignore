@@ -6,7 +6,7 @@
 .pnp.js
 
 # testing
-/packages/core/mocks/data
+/public/mockServiceWorker.js
 /coverage
 
 # production

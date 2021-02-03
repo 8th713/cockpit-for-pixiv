@@ -18,6 +18,7 @@
     "lazy-build": "webpack --mode production",
     "build": "webpack --mode production",
     "start": "webpack --mode development --watch",
+    "prestorybook": "msw init ./public",
     "storybook": "start-storybook -p 6006 -s public"
   },
   "dependencies": {
