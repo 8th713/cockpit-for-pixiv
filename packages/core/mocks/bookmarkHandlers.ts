@@ -20,7 +20,7 @@ export const bookmarkHandlers = [
   }),
   // follow
   rest.post('/bookmark_add.php', (req, res, ctx) => {
-    const params = new URLSearchParams(req.body)
+    const params = new URLSearchParams(req.body as string)
     const id = params.get('user_id')!
     const author = Users[id]
 
