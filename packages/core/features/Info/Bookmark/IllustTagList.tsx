@@ -16,10 +16,28 @@ export const IllustTagList = ({
   items,
 }: IllustTagListProps) => {
   const fieldTags = useWatchTags(control)
+  const allTags = items.map((tag) => tag.tag).join(' ')
+  const allSelected = allTags === fieldTags.join(' ')
 
   return (
     <Flex css={{ flexDirection: 'column', rowGap: '$2' }}>
-      <Subtitle css={{ fontSize: '$body' }}>この作品のタグ</Subtitle>
+      <Flex css={{ alignItems: 'center' }}>
+        <Subtitle css={{ flexGrow: 1, fontSize: '$body' }}>
+          この作品のタグ
+        </Subtitle>
+        <Button
+          variant="inherit"
+          type="button"
+          onClick={() => {
+            setValue('tags', allSelected ? '' : allTags, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }}
+        >
+          すべて選択
+        </Button>
+      </Flex>
       <Flex
         css={{
           position: 'relative',
