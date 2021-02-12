@@ -5,6 +5,7 @@ import { Button } from '../../../shared/Button'
 import { IconProps } from '../../../shared/createIcon'
 import { IconButton } from '../../../shared/IconButton'
 import { Subtitle } from '../../../shared/Text'
+import { Paper } from './Paper'
 import { useSort } from './useSort'
 import { BookmarkFormMethods, toggleTag, useWatchTags } from './utils'
 
@@ -37,22 +38,7 @@ export const UserTagList = ({ control, setValue, items }: UserTagListProps) => {
         <ColumnButton {...columnProps} />
         <DirectionButton {...directionProps} />
       </Flex>
-      <Flex
-        css={{
-          position: 'relative',
-          flexWrap: 'wrap',
-          minHeight: 124,
-          padding: '$1',
-          gap: '$1',
-          '::after': {
-            content: '""',
-            pointerEvents: 'none',
-            cover: 0,
-            borderRadius: 4,
-            backgroundColor: 'rgba(255,255,255,0.12)',
-          },
-        }}
-      >
+      <Paper>
         {sortedItems.map((tag) => (
           <Button
             key={tag.name}
@@ -69,7 +55,7 @@ export const UserTagList = ({ control, setValue, items }: UserTagListProps) => {
             <Badge>{tag.total}</Badge>
           </Button>
         ))}
-      </Flex>
+      </Paper>
     </Flex>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import { Subtitle } from '../../../shared/Text'
+import { Paper } from './Paper'
 import { BookmarkFormMethods, toggleTag, useWatchTags } from './utils'
 
 export interface IllustTagListProps {
@@ -38,21 +39,7 @@ export const IllustTagList = ({
           すべて選択
         </Button>
       </Flex>
-      <Flex
-        css={{
-          position: 'relative',
-          flexWrap: 'wrap',
-          padding: '$1',
-          gap: '$1',
-          '::after': {
-            content: '""',
-            pointerEvents: 'none',
-            cover: 0,
-            borderRadius: 4,
-            backgroundColor: 'rgba(255,255,255,0.12)',
-          },
-        }}
-      >
+      <Paper>
         {items.map((tag) => (
           <Button
             key={tag.tag}
@@ -68,7 +55,7 @@ export const IllustTagList = ({
             {tag.tag}
           </Button>
         ))}
-      </Flex>
+      </Paper>
     </Flex>
   )
 }
