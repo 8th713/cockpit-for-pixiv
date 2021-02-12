@@ -35,12 +35,12 @@ const Root = styled('button', {
   transitionProperty: 'opacity, background-color, color',
   transitionDuration: duration.simple,
   transitionTimingFunction: easing.standard,
-  ':disabled': {
+  '&:disabled': {
     pointerEvents: 'none',
     cursor: 'default',
     opacity: 0.38,
   },
-  '::after': {
+  '&::after': {
     content: '""',
     pointerEvents: 'none',
     boxSizing: 'inherit',

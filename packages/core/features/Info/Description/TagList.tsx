@@ -45,7 +45,7 @@ const BoldLink = styled(Link, {
 })
 
 const TagLink = styled(Link, {
-  '::before': {
+  '&::before': {
     content: '"#"',
   },
 })

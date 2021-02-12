@@ -29,7 +29,7 @@ export const LikeButton = ({ id, data }: LikeButtonProps) => {
         type="button"
         disabled
         title={title}
-        css={{ ':disabled': { opacity: 1 } }}
+        css={{ '&:disabled': { opacity: 1 } }}
       >
         <LikeIcon css={{ color: '$primary' }} />
       </IconButton>

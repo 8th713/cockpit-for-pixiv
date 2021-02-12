@@ -14,7 +14,7 @@ export const NameLink = styled('a', {
   text: '$h2',
   textDecorationLine: 'none',
   outlineStyle: 'none',
-  '::after': {
+  '&::after': {
     content: '""',
     pointerEvents: 'none',
     boxSizing: 'inherit',

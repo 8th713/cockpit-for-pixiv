@@ -37,7 +37,7 @@ export const Link = styled('a', {
   margin: 0,
   color: '$primary',
   textDecorationLine: 'none',
-  ':focus': {
+  '&:focus': {
     outlineOffset: -1,
     outlineWidth: 1,
     outlineStyle: 'dotted',

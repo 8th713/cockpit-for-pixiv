@@ -12,7 +12,7 @@ export const HTMLText = ({ children }: HTMLTextProps) =>
           cursor: 'pointer',
           color: '$primary',
           textDecoration: 'none',
-          ':focus': {
+          '&:focus': {
             outlineOffset: -1,
             outlineWidth: 1,
             outlineStyle: 'dotted',

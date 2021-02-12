@@ -30,7 +30,7 @@ const Container = styled('label', {
   margin: 0,
   borderTopRightRadius: 4,
   borderTopLeftRadius: 4,
-  '::before': {
+  '&::before': {
     content: '""',
     pointerEvents: 'none',
     boxSizing: 'inherit',
@@ -66,13 +66,13 @@ const Input = styled('input', {
     caretColor: '$primary',
     text: '$body',
     fontSize: '16px',
-    ':disabled': {
+    '&:disabled': {
       opacity: 0.38,
     },
-    '::placeholder': {
+    '&::placeholder': {
       opacity: 0,
     },
-    ':focus::placeholder': {
+    '&:focus::placeholder': {
       color: 'inherit',
       opacity: 0.6,
     },
@@ -119,7 +119,7 @@ const Line = styled('div', {
   '[aria-disabled="true"] &': {
     height: 0,
   },
-  '::before': {
+  '&::before': {
     content: '""',
     boxSizing: 'inherit',
     display: 'block',
@@ -129,7 +129,7 @@ const Line = styled('div', {
     backgroundColor: '$onSurface',
     opacity: 0.6,
   },
-  '::after': {
+  '&::after': {
     content: '""',
     boxSizing: 'inherit',
     position: 'absolute',

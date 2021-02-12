@@ -140,7 +140,7 @@ export const Profile = ({
           columnRuleStyle: 'solid',
           columnRuleColor: 'rgba(255,255,255,.12)',
           columnRuleWidth: '1px',
-          ':empty': {
+          '&:empty': {
             display: 'none',
           },
         }}

@@ -38,12 +38,12 @@ const Root = styled('button', {
   transitionProperty: 'opacity',
   transitionDuration: duration.simple,
   transitionTimingFunction: easing.standard,
-  ':disabled': {
+  '&:disabled': {
     pointerEvents: 'none',
     cursor: 'default',
     opacity: 0.38,
   },
-  '::after': {
+  '&::after': {
     content: '""',
     pointerEvents: 'none',
     boxSizing: 'inherit',
@@ -78,7 +78,7 @@ const Root = styled('button', {
         position: 'sticky',
         backgroundColor: 'rgba(11, 19, 43, 0.08)',
         color: '$onSurface',
-        '::after': {
+        '&::after': {
           color: '#000',
         },
         '& > .ripple': {

@@ -37,7 +37,7 @@ const Checkbox = styled('input', {
   width: '100%',
   margin: 0,
   outlineWidth: 0,
-  ':disabled': {
+  '&:disabled': {
     cursor: 'auto',
   },
 })
@@ -73,7 +73,7 @@ const Thumb = styled('span', {
     color: '$primary',
     transform: 'translateX(50%)',
   },
-  '::before': {
+  '&::before': {
     content: "''",
     boxSizing: 'inherit',
     display: 'flex',
@@ -82,7 +82,7 @@ const Thumb = styled('span', {
     borderRadius: '50%',
     backgroundColor: 'currentColor',
   },
-  '::after': {
+  '&::after': {
     content: "''",
     boxSizing: 'inherit',
     cover: 0,

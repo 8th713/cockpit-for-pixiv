@@ -129,11 +129,11 @@ const Button = styled('button', {
   padding: 0,
   borderWidth: 0,
   opacity: 1,
-  ':disabled': {
+  '&:disabled': {
     cursor: 'default',
     pointerEvents: 'none',
   },
-  '::after': {
+  '&::after': {
     content: '""',
     pointerEvents: 'none',
     boxSizing: 'inherit',
@@ -167,7 +167,7 @@ const Chip = styled('span', {
   borderBottomLeftRadius: 4,
   backgroundColor: 'rgba(0,0,0,0.38)',
   color: '$onSurface',
-  ':empty': {
+  '&:empty': {
     display: 'none',
   },
 })
