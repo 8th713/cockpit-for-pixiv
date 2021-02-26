@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Box, Grid, GridProps } from './Box'
 
 export default {

@@ -1,5 +1,4 @@
 import { Provider } from 'jotai'
-import React from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { Box } from '../packages/core/shared/Box'
@@ -59,7 +58,7 @@ export const decorators = [
   (Story) => (
     <Box
       css={{
-        d: 'contents',
+        display: 'contents',
         color: '$onSurface',
       }}
     >

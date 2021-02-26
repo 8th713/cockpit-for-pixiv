@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { Box, Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import { Dialog, DialogContent, DialogFooter } from '../../../shared/Dialog'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { KEY_ASSIGNMENT } from '../../../keyboardMap'
 import { Hotkey } from '../../../shared/Hotkey'
 import { styled } from '../../../stitches.config'

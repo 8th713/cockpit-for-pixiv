@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react'
-import React from 'react'
 import { Badge } from './Badge'
 import { Flex } from './Box'
 import { Button } from './Button'

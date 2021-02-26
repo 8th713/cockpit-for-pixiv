@@ -1,4 +1,3 @@
-import React, { ComponentType } from 'react'
 import { Badge } from '../../../shared/Badge'
 import { Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
@@ -21,7 +20,7 @@ interface ColumnButtonProps {
 }
 
 interface DirectionButtonProps {
-  icon: ComponentType<IconProps>
+  icon: React.ComponentType<IconProps>
   onClick: () => void
 }
 

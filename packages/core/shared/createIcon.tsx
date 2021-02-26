@@ -1,4 +1,4 @@
-import React, { forwardRef, memo } from 'react'
+import { forwardRef, memo } from 'react'
 import { styled, StitchesProps } from '../stitches.config'
 
 export type IconProps = Omit<StitchesProps<typeof SvgIcon>, 'children'>

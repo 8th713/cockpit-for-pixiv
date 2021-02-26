@@ -1,4 +1,3 @@
-import React from 'react'
 import { TextField } from '../../../shared/TextField'
 import { FormFieldProps, splitTags, useWatchTags } from './utils'
 

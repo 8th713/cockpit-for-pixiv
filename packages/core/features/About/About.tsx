@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { KEY_ASSIGNMENT } from '../../keyboardMap'
 import { Box } from '../../shared/Box'
 import { Dialog, DialogContent, DialogHeader } from '../../shared/Dialog'

@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Works } from '../../mocks/data/works'
 import { Grid } from '../../shared/Box'
 import { AboutManager } from '../About/AboutManager'

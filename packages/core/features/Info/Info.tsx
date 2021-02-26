@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Flex } from '../../shared/Box'
 import { Divider } from '../../shared/Divider'
 import { Author } from './Author/Author'

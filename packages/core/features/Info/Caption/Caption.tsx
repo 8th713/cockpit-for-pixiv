@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Flex } from '../../../shared/Box'
 import { Title } from '../../../shared/Text'
 import { IllustQueryResult } from '../illustQuery'

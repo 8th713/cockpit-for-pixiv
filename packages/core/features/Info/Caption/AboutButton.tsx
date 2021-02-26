@@ -1,4 +1,3 @@
-import React from 'react'
 import { getHotkeyHint, KEY_ASSIGNMENT } from '../../../keyboardMap'
 import { HelpIcon } from '../../../shared/Icon'
 import { IconButton } from '../../../shared/IconButton'

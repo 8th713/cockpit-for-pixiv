@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box } from '../../../shared/Box'
 import { Img } from '../../../shared/Img'
 import { useSetIsFullSize } from '../previewState'

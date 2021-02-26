@@ -1,4 +1,3 @@
-import React from 'react'
 import { Skeleton } from '../../../shared/Box'
 import { Link } from '../../../shared/Text'
 import type { IllustQueryResult } from '../illustQuery'

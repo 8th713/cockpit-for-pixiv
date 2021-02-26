@@ -1,4 +1,4 @@
-import React, { MouseEvent, useRef } from 'react'
+import { useRef } from 'react'
 import {
   css,
   StitchesProps,
@@ -93,28 +93,33 @@ const Root = styled('button', {
 
 export const Button = (props: ButtonProps) => {
   const circleRef = useRef<HTMLSpanElement | null>(null)
-  const createRipple = (e: MouseEvent<HTMLButtonElement>) => {
-    const button = e.currentTarget
-    const rect = button.getBoundingClientRect()
 
-    if (circleRef.current === null) {
-      circleRef.current = document.createElement('span')
-      circleRef.current.classList.add('ripple')
-    } else {
-      circleRef.current.remove()
-    }
+  return (
+    <Root
+      {...props}
+      onClick={(e) => {
+        const button = e.currentTarget
+        const rect = button.getBoundingClientRect()
 
-    const circle = circleRef.current
-    const diameter = Math.max(rect.width, rect.height)
-    const radius = diameter / 2
+        if (circleRef.current === null) {
+          circleRef.current = document.createElement('span')
+          circleRef.current.classList.add('ripple')
+        } else {
+          circleRef.current.remove()
+        }
 
-    circle.style.width = circle.style.height = `${diameter}px`
-    circle.style.left = `${e.clientX - rect.left - radius}px`
-    circle.style.top = `${e.clientY - rect.top - radius}px`
-    button.appendChild(circle)
-    props.onClick && props.onClick(e)
-  }
-  return <Root {...props} onClick={createRipple} />
+        const circle = circleRef.current
+        const diameter = Math.max(rect.width, rect.height)
+        const radius = diameter / 2
+
+        circle.style.width = circle.style.height = `${diameter}px`
+        circle.style.left = `${e.clientX - rect.left - radius}px`
+        circle.style.top = `${e.clientY - rect.top - radius}px`
+        button.appendChild(circle)
+        props.onClick && props.onClick(e)
+      }}
+    />
+  )
 }
 
 if (__DEV__) {

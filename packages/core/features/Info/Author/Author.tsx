@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar } from '../../../shared/Avatar'
 import { Flex, Skeleton } from '../../../shared/Box'
 import {

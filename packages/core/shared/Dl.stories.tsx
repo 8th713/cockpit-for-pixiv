@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react'
-import React from 'react'
 import { KEY_ASSIGNMENT } from '../keyboardMap'
 import { Box } from './Box'
 import { Dd, Dl, Dt } from './Dl'

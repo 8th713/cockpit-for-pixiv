@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Modal } from '../../shared/Modal'
 import { Info } from '../Info/Info'
 import { Preview } from '../Preview/Preview'

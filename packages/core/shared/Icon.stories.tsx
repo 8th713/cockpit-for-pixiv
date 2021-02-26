@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Box, Grid } from './Box'
 import { IconProps, SvgIcon } from './createIcon'
 import { Subtitle } from './Text'

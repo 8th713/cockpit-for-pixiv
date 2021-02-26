@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Users } from '../../../mocks/data/users'
 import { Profile } from './Profile'
 

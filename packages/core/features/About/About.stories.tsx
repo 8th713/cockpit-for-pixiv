@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { About, AboutProps } from './About'
 import { AboutButton } from '../Info/Caption/AboutButton'
 import { AboutManager } from './AboutManager'

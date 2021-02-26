@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Box, Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import {

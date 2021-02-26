@@ -1,4 +1,3 @@
-import React from 'react'
 import { Paragraph } from './Text'
 
 export type HTMLTextProps = { children?: string }

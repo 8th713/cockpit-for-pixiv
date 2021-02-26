@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import { Dialog, DialogContent, DialogFooter } from '../../../shared/Dialog'

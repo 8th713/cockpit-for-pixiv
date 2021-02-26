@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Works } from '../../mocks/data/works'
 import { Info, InfoProps } from './Info'
 

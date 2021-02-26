@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex } from '../../../shared/Box'
 import { Link } from '../../../shared/Text'
 import { styled } from '../../../stitches.config'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { RefreshIcon } from '../../../shared/Icon'
 import { IconButton } from '../../../shared/IconButton'
 import type { IllustQueryResult } from '../illustQuery'

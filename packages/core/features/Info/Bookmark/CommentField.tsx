@@ -1,4 +1,3 @@
-import React from 'react'
 import { useWatch } from 'react-hook-form'
 import { TextField } from '../../../shared/TextField'
 import { FormFieldProps } from './utils'

@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback } from 'react'
+import { useCallback } from 'react'
 import { Img } from '../../../shared/Img'
 import { useSetIsFullSize } from '../previewState'
 import { ImageListUgoira } from './ImageListUgoira'
@@ -22,7 +22,7 @@ export const ImageListItem = (props: ImageListItemProps) => {
     [setLazy, setResize]
   )
   const isUgoira = props.urls.original.includes('ugoira0')
-  const close = (e: MouseEvent) => {
+  const close = (e: React.MouseEvent) => {
     e.stopPropagation()
     on()
   }

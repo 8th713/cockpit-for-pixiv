@@ -1,5 +1,5 @@
 import { IStyledComponent } from '@stitches/react'
-import React, { forwardRef, MouseEvent, useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import {
   Config,
   css,
@@ -91,42 +91,51 @@ const Root = styled('button', {
 
 export const IconButton = (props: IconButtonProps) => {
   const circleRef = useRef<HTMLSpanElement | null>(null)
-  const createRipple = (e: MouseEvent<HTMLButtonElement>) => {
-    const button = e.currentTarget
 
-    if (circleRef.current === null) {
-      circleRef.current = document.createElement('span')
-      circleRef.current.classList.add('ripple')
-    } else {
-      circleRef.current.remove()
-    }
+  return (
+    <Root
+      {...props}
+      onClick={(e) => {
+        const button = e.currentTarget
 
-    button.appendChild(circleRef.current)
-    props.onClick && props.onClick(e)
-  }
+        if (circleRef.current === null) {
+          circleRef.current = document.createElement('span')
+          circleRef.current.classList.add('ripple')
+        } else {
+          circleRef.current.remove()
+        }
 
-  return <Root {...props} onClick={createRipple} />
+        button.appendChild(circleRef.current)
+        props.onClick && props.onClick(e)
+      }}
+    />
+  )
 }
 
 export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>(
   (props, ref) => {
     const circleRef = useRef<HTMLSpanElement | null>(null)
-    const createRipple = (e: MouseEvent<HTMLButtonElement>) => {
-      const button = e.currentTarget
 
-      if (circleRef.current === null) {
-        circleRef.current = document.createElement('span')
-        circleRef.current.classList.add('ripple')
-      } else {
-        circleRef.current.remove()
-      }
+    return (
+      <Root
+        {...props}
+        as="a"
+        ref={ref}
+        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+          const button = e.currentTarget
 
-      button.appendChild(circleRef.current)
-      props.onClick && props.onClick(e as any)
-    }
+          if (circleRef.current === null) {
+            circleRef.current = document.createElement('span')
+            circleRef.current.classList.add('ripple')
+          } else {
+            circleRef.current.remove()
+          }
 
-    // @ts-ignore
-    return <Root {...props} as="a" ref={ref as any} onClick={createRipple} />
+          button.appendChild(circleRef.current)
+          props.onClick && props.onClick(e as any)
+        }}
+      />
+    )
   }
 )
 

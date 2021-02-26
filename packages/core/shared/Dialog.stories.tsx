@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button } from './Button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader } from './Dialog'
 import { Divider } from './Divider'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar } from '../../../shared/Avatar'
 import { Box, Flex } from '../../../shared/Box'
 import { Dialog, DialogContent, DialogHeader } from '../../../shared/Dialog'

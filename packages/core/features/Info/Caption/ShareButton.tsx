@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { getHotkeyHint, KEY_ASSIGNMENT } from '../../../keyboardMap'
 import { Hotkey } from '../../../shared/Hotkey'
 import { TwitterIcon } from '../../../shared/Icon'

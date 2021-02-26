@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Box } from '../../shared/Box'
 import { FullSize } from './FullSize/FullSize'
 import { ImageList } from './ImageList/ImageList'
@@ -6,7 +6,7 @@ import { useIsFullSize } from './previewState'
 
 export interface PreviewProps {
   id: string
-  children?: ReactNode
+  children?: React.ReactNode
 }
 
 export const Preview = ({ id, children }: PreviewProps) => {

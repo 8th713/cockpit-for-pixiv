@@ -1,4 +1,3 @@
-import React from 'react'
 import { AccountIcon } from './Icon'
 import { Img } from './Img'
 

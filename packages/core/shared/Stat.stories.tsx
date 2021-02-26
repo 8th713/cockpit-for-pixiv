@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Flex } from './Box'
 import { BookmarkOnIcon, DateTimeIcon, LikeIcon, ViewCountIcon } from './Icon'
 import { Stat, StatProps } from './Stat'

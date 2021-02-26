@@ -1,4 +1,3 @@
-import React, { ComponentType, ReactNode } from 'react'
 import { styled } from '../stitches.config'
 import { IconProps } from './createIcon'
 
@@ -15,14 +14,14 @@ export type StatProps = {
   /** A count length or upload date. */
   value: number | string
   /** A prefix icon. */
-  icon: ComponentType<IconProps>
+  icon: React.ComponentType<IconProps>
   /** An advisory information text */
   title?: string
 }
 
 export type TextWithIconProps = {
-  children: ReactNode
-  icon: ComponentType<IconProps>
+  children: React.ReactNode
+  icon: React.ComponentType<IconProps>
   title?: string
 }
 

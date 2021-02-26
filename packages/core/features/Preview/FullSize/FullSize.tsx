@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { Box, Flex } from '../../../shared/Box'
 import { usePagesQuery } from '../pagesQuery'
 import { PreviewControl } from '../PreviewControl/PreviewControl'

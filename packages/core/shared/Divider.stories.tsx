@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Box, Flex } from './Box'
 import { Divider, DividerProps } from './Divider'
 

@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { Subtitle, SubtitleProps } from './Text'
 
 export default {

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import { Subtitle } from '../../../shared/Text'

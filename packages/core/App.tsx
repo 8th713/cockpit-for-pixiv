@@ -1,4 +1,3 @@
-import React from 'react'
 import { AboutManager } from './features/About/AboutManager'
 import { globalStyles } from './features/globalStyles'
 import { Router } from './features/Router/Router'

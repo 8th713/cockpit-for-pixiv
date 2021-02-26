@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { duration, easing, StitchesProps, styled } from '../stitches.config'
 import { Flex } from './Box'
 import { Paragraph } from './Text'

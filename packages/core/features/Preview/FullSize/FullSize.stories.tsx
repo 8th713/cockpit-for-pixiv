@@ -1,5 +1,4 @@
 import { Meta, Story } from '@storybook/react'
-import React from 'react'
 import { ArtWorks } from '../../../mocks/data/artWorks'
 import { Box } from '../../../shared/Box'
 import { Info } from '../../Info/Info'

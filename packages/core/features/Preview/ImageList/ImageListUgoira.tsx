@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback, useLayoutEffect } from 'react'
+import { useCallback, useLayoutEffect } from 'react'
 import { Box, Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import { Dialog, DialogContent, DialogFooter } from '../../../shared/Dialog'
@@ -19,7 +19,7 @@ import { useResize } from './useResize'
 
 export interface ImageListUgoiraProps extends Pixiv.Page {
   id: string
-  onClick: (e: MouseEvent) => void
+  onClick: (e: React.MouseEvent) => void
 }
 
 export const ImageListUgoira = ({

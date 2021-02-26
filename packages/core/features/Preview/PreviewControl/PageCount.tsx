@@ -1,4 +1,3 @@
-import React from 'react'
 import { Badge } from '../../../shared/Badge'
 import { useItems, useSelected } from '../previewState'
 import { Cover } from './Cover'

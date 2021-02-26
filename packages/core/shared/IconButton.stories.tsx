@@ -1,5 +1,4 @@
 import { Meta } from '@storybook/react'
-import React from 'react'
 import { Flex } from './Box'
 import {
   BookmarkOffIcon,
@@ -33,10 +32,10 @@ export const iconButton = () => (
 
 export const iconLink = () => (
   <Flex css={{ gap: '$2' }}>
-    <IconLink href="#" onClick={(e: React.MouseEvent) => e.preventDefault()}>
+    <IconLink href="#" onClick={(e) => e.preventDefault()}>
       <FollowIcon />
     </IconLink>
-    <IconLink href="#" onClick={(e: React.MouseEvent) => e.preventDefault()}>
+    <IconLink href="#" onClick={(e) => e.preventDefault()}>
       <FollowingIcon />
     </IconLink>
   </Flex>
