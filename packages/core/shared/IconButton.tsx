@@ -1,16 +1,13 @@
-import { IStyledComponent } from '@stitches/react'
 import { forwardRef, useRef } from 'react'
-import {
-  Config,
-  css,
-  duration,
-  easing,
-  StitchesProps,
-  styled,
-} from '../stitches.config'
+import { keyframes, styled } from '../stitches.config'
+import { duration, easing } from './animation'
 
-export type IconButtonProps = StitchesProps<typeof Root>
-export type IconLinkProps = StitchesProps<IStyledComponent<'a', {}, Config>>
+export type IconButtonProps = React.ComponentProps<typeof Root>
+export type IconLinkProps = Omit<
+  React.ComponentProps<typeof Root>,
+  keyof React.ComponentProps<'button'>
+> &
+  React.ComponentProps<'a'>
 
 const Root = styled('button', {
   appearance: 'none',
@@ -68,13 +65,13 @@ const Root = styled('button', {
     borderRadius: '50%',
     backgroundColor: 'rgba(255, 255, 255, 0.24)',
     transform: 'scale(0)',
-    animationName: css.keyframes({ to: { transform: 'scale(4)', opacity: 0 } }),
+    animationName: keyframes({ to: { transform: 'scale(4)', opacity: 0 } }),
     animationDuration: '600ms',
     animationTimingFunction: 'linear',
   },
   variants: {
-    variant: {
-      circle: {
+    circle: {
+      true: {
         position: 'sticky',
         backgroundColor: 'rgba(11, 19, 43, 0.08)',
         color: '$onSurface',
@@ -84,6 +81,14 @@ const Root = styled('button', {
         '& > .ripple': {
           backgroundColor: 'rgba(0, 0, 0, 0.24)',
         },
+      },
+    },
+    color: {
+      primary: {
+        color: '$primary',
+      },
+      secondary: {
+        color: '$secondary',
       },
     },
   },
@@ -118,8 +123,8 @@ export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>(
 
     return (
       <Root
-        {...props}
         as="a"
+        {...(props as any)}
         ref={ref}
         onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
           const button = e.currentTarget
@@ -132,7 +137,7 @@ export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>(
           }
 
           button.appendChild(circleRef.current)
-          props.onClick && props.onClick(e as any)
+          props.onClick && props.onClick(e)
         }}
       />
     )
@@ -140,5 +145,5 @@ export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>(
 )
 
 if (__DEV__) {
-  Root.displayName = 'IconButton.Inner'
+  Root.displayName = 'IconButton.Root'
 }

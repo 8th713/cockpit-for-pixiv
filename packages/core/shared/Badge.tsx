@@ -1,6 +1,7 @@
-import { StitchesProps, styled } from '../stitches.config'
+import { styled } from '../stitches.config'
+import { typography } from './typography'
 
-export type BadgeProps = StitchesProps<typeof Badge>
+export type BadgeProps = React.ComponentProps<typeof Badge>
 
 export const Badge = styled('div', {
   userSelect: 'none',
@@ -15,7 +16,7 @@ export const Badge = styled('div', {
   backgroundColor: '#808080',
   color: '#fff',
   whiteSpace: 'nowrap',
-  text: '$caption',
+  ...typography.caption,
 })
 
 if (__DEV__) {

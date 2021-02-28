@@ -1,6 +1,6 @@
-import { css } from '../stitches.config'
+import { global } from '../stitches.config'
 
-export const globalStyles = css.global({
+export const globalStyles = global({
   '.no-scrollbar': {
     overflow: 'hidden',
   },

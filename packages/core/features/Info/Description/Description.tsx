@@ -17,12 +17,12 @@ export type DescriptionProps = IllustQueryResult & {
 
 export const Description = ({ data }: DescriptionProps) => (
   <Flex
+    typo="body"
     css={{
       flexDirection: 'column',
       rowGap: '$3',
       backgroundColor: '$surface',
       color: '$onSurface',
-      text: '$body',
     }}
   >
     {data ? (
@@ -43,7 +43,7 @@ export const Description = ({ data }: DescriptionProps) => (
     {data ? (
       <TagList {...data} tags={data.tags.tags} />
     ) : (
-      <Flex css={{ flexWrap: 'wrap', columnGap: '$3', text: '$body' }}>
+      <Flex typo="body" css={{ flexWrap: 'wrap', columnGap: '$3' }}>
         <Box css={{ w: 64, h: 21 }}>
           <Skeleton css={{ w: 64, h: 14 }} />
         </Box>

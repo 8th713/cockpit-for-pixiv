@@ -1,13 +1,9 @@
 import { useRef } from 'react'
-import {
-  css,
-  StitchesProps,
-  styled,
-  duration,
-  easing,
-} from '../stitches.config'
+import { keyframes, styled } from '../stitches.config'
+import { duration, easing } from './animation'
+import { typography } from './typography'
 
-export type ButtonProps = StitchesProps<typeof Root>
+export type ButtonProps = React.ComponentProps<typeof Root>
 
 const Root = styled('button', {
   cursor: 'pointer',
@@ -25,13 +21,11 @@ const Root = styled('button', {
   borderRadius: 18,
   paddingX: '$3',
   gap: '$2',
-  backgroundColor: '$primary',
-  color: '$onPrimary',
   textAlign: 'center',
   textDecoration: 'none',
+  verticalAlign: 'middle',
   whiteSpace: 'nowrap',
-  fontFamily: 'inherit',
-  text: '$button',
+  ...typography.button,
   transitionProperty: 'opacity, background-color, color',
   transitionDuration: duration.simple,
   transitionTimingFunction: easing.standard,
@@ -66,12 +60,18 @@ const Root = styled('button', {
     borderRadius: '50%',
     backgroundColor: 'rgba(255, 255, 255, 0.24)',
     transform: 'scale(0)',
-    animationName: css.keyframes({ to: { transform: 'scale(4)', opacity: 0 } }),
+    animationName: keyframes({
+      to: { transform: 'scale(4)', opacity: 0 },
+    }),
     animationDuration: '600ms',
     animationTimingFunction: 'linear',
   },
   variants: {
     variant: {
+      primary: {
+        backgroundColor: '$primary',
+        color: '$onPrimary',
+      },
       secondary: {
         backgroundColor: '$secondary',
         color: '$onSecondary',
@@ -89,39 +89,37 @@ const Root = styled('button', {
       },
     },
   },
+  defaultVariants: {
+    variant: 'primary',
+  },
 })
 
 export const Button = (props: ButtonProps) => {
   const circleRef = useRef<HTMLSpanElement | null>(null)
+  const createRipple = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.currentTarget
+    const rect = button.getBoundingClientRect()
 
-  return (
-    <Root
-      {...props}
-      onClick={(e) => {
-        const button = e.currentTarget
-        const rect = button.getBoundingClientRect()
+    if (circleRef.current === null) {
+      circleRef.current = document.createElement('span')
+      circleRef.current.classList.add('ripple')
+    } else {
+      circleRef.current.remove()
+    }
 
-        if (circleRef.current === null) {
-          circleRef.current = document.createElement('span')
-          circleRef.current.classList.add('ripple')
-        } else {
-          circleRef.current.remove()
-        }
+    const circle = circleRef.current
+    const diameter = Math.max(rect.width, rect.height)
+    const radius = diameter / 2
 
-        const circle = circleRef.current
-        const diameter = Math.max(rect.width, rect.height)
-        const radius = diameter / 2
-
-        circle.style.width = circle.style.height = `${diameter}px`
-        circle.style.left = `${e.clientX - rect.left - radius}px`
-        circle.style.top = `${e.clientY - rect.top - radius}px`
-        button.appendChild(circle)
-        props.onClick && props.onClick(e)
-      }}
-    />
-  )
+    circle.style.width = circle.style.height = `${diameter}px`
+    circle.style.left = `${e.clientX - rect.left - radius}px`
+    circle.style.top = `${e.clientY - rect.top - radius}px`
+    button.appendChild(circle)
+    props.onClick && props.onClick(e)
+  }
+  return <Root {...props} onClick={createRipple} />
 }
 
 if (__DEV__) {
-  Root.displayName = 'Button.Inner'
+  Root.displayName = 'Button.Root'
 }

@@ -14,7 +14,6 @@ export const Avatar = ({ src, size = 40 }: AvatarProps) =>
       width={size}
       height={size}
       css={{
-        size,
         flexShrink: 0,
         borderRadius: '50%',
         objectFit: 'contain',
@@ -25,7 +24,6 @@ export const Avatar = ({ src, size = 40 }: AvatarProps) =>
       width={size}
       height={size}
       css={{
-        size,
         flexShrink: 0,
         backgroundColor: '#fff',
         color: '$surface',

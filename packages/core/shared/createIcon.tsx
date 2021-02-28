@@ -1,7 +1,7 @@
 import { forwardRef, memo } from 'react'
-import { styled, StitchesProps } from '../stitches.config'
+import { styled } from '../stitches.config'
 
-export type IconProps = Omit<StitchesProps<typeof SvgIcon>, 'children'>
+export type IconProps = React.ComponentProps<typeof SvgIcon>
 
 export const SvgIcon = styled('svg', {
   boxSizing: 'border-box',

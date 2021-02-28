@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { styled } from '../stitches.config'
+import { typography } from './typography'
 
 export interface ModalProps {
   children?: React.ReactNode
@@ -63,7 +64,7 @@ const Dialog = styled('dialog', {
   color: '$onSurface',
   textDecorationStyle: 'unset',
   textTransform: 'none',
-  text: '$body',
+  ...typography.body,
   '&:not([open])': {
     display: 'none',
   },

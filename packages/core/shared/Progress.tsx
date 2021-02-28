@@ -1,4 +1,4 @@
-import { css, styled } from '../stitches.config'
+import { keyframes, styled } from '../stitches.config'
 
 export type ProgressProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>
@@ -24,7 +24,7 @@ const Root = styled('div', {
 })
 
 const Svg = styled('svg', {
-  animationName: css.keyframes({ to: { transform: 'rotate(360deg)' } }),
+  animationName: keyframes({ to: { transform: 'rotate(360deg)' } }).toString(),
   animationDuration: '1.4s',
   animationTimingFunction: 'linear',
   animationIterationCount: 'infinite',
@@ -35,11 +35,11 @@ const Circle = styled('circle', {
   strokeDashoffset: 0,
   stroke: 'currentColor',
   strokeLinecap: 'round',
-  animationName: css.keyframes({
+  animationName: keyframes({
     from: { strokeDasharray: '1,200', strokeDashoffset: 0 },
     '50%': { strokeDasharray: '100,200', strokeDashoffset: '-15' },
     to: { strokeDasharray: '100,200', strokeDashoffset: '-120' },
-  }),
+  }).toString(),
   animationDuration: '1.4s',
   animationTimingFunction: 'ease-in-out',
   animationIterationCount: 'infinite',

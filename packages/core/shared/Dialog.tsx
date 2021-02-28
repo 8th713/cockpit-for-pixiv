@@ -1,9 +1,9 @@
-import { css, StitchesProps, styled } from '../stitches.config'
+import { keyframes, styled } from '../stitches.config'
 
-export type DialogProps = StitchesProps<typeof Dialog>
-export type DialogHeaderProps = StitchesProps<typeof DialogHeader>
-export type DialogContentProps = StitchesProps<typeof DialogContent>
-export type DialogFooterProps = StitchesProps<typeof DialogFooter>
+export type DialogProps = React.ComponentProps<typeof Dialog>
+export type DialogHeaderProps = React.ComponentProps<typeof DialogHeader>
+export type DialogContentProps = React.ComponentProps<typeof DialogContent>
+export type DialogFooterProps = React.ComponentProps<typeof DialogFooter>
 
 export const Dialog = styled('section', {
   pointerEvents: 'auto',
@@ -21,10 +21,10 @@ export const Dialog = styled('section', {
   color: '$onSurface',
   boxShadow:
     '0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)',
-  animationName: css.keyframes({
+  animationName: keyframes({
     from: { opacity: 0 },
     to: { opacity: 1 },
-  }),
+  }).toString(),
   animationDuration: '150ms',
   animationTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)',
 })
@@ -70,7 +70,7 @@ export const DialogFooter = styled('footer', {
 
 if (__DEV__) {
   Dialog.displayName = 'Dialog'
-  DialogHeader.displayName = 'DialogHeader'
-  DialogContent.displayName = 'DialogContent'
-  DialogFooter.displayName = 'DialogFooter'
+  DialogHeader.displayName = 'Dialog.Header'
+  DialogContent.displayName = 'Dialog.Content'
+  DialogFooter.displayName = 'Dialog.Footer'
 }

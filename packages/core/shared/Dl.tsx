@@ -1,8 +1,9 @@
-import { StitchesProps, styled } from '../stitches.config'
+import { styled } from '../stitches.config'
+import { typography } from './typography'
 
-export type DlProps = StitchesProps<typeof Dl>
-export type DtProps = StitchesProps<typeof Dt>
-export type DdProps = StitchesProps<typeof Dd>
+export type DlProps = React.ComponentProps<typeof Dl>
+export type DtProps = React.ComponentProps<typeof Dt>
+export type DdProps = React.ComponentProps<typeof Dd>
 
 export const Dl = styled('section', {
   boxSizing: 'border-box',
@@ -19,7 +20,7 @@ export const Dt = styled('span', {
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-  text: '$h3',
+  ...typography.h3,
 })
 
 export const Dd = styled('span', {
@@ -28,7 +29,7 @@ export const Dd = styled('span', {
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-  text: '$body',
+  ...typography.body,
 })
 
 if (__DEV__) {

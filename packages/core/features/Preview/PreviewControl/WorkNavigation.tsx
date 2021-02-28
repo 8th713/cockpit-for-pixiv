@@ -26,7 +26,7 @@ export const WorkNavigation = () => {
     >
       <IconButton
         css={{ top: 'calc(50vh - 56px)' }}
-        variant="circle"
+        circle
         title={previousTitle}
         onClick={nav.goPrev}
       >
@@ -35,7 +35,7 @@ export const WorkNavigation = () => {
       </IconButton>
       <IconButton
         css={{ top: 'calc(50vh - 56px)' }}
-        variant="circle"
+        circle
         title={nextTitle}
         onClick={nav.goNext}
       >
