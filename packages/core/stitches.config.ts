@@ -107,11 +107,6 @@ declare module 'react' {
 
 declare global {
   namespace JSX {
-    /**
-     * Do we need to modify `LibraryManagedAttributes` too,
-     * to make `className` props optional when `css` props is specified?
-     */
-
     interface IntrinsicAttributes {
       css?: StitchesCss<typeof stitches>
     }
