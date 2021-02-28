@@ -1,17 +1,18 @@
 import { Meta, Story } from '@storybook/react'
-import { Switch as Component, SwitchProps } from './Switch'
+import { Switch, SwitchProps } from './Switch'
 
 export default {
-  title: 'Components/Switch',
-  component: Component,
+  title: 'Shared/Switch',
+  component: Switch,
 } as Meta
 
-export const Switch: Story<SwitchProps> = (args) => <Component {...args} />
-Switch.args = {
+export const Example: Story<SwitchProps> = (args) => <Switch {...args} />
+Example.args = {
   children: 'Label text',
 }
-Switch.argTypes = {
+Example.argTypes = {
   onChange: {
     action: 'changed',
   },
 }
+Example.storyName = 'Switch'

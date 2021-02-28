@@ -2,15 +2,12 @@ import { Meta, Story } from '@storybook/react'
 import { Progress, ProgressProps } from './Progress'
 
 export default {
-  title: 'Components/Progress',
+  title: 'Shared/Progress',
   component: Progress,
-} as Meta
+} as Meta<ProgressProps>
 
-const Template: Story<ProgressProps> = (args) => <Progress {...args} />
-
-export const Default = Template.bind({})
-
-export const WithSize = Template.bind({})
-WithSize.args = {
-  size: 64,
+export const Default: Story<ProgressProps> = (args) => <Progress {...args} />
+Default.args = {
+  size: undefined,
 }
+Default.storyName = 'Progress'

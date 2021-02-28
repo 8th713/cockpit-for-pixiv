@@ -19,7 +19,7 @@ export default {
   parameters: {
     layout: 'fullscreen',
     backgrounds: {
-      disable: true,
+      default: 'light',
     },
   },
   decorators: [

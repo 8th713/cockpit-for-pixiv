@@ -2,17 +2,14 @@ import { Meta, Story } from '@storybook/react'
 import { Works } from '../../mocks/data/works'
 import { Grid } from '../../shared/Box'
 import { AboutManager } from '../About/AboutManager'
-import { globalStyles } from '../globalStyles'
 import { Router, RouterProps } from './Router'
-
-globalStyles()
 
 export default {
   title: 'Features/Router',
   component: Router,
   parameters: {
     backgrounds: {
-      disable: true,
+      default: 'light',
     },
   },
   decorators: [

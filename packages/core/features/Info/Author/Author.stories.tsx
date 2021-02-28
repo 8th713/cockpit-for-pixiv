@@ -18,9 +18,9 @@ export default {
   },
   parameters: {
     backgrounds: {
-      disable: true,
+      default: 'light',
     },
   },
-} as Meta
+} as Meta<AuthorProps>
 
 export const author: Story<AuthorProps> = (args) => <Author {...args} />

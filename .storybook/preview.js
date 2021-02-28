@@ -1,43 +1,21 @@
-import { Provider } from 'jotai'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { Box } from '../packages/core/shared/Box'
+import { globalStyles } from '../packages/core/features/globalStyles'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   backgrounds: {
-    default: 'main',
+    default: 'dark',
     values: [
       {
-        name: 'main',
-        value: '#0b132b',
+        name: 'light',
+        value: '#fafafa',
       },
       {
-        name: 'bg',
-        value: 'rgba(11, 19, 43, 0.38)',
+        name: 'dark',
+        value: '#0b132b',
       },
     ],
-    grid: {
-      cellSize: 8,
-    },
-  },
-  viewport: {
-    viewports: {
-      small: {
-        name: 'small',
-        styles: {
-          width: '480px',
-          height: '100%',
-        },
-      },
-      large: {
-        name: 'large',
-        styles: {
-          width: '1024px',
-          height: '100%',
-        },
-      },
-    },
   },
 }
 
@@ -56,21 +34,14 @@ const queryClient = new QueryClient({
 
 export const decorators = [
   (Story) => (
-    <Box
-      css={{
-        display: 'contents',
-        color: '$onSurface',
-      }}
-    >
-      <QueryClientProvider client={queryClient}>
-        <Provider>
-          <Story />
-        </Provider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </Box>
+    <QueryClientProvider client={queryClient}>
+      <Story />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   ),
 ]
+
+globalStyles()
 
 window.globalInitData = {
   token: 'token',

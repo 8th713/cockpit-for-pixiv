@@ -20,7 +20,7 @@ export default {
   },
   parameters: {
     backgrounds: {
-      default: 'bg',
+      default: 'light',
     },
   },
   decorators: [

@@ -146,8 +146,6 @@ const parseFormHTML = (html: string) => {
 const parseUserTagList = (text: string): Pixiv.MyTag[] => {
   const parsedText = JSON.parse(text.slice(21, -1))
   const userTags: Pixiv.AccountTagList = JSON.parse(parsedText)
-
-  // console.log(JSON.parse(text.slice(22, -2)))
   // const userTags: Pixiv.AccountTagList = JSON.parse(text.slice(22, -2))
 
   return Object.entries(userTags).map(([name, value]) => ({

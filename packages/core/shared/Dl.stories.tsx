@@ -4,7 +4,7 @@ import { Box } from './Box'
 import { Dd, Dl, Dt } from './Dl'
 
 export default {
-  title: 'Components/Dl',
+  title: 'Shared/Dl',
   component: Dl,
   subcomponents: { Dt, Dd },
   decorators: [

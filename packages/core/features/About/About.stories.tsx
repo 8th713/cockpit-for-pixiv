@@ -6,19 +6,16 @@ import { AboutManager } from './AboutManager'
 export default {
   title: 'Features/About',
   component: About,
-} as Meta
-
-export const about: Story<AboutProps> = (args) => <About {...args} />
-about.args = {
-  title: 'About',
-}
-about.parameters = {
-  backgrounds: {
-    disable: true,
+  parameters: {
+    backgrounds: {
+      default: 'light',
+    },
   },
-}
+} as Meta<AboutProps>
 
-export const manager: Story<{}> = () => (
+export const about: Story = () => <About title="About" />
+
+export const manager: Story = () => (
   <>
     <AboutButton />
     <AboutManager title="About" />
