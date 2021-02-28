@@ -34,6 +34,17 @@ W.storyName = 'Word'
 export const L: Story<LinkProps> = () => <Link href="#">テキスト Text</Link>
 L.storyName = 'Link'
 
+export const Typography = () => (
+  <>
+    <Paragraph typo="h1">h1 テキスト Text</Paragraph>
+    <Paragraph typo="h2">h2 テキスト Text</Paragraph>
+    <Paragraph typo="h3">h3 テキスト Text</Paragraph>
+    <Paragraph typo="body"> body テキスト Text</Paragraph>
+    <Paragraph typo="caption">caption テキスト Text</Paragraph>
+    <Paragraph typo="button">button テキスト Text</Paragraph>
+  </>
+)
+
 export const LongText = () => (
   <Paragraph>
     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero corrupti
