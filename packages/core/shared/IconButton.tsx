@@ -1,13 +1,11 @@
+import { StitchesVariants } from '@stitches/react'
 import { forwardRef, useRef } from 'react'
 import { keyframes, styled } from '../stitches.config'
 import { duration, easing } from './animation'
+import { ForwardRefComponent } from './forwardRefWithAs'
 
-export type IconButtonProps = React.ComponentProps<typeof Root>
-export type IconLinkProps = Omit<
-  React.ComponentProps<typeof Root>,
-  keyof React.ComponentProps<'button'>
-> &
-  React.ComponentProps<'a'>
+export type IconButtonProps = React.ComponentProps<typeof IconButton>
+type VariantsProps = StitchesVariants<typeof Root>
 
 const Root = styled('button', {
   appearance: 'none',
@@ -94,13 +92,14 @@ const Root = styled('button', {
   },
 })
 
-export const IconButton = (props: IconButtonProps) => {
+export const IconButton = forwardRef(function IconButton(props, forwardedRef) {
   const circleRef = useRef<HTMLSpanElement | null>(null)
 
   return (
     <Root
       {...props}
-      onClick={(e) => {
+      ref={forwardedRef}
+      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         const button = e.currentTarget
 
         if (circleRef.current === null) {
@@ -115,34 +114,7 @@ export const IconButton = (props: IconButtonProps) => {
       }}
     />
   )
-}
-
-export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>(
-  (props, ref) => {
-    const circleRef = useRef<HTMLSpanElement | null>(null)
-
-    return (
-      <Root
-        as="a"
-        {...(props as any)}
-        ref={ref}
-        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-          const button = e.currentTarget
-
-          if (circleRef.current === null) {
-            circleRef.current = document.createElement('span')
-            circleRef.current.classList.add('ripple')
-          } else {
-            circleRef.current.remove()
-          }
-
-          button.appendChild(circleRef.current)
-          props.onClick && props.onClick(e)
-        }}
-      />
-    )
-  }
-)
+}) as ForwardRefComponent<typeof Root, VariantsProps>
 
 if (__DEV__) {
   Root.displayName = 'IconButton.Root'

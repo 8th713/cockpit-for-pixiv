@@ -102,8 +102,11 @@ const Thumb = styled('span', {
   },
 })
 
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({ children, css, className, style, ...props }, ref) => (
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+  { children, css, className, style, ...props },
+  ref
+) {
+  return (
     <Root>
       <CheckboxWrapper aria-disabled={props.disabled} css={css}>
         <Checkbox {...props} type="checkbox" ref={ref} />
@@ -121,7 +124,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       </Paragraph>
     </Root>
   )
-)
+})
 
 if (__DEV__) {
   Root.displayName = 'Switch.Root'

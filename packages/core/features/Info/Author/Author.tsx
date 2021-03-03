@@ -6,7 +6,7 @@ import {
   RefreshIcon,
   TwitterIcon,
 } from '../../../shared/Icon'
-import { IconButton, IconLink } from '../../../shared/IconButton'
+import { IconButton } from '../../../shared/IconButton'
 import { useAuthorQuery } from './authorQuery'
 import { FollowButton } from './FollowButton'
 import { NameLink } from './NameLink'
@@ -46,36 +46,39 @@ export const Author = ({ illustId }: AuthorProps) => {
         <FollowButton {...props} />
         <ProfileButton key={illustId} {...props} />
         {illust ? (
-          <IconLink
+          <IconButton
+            as="a"
             href={`/member_illust.php?id=${illust.userId}`}
             title="作品一覧"
           >
             <ArtworksIcon />
-          </IconLink>
+          </IconButton>
         ) : (
           <IconButton type="button" disabled title="作品一覧">
             <ArtworksIcon />
           </IconButton>
         )}
         {author && author.webpage ? (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener referer"
             href={author.webpage}
             title="Web ページ"
           >
             <HomeIcon />
-          </IconLink>
+          </IconButton>
         ) : null}
         {author && author.social && author.social.twitter ? (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener referer"
             href={author.social.twitter.url}
             title="Twitter アカウント"
           >
             <TwitterIcon />
-          </IconLink>
+          </IconButton>
         ) : null}
       </Flex>
     </Flex>

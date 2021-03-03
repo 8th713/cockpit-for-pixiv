@@ -168,7 +168,10 @@ const Message = styled(Paragraph, {
 })
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ css, counter, disabled, invalid, label, message, ...props }, ref) => {
+  function TextField(
+    { css, counter, disabled, invalid, label, message, ...props },
+    ref
+  ) {
     const hasHelper = counter || message
 
     return (

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { getHotkeyHint, KEY_ASSIGNMENT } from '../../../keyboardMap'
 import { Hotkey } from '../../../shared/Hotkey'
 import { TwitterIcon } from '../../../shared/Icon'
-import { IconButton, IconLink } from '../../../shared/IconButton'
+import { IconButton } from '../../../shared/IconButton'
 import type { IllustQueryResult } from '../illustQuery'
 
 export type ShareButtonProps = IllustQueryResult & {
@@ -22,7 +22,8 @@ export const ShareButton = ({ data, id }: ShareButtonProps) => {
     )
 
   return (
-    <IconLink
+    <IconButton
+      as="a"
       ref={ref}
       href={createTwitterUrl(data)}
       target="_blank"
@@ -34,7 +35,7 @@ export const ShareButton = ({ data, id }: ShareButtonProps) => {
         {...KEY_ASSIGNMENT.share}
         onKeydown={() => ref.current!.click()}
       />
-    </IconLink>
+    </IconButton>
   )
 }
 

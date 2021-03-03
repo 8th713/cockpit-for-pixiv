@@ -1,9 +1,12 @@
-import { useRef } from 'react'
+import { StitchesVariants } from '@stitches/react'
+import { forwardRef, useRef } from 'react'
 import { keyframes, styled } from '../stitches.config'
 import { duration, easing } from './animation'
+import { ForwardRefComponent } from './forwardRefWithAs'
 import { typography } from './typography'
 
-export type ButtonProps = React.ComponentProps<typeof Root>
+export type ButtonProps = React.ComponentProps<typeof Button>
+type VariantsProps = StitchesVariants<typeof Root>
 
 const Root = styled('button', {
   cursor: 'pointer',
@@ -94,31 +97,37 @@ const Root = styled('button', {
   },
 })
 
-export const Button = (props: ButtonProps) => {
+export const Button = forwardRef(function Button(props, forwardedRef) {
   const circleRef = useRef<HTMLSpanElement | null>(null)
-  const createRipple = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const button = e.currentTarget
-    const rect = button.getBoundingClientRect()
 
-    if (circleRef.current === null) {
-      circleRef.current = document.createElement('span')
-      circleRef.current.classList.add('ripple')
-    } else {
-      circleRef.current.remove()
-    }
+  return (
+    <Root
+      {...props}
+      ref={forwardedRef}
+      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+        const button = e.currentTarget
+        const rect = button.getBoundingClientRect()
 
-    const circle = circleRef.current
-    const diameter = Math.max(rect.width, rect.height)
-    const radius = diameter / 2
+        if (circleRef.current === null) {
+          circleRef.current = document.createElement('span')
+          circleRef.current.classList.add('ripple')
+        } else {
+          circleRef.current.remove()
+        }
 
-    circle.style.width = circle.style.height = `${diameter}px`
-    circle.style.left = `${e.clientX - rect.left - radius}px`
-    circle.style.top = `${e.clientY - rect.top - radius}px`
-    button.appendChild(circle)
-    props.onClick && props.onClick(e)
-  }
-  return <Root {...props} onClick={createRipple} />
-}
+        const circle = circleRef.current
+        const diameter = Math.max(rect.width, rect.height)
+        const radius = diameter / 2
+
+        circle.style.width = circle.style.height = `${diameter}px`
+        circle.style.left = `${e.clientX - rect.left - radius}px`
+        circle.style.top = `${e.clientY - rect.top - radius}px`
+        button.appendChild(circle)
+        props.onClick && props.onClick(e)
+      }}
+    />
+  )
+}) as ForwardRefComponent<typeof Root, VariantsProps>
 
 if (__DEV__) {
   Root.displayName = 'Button.Root'

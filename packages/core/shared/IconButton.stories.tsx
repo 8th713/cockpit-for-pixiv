@@ -6,7 +6,7 @@ import {
   FollowingIcon,
   FollowIcon,
 } from './Icon'
-import { IconButton, IconLink } from './IconButton'
+import { IconButton } from './IconButton'
 
 export default {
   title: 'Shared/IconButton',
@@ -32,12 +32,12 @@ export const iconButton = () => (
 
 export const iconLink = () => (
   <Flex css={{ gap: '$2' }}>
-    <IconLink href="#" onClick={(e) => e.preventDefault()}>
+    <IconButton as="a" href="#" onClick={(e) => e.preventDefault()}>
       <FollowIcon />
-    </IconLink>
-    <IconLink href="#" onClick={(e) => e.preventDefault()}>
+    </IconButton>
+    <IconButton as="a" href="#" onClick={(e) => e.preventDefault()}>
       <FollowingIcon />
-    </IconLink>
+    </IconButton>
   </Flex>
 )
 
