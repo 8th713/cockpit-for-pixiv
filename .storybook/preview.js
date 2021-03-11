@@ -33,15 +33,16 @@ const queryClient = new QueryClient({
 })
 
 export const decorators = [
-  (Story) => (
-    <QueryClientProvider client={queryClient}>
-      <Story />
-      <ReactQueryDevtools />
-    </QueryClientProvider>
-  ),
+  (Story) => {
+    globalStyles()
+    return (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    )
+  },
 ]
-
-globalStyles()
 
 window.globalInitData = {
   token: 'token',

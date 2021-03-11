@@ -16,7 +16,6 @@ const noWrapVariant = {
 } as const
 
 export const Title = styled('h1', {
-  '--label': 'title',
   boxSizing: 'border-box',
   minWidth: 0,
   margin: 0,
@@ -30,7 +29,6 @@ export const Title = styled('h1', {
 })
 
 export const Subtitle = styled('h2', {
-  '--label': 'subtitle',
   boxSizing: 'border-box',
   minWidth: 0,
   margin: 0,
@@ -44,7 +42,6 @@ export const Subtitle = styled('h2', {
 })
 
 export const Paragraph = styled('p', {
-  '--label': 'paragraph',
   boxSizing: 'border-box',
   minWidth: 0,
   margin: 0,
