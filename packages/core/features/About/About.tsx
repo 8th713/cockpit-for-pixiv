@@ -1,12 +1,14 @@
 import { memo } from 'react'
 import { KEY_ASSIGNMENT } from '../../keyboardMap'
+import { duration, easing } from '../../shared/animation'
 import { Box } from '../../shared/Box'
 import { Dialog, DialogContent, DialogHeader } from '../../shared/Dialog'
 import { Divider } from '../../shared/Divider'
-import { Dl, Dt, Dd } from '../../shared/Dl'
+import { Dd, Dl, Dt } from '../../shared/Dl'
 import { BugIcon, HomeIcon, TwitterIcon } from '../../shared/Icon'
 import { Subtitle, Title, Word } from '../../shared/Text'
-import { duration, easing, styled } from '../../stitches.config'
+import { typography } from '../../shared/typography'
+import { styled } from '../../stitches.config'
 
 export type AboutProps = {
   title: string
@@ -80,7 +82,7 @@ const Link = styled('a', {
   paddingX: 24,
   columnGap: '$3',
   color: '$primary',
-  text: '$h2',
+  ...typography.h2,
   textDecorationLine: 'none',
   outlineStyle: 'none',
   '&::after': {
@@ -115,7 +117,7 @@ const Kbd = styled('kbd', {
   borderRadius: 4,
   textAlign: 'center',
   textTransform: 'capitalize',
-  fontFamily: 'mono',
+  fontFamily: '$mono',
 })
 
 if (__DEV__) {

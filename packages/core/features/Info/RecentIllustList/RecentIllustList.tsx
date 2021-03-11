@@ -1,9 +1,10 @@
 import { useLayoutEffect, useRef } from 'react'
 import { KEY_ASSIGNMENT } from '../../../keyboardMap'
+import { duration, easing } from '../../../shared/animation'
 import { Box, Flex, Skeleton } from '../../../shared/Box'
 import { Hotkey } from '../../../shared/Hotkey'
 import { Img } from '../../../shared/Img'
-import { duration, easing, styled } from '../../../stitches.config'
+import { styled } from '../../../stitches.config'
 import { useNavigate } from '../../Router/routerState'
 import { useRecentIllustsQuery } from './recentIllustsQuery'
 

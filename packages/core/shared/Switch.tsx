@@ -1,8 +1,9 @@
 import { forwardRef } from 'react'
-import { styled, StitchesProps, duration, easing } from '../stitches.config'
+import { styled } from '../stitches.config'
+import { duration, easing } from './animation'
 import { Paragraph } from './Text'
 
-export type SwitchProps = StitchesProps<typeof Checkbox> & {}
+export type SwitchProps = React.ComponentProps<typeof Checkbox> & {}
 
 const Root = styled('label', {
   boxSizing: 'border-box',
@@ -101,8 +102,11 @@ const Thumb = styled('span', {
   },
 })
 
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({ children, css, className, style, ...props }, ref) => (
+export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+  { children, css, className, style, ...props },
+  ref
+) {
+  return (
     <Root>
       <CheckboxWrapper aria-disabled={props.disabled} css={css}>
         <Checkbox {...props} type="checkbox" ref={ref} />
@@ -110,8 +114,9 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         <Thumb />
       </CheckboxWrapper>
       <Paragraph
+        typo="h2"
         css={{
-          text: '$h2',
+          userSelect: 'none',
           fontWeight: 'normal',
         }}
       >
@@ -119,10 +124,10 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       </Paragraph>
     </Root>
   )
-)
+})
 
 if (__DEV__) {
-  Root.displayName = 'Switch.Container'
+  Root.displayName = 'Switch.Root'
   CheckboxWrapper.displayName = 'Switch.CheckboxWrapper'
   Checkbox.displayName = 'Switch.Checkbox'
   Track.displayName = 'Switch.Track'

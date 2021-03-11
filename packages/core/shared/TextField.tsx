@@ -1,9 +1,11 @@
 import { forwardRef } from 'react'
-import { duration, easing, StitchesProps, styled } from '../stitches.config'
+import { styled } from '../stitches.config'
+import { duration, easing } from './animation'
 import { Flex } from './Box'
 import { Paragraph } from './Text'
+import { typography } from './typography'
 
-export type TextFieldProps = StitchesProps<typeof Input> & {
+export type TextFieldProps = React.ComponentProps<typeof Input> & {
   children?: never
   counter?: string
   invalid?: boolean
@@ -64,7 +66,7 @@ const Input = styled('input', {
     backgroundColor: 'transparent',
     color: 'inherit',
     caretColor: '$primary',
-    text: '$body',
+    ...typography.body,
     fontSize: '16px',
     '&:disabled': {
       opacity: 0.38,
@@ -156,15 +158,20 @@ const Line = styled('div', {
 const Message = styled(Paragraph, {
   marginBottom: 0,
   opacity: 0.6,
-  text: '$caption',
   '[aria-invalid="true"] &': {
     color: '$secondary',
     opacity: 1,
   },
+  defaultVariants: {
+    typo: 'caption',
+  },
 })
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ css, counter, disabled, invalid, label, message, ...props }, ref) => {
+  function TextField(
+    { css, counter, disabled, invalid, label, message, ...props },
+    ref
+  ) {
     const hasHelper = counter || message
 
     return (
@@ -182,7 +189,9 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         </Container>
         {hasHelper && (
           <Flex css={{ columnGap: '$2', paddingX: 12 }}>
-            <Message css={{ flexGrow: 1, ellipsis: 'auto' }}>{message}</Message>
+            <Message noWrap css={{ flexGrow: 1 }}>
+              {message}
+            </Message>
             <Message css={{ flexShrink: 0 }}>{counter}</Message>
           </Flex>
         )}

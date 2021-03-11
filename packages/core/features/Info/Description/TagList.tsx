@@ -20,7 +20,7 @@ export const TagList = ({
   const category = getCategory(xRestrict)
 
   return (
-    <Flex css={{ flexWrap: 'wrap', columnGap: '$3', text: '$body' }}>
+    <Flex typo="body" css={{ flexWrap: 'wrap', columnGap: '$3' }}>
       {category && (
         <BoldLink href={getURL(category)} css={{ color: '$secondary' }}>
           {category}

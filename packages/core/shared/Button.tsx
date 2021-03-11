@@ -1,13 +1,12 @@
-import { useRef } from 'react'
-import {
-  css,
-  StitchesProps,
-  styled,
-  duration,
-  easing,
-} from '../stitches.config'
+import { StitchesVariants } from '@stitches/react'
+import { forwardRef, useRef } from 'react'
+import { keyframes, styled } from '../stitches.config'
+import { duration, easing } from './animation'
+import { ForwardRefComponent } from './forwardRefWithAs'
+import { typography } from './typography'
 
-export type ButtonProps = StitchesProps<typeof Root>
+export type ButtonProps = React.ComponentProps<typeof Button>
+type VariantsProps = StitchesVariants<typeof Root>
 
 const Root = styled('button', {
   cursor: 'pointer',
@@ -25,13 +24,11 @@ const Root = styled('button', {
   borderRadius: 18,
   paddingX: '$3',
   gap: '$2',
-  backgroundColor: '$primary',
-  color: '$onPrimary',
   textAlign: 'center',
   textDecoration: 'none',
+  verticalAlign: 'middle',
   whiteSpace: 'nowrap',
-  fontFamily: 'inherit',
-  text: '$button',
+  ...typography.button,
   transitionProperty: 'opacity, background-color, color',
   transitionDuration: duration.simple,
   transitionTimingFunction: easing.standard,
@@ -66,12 +63,18 @@ const Root = styled('button', {
     borderRadius: '50%',
     backgroundColor: 'rgba(255, 255, 255, 0.24)',
     transform: 'scale(0)',
-    animationName: css.keyframes({ to: { transform: 'scale(4)', opacity: 0 } }),
+    animationName: keyframes({
+      to: { transform: 'scale(4)', opacity: 0 },
+    }),
     animationDuration: '600ms',
     animationTimingFunction: 'linear',
   },
   variants: {
     variant: {
+      primary: {
+        backgroundColor: '$primary',
+        color: '$onPrimary',
+      },
       secondary: {
         backgroundColor: '$secondary',
         color: '$onSecondary',
@@ -89,15 +92,19 @@ const Root = styled('button', {
       },
     },
   },
+  defaultVariants: {
+    variant: 'primary',
+  },
 })
 
-export const Button = (props: ButtonProps) => {
+export const Button = forwardRef(function Button(props, forwardedRef) {
   const circleRef = useRef<HTMLSpanElement | null>(null)
 
   return (
     <Root
       {...props}
-      onClick={(e) => {
+      ref={forwardedRef}
+      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         const button = e.currentTarget
         const rect = button.getBoundingClientRect()
 
@@ -120,8 +127,8 @@ export const Button = (props: ButtonProps) => {
       }}
     />
   )
-}
+}) as ForwardRefComponent<typeof Root, VariantsProps>
 
 if (__DEV__) {
-  Root.displayName = 'Button.Inner'
+  Root.displayName = 'Button.Root'
 }

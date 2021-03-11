@@ -3,7 +3,7 @@ import { Box, Flex } from './Box'
 import { Divider, DividerProps } from './Divider'
 
 export default {
-  title: 'Components/Divider',
+  title: 'Shared/Divider',
   component: Divider,
 } as Meta
 

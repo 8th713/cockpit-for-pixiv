@@ -1,45 +1,90 @@
-import { Meta, Story } from '@storybook/react'
-import { Box, BoxProps } from './Box'
+import { Meta } from '@storybook/react'
+import { Box, BoxProps, Flex, Grid } from './Box'
 
 export default {
-  title: 'Components/Box',
+  title: 'Shared/Box',
   component: Box,
-} as Meta
+} as Meta<BoxProps>
 
-const Template: Story<BoxProps> = (args) => <Box {...args} />
+export const BoxExample = () => (
+  <Box
+    css={{
+      size: 256,
+      backgroundColor: '$primary',
+      color: '$onPrimary',
+    }}
+  >
+    Box
+  </Box>
+)
+BoxExample.storyName = 'Box'
 
-export const Default = Template.bind({})
-Default.args = {
-  children: 'Text',
-  css: {
-    padding: '$2',
-    backgroundColor: '$surface',
-  },
-}
+export const FlexExample = () => (
+  <Flex>
+    <Box
+      css={{
+        flexGrow: 1,
+        backgroundColor: '$primary',
+        color: '$onPrimary',
+      }}
+    >
+      Box 1
+    </Box>
+    <Box
+      css={{
+        flexGrow: 1,
+        backgroundColor: '$secondary',
+        color: '$onSecondary',
+      }}
+    >
+      Box 2
+    </Box>
+  </Flex>
+)
+FlexExample.storyName = 'Flex'
 
-export const Nest = Template.bind({})
-Nest.args = {
-  children: (
-    <>
-      <Box
-        css={{
-          padding: '$2',
-          backgroundColor: '$primary',
-          color: '$onPrimary',
-          flexGrow: 1,
-        }}
-      >
-        Primary
-      </Box>
-      <Box
-        css={{
-          padding: '$2',
-          backgroundColor: '$secondary',
-          color: '$onSecondary',
-        }}
-      >
-        Secondary
-      </Box>
-    </>
-  ),
-}
+export const GridExample = () => (
+  <Grid
+    css={{
+      gridTemplateColumns: '1fr 1fr',
+      gridTemplateRows: '1fr 1fr',
+      gap: '$2',
+    }}
+  >
+    <Box
+      css={{
+        backgroundColor: '$primary',
+        color: '$onPrimary',
+      }}
+    >
+      Box 1
+    </Box>
+    <Box
+      css={{
+        backgroundColor: '$secondary',
+        color: '$onSecondary',
+      }}
+    >
+      Box 2
+    </Box>
+    <Box
+      css={{
+        backgroundColor: '$secondary',
+        color: '$onSecondary',
+      }}
+    >
+      Box 3
+    </Box>
+    <Box
+      css={{
+        backgroundColor: '$primary',
+        color: '$onPrimary',
+      }}
+    >
+      Box 4
+    </Box>
+  </Grid>
+)
+GridExample.storyName = 'Grid'
+
+export const WithTypoVariant = () => <Box typo="h1">Box</Box>

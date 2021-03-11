@@ -1,4 +1,6 @@
-import { duration, easing, styled } from '../../../stitches.config'
+import { duration, easing } from '../../../shared/animation'
+import { typography } from '../../../shared/typography'
+import { styled } from '../../../stitches.config'
 
 export const NameLink = styled('a', {
   boxSizing: 'border-box',
@@ -11,7 +13,7 @@ export const NameLink = styled('a', {
   borderRadius: 4,
   columnGap: '$3',
   color: '$onSurface',
-  text: '$h2',
+  ...typography.h2,
   textDecorationLine: 'none',
   outlineStyle: 'none',
   '&::after': {

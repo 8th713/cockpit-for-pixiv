@@ -1,5 +1,6 @@
 import { styled } from '../stitches.config'
 import { IconProps } from './createIcon'
+import { typography } from './typography'
 
 export const Root = styled('div', {
   boxSizing: 'border-box',
@@ -7,7 +8,7 @@ export const Root = styled('div', {
   alignItems: 'center',
   columnGap: '$1',
   whiteSpace: 'nowrap',
-  text: '$body',
+  ...typography.body,
 })
 
 export type StatProps = {
@@ -51,5 +52,5 @@ export const TextWithIcon = ({
 )
 
 if (__DEV__) {
-  Root.displayName = 'Stat.Inner'
+  Root.displayName = 'Stat.Root'
 }

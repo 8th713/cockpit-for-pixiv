@@ -38,6 +38,6 @@ npm run build
 
 ## License
 
-Copyright 2014-2019 8th713.
+Copyright 2014-2021 8th713.
 
 Licensed under the MIT License

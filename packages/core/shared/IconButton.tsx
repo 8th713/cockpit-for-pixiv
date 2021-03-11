@@ -1,16 +1,11 @@
-import { IStyledComponent } from '@stitches/react'
+import { StitchesVariants } from '@stitches/react'
 import { forwardRef, useRef } from 'react'
-import {
-  Config,
-  css,
-  duration,
-  easing,
-  StitchesProps,
-  styled,
-} from '../stitches.config'
+import { keyframes, styled } from '../stitches.config'
+import { duration, easing } from './animation'
+import { ForwardRefComponent } from './forwardRefWithAs'
 
-export type IconButtonProps = StitchesProps<typeof Root>
-export type IconLinkProps = StitchesProps<IStyledComponent<'a', {}, Config>>
+export type IconButtonProps = React.ComponentProps<typeof IconButton>
+type VariantsProps = StitchesVariants<typeof Root>
 
 const Root = styled('button', {
   appearance: 'none',
@@ -68,13 +63,13 @@ const Root = styled('button', {
     borderRadius: '50%',
     backgroundColor: 'rgba(255, 255, 255, 0.24)',
     transform: 'scale(0)',
-    animationName: css.keyframes({ to: { transform: 'scale(4)', opacity: 0 } }),
+    animationName: keyframes({ to: { transform: 'scale(4)', opacity: 0 } }),
     animationDuration: '600ms',
     animationTimingFunction: 'linear',
   },
   variants: {
-    variant: {
-      circle: {
+    circle: {
+      true: {
         position: 'sticky',
         backgroundColor: 'rgba(11, 19, 43, 0.08)',
         color: '$onSurface',
@@ -86,16 +81,25 @@ const Root = styled('button', {
         },
       },
     },
+    color: {
+      primary: {
+        color: '$primary',
+      },
+      secondary: {
+        color: '$secondary',
+      },
+    },
   },
 })
 
-export const IconButton = (props: IconButtonProps) => {
+export const IconButton = forwardRef(function IconButton(props, forwardedRef) {
   const circleRef = useRef<HTMLSpanElement | null>(null)
 
   return (
     <Root
       {...props}
-      onClick={(e) => {
+      ref={forwardedRef}
+      onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
         const button = e.currentTarget
 
         if (circleRef.current === null) {
@@ -110,35 +114,8 @@ export const IconButton = (props: IconButtonProps) => {
       }}
     />
   )
-}
-
-export const IconLink = forwardRef<HTMLAnchorElement, IconLinkProps>(
-  (props, ref) => {
-    const circleRef = useRef<HTMLSpanElement | null>(null)
-
-    return (
-      <Root
-        {...props}
-        as="a"
-        ref={ref}
-        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-          const button = e.currentTarget
-
-          if (circleRef.current === null) {
-            circleRef.current = document.createElement('span')
-            circleRef.current.classList.add('ripple')
-          } else {
-            circleRef.current.remove()
-          }
-
-          button.appendChild(circleRef.current)
-          props.onClick && props.onClick(e as any)
-        }}
-      />
-    )
-  }
-)
+}) as ForwardRefComponent<typeof Root, VariantsProps>
 
 if (__DEV__) {
-  Root.displayName = 'IconButton.Inner'
+  Root.displayName = 'IconButton.Root'
 }

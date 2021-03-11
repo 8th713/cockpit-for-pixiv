@@ -18,7 +18,7 @@ export default {
   },
   parameters: {
     backgrounds: {
-      disable: true,
+      default: 'light',
     },
   },
 } as Meta

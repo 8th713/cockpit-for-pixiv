@@ -7,9 +7,14 @@ import { Modal } from './Modal'
 import { Paragraph, Title } from './Text'
 
 export default {
-  title: 'Components/Dialog',
+  title: 'Shared/Dialog',
   component: Dialog,
   subcomponents: { DialogHeader, DialogContent, DialogFooter },
+  parameters: {
+    backgrounds: {
+      default: 'light',
+    },
+  },
 } as Meta
 
 export const FullSet = () => (

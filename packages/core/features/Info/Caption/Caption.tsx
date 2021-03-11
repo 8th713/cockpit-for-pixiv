@@ -26,7 +26,7 @@ export const Caption = (props: CaptionProps) => (
     <Box css={{ padding: '$1' }}>
       <ScrollBottomButton />
     </Box>
-    <Title css={{ flexGrow: 1, paddingY: '$1', ellipsis: 'auto' }}>
+    <Title noWrap css={{ flexGrow: 1, paddingY: '$1' }}>
       <CaptionTitle {...props} />
     </Title>
     <Box css={{ padding: '$1' }}>

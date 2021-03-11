@@ -1,24 +1,12 @@
 import { Meta } from '@storybook/react'
 import { Badge } from './Badge'
-import { Flex } from './Box'
-import { Button } from './Button'
+import { Button, ButtonProps } from './Button'
 import { FollowingIcon, FollowIcon } from './Icon'
 
 export default {
-  title: 'Components/Button',
+  title: 'Shared/Button',
   component: Button,
-  decorators: [
-    (Story) => (
-      <Flex
-        css={{
-          gap: '$2',
-        }}
-      >
-        <Story />
-      </Flex>
-    ),
-  ],
-} as Meta
+} as Meta<ButtonProps>
 
 export const Variants = () => (
   <>

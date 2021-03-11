@@ -1,15 +1,14 @@
 import { Meta, Story } from '@storybook/react'
 import { Box, Grid } from './Box'
 import { IconProps, SvgIcon } from './createIcon'
-import { Subtitle } from './Text'
 import * as icons from './Icon'
 
 export default {
-  title: 'Components/Icons',
+  title: 'Shared/Icons',
   component: SvgIcon,
-} as Meta
+} as Meta<IconProps>
 
-const Template: Story<IconProps> = (args) => (
+export const Default: Story<IconProps> = (args) => (
   <Grid
     css={{
       gridTemplateColumns: 'repeat(auto-fill, 200px)',
@@ -23,17 +22,14 @@ const Template: Story<IconProps> = (args) => (
         <Box>
           <Icon {...args} />
         </Box>
-        <Subtitle>{key}</Subtitle>
+        <Box typo="h2">{key}</Box>
       </Box>
     ))}
   </Grid>
 )
 
-export const Default = Template.bind({})
-Default.args = {}
-
-export const Primary = Template.bind({})
-Primary.args = {
+export const WithColor = Default.bind({})
+WithColor.args = {
   css: {
     color: '$primary',
   },

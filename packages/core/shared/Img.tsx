@@ -1,6 +1,6 @@
-import { StitchesProps, styled } from '../stitches.config'
+import { styled } from '../stitches.config'
 
-export type ImgProps = StitchesProps<typeof Img>
+export type ImgProps = React.ComponentProps<typeof Img>
 
 export const Img = styled('img', {
   boxSizing: 'border-box',

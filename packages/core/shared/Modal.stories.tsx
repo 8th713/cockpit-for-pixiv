@@ -1,22 +1,22 @@
-import { Meta } from '@storybook/react'
+import { Meta, Story } from '@storybook/react'
 import { useState } from 'react'
 import { Box } from './Box'
 import { Button } from './Button'
-import { Modal as Component } from './Modal'
+import { Modal } from './Modal'
 
 export default {
-  title: 'Components/Modal',
-  component: Component,
+  title: 'Shared/Modal',
+  component: Modal,
 } as Meta
 
-const Example = () => {
-  const [isOpen, setOpen] = useState(false)
+export const Example: Story = () => {
+  const [isOpen, setOpen] = useState(true)
   const close = setOpen.bind(null, false)
 
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open dialog</Button>
-      <Component open={isOpen} onClose={close}>
+      <Modal open={isOpen} onClose={close}>
         <Box
           css={{
             maxWidth: '80%',
@@ -28,9 +28,8 @@ const Example = () => {
           <p>Dialog Content</p>
           <Button onClick={close}>Close</Button>
         </Box>
-      </Component>
+      </Modal>
     </>
   )
 }
-
-export const Modal = () => <Example />
+Example.storyName = 'Modal'

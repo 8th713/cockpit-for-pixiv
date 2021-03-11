@@ -1,6 +1,6 @@
-import { StitchesProps, styled } from '../stitches.config'
+import { styled } from '../stitches.config'
 
-export type DividerProps = StitchesProps<typeof Divider>
+export type DividerProps = React.ComponentProps<typeof Divider>
 
 export const Divider = styled('div', {
   boxSizing: 'border-box',

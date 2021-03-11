@@ -1,19 +1,11 @@
-import { Meta, Story } from '@storybook/react'
+import { Meta } from '@storybook/react'
 import { Badge, BadgeProps } from './Badge'
 
 export default {
-  title: 'Components/Badge',
+  title: 'Shared/Badge',
   component: Badge,
-} as Meta
+} as Meta<BadgeProps>
 
-const Template: Story<BadgeProps> = (args) => <Badge {...args} />
+export const Default = () => <Badge>5</Badge>
 
-export const Default = Template.bind({})
-Default.args = {
-  children: 5,
-}
-
-export const BigValue = Template.bind({})
-BigValue.args = {
-  children: 10000,
-}
+export const BigValue = () => <Badge>10000</Badge>

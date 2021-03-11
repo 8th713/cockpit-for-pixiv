@@ -12,7 +12,7 @@ import {
   TumblrIcon,
   TwitterIcon,
 } from '../../../shared/Icon'
-import { IconLink } from '../../../shared/IconButton'
+import { IconButton } from '../../../shared/IconButton'
 import { Title } from '../../../shared/Text'
 import { HTMLText } from '../../../shared/HTMLText'
 
@@ -47,74 +47,81 @@ export const Profile = ({
       <Title>{name}</Title>
       <Flex>
         {webpage && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={webpage}
             title="Web ページ"
           >
             <HomeIcon />
-          </IconLink>
+          </IconButton>
         )}
         {social.twitter && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={social.twitter.url}
             title="Twitter"
           >
             <TwitterIcon />
-          </IconLink>
+          </IconButton>
         )}
         {social.facebook && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={social.facebook.url}
             title="Facebook"
           >
             <FacebookIcon />
-          </IconLink>
+          </IconButton>
         )}
         {social.instagram && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={social.instagram.url}
             title="Instagram"
           >
             <InstagramIcon />
-          </IconLink>
+          </IconButton>
         )}
         {social.tumblr && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={social.tumblr.url}
             title="Tumblr"
           >
             <TumblrIcon />
-          </IconLink>
+          </IconButton>
         )}
         {social.circlems && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={social.circlems.url}
             title="Circle.ms"
           >
             <CirclemsIcon />
-          </IconLink>
+          </IconButton>
         )}
         {social.pawoo && (
-          <IconLink
+          <IconButton
+            as="a"
             target="_blank"
             rel="noopener noreferrer"
             href={social.pawoo.url}
             title="Pawoo"
           >
             <PawooIcon />
-          </IconLink>
+          </IconButton>
         )}
       </Flex>
     </DialogHeader>

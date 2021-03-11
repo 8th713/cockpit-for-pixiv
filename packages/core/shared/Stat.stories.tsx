@@ -4,25 +4,11 @@ import { BookmarkOnIcon, DateTimeIcon, LikeIcon, ViewCountIcon } from './Icon'
 import { Stat, StatProps } from './Stat'
 
 export default {
-  title: 'Components/Stat',
+  title: 'Shared/Stat',
   component: Stat,
-} as Meta
+} as Meta<StatProps>
 
-const Template: Story<StatProps> = (args) => <Stat {...args} />
-
-export const Count = Template.bind({})
-Count.args = {
-  value: 1200,
-  icon: LikeIcon,
-}
-
-export const Date = Template.bind({})
-Date.args = {
-  value: '2020-11-11T15:30:00+00:00',
-  icon: DateTimeIcon,
-}
-
-export const Collection = () => (
+export const Example: Story = () => (
   <Flex
     css={{
       gap: '$2',
@@ -38,3 +24,4 @@ export const Collection = () => (
     />
   </Flex>
 )
+Example.storyName = 'Stat'

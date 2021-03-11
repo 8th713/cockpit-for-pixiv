@@ -1,12 +1,12 @@
 import { atom } from 'jotai'
 import { useAtomValue, useUpdateAtom } from 'jotai/utils'
-import { createRef, MutableRefObject, useMemo } from 'react'
+import { MutableRefObject, useMemo } from 'react'
 import { useSetIsFullSize } from '../Preview/previewState'
 import { usePrefetch } from './prefetch'
 import { getId, getSibling, toggleWindowScrollBar } from './utils'
 
 const idAtom = atom<string | null>(null)
-const targetAtom = atom<MutableRefObject<Element | null>>(createRef)
+const targetAtom = atom<MutableRefObject<Element | null>>({ current: null })
 
 export const useRouteId = () => useAtomValue(idAtom)
 

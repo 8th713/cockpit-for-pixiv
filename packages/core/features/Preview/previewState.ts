@@ -1,4 +1,5 @@
 import { atom, useAtom } from 'jotai'
+import { Getter, Setter } from 'jotai/core/types'
 import { useAtomCallback, useUpdateAtom } from 'jotai/utils'
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 
@@ -8,25 +9,28 @@ const selectedElementAtom = atom<HTMLElement | null>(null)
 
 export const useIsFullSize = () => useAtom(fullSizeAtom)[0]
 
+const offCallback = (get: Getter, set: Setter) => {
+  const element = get(selectedElementAtom)
+
+  if (element) {
+    element.scrollIntoView()
+  }
+  set(fullSizeAtom, false)
+}
+const toggleCallback = (get: Getter, set: Setter) => {
+  const isFullSize = get(fullSizeAtom)
+  const element = get(selectedElementAtom)
+
+  if (isFullSize && element) {
+    element.scrollIntoView()
+  }
+  set(fullSizeAtom, !isFullSize)
+}
+
 export const useSetIsFullSize = () => {
   const set = useUpdateAtom(fullSizeAtom)
-  const off = useAtomCallback((get, set) => {
-    const element = get(selectedElementAtom)
-
-    if (element) {
-      element.scrollIntoView()
-    }
-    set(fullSizeAtom, false)
-  })
-  const toggle = useAtomCallback((get, set) => {
-    const isFullSize = get(fullSizeAtom)
-    const element = get(selectedElementAtom)
-
-    if (isFullSize && element) {
-      element.scrollIntoView()
-    }
-    set(fullSizeAtom, !isFullSize)
-  })
+  const off = useAtomCallback(offCallback)
+  const toggle = useAtomCallback<void>(toggleCallback)
 
   return useMemo(
     () => ({

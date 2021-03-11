@@ -1,29 +1,57 @@
-import { StitchesProps, styled } from '../stitches.config'
+import { styled } from '../stitches.config'
+import { typography } from './typography'
 
-export type TitleProps = StitchesProps<typeof Title>
-export type SubtitleProps = StitchesProps<typeof Subtitle>
-export type ParagraphProps = StitchesProps<typeof Paragraph>
-export type WordProps = StitchesProps<typeof Word>
+export type TitleProps = React.ComponentProps<typeof Title>
+export type SubtitleProps = React.ComponentProps<typeof Subtitle>
+export type ParagraphProps = React.ComponentProps<typeof Paragraph>
+export type WordProps = React.ComponentProps<typeof Word>
+export type LinkProps = React.ComponentProps<typeof Link>
+
+const noWrapVariant = {
+  true: {
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+} as const
 
 export const Title = styled('h1', {
   boxSizing: 'border-box',
   minWidth: 0,
   margin: 0,
-  text: '$h1',
+  variants: {
+    typo: typography,
+    noWrap: noWrapVariant,
+  },
+  defaultVariants: {
+    typo: 'h1',
+  },
 })
 
 export const Subtitle = styled('h2', {
   boxSizing: 'border-box',
   minWidth: 0,
   margin: 0,
-  text: '$h2',
+  variants: {
+    typo: typography,
+    noWrap: noWrapVariant,
+  },
+  defaultVariants: {
+    typo: 'h2',
+  },
 })
 
 export const Paragraph = styled('p', {
   boxSizing: 'border-box',
   minWidth: 0,
   margin: 0,
-  text: '$body',
+  variants: {
+    typo: typography,
+    noWrap: noWrapVariant,
+  },
+  defaultVariants: {
+    typo: 'body',
+  },
 })
 
 export const Word = styled('span', {
