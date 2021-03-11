@@ -2,7 +2,7 @@ import { download } from './download'
 import { injectScript, isDownload, isSuccess } from './utils'
 
 const LABEL = `${GM_info.script.name} - ${GM_info.script.version}`
-const JSZIP_CDN = 'https://unpkg.com/jszip@3.1.5/dist/jszip.min.js'
+const JSZIP_CDN = 'https://unpkg.com/jszip@3.6.0/dist/jszip.min.js'
 const channel = new MessageChannel()
 const { port1, port2 } = channel
 
@@ -19,6 +19,7 @@ port1.addEventListener('message', (event) => {
     } catch (err) {
       console.error(LABEL + ': Download error', err)
     }
+    return
   }
   console.error(LABEL + ': Unknown action', event.data)
 })
