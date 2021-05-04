@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
+import { KEY_ASSIGNMENT } from '../../keyboardMap'
 import { Box } from '../../shared/Box'
+import { Hotkey } from '../../shared/Hotkey'
 import { FullSize } from './FullSize/FullSize'
 import { ImageList } from './ImageList/ImageList'
-import { useIsFullSize } from './previewState'
+import { useIsFullSize, useSetIsFullSize } from './previewState'
 
 export interface PreviewProps {
   id: string
@@ -11,6 +13,7 @@ export interface PreviewProps {
 
 export const Preview = ({ id, children }: PreviewProps) => {
   const isFullSize = useIsFullSize()
+  const { toggle } = useSetIsFullSize()
   const scrollableElementRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -34,6 +37,7 @@ export const Preview = ({ id, children }: PreviewProps) => {
         {children}
       </Box>
       {isFullSize && <FullSize id={id} />}
+      <Hotkey {...KEY_ASSIGNMENT.fullSizeMode} onKeydown={toggle} />
     </>
   )
 }
