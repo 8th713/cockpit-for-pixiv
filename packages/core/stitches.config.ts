@@ -1,5 +1,5 @@
 import { Properties } from '@stitches/core/types/css-types'
-import { createCss,StitchesCss } from '@stitches/react'
+import { createCss } from '@stitches/react'
 
 type CssValue = Properties<0 | (string & {})>
 // @ts-ignore
@@ -98,17 +98,3 @@ const stitches = createCss({
 })
 
 export const { css, styled, global, keyframes } = stitches
-
-declare module 'react' {
-  interface DOMAttributes<T> {
-    css?: never
-  }
-}
-
-declare global {
-  namespace JSX {
-    interface IntrinsicAttributes {
-      css?: StitchesCss<typeof stitches>
-    }
-  }
-}

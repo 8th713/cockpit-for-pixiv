@@ -12,6 +12,7 @@
   "readmeFilename": "README.md",
   "repository": "8th713/cockpit-for-pixiv",
   "scripts": {
+    "postinstall": "rm -rf node_modules/@emotion/core/types",
     "lint": "eslint packages --ext js,ts,tsx",
     "type-check": "tsc",
     "prebuild": "npm run lint && npm run type-check",
