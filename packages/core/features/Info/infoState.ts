@@ -19,12 +19,12 @@ export const useScrollBottomAnchor = (
   const ref = useBottomAnchor()
 
   return useCallback(() => {
-    if (ref.current) {
-      ref.current.scrollIntoView({
-        behavior,
-        block: 'start',
-      })
-    }
+    if (!ref.current) return
+    if (isInView(ref.current)) return
+    ref.current.scrollIntoView({
+      behavior,
+      block: 'start',
+    })
   }, [behavior, ref])
 }
 
@@ -33,9 +33,12 @@ export const useIsInViewBottomAnchor = () => {
 
   return useCallback(() => {
     if (!ref.current) return false
-
-    const rect = ref.current.getBoundingClientRect()
-
-    return rect.top < window.innerHeight - 56
+    return isInView(ref.current)
   }, [ref])
+}
+
+const isInView = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect()
+
+  return rect.top < window.innerHeight - 56
 }
