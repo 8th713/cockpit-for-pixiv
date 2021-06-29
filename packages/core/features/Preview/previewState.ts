@@ -1,5 +1,4 @@
-import { atom, useAtom } from 'jotai'
-import { Getter, Setter } from 'jotai/core/types'
+import { atom, Getter, Setter, useAtom } from 'jotai'
 import { useAtomCallback, useUpdateAtom } from 'jotai/utils'
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 
