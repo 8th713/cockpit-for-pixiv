@@ -6,11 +6,11 @@ import { IconButton } from '../../../shared/IconButton'
 import { Subtitle } from '../../../shared/Text'
 import { Paper } from './Paper'
 import { useSort } from './useSort'
-import { BookmarkFormMethods, toggleTag, useWatchTags } from './utils'
+import { FormControl, FormSetValue, toggleTag, useWatchTags } from './utils'
 
 export interface UserTagListProps {
-  control: BookmarkFormMethods['control']
-  setValue: BookmarkFormMethods['setValue']
+  control: FormControl
+  setValue: FormSetValue
   items: Pixiv.MyTag[]
 }
 

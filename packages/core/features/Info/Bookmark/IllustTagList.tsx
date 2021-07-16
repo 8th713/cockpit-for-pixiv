@@ -2,11 +2,11 @@ import { Flex } from '../../../shared/Box'
 import { Button } from '../../../shared/Button'
 import { Subtitle } from '../../../shared/Text'
 import { Paper } from './Paper'
-import { BookmarkFormMethods, toggleTag, useWatchTags } from './utils'
+import { FormControl, FormSetValue, toggleTag, useWatchTags } from './utils'
 
 export interface IllustTagListProps {
-  control: BookmarkFormMethods['control']
-  setValue: BookmarkFormMethods['setValue']
+  control: FormControl
+  setValue: FormSetValue
   items: Pixiv.IllustTag[]
 }
 

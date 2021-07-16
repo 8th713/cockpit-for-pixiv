@@ -12,16 +12,23 @@ import { BookmarkOnIcon, RefreshIcon } from '../../../shared/Icon'
 import { Img } from '../../../shared/Img'
 import { Switch } from '../../../shared/Switch'
 import { Title } from '../../../shared/Text'
+import { TextField } from '../../../shared/TextField'
 import { useBookmarkQuery } from './bookmarkQuery'
-import { CommentField } from './CommentField'
+import { CommentCount } from './CommentCount'
 import { IllustTagList } from './IllustTagList'
-import { TagsField } from './TagsField'
+import { TagsCount } from './TagsCount'
 import { UserTagList } from './UserTagList'
 import { splitTags, useBookmarkForm } from './utils'
 
 export interface BookmarkProps extends Pixiv.Illust {
   onSubmit: (data: Pixiv.BookmarkPost) => void
 }
+
+const COMMENT_MAX = 140
+const TAGS_MAX = 10
+
+const validateTags = (value: string) =>
+  splitTags(value).length <= TAGS_MAX || 'タグが多すぎます'
 
 export const Bookmark = ({
   id,
@@ -32,7 +39,7 @@ export const Bookmark = ({
 }: BookmarkProps) => {
   const { data, isLoading, isError, refetch } = useBookmarkQuery(id)
   const form = useBookmarkForm()
-  const { reset } = form
+  const { control, register, reset, setValue } = form
   const handleSubmit = form.handleSubmit((values) => {
     const tags = splitTags(values.tags)
 
@@ -40,7 +47,11 @@ export const Bookmark = ({
   })
 
   useEffect(() => {
-    if (data) reset(data)
+    if (data) {
+      const { userTags, ...fields } = data
+
+      reset(fields)
+    }
   }, [data, reset])
 
   return (
@@ -71,27 +82,40 @@ export const Bookmark = ({
                 rowGap: '$3',
               }}
             >
-              <Switch ref={form.register} name="restrict">
-                非公開
-              </Switch>
-              <CommentField
-                control={form.control}
-                register={form.register}
-                errors={form.errors}
-              />
-              <TagsField
-                control={form.control}
-                register={form.register}
-                errors={form.errors}
-              />
+              <Switch {...register('restrict')}>非公開</Switch>
+              <TextField
+                label="ブックマークコメント"
+                name="comment"
+                control={control}
+                options={{
+                  maxLength: {
+                    value: COMMENT_MAX,
+                    message: '文字数が多すぎます',
+                  },
+                }}
+              >
+                <CommentCount
+                  name="comment"
+                  control={control}
+                  maxLength={COMMENT_MAX}
+                />
+              </TextField>
+              <TextField
+                label="ブックマークタグ"
+                name="tags"
+                control={control}
+                options={{ validate: validateTags }}
+              >
+                <TagsCount name="tags" control={control} maxLength={TAGS_MAX} />
+              </TextField>
               <IllustTagList
-                control={form.control}
-                setValue={form.setValue}
+                control={control}
+                setValue={setValue}
                 items={illustTags}
               />
               <UserTagList
-                control={form.control}
-                setValue={form.setValue}
+                control={control}
+                setValue={setValue}
                 items={data ? data.userTags : []}
               />
             </Flex>
