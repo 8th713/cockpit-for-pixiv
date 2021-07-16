@@ -1,17 +1,15 @@
-import { forwardRef } from 'react'
+import { Control, RegisterOptions, useFormState } from 'react-hook-form'
 import { styled } from '../stitches.config'
 import { duration, easing } from './animation'
-import { Flex } from './Box'
 import { Paragraph } from './Text'
 import { typography } from './typography'
 
-export type TextFieldProps = React.ComponentProps<typeof Input> & {
-  children?: never
-  counter?: string
-  invalid?: boolean
-  label?: string
-  message?: string
-  type?: never
+export type TextFieldProps = {
+  label: string
+  name: string
+  control: Control<any>
+  options?: RegisterOptions
+  children?: React.ReactNode
 }
 
 const Root = styled('div', {
@@ -167,38 +165,61 @@ const Message = styled(Paragraph, {
   },
 })
 
-export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  function TextField(
-    { css, counter, disabled, invalid, label, message, ...props },
-    ref
-  ) {
-    const hasHelper = counter || message
+function FieldRoot({
+  name,
+  control,
+  children,
+}: {
+  name: string
+  control: Control
+  children: React.ReactNode
+}) {
+  const state = useFormState({ name, control })
 
-    return (
-      <Root css={css} aria-invalid={invalid} aria-disabled={disabled}>
-        <Container>
-          <Input
-            placeholder=" "
-            {...props}
-            disabled={disabled}
-            type="text"
-            ref={ref}
-          />
-          <Label>{label}</Label>
-          <Line />
-        </Container>
-        {hasHelper && (
-          <Flex css={{ columnGap: '$2', paddingX: 12 }}>
-            <Message noWrap css={{ flexGrow: 1 }}>
-              {message}
-            </Message>
-            <Message css={{ flexShrink: 0 }}>{counter}</Message>
-          </Flex>
-        )}
-      </Root>
-    )
-  }
-)
+  return <Root aria-invalid={!!state.errors[name]}>{children}</Root>
+}
+
+function FieldInput({
+  label,
+  name,
+  control,
+  options,
+}: {
+  label: string
+  name: string
+  control: Control
+  options?: RegisterOptions
+}) {
+  return (
+    <Container>
+      <Input placeholder=" " {...control.register(name, options)} />
+      <Label>{label}</Label>
+      <Line />
+    </Container>
+  )
+}
+
+export const TextField = function TextField({
+  label,
+  name,
+  control,
+  options,
+  children,
+}: TextFieldProps) {
+  return (
+    <FieldRoot name={name} control={control}>
+      <FieldInput
+        label={label}
+        name={name}
+        control={control}
+        options={options}
+      />
+      {children}
+    </FieldRoot>
+  )
+}
+
+TextField.Message = Message
 
 if (__DEV__) {
   Root.displayName = 'TextField.Root'
