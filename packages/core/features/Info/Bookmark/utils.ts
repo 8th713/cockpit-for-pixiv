@@ -1,4 +1,4 @@
-import { Control, useForm, UseFormMethods, useWatch } from 'react-hook-form'
+import { Control, useForm, UseFormSetValue, useWatch } from 'react-hook-form'
 
 export interface BookmarkFormValues {
   restrict: boolean
@@ -6,17 +6,12 @@ export interface BookmarkFormValues {
   tags: string
 }
 
-export type BookmarkFormMethods = UseFormMethods<BookmarkFormValues>
-
-export interface FormFieldProps {
-  control: BookmarkFormMethods['control']
-  register: BookmarkFormMethods['register']
-  errors: BookmarkFormMethods['errors']
-}
+export type FormControl = Control<BookmarkFormValues>
+export type FormSetValue = UseFormSetValue<BookmarkFormValues>
 
 export const useBookmarkForm = () =>
   useForm<BookmarkFormValues>({
-    mode: 'onBlur',
+    shouldUseNativeValidation: true,
     defaultValues: {
       restrict: false,
       comment: '',
@@ -24,11 +19,8 @@ export const useBookmarkForm = () =>
     },
   })
 
-export const useWatchTags = (control: Control<BookmarkFormValues>) => {
-  const fieldValue = useWatch<string>({ control, name: 'tags' }) || ''
-
-  return splitTags(fieldValue)
-}
+export const useWatchTags = (control: FormControl) =>
+  splitTags(useWatch({ control, name: 'tags' }))
 
 export const splitTags = (tags: string) =>
   tags
