@@ -11,7 +11,7 @@ export type ShareButtonProps = IllustQueryResult & {
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.share)
 
-export const ShareButton = ({ data, id }: ShareButtonProps) => {
+export function ShareButton({ data, id }: ShareButtonProps) {
   const ref = useRef<HTMLAnchorElement>(null)
 
   if (!data)

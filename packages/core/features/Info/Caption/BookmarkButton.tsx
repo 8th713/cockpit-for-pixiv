@@ -17,11 +17,7 @@ const title = [
   getHotkeyHint(KEY_ASSIGNMENT.openBookmarkForm),
 ].join('\n')
 
-export const BookmarkButton = ({
-  id,
-  data,
-  isSuccess,
-}: BookmarkButtonProps) => {
+export function BookmarkButton({ id, data, isSuccess }: BookmarkButtonProps) {
   const { mutate, isLoading: isMutating } = useBookmarkMutation(id)
   const { isOpen, open, close, toggle } = useToggle()
 

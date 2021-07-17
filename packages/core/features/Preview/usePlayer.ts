@@ -29,7 +29,7 @@ const initialState: State = {
   paused: false,
 }
 
-export const usePlayer = (frames: Pixiv.FrameAndImage[]) => {
+export function usePlayer(frames: Pixiv.FrameAndImage[]) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [state, setState] = useState(initialState)
   const actions = useMemo(

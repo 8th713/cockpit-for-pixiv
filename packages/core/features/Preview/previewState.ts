@@ -6,7 +6,9 @@ const fullSizeAtom = atom(false)
 const elementsAtom = atom<HTMLElement[]>([])
 const selectedElementAtom = atom<HTMLElement | null>(null)
 
-export const useIsFullSize = () => useAtom(fullSizeAtom)[0]
+export function useIsFullSize() {
+  return useAtom(fullSizeAtom)[0]
+}
 
 const offCallback = (get: Getter, set: Setter) => {
   const isFullSize = get(fullSizeAtom)
@@ -27,7 +29,7 @@ const toggleCallback = (get: Getter, set: Setter) => {
   set(fullSizeAtom, !isFullSize)
 }
 
-export const useSetIsFullSize = () => {
+export function useSetIsFullSize() {
   const set = useUpdateAtom(fullSizeAtom)
   const off = useAtomCallback(offCallback)
   const toggle = useAtomCallback(toggleCallback)
@@ -42,7 +44,7 @@ export const useSetIsFullSize = () => {
   )
 }
 
-export const useWatch = () => {
+export function useWatch() {
   const listRef = useRef<HTMLElement[]>([])
   const observerRef = useRef<IntersectionObserver>()
   const setList = useUpdateAtom(elementsAtom)
@@ -96,6 +98,10 @@ export const useWatch = () => {
   return refCallback
 }
 
-export const useItems = () => useAtom(elementsAtom)[0]
+export function useItems() {
+  return useAtom(elementsAtom)[0]
+}
 
-export const useSelected = () => useAtom(selectedElementAtom)
+export function useSelected() {
+  return useAtom(selectedElementAtom)
+}

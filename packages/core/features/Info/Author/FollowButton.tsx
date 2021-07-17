@@ -11,7 +11,7 @@ const title = [
   getHotkeyHint(KEY_ASSIGNMENT.followPrivate),
 ].join('\n')
 
-export const FollowButton = ({ illust, data }: FollowButtonProps) => {
+export function FollowButton({ illust, data }: FollowButtonProps) {
   const { mutate, isLoading: isMutating } = useFollowMutation(illust?.userId!)
 
   if (!illust || !data)

@@ -5,7 +5,7 @@ import { prefetchPages } from '../Preview/pagesQuery'
 import { useQueryClient } from 'react-query'
 import { useCallback } from 'react'
 
-export const usePrefetch = () => {
+export function usePrefetch() {
   const client = useQueryClient()
 
   return useCallback(

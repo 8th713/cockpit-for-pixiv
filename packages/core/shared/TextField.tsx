@@ -199,7 +199,7 @@ function FieldInput({
   )
 }
 
-export const TextField = function TextField({
+export function TextField({
   label,
   name,
   control,

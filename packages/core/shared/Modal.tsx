@@ -8,7 +8,7 @@ export interface ModalProps {
   open?: boolean
 }
 
-export const Modal = ({ children, onClose, open }: ModalProps) => {
+export function Modal({ children, onClose, open }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null)
 
   useLayoutEffect(() => {

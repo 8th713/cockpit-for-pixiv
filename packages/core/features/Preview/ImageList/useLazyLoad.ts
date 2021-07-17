@@ -6,7 +6,7 @@ const preload = (src: string) => {
   img.src = src
 }
 
-export const useLazyLoad = (src: string) => {
+export function useLazyLoad(src: string) {
   const cleanup = useRef<() => void>()
 
   return useCallback(

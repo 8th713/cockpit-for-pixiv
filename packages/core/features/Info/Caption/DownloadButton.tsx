@@ -12,7 +12,7 @@ export type DownloadButtonProps = IllustQueryResult & {
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.download)
 
-export const DownloadButton = ({ id, data }: DownloadButtonProps) => {
+export function DownloadButton({ id, data }: DownloadButtonProps) {
   const addon = useAddon()
   const getPages = useGetPages()
   const download = () => {

@@ -15,7 +15,7 @@ export interface ImageListProps {
   id: string
 }
 
-export const ImageList = ({ id }: ImageListProps) => {
+export function ImageList({ id }: ImageListProps) {
   const { data, isLoading, isError, isFetching, refetch } = usePagesQuery(id)
   const { unset } = useNavigate()
   const watch = useWatch()

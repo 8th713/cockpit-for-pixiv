@@ -6,14 +6,16 @@ export interface SeriesLinkProps extends Pixiv.Series {
   userId: string
 }
 
-export const SeriesLink = ({
+export function SeriesLink({
   userId,
   seriesId,
   title,
   order,
-}: SeriesLinkProps) => (
-  <TextWithIcon icon={CollectionsIcon}>
-    <Link href={`/user/${userId}/series/${seriesId}`}>{title}</Link>
-    <Word>#{order}</Word>
-  </TextWithIcon>
-)
+}: SeriesLinkProps) {
+  return (
+    <TextWithIcon icon={CollectionsIcon}>
+      <Link href={`/user/${userId}/series/${seriesId}`}>{title}</Link>
+      <Word>#{order}</Word>
+    </TextWithIcon>
+  )
+}

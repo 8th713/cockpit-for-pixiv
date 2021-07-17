@@ -2,8 +2,8 @@ import { Paragraph } from './Text'
 
 export type HTMLTextProps = { children?: string }
 
-export const HTMLText = ({ children }: HTMLTextProps) =>
-  children ? (
+export function HTMLText({ children }: HTMLTextProps) {
+  return children ? (
     <Paragraph
       css={{
         wordBreak: 'break-all',
@@ -22,6 +22,7 @@ export const HTMLText = ({ children }: HTMLTextProps) =>
       dangerouslySetInnerHTML={{ __html: replaceJumpLink(children) }}
     />
   ) : null
+}
 
 const ANKER_TAG = /<a href=".+?"/
 

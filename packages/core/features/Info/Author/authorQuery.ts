@@ -17,7 +17,7 @@ const QUERY_KEY = 'AUTHOR'
 export const prefetchAuthor = (client: QueryClient, id: string) =>
   client.prefetchQuery([QUERY_KEY, id], () => fetchUser(id))
 
-export const useAuthorQuery = (illustId: string): AuthorQueryResult => {
+export function useAuthorQuery(illustId: string): AuthorQueryResult {
   const { data: illust } = useIllustQuery(illustId)
   const id = illust?.userId
   const values = useQuery([QUERY_KEY, id], () => fetchUser(id!), {
@@ -27,7 +27,7 @@ export const useAuthorQuery = (illustId: string): AuthorQueryResult => {
   return { illust, ...values }
 }
 
-export const useFollowMutation = (id: string) => {
+export function useFollowMutation(id: string) {
   const queryClient = useQueryClient()
 
   return useMutation(

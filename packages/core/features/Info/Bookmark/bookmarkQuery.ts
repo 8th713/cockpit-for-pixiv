@@ -3,5 +3,6 @@ import { fetchBookmarkForm } from '../../../externals/fetch'
 
 const QUERY_KEY = 'BOOKMARK'
 
-export const useBookmarkQuery = (id: string) =>
-  useQuery([QUERY_KEY, id], () => fetchBookmarkForm(id))
+export function useBookmarkQuery(id: string) {
+  return useQuery([QUERY_KEY, id], () => fetchBookmarkForm(id))
+}

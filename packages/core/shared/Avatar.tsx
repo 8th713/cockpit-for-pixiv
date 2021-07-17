@@ -6,8 +6,8 @@ export type AvatarProps = {
   size?: number
 }
 
-export const Avatar = ({ src, size = 40 }: AvatarProps) =>
-  src ? (
+export function Avatar({ src, size = 40 }: AvatarProps) {
+  return src ? (
     <Img
       loading="lazy"
       src={src}
@@ -31,3 +31,4 @@ export const Avatar = ({ src, size = 40 }: AvatarProps) =>
       }}
     />
   )
+}

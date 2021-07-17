@@ -4,12 +4,13 @@ import { useMemo } from 'react'
 
 export const aboutAtom = atom(false)
 
-export const useAbout = () => {
+export function useAbout() {
   return useAtom(aboutAtom)[0]
 }
 
-export const useSetAbout = () => {
+export function useSetAbout() {
   const setOpen = useUpdateAtom(aboutAtom)
+
   return useMemo(
     () => ({
       open: () => setOpen(true),

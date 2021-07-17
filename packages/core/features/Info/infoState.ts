@@ -9,13 +9,15 @@ const refAtom = atom<ElementRef>(createRef<HTMLElement>())
 
 const addonAtom = atom(createAddonStore())
 
-export const useAddon = () => useAtomValue(addonAtom)
+export function useAddon() {
+  return useAtomValue(addonAtom)
+}
 
-export const useBottomAnchor = () => useAtomValue(refAtom)
+export function useBottomAnchor() {
+  return useAtomValue(refAtom)
+}
 
-export const useScrollBottomAnchor = (
-  behavior: 'smooth' | 'auto' = 'smooth'
-) => {
+export function useScrollBottomAnchor(behavior: 'smooth' | 'auto' = 'smooth') {
   const ref = useBottomAnchor()
 
   return useCallback(() => {
@@ -28,7 +30,7 @@ export const useScrollBottomAnchor = (
   }, [behavior, ref])
 }
 
-export const useIsInViewBottomAnchor = () => {
+export function useIsInViewBottomAnchor() {
   const ref = useBottomAnchor()
 
   return useCallback(() => {

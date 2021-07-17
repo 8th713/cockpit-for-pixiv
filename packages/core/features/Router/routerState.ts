@@ -8,9 +8,11 @@ import { getId, getSibling, toggleWindowScrollBar } from './utils'
 const idAtom = atom<string | null>(null)
 const targetAtom = atom<MutableRefObject<Element | null>>({ current: null })
 
-export const useRouteId = () => useAtomValue(idAtom)
+export function useRouteId() {
+  return useAtomValue(idAtom)
+}
 
-export const useNavigate = () => {
+export function useNavigate() {
   const ref = useAtomValue(targetAtom)
   const prefetch = usePrefetch()
   const setId = useUpdateAtom(idAtom)

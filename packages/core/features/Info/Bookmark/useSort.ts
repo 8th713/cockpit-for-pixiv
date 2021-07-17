@@ -48,7 +48,7 @@ const directionAtom = atomWithReducer(
   }
 )
 
-export const useSort = (items: Pixiv.MyTag[]) => {
+export function useSort(items: Pixiv.MyTag[]) {
   const [column, toggleColumn] = useAtom(columnAtom)
   const [direction, toggleDirection] = useAtom(directionAtom)
 

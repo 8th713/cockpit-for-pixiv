@@ -22,13 +22,13 @@ export interface ImageListUgoiraProps extends Pixiv.Page {
   onClick: (e: React.MouseEvent) => void
 }
 
-export const ImageListUgoira = ({
+export function ImageListUgoira({
   id,
   urls,
   width,
   height,
   ...canvasProps
-}: ImageListUgoiraProps) => {
+}: ImageListUgoiraProps) {
   const { data, isLoading, isError, isFetching, refetch } = useUgoiraQuery(id)
   const { canvasRef, state, actions } = usePlayer(data || [])
   const resize = useResize(width, height)

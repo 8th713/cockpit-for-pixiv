@@ -14,28 +14,30 @@ export type CaptionProps = IllustQueryResult & {
   id: string
 }
 
-export const Caption = (props: CaptionProps) => (
-  <Flex
-    css={{
-      alignItems: 'center',
-      columnGap: '$3',
-      backgroundColor: '$surface',
-      color: '$onSurface',
-    }}
-  >
-    <Box css={{ padding: '$1' }}>
-      <ScrollBottomButton />
-    </Box>
-    <Title noWrap css={{ flexGrow: 1, paddingY: '$1' }}>
-      <CaptionTitle {...props} />
-    </Title>
-    <Box css={{ padding: '$1' }}>
-      <RefetchButton {...props} />
-      <LikeButton {...props} />
-      <BookmarkButton {...props} />
-      <DownloadButton {...props} />
-      <ShareButton {...props} />
-      <AboutButton />
-    </Box>
-  </Flex>
-)
+export function Caption(props: CaptionProps) {
+  return (
+    <Flex
+      css={{
+        alignItems: 'center',
+        columnGap: '$3',
+        backgroundColor: '$surface',
+        color: '$onSurface',
+      }}
+    >
+      <Box css={{ padding: '$1' }}>
+        <ScrollBottomButton />
+      </Box>
+      <Title noWrap css={{ flexGrow: 1, paddingY: '$1' }}>
+        <CaptionTitle {...props} />
+      </Title>
+      <Box css={{ padding: '$1' }}>
+        <RefetchButton {...props} />
+        <LikeButton {...props} />
+        <BookmarkButton {...props} />
+        <DownloadButton {...props} />
+        <ShareButton {...props} />
+        <AboutButton />
+      </Box>
+    </Flex>
+  )
+}

@@ -30,13 +30,13 @@ const TAGS_MAX = 10
 const validateTags = (value: string) =>
   splitTags(value).length <= TAGS_MAX || 'タグが多すぎます'
 
-export const Bookmark = ({
+export function Bookmark({
   id,
   title,
   urls,
   tags: { tags: illustTags },
   onSubmit,
-}: BookmarkProps) => {
+}: BookmarkProps) {
   const { data, isLoading, isError, refetch } = useBookmarkQuery(id)
   const form = useBookmarkForm()
   const { control, register, reset, setValue } = form

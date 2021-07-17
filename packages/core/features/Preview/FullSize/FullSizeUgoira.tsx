@@ -20,7 +20,7 @@ export interface FullSizeUgoiraProps extends Pixiv.Page {
   id: string
 }
 
-export const FullSizeUgoira = ({ id, urls, ...size }: FullSizeUgoiraProps) => {
+export function FullSizeUgoira({ id, urls, ...size }: FullSizeUgoiraProps) {
   const { data, isLoading, isError, isFetching, refetch } = useUgoiraQuery(id)
   const { canvasRef, state, actions } = usePlayer(data || [])
   const { index, paused } = state

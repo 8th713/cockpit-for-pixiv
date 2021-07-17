@@ -12,7 +12,7 @@ export type RecentIllustListProps = {
   id: string
 }
 
-export const RecentIllustList = ({ id }: RecentIllustListProps) => {
+export function RecentIllustList({ id }: RecentIllustListProps) {
   const root = useRef<HTMLDivElement>(null)
   const selected = useRef<HTMLButtonElement>(null)
   const { data } = useRecentIllustsQuery(id)

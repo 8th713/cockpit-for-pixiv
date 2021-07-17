@@ -7,7 +7,7 @@ export interface FullSizeItemProps extends Pixiv.Page {
   id: string
 }
 
-export const FullSizeItem = (props: FullSizeItemProps) => {
+export function FullSizeItem(props: FullSizeItemProps) {
   const { off } = useSetIsFullSize()
   const isUgoira = props.urls.original.includes('ugoira0')
 

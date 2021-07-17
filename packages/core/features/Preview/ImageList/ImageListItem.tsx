@@ -9,7 +9,7 @@ export interface ImageListItemProps extends Pixiv.Page {
   id: string
 }
 
-export const ImageListItem = (props: ImageListItemProps) => {
+export function ImageListItem(props: ImageListItemProps) {
   const { on } = useSetIsFullSize()
   const setLazy = useLazyLoad(props.urls.original)
   const setResize = useResize(props.width, props.height)

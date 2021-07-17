@@ -5,7 +5,7 @@ import { useSetAbout } from '../../About/aboutState'
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.help)
 
-export const AboutButton = () => {
+export function AboutButton() {
   const { open } = useSetAbout()
 
   return (

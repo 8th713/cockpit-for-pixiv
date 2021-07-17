@@ -8,13 +8,15 @@ const UGOIRA_QUERY_KEY = 'UGOIRA'
 export const prefetchPages = (client: QueryClient, id: string) =>
   client.prefetchQuery([QUERY_KEY, id], () => fetchPages(id))
 
-export const usePagesQuery = (id: string) =>
-  useQuery([QUERY_KEY, id], () => fetchPages(id))
+export function usePagesQuery(id: string) {
+  return useQuery([QUERY_KEY, id], () => fetchPages(id))
+}
 
-export const useUgoiraQuery = (id: string) =>
-  useQuery([UGOIRA_QUERY_KEY, id], () => fetchUgoira(id))
+export function useUgoiraQuery(id: string) {
+  return useQuery([UGOIRA_QUERY_KEY, id], () => fetchUgoira(id))
+}
 
-export const useGetPages = () => {
+export function useGetPages() {
   const queryClient = useQueryClient()
 
   return useCallback(

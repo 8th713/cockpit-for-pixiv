@@ -7,7 +7,7 @@ const QUERY_KEY = 'RECENT_ILLUSTS'
 export const prefetchRecentIllusts = (client: QueryClient, id: string) =>
   client.prefetchQuery([QUERY_KEY, id], () => fetchRecentIllusts(id))
 
-export const useRecentIllustsQuery = (illustId: string) => {
+export function useRecentIllustsQuery(illustId: string) {
   const { data: illust } = useIllustQuery(illustId)
   const id = illust?.userId
   return useQuery([QUERY_KEY, id], () => fetchRecentIllusts(id!), {

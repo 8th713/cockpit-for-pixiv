@@ -11,7 +11,7 @@ export type ProfileButtonProps = AuthorQueryResult
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.profile)
 
-export const ProfileButton = ({ data }: ProfileButtonProps) => {
+export function ProfileButton({ data }: ProfileButtonProps) {
   const { isOpen, open, close, toggle } = useToggle()
 
   return (

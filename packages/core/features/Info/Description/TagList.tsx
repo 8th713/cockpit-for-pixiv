@@ -11,12 +11,12 @@ export type TagListProps = {
 
 const getURL = (tag: string) => `tags/${encodeURIComponent(tag)}/artworks`
 
-export const TagList = ({
+export function TagList({
   isHowto,
   isOriginal,
   tags,
   xRestrict,
-}: TagListProps) => {
+}: TagListProps) {
   const category = getCategory(xRestrict)
 
   return (

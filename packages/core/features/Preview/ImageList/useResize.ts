@@ -23,11 +23,7 @@ const addListener = (listener: () => void) => {
   }
 }
 
-export const useResize = (
-  width: number,
-  height: number,
-  padding: number = 32
-) => {
+export function useResize(width: number, height: number, padding: number = 32) {
   const cleanup = useRef<() => void>()
 
   return useCallback(

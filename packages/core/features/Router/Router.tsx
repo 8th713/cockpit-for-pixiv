@@ -7,7 +7,7 @@ import { ensureAnchorElement, hasThumbnail } from './utils'
 
 export interface RouterProps {}
 
-export const Router = (_: RouterProps) => {
+export function Router(_: RouterProps) {
   const nav = useNavigate()
   const id = useRouteId()
   const isOpen = Boolean(id)

@@ -9,7 +9,7 @@ export interface ScrollBottomButtonProps {}
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.info)
 
-export const ScrollBottomButton = (_: ScrollBottomButtonProps) => {
+export function ScrollBottomButton(_: ScrollBottomButtonProps) {
   const bottomElementRef = useBottomAnchor()
   const fullSize = useSetIsFullSize()
   const scrollBottom = () => {

@@ -13,7 +13,7 @@ import {
 } from '../previewState'
 import { Cover } from './Cover'
 
-export const ScrollNavigation = () => {
+export function ScrollNavigation() {
   const isFullSize = useIsFullSize()
   const fullSize = useSetIsFullSize()
   const isInViewBottomAnchor = useIsInViewBottomAnchor()

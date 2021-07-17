@@ -10,11 +10,11 @@ export interface IllustTagListProps {
   items: Pixiv.IllustTag[]
 }
 
-export const IllustTagList = ({
+export function IllustTagList({
   control,
   setValue,
   items,
-}: IllustTagListProps) => {
+}: IllustTagListProps) {
   const fieldTags = useWatchTags(control)
   const allTags = items.map((tag) => tag.tag).join(' ')
   const allSelected = allTags === fieldTags.join(' ')

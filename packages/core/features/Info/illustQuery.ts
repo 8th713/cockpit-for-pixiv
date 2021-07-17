@@ -14,10 +14,13 @@ const QUERY_KEY = 'ILLUST'
 export const prefetchIllust = (client: QueryClient, id: string) =>
   client.fetchQuery([QUERY_KEY, id], () => fetchIllust(id))
 
-export const useIllustQuery = (id: string) =>
-  useQuery([QUERY_KEY, id], () => fetchIllust(id), { keepPreviousData: true })
+export function useIllustQuery(id: string) {
+  return useQuery([QUERY_KEY, id], () => fetchIllust(id), {
+    keepPreviousData: true,
+  })
+}
 
-export const useLikeMutation = (id: string) => {
+export function useLikeMutation(id: string) {
   const queryClient = useQueryClient()
 
   return useMutation(() => likeBy(id), {
@@ -46,7 +49,7 @@ export const useLikeMutation = (id: string) => {
   })
 }
 
-export const useBookmarkMutation = (id: string) => {
+export function useBookmarkMutation(id: string) {
   const queryClient = useQueryClient()
 
   return useMutation(

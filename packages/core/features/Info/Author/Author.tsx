@@ -16,7 +16,7 @@ export type AuthorProps = {
   illustId: string
 }
 
-export const Author = ({ illustId }: AuthorProps) => {
+export function Author({ illustId }: AuthorProps) {
   const props = useAuthorQuery(illustId)
   const { illust, data: author, isError, refetch } = props
 

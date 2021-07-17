@@ -8,7 +8,7 @@ export interface AboutManagerProps {
   title: string
 }
 
-export const AboutManager = ({ title }: AboutManagerProps) => {
+export function AboutManager({ title }: AboutManagerProps) {
   const isOpen = useAbout()
   const { close, toggle } = useSetAbout()
 

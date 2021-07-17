@@ -50,7 +50,7 @@ const attach = (assignment: string, listener: KeyboardEventHandler) => {
   }
 }
 
-export const Hotkey = ({ onKeydown, disabled, assignment }: HotkeyProps) => {
+export function Hotkey({ onKeydown, disabled, assignment }: HotkeyProps) {
   useEffect(() => {
     if (disabled) return
     return attach(assignment, onKeydown)

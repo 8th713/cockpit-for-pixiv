@@ -5,13 +5,15 @@ export type ProgressProps = {
   size?: number
 }
 
-export const Progress = ({ size, ...props }: ProgressProps) => (
-  <Root {...props} css={{ size }} role="progressbar">
-    <Svg viewBox="0 0 50 50">
-      <Circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
-    </Svg>
-  </Root>
-)
+export function Progress({ size, ...props }: ProgressProps) {
+  return (
+    <Root {...props} css={{ size }} role="progressbar">
+      <Svg viewBox="0 0 50 50">
+        <Circle fill="none" cx={25} cy={25} r={20} strokeWidth={3.6} />
+      </Svg>
+    </Root>
+  )
+}
 
 const Root = styled('div', {
   boxSizing: 'border-box',

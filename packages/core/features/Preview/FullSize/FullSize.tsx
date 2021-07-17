@@ -9,7 +9,7 @@ export interface FullSizeProps {
   id: string
 }
 
-export const FullSize = ({ id }: FullSizeProps) => {
+export function FullSize({ id }: FullSizeProps) {
   const scrollableElementRef = useRef<HTMLDivElement>(null)
   const { data } = usePagesQuery(id)
   const items = useItems()

@@ -9,7 +9,7 @@ import { Cover } from './Cover'
 const previousTitle = getHotkeyHint(KEY_ASSIGNMENT.goPrevIllust)
 const nextTitle = getHotkeyHint(KEY_ASSIGNMENT.goNextIllust)
 
-export const WorkNavigation = () => {
+export function WorkNavigation() {
   const isFullSize = useIsFullSize()
   const nav = useNavigate()
 

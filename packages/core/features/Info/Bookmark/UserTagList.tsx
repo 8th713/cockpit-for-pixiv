@@ -24,7 +24,7 @@ interface DirectionButtonProps {
   onClick: () => void
 }
 
-export const UserTagList = ({ control, setValue, items }: UserTagListProps) => {
+export function UserTagList({ control, setValue, items }: UserTagListProps) {
   const [sortedItems, { columnProps, directionProps }] = useSort(items)
   const fieldTags = useWatchTags(control)
 
@@ -59,14 +59,18 @@ export const UserTagList = ({ control, setValue, items }: UserTagListProps) => {
   )
 }
 
-const ColumnButton = ({ children, onClick }: ColumnButtonProps) => (
-  <Button variant="inherit" type="button" onClick={onClick}>
-    {children}
-  </Button>
-)
+function ColumnButton({ children, onClick }: ColumnButtonProps) {
+  return (
+    <Button variant="inherit" type="button" onClick={onClick}>
+      {children}
+    </Button>
+  )
+}
 
-const DirectionButton = ({ icon: Icon, onClick }: DirectionButtonProps) => (
-  <IconButton css={{ size: 36 }} type="button" onClick={onClick}>
-    <Icon size="sm" />
-  </IconButton>
-)
+function DirectionButton({ icon: Icon, onClick }: DirectionButtonProps) {
+  return (
+    <IconButton css={{ size: 36 }} type="button" onClick={onClick}>
+      <Icon size="sm" />
+    </IconButton>
+  )
+}

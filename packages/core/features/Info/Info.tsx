@@ -11,7 +11,7 @@ export type InfoProps = {
   id: string
 }
 
-export const Info = ({ id }: InfoProps) => {
+export function Info({ id }: InfoProps) {
   const ref = useBottomAnchor()
   const props = useIllustQuery(id)
 

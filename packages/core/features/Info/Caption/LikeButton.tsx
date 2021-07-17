@@ -10,7 +10,7 @@ export type LikeButtonProps = IllustQueryResult & {
 
 const title = getHotkeyHint(KEY_ASSIGNMENT.like)
 
-export const LikeButton = ({ id, data }: LikeButtonProps) => {
+export function LikeButton({ id, data }: LikeButtonProps) {
   const { mutate, isLoading: isMutating } = useLikeMutation(id)
 
   if (!data || !data.isBookmarkable)

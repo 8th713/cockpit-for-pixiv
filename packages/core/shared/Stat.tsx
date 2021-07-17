@@ -26,12 +26,14 @@ export type TextWithIconProps = {
   title?: string
 }
 
-export const Stat = ({ value, icon: Icon, title }: StatProps) => (
-  <Root title={title}>
-    <Icon size="sm" />
-    {format(value)}
-  </Root>
-)
+export function Stat({ value, icon: Icon, title }: StatProps) {
+  return (
+    <Root title={title}>
+      <Icon size="sm" />
+      {format(value)}
+    </Root>
+  )
+}
 
 const format = (value: number | string) => {
   if (typeof value === 'number') {
@@ -40,16 +42,18 @@ const format = (value: number | string) => {
   return new Date(value).toLocaleString()
 }
 
-export const TextWithIcon = ({
+export function TextWithIcon({
   children,
   icon: Icon,
   title,
-}: TextWithIconProps) => (
-  <Root title={title}>
-    <Icon size="sm" />
-    {children}
-  </Root>
-)
+}: TextWithIconProps) {
+  return (
+    <Root title={title}>
+      <Icon size="sm" />
+      {children}
+    </Root>
+  )
+}
 
 if (__DEV__) {
   Root.displayName = 'Stat.Root'

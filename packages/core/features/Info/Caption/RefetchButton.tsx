@@ -6,12 +6,12 @@ export type RefetchButtonProps = IllustQueryResult & {
   id: string
 }
 
-export const RefetchButton = ({
+export function RefetchButton({
   isError,
   isFetching,
   refetch,
-}: RefetchButtonProps) =>
-  isError ? (
+}: RefetchButtonProps) {
+  return isError ? (
     <IconButton
       type="button"
       title="再取得"
@@ -21,3 +21,4 @@ export const RefetchButton = ({
       <RefreshIcon />
     </IconButton>
   ) : null
+}

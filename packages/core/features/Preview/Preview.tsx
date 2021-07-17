@@ -11,7 +11,7 @@ export interface PreviewProps {
   children?: React.ReactNode
 }
 
-export const Preview = ({ id, children }: PreviewProps) => {
+export function Preview({ id, children }: PreviewProps) {
   const isFullSize = useIsFullSize()
   const { toggle } = useSetIsFullSize()
   const scrollableElementRef = useRef<HTMLDivElement>(null)
