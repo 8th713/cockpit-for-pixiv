@@ -1,4 +1,4 @@
-import { Properties } from '@stitches/core/types/css-types'
+import { Properties } from '@stitches/react/types/css-types'
 import { createCss } from '@stitches/react'
 
 type CssValue = Properties<0 | (string & {})>
