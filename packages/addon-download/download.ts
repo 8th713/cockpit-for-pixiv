@@ -1,27 +1,29 @@
-import { fetchPages, fetchUgoira } from './fetcher'
+import type JSZip from 'jszip'
 import { getBlob, getExtension, saveAs } from './utils'
 
-export const download = (illust: Pixiv.Illust) => {
-  // うごイラ
-  if (illust.illustType === 2) return downloadUgoira(illust)
-  // 漫画
-  if (illust.pageCount > 1) return downloadComic(illust)
-  // イラスト
-  return downloadSingle(illust)
+declare var unsafeWindow: Window & {
+  JSZip: JSZip
 }
 
-const downloadSingle = async (illust: Pixiv.Illust) => {
-  const { id, title, userName } = illust
-  const [page] = await fetchPages(id)
+export async function download(info: Pixiv.IllustInfo, pages: Pixiv.Images) {
+  return info.illustType === 2
+    ? downloadMovie(info)
+    : info.pageCount > 1
+    ? downloadComic(info, pages)
+    : downloadIllust(info, pages[0])
+}
+
+async function downloadIllust(info: Pixiv.IllustInfo, page: Pixiv.Image) {
+  const { title, userName } = info
   const url = page.urls.original
   const blob = await getBlob(url)
   const extension = getExtension(url)
+
   saveAs(blob, `${userName} - ${title}.${extension}`)
 }
 
-const downloadComic = async (illust: Pixiv.Illust) => {
-  const { id, title, userName } = illust
-  const pages = await fetchPages(id)
+async function downloadComic(info: Pixiv.IllustInfo, pages: Pixiv.Images) {
+  const { title, userName } = info
   const zip = new unsafeWindow.JSZip()
 
   for (const [index, page] of pages.entries()) {
@@ -35,12 +37,17 @@ const downloadComic = async (illust: Pixiv.Illust) => {
   }
 
   const blob = await zip.generateAsync<'blob'>({ type: 'blob' })
+
   saveAs(blob, `${userName} - ${title}.zip`)
 }
 
-const downloadUgoira = async (illust: Pixiv.Illust) => {
-  const { id, title, userName } = illust
-  const data = await fetchUgoira(id)
-  const blob = await getBlob(data.originalSrc)
+async function downloadMovie(info: Pixiv.IllustInfo) {
+  const { urls, title, userName } = info
+  const zipUrl = urls.original
+    .replace('img-original', 'img-zip-ugoira')
+    .replace('_ugoira0.jpg', '_ugoira1920x1080.zip')
+
+  const blob = await getBlob(zipUrl)
+
   saveAs(blob, `${userName} - ${title}.zip`)
 }
