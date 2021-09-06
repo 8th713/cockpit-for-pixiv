@@ -6,8 +6,7 @@
     // dafault es2017.full.d.ts
     // "lib": ["es2017", "dom"],
     "allowJs": true,
-    "jsx": "react",
-    "sourceMap": true,
+    "jsx": "react-jsx",
     "outDir": "docs",
     "rootDir": "packages",
     "noEmit": true,
@@ -21,18 +20,13 @@
 
     // Module Resolution Options
     "moduleResolution": "node",
-    "typeRoots": [
-      "typings",
-      "node_modules/@types"
-    ],
+    "typeRoots": ["packages/types", "node_modules/@types"],
     "esModuleInterop": true,
 
     // Advanced
     "suppressImplicitAnyIndexErrors": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": false
+    "skipLibCheck": true
   },
-  "include": [
-    "packages"
-  ]
+  "include": ["packages"]
 }

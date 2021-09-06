@@ -3,8 +3,14 @@
 # dependencies
 node_modules
 
-# misc
+# testing
+/public/mockServiceWorker.js
+/coverage
+
+# production
 docs
+
+# misc
 .cache
 .DS_Store
 .env.local

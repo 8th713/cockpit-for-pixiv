@@ -1,24 +1,25 @@
-module.exports = api => {
+module.exports = (api) => {
   const production = api.env('production')
   const presets = [
     ['@babel/env', { modules: false }],
-    ['@babel/react', { development: !production }],
-    '@babel/typescript'
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+        development: !production,
+      },
+    ],
+    '@babel/preset-typescript',
   ]
   const plugins = [
-    [
-      'babel-plugin-styled-components',
-      {
-        ssr: false,
-        displayName: !production
-      }
-    ],
-    'dev-expression'
+    '@babel/plugin-proposal-optional-chaining',
+    'dev-expression',
+    'add-react-displayname',
   ]
 
   api.cache(true)
   return {
     presets,
-    plugins
+    plugins,
   }
 }
