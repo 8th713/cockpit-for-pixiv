@@ -47,7 +47,7 @@
     "@storybook/builder-webpack5": "6.3.8",
     "@storybook/manager-webpack5": "6.3.8",
     "@storybook/react": "^6.3.8",
-    "@typescript-eslint/parser": "^4.30.0",
+    "@typescript-eslint/parser": "^4.31.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-dev-expression": "^0.2.2",
     "copy-webpack-plugin": "^9.0.1",
@@ -58,7 +58,7 @@
     "lodash.template": "4.5.0",
     "msw": "^0.35.0",
     "terser-webpack-plugin": "^5.2.3",
-    "typescript": "^4.4.2",
+    "typescript": "4.3.5",
     "webpack": "^5.52.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0"

@@ -13,7 +13,7 @@ port1.addEventListener('message', (event) => {
   }
   if (isDownload(event.data)) {
     try {
-      const { info, images } = event.data.payload
+      const { info, images } = event.data.args
 
       download(info, images)
     } catch (err) {

@@ -11,14 +11,14 @@ declare namespace Addon {
 
   interface Action {
     method: string
-    payload: any
+    args: any
   }
 
   interface DownloadRequest extends Action {
     method: 'DOWNLOAD'
-    payload: {
+    args: {
       info: Pixiv.IllustInfo
-      images: Pixiv.Pages
+      images: Pixiv.Images
     }
   }
 }

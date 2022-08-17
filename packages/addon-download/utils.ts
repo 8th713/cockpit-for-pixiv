@@ -1,14 +1,13 @@
 export function isSuccess(data: any): data is Addon.ConnectionSuccess {
-  return data && data.type === 'CFP-ADDON-CONNECTION-SUCCESS'
+  const type: Addon.ConnectionSuccess['type'] = 'CFP-ADDON-CONNECTION-SUCCESS'
+
+  return data && data.type === type
 }
 
 export function isDownload(data: any): data is Addon.DownloadRequest {
-  return (
-    data &&
-    data.type === 'DOWNLOAD' &&
-    data.payload?.info &&
-    data.payload?.images
-  )
+  const method: Addon.DownloadRequest['method'] = 'DOWNLOAD'
+
+  return data && data.method === method && data.args?.info && data.args?.images
 }
 
 export function injectScript(src: string) {
