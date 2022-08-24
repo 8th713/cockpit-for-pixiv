@@ -9,7 +9,7 @@ export interface AuthorLinkProps {
 
 export function AuthorLink({ isLoading, author }: AuthorLinkProps) {
   return (
-    <AuthorLinkContainer href={author && `/member.php?id=${author.userId}`}>
+    <AuthorLinkContainer href={author && `/users/${author.userId}`}>
       <Avatar src={author?.image} />
       <SkeletonText loaded={!isLoading}>
         {author?.name || '取得できませんでした'}

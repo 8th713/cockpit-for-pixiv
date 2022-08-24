@@ -8,7 +8,7 @@ export interface GalleryLinkProps {
 export function GalleryLink({ userId }: GalleryLinkProps) {
   if (userId) {
     return (
-      <IconLink href={`/member_illust.php?id=${userId}`} title="作品一覧">
+      <IconLink href={`/users/${userId}/artworks`} title="作品一覧">
         <ArtworksIcon />
       </IconLink>
     )
