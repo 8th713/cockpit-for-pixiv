@@ -87,5 +87,5 @@ function getCategory(value: Pixiv.XRestrict) {
 }
 
 function createURL(tagName: string) {
-  return `tags/${encodeURIComponent(tagName)}/artworks`
+  return `/tags/${encodeURIComponent(tagName)}/artworks`
 }
